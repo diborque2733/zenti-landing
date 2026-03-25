@@ -346,6 +346,51 @@
       gap: 10px; font-size: 13px; color: var(--z-gray-500);
     }
     .file-row input[type="file"] { font-size: 13px; }
+    .upload-zone {
+      border: 2px dashed var(--z-border);
+      border-radius: 14px;
+      padding: 28px 20px;
+      text-align: center;
+      cursor: pointer;
+      transition: border-color .2s, background .2s;
+      background: #FAFAFA;
+    }
+    .upload-zone:hover, .upload-zone.dragover {
+      border-color: var(--z-orange);
+      background: #FEF3EC;
+    }
+    .upload-zone.has-file {
+      border-color: var(--z-orange);
+      border-style: solid;
+      background: #FEF3EC;
+    }
+    .upload-icon {
+      font-size: 32px;
+      margin-bottom: 8px;
+      color: var(--z-gray-400);
+    }
+    .upload-zone.has-file .upload-icon { color: var(--z-orange); }
+    .upload-label {
+      font-size: 14px;
+      color: var(--z-gray-700);
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+    .upload-hint {
+      font-size: 12px;
+      color: var(--z-gray-400);
+    }
+    .upload-filename {
+      font-size: 13px;
+      color: var(--z-orange);
+      font-weight: 600;
+      margin-top: 8px;
+    }
+    .upload-zone input[type="file"] {
+      position: absolute;
+      width: 0; height: 0;
+      opacity: 0;
+    }
     .actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 4px; }
     button {
       font: inherit; font-weight: 700; font-size: 14px;
@@ -904,16 +949,49 @@
       }
 
       if (step.input.type === 'file') {
-        const fr = document.createElement('div');
-        fr.className = 'file-row';
-        fr.innerHTML = '<label>PDF opcional: <input type="file" id="dyn-input" accept="' + (step.input.accept || '') + '" /></label><span>Sin archivo, continuamos con el texto.</span>';
-        stepUi.appendChild(fr);
+        const zone = document.createElement('div');
+        zone.className = 'upload-zone';
+        zone.id = 'upload-zone';
+        zone.innerHTML =
+          '<input type="file" id="dyn-input" accept="' + (step.input.accept || '') + '" />' +
+          '<div class="upload-icon">\u2191</div>' +
+          '<div class="upload-label">Haz clic o arrastra tu PDF aqu\u00ed</div>' +
+          '<div class="upload-hint">Formato PDF \u00b7 Opcional</div>' +
+          '<div class="upload-filename" id="upload-fname"></div>';
+        stepUi.appendChild(zone);
+
+        const fileInput = document.getElementById('dyn-input');
+        const fnameEl = document.getElementById('upload-fname');
+        zone.onclick = () => fileInput.click();
+        zone.ondragover = (e) => { e.preventDefault(); zone.classList.add('dragover'); };
+        zone.ondragleave = () => zone.classList.remove('dragover');
+        zone.ondrop = (e) => {
+          e.preventDefault(); zone.classList.remove('dragover');
+          if (e.dataTransfer.files[0]) {
+            fileInput.files = e.dataTransfer.files;
+            fileInput.dispatchEvent(new Event('change'));
+          }
+        };
+        fileInput.onchange = () => {
+          const f = fileInput.files[0];
+          if (f) {
+            zone.classList.add('has-file');
+            fnameEl.textContent = f.name;
+          } else {
+            zone.classList.remove('has-file');
+            fnameEl.textContent = '';
+          }
+        };
+
         const actions = document.createElement('div');
         actions.className = 'actions';
-        actions.innerHTML = '<button type="button" class="ghost" id="btn-skip">Sin archivo</button><button type="button" class="primary" id="btn-next">Siguiente</button>';
+        actions.style.marginTop = '12px';
+        actions.innerHTML =
+          '<button type="button" class="primary" id="btn-next">Continuar</button>' +
+          '<button type="button" class="ghost" id="btn-skip" style="font-size:13px;padding:10px 16px">Saltar sin archivo</button>';
         stepUi.appendChild(actions);
         document.getElementById('btn-skip').onclick = () => { values.files[step.input.field] = null; stepIndex++; renderStep(); };
-        document.getElementById('btn-next').onclick = () => { const f = document.getElementById('dyn-input').files[0]; values.files[step.input.field] = f || null; stepIndex++; renderStep(); };
+        document.getElementById('btn-next').onclick = () => { values.files[step.input.field] = fileInput.files[0] || null; stepIndex++; renderStep(); };
         return;
       }
 
