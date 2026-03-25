@@ -701,11 +701,30 @@
         p.textContent = body;
         panel.appendChild(h2);
         panel.appendChild(p);
+
+        const again = document.createElement('button');
+        again.type = 'button';
+        again.className = 'ghost';
+        again.style.marginTop = '24px';
+        again.textContent = 'Nueva evaluación';
+        again.onclick = resetForm;
+        panel.appendChild(again);
+
         chatEl.appendChild(panel);
       } catch (e) {
         showError('No se pudo procesar la solicitud. Verifica tu conexión e inténtalo nuevamente.');
         btn.disabled = false;
       }
+    }
+
+    function resetForm() {
+      Object.keys(values).forEach(k => { if (k !== 'files') delete values[k]; });
+      values.files = {};
+      stepIndex = 0;
+      chatEl.innerHTML = '';
+      composer.classList.remove('hidden');
+      setHeaderSubtitle(null);
+      renderStep();
     }
 
     renderStep();
