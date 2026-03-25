@@ -119,49 +119,33 @@
     .hero-ctas {
       display: flex;
       justify-content: center;
-      gap: 20px;
+      align-items: center;
+      gap: 16px;
       flex-wrap: wrap;
     }
-    .hero-cta-card {
-      display: flex; flex-direction: column; align-items: center;
-      padding: 28px 32px 24px;
-      border-radius: var(--z-radius);
+    .hero-btn {
+      display: inline-block;
+      padding: 14px 32px;
+      border-radius: 999px;
       text-decoration: none;
-      transition: transform .15s, box-shadow .15s;
-      width: 260px;
+      font-size: 15px;
+      font-weight: 700;
+      transition: transform .15s, box-shadow .15s, opacity .15s;
     }
-    .hero-cta-card:hover {
-      transform: translateY(-3px);
-    }
-    .hero-cta-card--eval {
+    .hero-btn:hover { transform: translateY(-1px); }
+    .hero-btn--primary {
       background: var(--z-orange); color: #fff;
-      box-shadow: 0 12px 32px rgba(242,108,34,.35);
+      box-shadow: 0 10px 28px rgba(242,108,34,.3);
     }
-    .hero-cta-card--eval:hover {
-      box-shadow: 0 18px 44px rgba(242,108,34,.45);
+    .hero-btn--primary:hover { box-shadow: 0 14px 36px rgba(242,108,34,.4); }
+    .hero-btn--secondary {
+      background: transparent; color: rgba(255,255,255,.85);
+      border: 1px solid rgba(255,255,255,.2);
     }
-    .hero-cta-card--start {
-      background: rgba(255,255,255,.08);
-      border: 1px solid rgba(255,255,255,.15);
-      color: #fff;
-      box-shadow: 0 8px 24px rgba(0,0,0,.2);
-    }
-    .hero-cta-card--start:hover {
-      background: rgba(255,255,255,.12);
-      box-shadow: 0 14px 36px rgba(0,0,0,.3);
-    }
-    .hero-cta-label {
-      font-size: 11px; font-weight: 700;
-      letter-spacing: .08em; text-transform: uppercase;
-      opacity: .7; margin-bottom: 8px;
-    }
-    .hero-cta-title {
-      font-size: 17px; font-weight: 800;
-      margin-bottom: 6px;
-    }
-    .hero-cta-desc {
-      font-size: 13px; opacity: .75;
-      line-height: 1.5; text-align: center;
+    .hero-btn--secondary:hover { background: rgba(255,255,255,.06); color: #fff; }
+    .hero-sep {
+      color: rgba(255,255,255,.25);
+      font-size: 13px;
     }
     .hero-trust {
       margin-top: 48px;
@@ -518,8 +502,8 @@
       .hero { padding: 120px 18px 60px; }
       .hero h1 { font-size: 28px; }
       .hero-sub { font-size: 15px; }
-      .hero-ctas { flex-direction: column; align-items: center; gap: 14px; }
-      .hero-cta-card { width: 100%; max-width: 320px; }
+      .hero-ctas { flex-direction: column; align-items: center; gap: 12px; }
+      .hero-sep { display: none; }
       .how, .instruments, .evaluator, .start-section { padding-left: 18px; padding-right: 18px; }
       .steps, .path-steps.active { grid-template-columns: 1fr; gap: 20px; }
       .chat-body { max-height: none; }
@@ -550,16 +534,9 @@
         ZENTI simula un comité evaluador calibrado por instrumento. Recibe un informe ejecutivo con nota, veredicto, brechas y recomendaciones — en minutos.
       </p>
       <div class="hero-ctas">
-        <a href="#evaluator" class="hero-cta-card hero-cta-card--eval">
-          <div class="hero-cta-label">ZENTI.eval</div>
-          <div class="hero-cta-title">Evaluar mi propuesta</div>
-          <div class="hero-cta-desc">Ya tengo propuesta lista. Quiero un diagnóstico con nota, brechas y recomendaciones.</div>
-        </a>
-        <a href="#start" class="hero-cta-card hero-cta-card--start">
-          <div class="hero-cta-label">ZENTI.start</div>
-          <div class="hero-cta-title">Explorar con mi idea</div>
-          <div class="hero-cta-desc">Tengo una idea pero no sé a qué fondo postular. Quiero encontrar el instrumento ideal.</div>
-        </a>
+        <a href="#evaluator" class="hero-btn hero-btn--primary">Evaluar mi propuesta</a>
+        <span class="hero-sep">o</span>
+        <a href="#start" class="hero-btn hero-btn--secondary">Explorar con mi idea</a>
       </div>
       <p class="hero-trust">CORFO · Startup Chile · ANID FONDEF · Innova Región</p>
     </div>
