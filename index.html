@@ -811,12 +811,27 @@
     })();
 
     const FONDOS = [
+      '── Chile ──',
       'CORFO Crea y Valida',
       'CORFO Innova Alta Tecnología',
       'Startup Chile BUILD',
       'CORFO Semilla Expande',
       'Innova Región',
       'ANID FONDEF',
+      '── USA ──',
+      'NSF SBIR/STTR',
+      'DOE SBIR/STTR',
+      'NIH SBIR/STTR',
+      '── Europa ──',
+      'Horizon Europe',
+      'EIC Accelerator',
+      'Eurostars',
+      'Innovate UK',
+      '── Latam ──',
+      'Ruta N (Colombia)',
+      'iNNpulsa (Colombia)',
+      'FONTAR (Argentina)',
+      'FINEP (Brasil)',
     ];
     const TRLS = [
       'TRL 1-2 - Idea / Concepto',
@@ -868,6 +883,83 @@
         trlBot: '¿Cuál es el **TRL** del desarrollo? En FONDEF debe ser **consistente** con el **plan** y el **mérito** que planteas.',
         propuestaBot: 'Pega **texto** si puedes: **mérito, relevancia, plan, vinculación y equipo** son centrales. **Opcional** si el PDF ya lo trae.',
         propuestaPh: 'Mérito científico, relevancia, plan, vinculación, equipo…',
+      },
+      'NSF SBIR/STTR': {
+        header: 'NSF SBIR/STTR · USA',
+        contexto: '**NSF SBIR/STTR** evaluates **Intellectual Merit, Broader Impacts, and Commercialization Potential**. Merit review by expert panels. Phase I up to **USD 275K** for 12 months. The product must demonstrate **durable competitive advantage**.',
+        trlBot: 'What is the approximate **TRL** of your technology? NSF expects the TRL to align with the **technical risk** and **innovation** you describe.',
+        propuestaBot: 'Paste your **proposal text** if available: focus on **technical innovation, broader impacts, and commercialization**. Optional if you attach the PDF.',
+        propuestaPh: 'Technical innovation, broader impacts, commercialization plan, team…',
+      },
+      'DOE SBIR/STTR': {
+        header: 'DOE SBIR/STTR · USA',
+        contexto: '**DOE SBIR/STTR** focuses on **Technical Merit, Qualifications, Commercialization, and Relevance to DOE mission** (energy, clean tech, grid, nuclear). Phase I up to **USD 250K**.',
+        trlBot: 'What is the approximate **TRL**? DOE values alignment between **technical maturity** and the **energy mission** relevance.',
+        propuestaBot: 'Paste **proposal text** if available: highlight **energy innovation, technical approach, and DOE mission alignment**. Optional with PDF.',
+        propuestaPh: 'Energy innovation, technical approach, DOE mission alignment…',
+      },
+      'NIH SBIR/STTR': {
+        header: 'NIH SBIR/STTR · USA',
+        contexto: '**NIH SBIR/STTR** reviews **Significance, Investigators, Innovation, Approach, and Environment**. Focus on **biomedical and health** innovation. Phase I up to **USD 275K**.',
+        trlBot: 'What is the approximate **TRL**? NIH expects consistency between **technical maturity** and the **research approach**.',
+        propuestaBot: 'Paste **proposal text** if available: emphasize **health significance, innovation, and research approach**. Optional with PDF.',
+        propuestaPh: 'Health significance, innovation, research approach, team…',
+      },
+      'Horizon Europe': {
+        header: 'Horizon Europe · EU',
+        contexto: '**Horizon Europe** evaluates **Excellence, Impact, and Quality of Implementation**. Requires a **consortium of ≥3 entities from ≥3 EU countries**. Scale **0–5**. Collaborative R&D with strong impact pathway.',
+        trlBot: 'What is the approximate **TRL**? Horizon Europe requires consistency between **TRL, work plan, and expected impact**.',
+        propuestaBot: 'Paste **proposal text** if available: focus on **excellence, impact pathway, consortium quality, and implementation plan**. Optional with PDF.',
+        propuestaPh: 'Excellence, impact, consortium, implementation plan…',
+      },
+      'EIC Accelerator': {
+        header: 'EIC Accelerator · EU',
+        contexto: '**EIC Accelerator** uses a **Go/No-Go** evaluation for **deep tech** with high risk and high impact. Up to **EUR 2.5M grant + EUR 15M equity**. Single company (no consortium). TRL 5–8 expected.',
+        trlBot: 'What is the approximate **TRL**? EIC Accelerator targets **TRL 5–8** with a clear path to market.',
+        propuestaBot: 'Paste **proposal text** if available: highlight **disruptive innovation, market potential, and scale-up plan**. Optional with PDF.',
+        propuestaPh: 'Disruptive innovation, market potential, scale-up plan, team…',
+      },
+      'Eurostars': {
+        header: 'Eurostars · EU',
+        contexto: '**Eurostars** reviews **Market, Technology, Consortium, and Management**. International R&D collaboration for SMEs. Consortium of **≥2 countries**. EUR 500K–3M.',
+        trlBot: 'What is the approximate **TRL**? Eurostars values alignment between **technology maturity** and **market readiness**.',
+        propuestaBot: 'Paste **proposal text** if available: focus on **market opportunity, technology, and international consortium**. Optional with PDF.',
+        propuestaPh: 'Market opportunity, technology, consortium, management…',
+      },
+      'Innovate UK': {
+        header: 'Innovate UK',
+        contexto: '**Innovate UK** scores **Innovation, Team, Funding/value, Impact, and Deliverability** on a **1–10** scale (minimum **7** to pass). Strong business case and co-funding required.',
+        trlBot: 'What is the approximate **TRL**? Innovate UK expects the TRL to match the **deliverability** and **route to market** you describe.',
+        propuestaBot: 'Paste **proposal text** if available: emphasize **innovation, business case, impact, and deliverability**. Optional with PDF.',
+        propuestaPh: 'Innovation, business case, impact, deliverability, team…',
+      },
+      'Ruta N (Colombia)': {
+        header: 'Ruta N · Colombia',
+        contexto: '**Ruta N** evalúa **innovación, mercado, equipo e impacto regional** en Medellín y Antioquia. Montos hasta **COP 500M**. Foco en **beneficio territorial**.',
+        trlBot: '¿Cuál es el **TRL** aproximado? Ruta N valora la coherencia entre **madurez tecnológica** e **impacto regional**.',
+        propuestaBot: 'Pega **texto** de la propuesta si lo tienes: enfatiza **innovación, mercado local e impacto**. Opcional con PDF.',
+        propuestaPh: 'Innovación, mercado, impacto regional, equipo…',
+      },
+      'iNNpulsa (Colombia)': {
+        header: 'iNNpulsa · Colombia',
+        contexto: '**iNNpulsa** evalúa **innovación, escalabilidad, impacto y equipo**. Hasta **COP 1.000M**. Foco en **emprendimiento e innovación empresarial**.',
+        trlBot: '¿Cuál es el **TRL** aproximado? iNNpulsa busca coherencia entre **madurez del producto** y **escalabilidad**.',
+        propuestaBot: 'Pega **texto** si lo tienes: resalta **innovación, escalabilidad y modelo de negocio**. Opcional con PDF.',
+        propuestaPh: 'Innovación, escalabilidad, impacto, equipo…',
+      },
+      'FONTAR (Argentina)': {
+        header: 'FONTAR · Argentina',
+        contexto: '**FONTAR** evalúa **mérito técnico, viabilidad, impacto y capacidad ejecutora**. Foco en **modernización tecnológica** de empresas argentinas.',
+        trlBot: '¿Cuál es el **TRL** aproximado? FONTAR busca coherencia entre **mérito técnico** y **viabilidad** del proyecto.',
+        propuestaBot: 'Pega **texto** si lo tienes: destaca **innovación tecnológica, viabilidad y capacidad ejecutora**. Opcional con PDF.',
+        propuestaPh: 'Mérito técnico, viabilidad, impacto, capacidad ejecutora…',
+      },
+      'FINEP (Brasil)': {
+        header: 'FINEP · Brasil',
+        contexto: '**FINEP** avalia **mérito técnico, inovação, impacto e capacidade**. Foco em **inovação e desenvolvimento tecnológico** no Brasil.',
+        trlBot: '¿Cuál es el **TRL** aproximado? FINEP valora la coherencia entre **innovación** y **capacidad de ejecución**.',
+        propuestaBot: 'Pega **texto** si lo tienes: enfatiza **innovación, mérito técnico e impacto**. Opcional con PDF.',
+        propuestaPh: 'Innovación, mérito técnico, impacto, capacidad…',
       },
     };
 
@@ -997,7 +1089,10 @@
       if (step.input.type === 'select') {
         const sel = document.createElement('select');
         sel.id = 'dyn-input';
-        sel.innerHTML = '<option value="">Elige una opción…</option>' + step.input.options.map(o => '<option value="' + esc(o) + '">' + esc(o) + '</option>').join('');
+        sel.innerHTML = '<option value="">Elige una opción…</option>' + step.input.options.map(o => {
+          if (o.startsWith('──')) return '<option disabled style="font-weight:700;color:#9CA3AF;background:#F3F4F6;font-size:12px">' + esc(o) + '</option>';
+          return '<option value="' + esc(o) + '">' + esc(o) + '</option>';
+        }).join('');
         stepUi.appendChild(sel);
       } else if (step.input.type === 'textarea') {
         const ta = document.createElement('textarea');
