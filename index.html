@@ -116,18 +116,52 @@
       max-width: 560px;
       margin: 0 auto 40px;
     }
-    .hero-cta {
-      display: inline-block;
-      padding: 16px 40px; border-radius: 999px;
-      background: var(--z-orange); color: #fff;
-      font-size: 16px; font-weight: 700;
-      text-decoration: none;
-      box-shadow: 0 12px 32px rgba(242,108,34,.3);
-      transition: transform .15s, box-shadow .15s;
+    .hero-ctas {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      flex-wrap: wrap;
     }
-    .hero-cta:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 16px 40px rgba(242,108,34,.4);
+    .hero-cta-card {
+      display: flex; flex-direction: column; align-items: center;
+      padding: 28px 32px 24px;
+      border-radius: var(--z-radius);
+      text-decoration: none;
+      transition: transform .15s, box-shadow .15s;
+      width: 260px;
+    }
+    .hero-cta-card:hover {
+      transform: translateY(-3px);
+    }
+    .hero-cta-card--eval {
+      background: var(--z-orange); color: #fff;
+      box-shadow: 0 12px 32px rgba(242,108,34,.35);
+    }
+    .hero-cta-card--eval:hover {
+      box-shadow: 0 18px 44px rgba(242,108,34,.45);
+    }
+    .hero-cta-card--start {
+      background: rgba(255,255,255,.08);
+      border: 1px solid rgba(255,255,255,.15);
+      color: #fff;
+      box-shadow: 0 8px 24px rgba(0,0,0,.2);
+    }
+    .hero-cta-card--start:hover {
+      background: rgba(255,255,255,.12);
+      box-shadow: 0 14px 36px rgba(0,0,0,.3);
+    }
+    .hero-cta-label {
+      font-size: 11px; font-weight: 700;
+      letter-spacing: .08em; text-transform: uppercase;
+      opacity: .7; margin-bottom: 8px;
+    }
+    .hero-cta-title {
+      font-size: 17px; font-weight: 800;
+      margin-bottom: 6px;
+    }
+    .hero-cta-desc {
+      font-size: 13px; opacity: .75;
+      line-height: 1.5; text-align: center;
     }
     .hero-trust {
       margin-top: 48px;
@@ -329,6 +363,87 @@
     .success-panel h2 { margin: 0 0 10px; font-size: 20px; }
     .success-panel p { color: var(--z-gray-500); margin: 0; line-height: 1.6; }
 
+    /* ── ZENTI.START FORM ── */
+    .start-section {
+      padding: 80px 24px 100px;
+      background: var(--z-white);
+    }
+    .start-inner {
+      max-width: var(--z-max-w);
+      margin: 0 auto;
+    }
+    .start-card {
+      max-width: 560px;
+      margin: 0 auto;
+      border-radius: var(--z-radius);
+      border: 1px solid var(--z-border);
+      background: var(--z-white);
+      box-shadow: 0 16px 64px rgba(0,0,0,.06);
+      overflow: hidden;
+    }
+    .start-card-header {
+      padding: 20px 28px;
+      background: var(--z-black);
+      color: #fff;
+      display: flex; align-items: center; gap: 12px;
+    }
+    .start-card-header .chat-mark {
+      width: 36px; height: 36px; border-radius: 10px;
+      font-size: 16px;
+    }
+    .start-card-header strong {
+      font-size: 14px; letter-spacing: .06em;
+    }
+    .start-card-header span {
+      font-size: 12px; opacity: .7; display: block; margin-top: 2px;
+    }
+    .start-card-body {
+      padding: 28px;
+      display: flex; flex-direction: column; gap: 20px;
+    }
+    .form-group { display: flex; flex-direction: column; gap: 6px; }
+    .form-group label {
+      font-size: 13px; font-weight: 600; color: var(--z-gray-700);
+    }
+    .form-group label .req { color: var(--z-orange); }
+    .start-card-body textarea { min-height: 100px; }
+    .start-submit-wrap {
+      display: flex; flex-wrap: wrap; gap: 10px;
+      align-items: center; margin-top: 4px;
+    }
+    .start-success {
+      text-align: center;
+      padding: 40px 28px;
+    }
+    .start-success h3 {
+      font-size: 20px; font-weight: 800;
+      margin-bottom: 10px;
+    }
+    .start-success p {
+      color: var(--z-gray-500); font-size: 14px;
+      line-height: 1.7; margin-bottom: 24px;
+    }
+
+    /* ── HOW-IT-WORKS PATH TABS ── */
+    .path-tabs {
+      display: flex; justify-content: center;
+      gap: 8px; margin-bottom: 40px;
+    }
+    .path-tab {
+      padding: 10px 24px; border-radius: 999px;
+      font-size: 14px; font-weight: 600;
+      border: 1px solid var(--z-border);
+      background: var(--z-white); color: var(--z-gray-500);
+      cursor: pointer; transition: all .15s;
+    }
+    .path-tab:hover { border-color: var(--z-orange); color: var(--z-orange); }
+    .path-tab.active {
+      background: var(--z-orange); color: #fff;
+      border-color: var(--z-orange);
+    }
+    .path-steps { display: none; }
+    .path-steps.active { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 32px; }
+
     /* ── FOOTER ── */
     .footer {
       padding: 48px 24px;
@@ -358,9 +473,13 @@
       .hero { padding: 120px 18px 60px; }
       .hero h1 { font-size: 28px; }
       .hero-sub { font-size: 15px; }
-      .how, .instruments, .evaluator { padding-left: 18px; padding-right: 18px; }
-      .steps { grid-template-columns: 1fr; gap: 20px; }
+      .hero-ctas { flex-direction: column; align-items: center; gap: 14px; }
+      .hero-cta-card { width: 100%; max-width: 320px; }
+      .how, .instruments, .evaluator, .start-section { padding-left: 18px; padding-right: 18px; }
+      .steps, .path-steps.active { grid-template-columns: 1fr; gap: 20px; }
       .chat-body { max-height: none; }
+      .start-card-body { padding: 20px; }
+      .path-tabs { flex-wrap: wrap; }
     }
   </style>
 </head>
@@ -373,7 +492,7 @@
         <div class="nav-mark">Z</div>
         <span class="nav-wordmark">ZENTI</span>
       </a>
-      <a href="#evaluator" class="nav-cta">Evaluar postulación</a>
+      <a href="#evaluator" class="nav-cta">Evaluar propuesta</a>
     </div>
   </nav>
 
@@ -385,7 +504,18 @@
       <p class="hero-sub">
         ZENTI simula un comité evaluador calibrado por instrumento. Recibe un informe ejecutivo con nota, veredicto, brechas y recomendaciones — en minutos.
       </p>
-      <a href="#evaluator" class="hero-cta">Solicitar evaluación</a>
+      <div class="hero-ctas">
+        <a href="#evaluator" class="hero-cta-card hero-cta-card--eval">
+          <div class="hero-cta-label">ZENTI.eval</div>
+          <div class="hero-cta-title">Evaluar mi propuesta</div>
+          <div class="hero-cta-desc">Ya tengo propuesta lista. Quiero un diagnóstico con nota, brechas y recomendaciones.</div>
+        </a>
+        <a href="#start" class="hero-cta-card hero-cta-card--start">
+          <div class="hero-cta-label">ZENTI.start</div>
+          <div class="hero-cta-title">Explorar con mi idea</div>
+          <div class="hero-cta-desc">Tengo una idea pero no sé a qué fondo postular. Quiero encontrar el instrumento ideal.</div>
+        </a>
+      </div>
       <p class="hero-trust">CORFO · Startup Chile · ANID FONDEF · Innova Región</p>
     </div>
   </section>
@@ -394,8 +524,12 @@
   <section class="how">
     <div class="how-inner">
       <div class="section-label">Cómo funciona</div>
-      <h2 class="section-title">Diagnóstico en 3 pasos</h2>
-      <div class="steps">
+      <h2 class="section-title">Dos caminos, un objetivo</h2>
+      <div class="path-tabs">
+        <button class="path-tab active" data-path="eval" onclick="switchPath('eval')">Ya tengo propuesta</button>
+        <button class="path-tab" data-path="start" onclick="switchPath('start')">Tengo una idea</button>
+      </div>
+      <div class="path-steps active" id="path-eval">
         <div class="step">
           <div class="step-num">1</div>
           <h3>Completa los datos</h3>
@@ -410,6 +544,23 @@
           <div class="step-num">3</div>
           <h3>Informe en tu correo</h3>
           <p>Recibes un informe PDF ejecutivo con nota final, veredicto, diagnóstico por criterio, brechas críticas y ruta de fortalecimiento.</p>
+        </div>
+      </div>
+      <div class="path-steps" id="path-start">
+        <div class="step">
+          <div class="step-num">1</div>
+          <h3>Describe tu idea</h3>
+          <p>Cuéntanos qué problema quieres resolver, en qué sector, en qué etapa estás y quién es tu equipo. No necesitas propuesta formal.</p>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <h3>Match de instrumento</h3>
+          <p>ZENTI cruza tu perfil con los fondos disponibles y encuentra las convocatorias donde tu idea tiene mejor calce y probabilidad.</p>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <h3>Recomendación en tu correo</h3>
+          <p>Recibes un reporte con los fondos recomendados, requisitos clave y próximos pasos para avanzar tu postulación.</p>
         </div>
       </div>
     </div>
@@ -427,6 +578,73 @@
         <span class="inst-tag">CORFO Semilla Expande</span>
         <span class="inst-tag">Innova Región</span>
         <span class="inst-tag">ANID FONDEF</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ZENTI.START (CARD FORM) -->
+  <section class="start-section" id="start">
+    <div class="start-inner">
+      <div class="section-label">Match de instrumento</div>
+      <h2 class="section-title">Encuentra el fondo ideal para tu idea</h2>
+      <div class="start-card">
+        <div class="start-card-header">
+          <div class="chat-mark">Z</div>
+          <div>
+            <strong>ZENTI</strong>
+            <span>Match de instrumento</span>
+          </div>
+        </div>
+        <div class="start-card-body" id="start-form-body">
+          <div class="form-group">
+            <label>Describe tu idea <span class="req">*</span></label>
+            <textarea id="start-idea" placeholder="¿Qué problema resuelve tu idea? ¿Cuál es la solución que propones?" required></textarea>
+          </div>
+          <div class="form-group">
+            <label>Sector</label>
+            <select id="start-sector">
+              <option value="">Selecciona un sector...</option>
+              <option value="Tecnología">Tecnología</option>
+              <option value="Salud">Salud</option>
+              <option value="Energía">Energía</option>
+              <option value="Agro">Agro</option>
+              <option value="Minería">Minería</option>
+              <option value="Manufactura">Manufactura</option>
+              <option value="Servicios">Servicios</option>
+              <option value="Educación">Educación</option>
+              <option value="Otro">Otro</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Etapa</label>
+            <select id="start-etapa">
+              <option value="">Selecciona la etapa...</option>
+              <option value="Solo idea">Solo idea</option>
+              <option value="Prototipo inicial">Prototipo inicial</option>
+              <option value="Con tracción temprana">Con tracción temprana</option>
+              <option value="Con clientes pagando">Con clientes pagando</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Equipo</label>
+            <input type="text" id="start-equipo" placeholder="Breve descripción del equipo (roles, experiencia)" />
+          </div>
+          <div class="form-group">
+            <label>Email <span class="req">*</span></label>
+            <input type="email" id="start-email" placeholder="tu@email.com" required />
+          </div>
+          <p class="error hidden" id="start-err"></p>
+          <div class="start-submit-wrap">
+            <button type="button" class="primary" id="btn-start-submit">Encontrar mi fondo</button>
+          </div>
+        </div>
+        <div class="start-success hidden" id="start-success">
+          <h3>Solicitud recibida</h3>
+          <p>Analizaremos tu idea y te enviaremos las recomendaciones de fondos a tu correo en los próximos minutos.</p>
+          <a href="https://cal.com/zenti" target="_blank" rel="noopener" style="display:inline-block;padding:12px 28px;background:#F26C22;color:#fff;border-radius:999px;font-weight:700;font-size:14px;text-decoration:none;box-shadow:0 6px 18px rgba(242,108,34,.25)">Agendar consultoría</a>
+          <br/>
+          <button type="button" class="ghost" style="margin-top:12px" id="btn-start-reset">Nuevo match</button>
+        </div>
       </div>
     </div>
   </section>
@@ -481,6 +699,72 @@
 
   <script>
     const FORM_POST_URL = 'https://zenti.app.n8n.cloud/form/7c2e685a-2439-4afa-889d-35168e65d856';
+    const START_FORM_URL = 'https://zenti.app.n8n.cloud/form/ZENTI_START_PLACEHOLDER';
+
+    /* ── Path switcher (How it works) ── */
+    function switchPath(path) {
+      document.querySelectorAll('.path-tab').forEach(t => t.classList.toggle('active', t.dataset.path === path));
+      document.getElementById('path-eval').classList.toggle('active', path === 'eval');
+      document.getElementById('path-start').classList.toggle('active', path === 'start');
+    }
+
+    /* ── ZENTI.start form ── */
+    (function initStartForm() {
+      const btn = document.getElementById('btn-start-submit');
+      const errEl = document.getElementById('start-err');
+      const formBody = document.getElementById('start-form-body');
+      const successPanel = document.getElementById('start-success');
+
+      function showStartError(msg) {
+        errEl.textContent = msg || '';
+        errEl.classList.toggle('hidden', !msg);
+      }
+
+      btn.addEventListener('click', async function () {
+        showStartError('');
+        const idea = document.getElementById('start-idea').value.trim();
+        const sector = document.getElementById('start-sector').value;
+        const etapa = document.getElementById('start-etapa').value;
+        const equipo = document.getElementById('start-equipo').value.trim();
+        const email = document.getElementById('start-email').value.trim();
+
+        if (!idea) { showStartError('Describe tu idea para continuar.'); return; }
+        if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { showStartError('Ingresa un correo válido.'); return; }
+
+        btn.disabled = true;
+        btn.textContent = 'Enviando...';
+
+        const fd = new FormData();
+        fd.append('field-0', idea);
+        fd.append('field-1', sector);
+        fd.append('field-2', etapa);
+        fd.append('field-3', equipo);
+        fd.append('field-4', email);
+
+        try {
+          await fetch(START_FORM_URL, { method: 'POST', body: fd });
+          formBody.classList.add('hidden');
+          successPanel.classList.remove('hidden');
+        } catch (e) {
+          showStartError('No se pudo enviar. Verifica tu conexión e intenta nuevamente.');
+          btn.disabled = false;
+          btn.textContent = 'Encontrar mi fondo';
+        }
+      });
+
+      document.getElementById('btn-start-reset').addEventListener('click', function () {
+        formBody.classList.remove('hidden');
+        successPanel.classList.add('hidden');
+        document.getElementById('start-idea').value = '';
+        document.getElementById('start-sector').value = '';
+        document.getElementById('start-etapa').value = '';
+        document.getElementById('start-equipo').value = '';
+        document.getElementById('start-email').value = '';
+        btn.disabled = false;
+        btn.textContent = 'Encontrar mi fondo';
+        showStartError('');
+      });
+    })();
 
     const FONDOS = [
       'CORFO Crea y Valida',
