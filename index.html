@@ -860,7 +860,7 @@
         fd.append('field-4', email);
 
         try {
-          await fetch(START_FORM_URL, { method: 'POST', body: fd });
+          fetch(START_FORM_URL, { method: 'POST', body: fd }).catch(function(){});
           formBody.classList.add('hidden');
           successPanel.classList.remove('hidden');
         } catch (e) {
