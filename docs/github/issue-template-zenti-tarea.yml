@@ -1,0 +1,56 @@
+# Copiar a: .github/ISSUE_TEMPLATE/zenti-tarea.yml (en tu fork o repo donde gestiones ZENTI)
+name: ZENTI — Tarea
+description: Tarea de producto, n8n u operación ZENTI
+title: "[ZENTI] "
+labels: ["zenti"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Criterio de hecho y enlaces: ver `docs/KANBAN-ZENTI.md` y `docs/E2E-ZENTI-CHECKLIST.md`.
+  - type: dropdown
+    id: prioridad
+    attributes:
+      label: Prioridad
+      options:
+        - P0
+        - P1
+        - P2
+        - P3
+    validations:
+      required: true
+  - type: dropdown
+    id: modulo
+    attributes:
+      label: Módulo
+      options:
+        - n8n / workflows
+        - landing / UX
+        - informes / PDF / email
+        - pagos / FLOW / GA4
+        - Sheets / datos
+        - diag / otro
+    validations:
+      required: true
+  - type: textarea
+    id: objetivo
+    attributes:
+      label: Objetivo
+      description: Qué debe quedar listo (una frase o lista corta).
+    validations:
+      required: true
+  - type: textarea
+    id: criterio
+    attributes:
+      label: Criterio de hecho
+      description: Cómo sabés que está cerrado (comandos, URLs, capturas).
+  - type: input
+    id: milestone
+    attributes:
+      label: Milestone sugerido (texto libre)
+      description: "Ej.: E2E verde, Premium Cloud"
+  - type: input
+    id: bloqueador
+    attributes:
+      label: Bloqueado por (opcional)
+      description: Issue #, persona o dependencia externa.

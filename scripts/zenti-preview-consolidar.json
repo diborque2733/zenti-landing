@@ -1,0 +1,61 @@
+{
+  "nombre": "GeoSentinel",
+  "empresa": "Mineral AI SpA",
+  "fondo": "CORFO Crea y Valida",
+  "trl": "TRL 4 - Validado en laboratorio",
+  "email": "test-zenti@example.com",
+  "generado_en": "2026-03-27T02:30:00.000Z",
+  "timestamp": "2026-03-27T02:30:00.000Z",
+  "metrics": {
+    "notaFinal": "3.9/5.0",
+    "veredicto": "Favorable con observaciones",
+    "probabilidad": 64,
+    "justificacion": "La propuesta aborda un problema industrial real con componente tecnico claro, pero requiere fortalecer evidencia de mercado, plan de validacion y consistencia presupuestaria.",
+    "resumen": "GeoSentinel presenta una base tecnica promisoria y una tesis de valor clara para operaciones mineras, aunque todavia necesita una formulacion mas solida en metodologia, indicadores y priorizacion comercial para competir al nivel de los mejores proyectos del fondo."
+  },
+  "scoreRows": [
+    {
+      "criterio": "Diagnóstico",
+      "nota": 4.2,
+      "max": 5,
+      "lectura": "El problema operacional esta bien definido y conectado a una necesidad de la industria minera."
+    },
+    {
+      "criterio": "Mercado Objetivo",
+      "nota": 3.4,
+      "max": 5,
+      "lectura": "Existe una hipotesis de cliente plausible, pero falta mayor segmentacion y evidencia de disposicion a pago."
+    },
+    {
+      "criterio": "Metodología",
+      "nota": 3.2,
+      "max": 5,
+      "lectura": "La secuencia de validacion requiere hitos, indicadores y criterios de exito mas precisos."
+    },
+    {
+      "criterio": "Novedad e I+D",
+      "nota": 4.0,
+      "max": 5,
+      "lectura": "La combinacion de sensorizacion, modelos fisicos y analitica aporta diferenciacion relevante."
+    },
+    {
+      "criterio": "Capacidades",
+      "nota": 3.7,
+      "max": 5,
+      "lectura": "El equipo tiene base tecnica, pero necesita reforzar perfil comercial y validacion en terreno."
+    }
+  ],
+  "hallazgos": [
+    "La propuesta no explicita con suficiente detalle el plan de validacion en entorno relevante ni los criterios de exito por etapa.",
+    "La evidencia comercial es todavia incipiente y no diferencia claramente entre early adopters y mercado expandido.",
+    "El presupuesto requiere una logica mas explicita entre actividades criticas, horas del equipo y subcontratacion."
+  ],
+  "recomendaciones": [
+    "Definir 3 hitos de validacion con entregables verificables, indicadores cuantitativos y responsable por etapa.",
+    "Agregar evidencia de conversaciones con faenas o cartas de interes que sustenten urgencia y disposicion a adopcion.",
+    "Explicitar la proporcion de I+D y justificar por que la arquitectura tecnica requiere desarrollo y no solo integracion.",
+    "Incorporar un responsable comercial o advisor con acceso a operaciones mineras.",
+    "Separar presupuesto en actividades nucleares, validacion en terreno, analitica y overhead para facilitar evaluacion."
+  ],
+  "bodyText": "## Fundamentación\n\nLa propuesta tiene coherencia estrategica, pero para elevar su competitividad debe mostrar con mayor nitidez la ruta entre problema operacional, tesis tecnologica, validacion y adopcion comercial. El comite evaluador esperaria evidencia mas dura de metodologia y un puente mas claro entre el componente I+D y el impacto economico esperado."
+}

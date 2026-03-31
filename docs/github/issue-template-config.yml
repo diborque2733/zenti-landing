@@ -1,0 +1,7 @@
+# Copiar a: .github/ISSUE_TEMPLATE/config.yml (opcional)
+# Ajustá la URL del Kanban a tu fork y rama (main, CODEX, etc.).
+blank_issues_enabled: true
+contact_links:
+  - name: Kanban ZENTI (markdown)
+    url: https://github.com/czlonkowski/n8n-mcp/blob/main/docs/KANBAN-ZENTI.md
+    about: Tablero de tareas en el repo (sustituí repo/rama si usás fork).

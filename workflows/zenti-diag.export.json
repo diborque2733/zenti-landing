@@ -1,0 +1,414 @@
+{
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "zenti-export-template"
+  },
+  "name": "ZENTI.diag — Diagnóstico estratégico",
+  "nodes": [
+    {
+      "parameters": {
+        "formTitle": "ZENTI.diag — Diagnóstico estratégico",
+        "formDescription": "Diagnóstico fundacional: problema, causa raíz, brecha de innovación y solución articulada",
+        "formFields": {
+          "values": [
+            { "fieldLabel": "Nombre del Proyecto", "requiredField": true },
+            { "fieldLabel": "Empresa", "requiredField": true },
+            {
+              "fieldLabel": "Sector / Industria",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  { "option": "TI / Software" },
+                  { "option": "Minería / Industria" },
+                  { "option": "Salud / Biotech" },
+                  { "option": "Energía / Sustentabilidad" },
+                  { "option": "AgriTech / AgroFood" },
+                  { "option": "Educación / EdTech" },
+                  { "option": "Fintech / Banca" },
+                  { "option": "Otro" }
+                ]
+              },
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Fondo objetivo",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  { "option": "CORFO Crea y Valida" },
+                  { "option": "CORFO Innova Alta Tecnología" },
+                  { "option": "Startup Chile BUILD" },
+                  { "option": "CORFO Semilla Expande" },
+                  { "option": "Innova Región" },
+                  { "option": "ANID FONDEF" }
+                ]
+              },
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "TRL",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  { "option": "TRL 1-2 - Idea / Concepto" },
+                  { "option": "TRL 3 - Prueba de concepto" },
+                  { "option": "TRL 4 - Validado en laboratorio" },
+                  { "option": "TRL 5 - Validado en entorno relevante" },
+                  { "option": "TRL 6-7 - Prototipo demostrado" }
+                ]
+              },
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Descripción del proyecto (texto libre — describe tu idea, producto o problema que resuelves)",
+              "fieldType": "textarea",
+              "requiredField": true
+            },
+            { "fieldLabel": "Email", "fieldType": "email", "requiredField": true },
+            {
+              "fieldLabel": "Adjuntar documento (PDF — propuesta, pitch deck o brief)",
+              "fieldType": "file",
+              "requiredField": false,
+              "acceptFileTypes": ".pdf,application/pdf"
+            }
+          ]
+        },
+        "responseMode": "lastNode",
+        "options": {}
+      },
+      "id": "diag-form-001",
+      "name": "📋 Formulario Diag",
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.2,
+      "position": [0, 300]
+    },
+    {
+      "parameters": {
+        "jsCode": "// → se reemplaza por apply script con diag-preparar-datos.js",
+        "nodeMode": "runOnceForEachItem"
+      },
+      "id": "diag-norm-001",
+      "name": "🧷 Normalizar binario PDF",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [220, 300],
+      "alwaysOutputData": true,
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "operation": "pdf",
+        "binaryPropertyName": "data",
+        "options": {}
+      },
+      "id": "diag-extract-001",
+      "name": "📄 Extraer Texto PDF",
+      "type": "n8n-nodes-base.extractFromFile",
+      "typeVersion": 1,
+      "position": [440, 300],
+      "alwaysOutputData": true,
+      "continueOnFail": true,
+      "retryOnFail": true,
+      "maxTries": 2,
+      "waitBetweenTries": 1000
+    },
+    {
+      "parameters": {
+        "jsCode": "// → se reemplaza por apply script con diag-preparar-datos.js"
+      },
+      "id": "diag-prep-001",
+      "name": "⚙️ Preparar Datos Diag",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [660, 300]
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.descripcion }}",
+        "options": {
+          "systemMessage": "You are ZENTI.diag — a senior innovation consultant performing a deep diagnostic analysis for a public funding proposal.\n\nProject: {{ $json.nombre }}\nCompany: {{ $json.empresa }}\nSector: {{ $json.sector }}\nTarget Fund: {{ $json.fondo }}\nTRL: {{ $json.trl }}\nFund Context: {{ $json.fondo_context.enfoque }}\nKey Criteria: {{ $json.fondo_context.criterio_clave }}\nHook: {{ $json.fondo_context.hook }}\nSector Sources: {{ $json.fuentes_sector }}\n\nExecute ALL 4 prompts below IN ORDER. Output each section with ## headers.\n\n---\n\n## 1. Problem Statement\n\nTransform the client's vague description into a precise problem statement.\nDefine: \"[Specific actor] cannot [do X] because [root cause], resulting in [measurable consequence]\"\n— Specific segment, not 'companies'\n— Quantified impact with source + year\n— Root cause identified, not symptom\nOutput: problem statement + validation + scope + urgency factor\n\n---\n\n## 2. Pain Quantification\n\nProvide quantified pain data:\n— Frequency: how many events/year in this sector\n— Economic cost: cost per event + total sector cost\n— Affected population: N organizations with this problem\n— Current workarounds: what they do today + cost\n— Problem trend: growing, stable, or declining?\nRULE: Every number needs source + year. Format: \"[number] [unit] ([source], [year])\"\n\n---\n\n## 3. Root Cause Analysis\n\nApply the 5-Why methodology to identify the true root cause.\nWhy has this problem NOT been solved before?\n— Technical barriers? (state of the art limitation)\n— Economic barriers? (market failure, incentives)\n— Information barriers? (nobody knows it's solvable)\n— Regulatory barriers? (policy gap)\nOutput: root cause + why it persists + why NOW is the moment\n\n---\n\n## 4. Innovation Gap\n\n1. Current State of the Art: best existing solutions (with citations)\n2. The Gap: what none of them can do (specific capability)\n3. The Innovation: what this project does differently\n4. TRL Start: current technology readiness level\n5. TRL End: target after project completion\n6. Innovation Type: process / product / service / business model\nFrame as innovation criteria for {{ $json.fondo }}\n\n---\n\nWrite in Spanish. Be rigorous, specific, and use real data where possible. Every claim must be backed by evidence or marked as hypothesis."
+        }
+      },
+      "id": "diag-problem-001",
+      "name": "🔍 Fase Problem",
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.4,
+      "position": [900, 300],
+      "retryOnFail": true,
+      "maxTries": 3,
+      "waitBetweenTries": 5000
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "claude-sonnet-4-20250514",
+          "mode": "list",
+          "cachedResultName": "Claude Sonnet 4"
+        },
+        "options": {
+          "maxTokensToSample": 4096,
+          "temperature": 0.3
+        }
+      },
+      "id": "diag-anthropic-problem-001",
+      "name": "Anthropic Problem Model",
+      "type": "@n8n/n8n-nodes-langchain.lmChatAnthropic",
+      "typeVersion": 1.3,
+      "position": [900, 540],
+      "credentials": {
+        "anthropicApi": {
+          "id": "REPLACE_WITH_CREDENTIAL_ID",
+          "name": "REPLACE_WITH_CREDENTIAL_NAME"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.text || $json.response || $json.output || '' }}",
+        "options": {
+          "systemMessage": "You are ZENTI.diag — a senior innovation consultant completing the diagnostic with Solution phase.\n\nProject: {{ $('⚙️ Preparar Datos Diag').first().json.nombre }}\nCompany: {{ $('⚙️ Preparar Datos Diag').first().json.empresa }}\nSector: {{ $('⚙️ Preparar Datos Diag').first().json.sector }}\nTarget Fund: {{ $('⚙️ Preparar Datos Diag').first().json.fondo }}\nTRL: {{ $('⚙️ Preparar Datos Diag').first().json.trl }}\nFund Hook: {{ $('⚙️ Preparar Datos Diag').first().json.fondo_context.hook }}\n\nThe Problem Phase analysis is provided as input. Now execute the 3 Solution prompts.\n\n---\n\n## 5. Solution Definition\n\nSolution statement: \"[This project] develops [what] that enables [who] to [do what] by [mechanism]\"\n— Core mechanism: the key technical/methodological approach\n— 3 points that differentiate from existing solutions\n— Why this team can do it: unique capabilities + background\n— Expected outcomes: 3 concrete, measurable results at project end\n\n---\n\n## 6. Defensibility\n\n1. IP potential: patents possible? What would be patented?\n2. Data moat: does the solution generate proprietary data?\n3. Network effects: does it get better with more users?\n4. Expertise barrier: what's hard to replicate?\n5. Time-to-copy: realistically, 12–18 months?\n\n---\n\n## 7. GN1 Narrative\n\nWrite the opening narrative (GN1) — 3 paragraphs, 400-500 words:\n— Opens with the quantified problem (hook)\n— Presents the innovation gap and solution\n— Closes with the team's unique position\nStyle for CORFO: technical rigor + commercial potential + Chilean impact\nStyle for ANID: scientific novelty + methodology + academic credentials\nAdapt to {{ $('⚙️ Preparar Datos Diag').first().json.fondo }}\n\n---\n\n## Recomendaciones\n\nBased on the complete diagnostic (Problem + Solution), provide 3-5 specific recommendations to strengthen this proposal before submission. Each must be actionable and tied to a specific evaluation criterion of the target fund.\n\n---\n\nWrite in Spanish. Be rigorous and specific. Build directly on the Problem analysis provided."
+        }
+      },
+      "id": "diag-solution-001",
+      "name": "💡 Fase Solution",
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.4,
+      "position": [1140, 300],
+      "retryOnFail": true,
+      "maxTries": 3,
+      "waitBetweenTries": 5000
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "claude-sonnet-4-20250514",
+          "mode": "list",
+          "cachedResultName": "Claude Sonnet 4"
+        },
+        "options": {
+          "maxTokensToSample": 4096,
+          "temperature": 0.3
+        }
+      },
+      "id": "diag-anthropic-solution-001",
+      "name": "Anthropic Solution Model",
+      "type": "@n8n/n8n-nodes-langchain.lmChatAnthropic",
+      "typeVersion": 1.3,
+      "position": [1140, 540],
+      "credentials": {
+        "anthropicApi": {
+          "id": "REPLACE_WITH_CREDENTIAL_ID",
+          "name": "REPLACE_WITH_CREDENTIAL_NAME"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// → se reemplaza por apply script con diag-consolidar.js"
+      },
+      "id": "diag-consolidar-001",
+      "name": "📦 Consolidar Diagnóstico",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1380, 300]
+    },
+    {
+      "parameters": {
+        "jsCode": "// → se reemplaza por apply script con diag-render-html.js"
+      },
+      "id": "diag-render-001",
+      "name": "🖥️ Render HTML Diagnóstico",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1600, 300]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.pdfshift.io/v3/convert/pdf",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpBasicAuth",
+        "sendBody": true,
+        "contentType": "json",
+        "specifyBody": "json",
+        "jsonBody": "={{ { source: $json.html, landscape: false } }}",
+        "options": {
+          "timeout": 120000,
+          "response": {
+            "response": {
+              "responseFormat": "file",
+              "outputPropertyName": "data"
+            }
+          }
+        }
+      },
+      "id": "diag-pdf-001",
+      "name": "📄 PDFShift → PDF",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [1820, 300],
+      "onError": "continueRegularOutput",
+      "retryOnFail": true,
+      "maxTries": 3,
+      "waitBetweenTries": 2000,
+      "credentials": {
+        "httpBasicAuth": {
+          "id": "REPLACE_WITH_CREDENTIAL_ID",
+          "name": "PDFShift ZENTI"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// → Descargar reporte Diag (PDF o HTML fallback)\nconst render = $('🖥️ Render HTML Diagnóstico').first().json;\nconst html = render.html || '';\nconst consolidar = $('📦 Consolidar Diagnóstico').first().json;\nconst nombreProyecto = consolidar.nombre || '';\n\nfunction htmlItem(extra = {}) {\n  const safeName = (nombreProyecto || 'proyecto')\n    .replace(/[^\\w\\dáéíóúñÁÉÍÓÚÑ\\s-]/gi, '').trim().slice(0, 40).replace(/\\s+/g, '-');\n  const slug = safeName || 'diagnostico';\n  const fileName = `ZENTI-diagnostico-${slug}.html`;\n  const buf = Buffer.from(html, 'utf8');\n  return [{ json: { mensaje: 'Descarga: ' + fileName, nombre_proyecto: nombreProyecto, formato_entrega: 'html', ...extra }, binary: { data: { data: buf.toString('base64'), mimeType: 'text/html', fileExtension: 'html', fileName } } }];\n}\n\nconst item = $input.first();\nconst bin = item.binary?.data;\nlet buf = null;\ntry { if (bin?.data) { buf = Buffer.from(bin.data, 'base64'); } } catch (e) { buf = null; }\n\nconst looksPdf = buf && buf.length >= 200 && (bin.mimeType?.includes('pdf') || bin.fileExtension === 'pdf' || buf.slice(0, 4).toString() === '%PDF');\n\nif (looksPdf) {\n  return [{ json: { mensaje: 'Descarga: ZENTI-diagnostico.pdf', nombre_proyecto: nombreProyecto, formato_entrega: 'pdf' }, binary: { data: { data: buf.toString('base64'), mimeType: 'application/pdf', fileExtension: 'pdf', fileName: 'ZENTI-diagnostico.pdf' } } }];\n}\n\nif (!html) { throw new Error('No hay HTML del reporte. Revisa 🖥️ Render HTML Diagnóstico y la cadena PDFShift.'); }\n\nconst errMsg = item.json?.error?.message || item.json?.error?.description || item.json?.error || item.json?.message || '';\nconst fallback = htmlItem(errMsg ? { mensaje: 'HTML (PDFShift falló)', pdf_error: String(errMsg).slice(0, 500) } : { mensaje: 'HTML (sin PDF de PDFShift)' });\nfallback[0].json.formato_entrega = 'html';\nreturn fallback;"
+      },
+      "id": "diag-download-001",
+      "name": "📥 Descargar reporte Diag",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [2040, 300]
+    },
+    {
+      "parameters": {
+        "name": "={{ ($json.nombre_proyecto || 'ZENTI-diagnostico').replace(/[^a-zA-Z0-9-_]/g,'-').substring(0,45) + ($json.formato_entrega === 'pdf' ? '.pdf' : '.html') }}",
+        "folderId": "1QwlGim2fqatoZoPDRhyoSJrj99Vn3o51",
+        "options": {
+          "binaryPropertyName": "data"
+        }
+      },
+      "id": "diag-drive-001",
+      "name": "☁️ Subir a Drive",
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [2260, 300],
+      "retryOnFail": true,
+      "maxTries": 3,
+      "waitBetweenTries": 3000,
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "REPLACE_WITH_CREDENTIAL_ID",
+          "name": "REPLACE_WITH_CREDENTIAL_NAME"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// → se reemplaza por apply script con diag-preparar-email.js"
+      },
+      "id": "diag-email-prep-001",
+      "name": "🔗 Preparar entrega email",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [2480, 300]
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $json.email }}",
+        "subject": "={{ $json.email_subject }}",
+        "emailType": "html",
+        "message": "={{ $json.email_html }}",
+        "options": {
+          "attachmentsUi": {
+            "attachmentsBinary": [
+              { "property": "data" }
+            ]
+          }
+        }
+      },
+      "id": "diag-gmail-001",
+      "name": "📧 Email Cliente",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [2700, 300],
+      "retryOnFail": true,
+      "maxTries": 2,
+      "waitBetweenTries": 3000,
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "REPLACE_WITH_CREDENTIAL_ID",
+          "name": "REPLACE_WITH_CREDENTIAL_NAME"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "📋 Formulario Diag": {
+      "main": [
+        [{ "node": "🧷 Normalizar binario PDF", "type": "main", "index": 0 }]
+      ]
+    },
+    "🧷 Normalizar binario PDF": {
+      "main": [
+        [{ "node": "📄 Extraer Texto PDF", "type": "main", "index": 0 }]
+      ]
+    },
+    "📄 Extraer Texto PDF": {
+      "main": [
+        [{ "node": "⚙️ Preparar Datos Diag", "type": "main", "index": 0 }]
+      ]
+    },
+    "⚙️ Preparar Datos Diag": {
+      "main": [
+        [{ "node": "🔍 Fase Problem", "type": "main", "index": 0 }]
+      ]
+    },
+    "🔍 Fase Problem": {
+      "main": [
+        [{ "node": "💡 Fase Solution", "type": "main", "index": 0 }]
+      ]
+    },
+    "💡 Fase Solution": {
+      "main": [
+        [{ "node": "📦 Consolidar Diagnóstico", "type": "main", "index": 0 }]
+      ]
+    },
+    "📦 Consolidar Diagnóstico": {
+      "main": [
+        [{ "node": "🖥️ Render HTML Diagnóstico", "type": "main", "index": 0 }]
+      ]
+    },
+    "🖥️ Render HTML Diagnóstico": {
+      "main": [
+        [{ "node": "📄 PDFShift → PDF", "type": "main", "index": 0 }]
+      ]
+    },
+    "📄 PDFShift → PDF": {
+      "main": [
+        [{ "node": "📥 Descargar reporte Diag", "type": "main", "index": 0 }]
+      ]
+    },
+    "📥 Descargar reporte Diag": {
+      "main": [
+        [{ "node": "☁️ Subir a Drive", "type": "main", "index": 0 }]
+      ]
+    },
+    "☁️ Subir a Drive": {
+      "main": [
+        [{ "node": "🔗 Preparar entrega email", "type": "main", "index": 0 }]
+      ]
+    },
+    "🔗 Preparar entrega email": {
+      "main": [
+        [{ "node": "📧 Email Cliente", "type": "main", "index": 0 }]
+      ]
+    },
+    "Anthropic Problem Model": {
+      "ai_languageModel": [
+        [{ "node": "🔍 Fase Problem", "type": "ai_languageModel", "index": 0 }]
+      ]
+    },
+    "Anthropic Solution Model": {
+      "ai_languageModel": [
+        [{ "node": "💡 Fase Solution", "type": "ai_languageModel", "index": 0 }]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "_comment": "ZENTI.diag — Módulo de diagnóstico estratégico (7 prompts en 2 fases LLM). Credenciales marcadas con REPLACE_WITH_*. Los nodos Code se reemplazan con los archivos de workflows/zenti-node-code/diag-*.js."
+}

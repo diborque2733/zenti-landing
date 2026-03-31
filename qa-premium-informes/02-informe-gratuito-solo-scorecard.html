@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <title>ZENTI — Informe ejecutivo de competitividad</title>
+  <style>
+:root{--z-black:#111111;--z-orange:#F26C22;--z-gray-700:#444444;--z-gray-500:#6B7280;--z-gray-400:#9CA3AF;--z-gray-200:#E5E7EB;--z-gray-100:#F3F4F6;--z-border:#E5E7EB;--z-white:#FFFFFF;--z-font:'Inter',ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;--z-max-w:780px;--z-radius:10px}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{font-size:15px}
+body{font-family:var(--z-font);color:var(--z-black);background:var(--z-white);line-height:1.7;-webkit-font-smoothing:antialiased}
+
+.report{max-width:var(--z-max-w);margin:0 auto;padding:64px 44px 80px}
+
+/* Cover */
+.cover{margin-bottom:64px}
+.wordmark{font-size:12px;font-weight:800;letter-spacing:.22em;text-transform:uppercase;color:var(--z-gray-400)}
+.accent-line{border:none;height:2px;background:var(--z-orange);width:40px;margin:24px 0 32px}
+.cover h1{font-size:28px;font-weight:800;line-height:1.12;letter-spacing:-0.025em;color:var(--z-black);margin-bottom:8px}
+.cover-sub{font-size:15px;color:var(--z-gray-500);margin-bottom:32px;font-weight:400}
+.cover-meta{font-size:13px;color:var(--z-gray-500);line-height:2.2}
+.cover-meta strong{color:var(--z-black);font-weight:600}
+
+/* Sections */
+.section{margin-bottom:56px}
+.section-title{font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--z-gray-400);margin-bottom:20px;padding-bottom:12px;border-bottom:1px solid var(--z-gray-200)}
+
+/* Result card */
+.result-card{background:var(--z-gray-100);border:1px solid var(--z-gray-200);border-radius:var(--z-radius);padding:36px 40px;display:flex;gap:40px;flex-wrap:wrap}
+.result-item{flex:1 1 200px;min-width:160px}
+.result-label{display:block;font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--z-gray-400);margin-bottom:10px}
+.result-value{font-size:22px;font-weight:700;color:var(--z-black);line-height:1.2}
+.result-value.accent{color:var(--z-orange)}
+.result-value-sm{font-size:15px;font-weight:600;color:var(--z-black);line-height:1.45}
+.prob-track{height:5px;background:var(--z-gray-200);border-radius:3px;overflow:hidden;margin-top:14px}
+.prob-fill{height:100%;background:var(--z-orange);border-radius:3px}
+
+/* Judgment */
+.judgment{border:1px solid var(--z-gray-200);border-left:4px solid var(--z-orange);border-radius:var(--z-radius);padding:28px 32px;font-size:15px;color:var(--z-gray-700);line-height:1.8}
+.judgment strong{color:var(--z-black)}
+
+/* Scorecard */
+.scorecard{width:100%;border-collapse:collapse;font-size:14px}
+.scorecard th{text-align:left;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--z-gray-400);padding:14px 16px;border-bottom:2px solid var(--z-gray-200)}
+.scorecard td{padding:18px 16px;border-bottom:1px solid var(--z-gray-100);vertical-align:top}
+.scorecard tr:last-child td{border-bottom:none}
+.sc-name{font-weight:600;color:var(--z-black);white-space:nowrap}
+.sc-read{color:var(--z-gray-700);line-height:1.6}
+.pill{display:inline-block;font-weight:700;font-size:15px;padding:2px 0;white-space:nowrap}
+.pill-max{font-weight:400;font-size:12px;color:var(--z-gray-400);margin-left:2px}
+.pill.hi{color:var(--z-orange)}.pill.md{color:var(--z-black)}.pill.lo{color:var(--z-gray-400)}
+
+/* Findings */
+.finding-list{padding:0;list-style:none}
+.finding-list li{position:relative;padding:14px 0 14px 20px;font-size:14px;color:var(--z-gray-700);line-height:1.65;border-bottom:1px solid var(--z-gray-100)}
+.finding-list li:last-child{border-bottom:none}
+.finding-list li::before{content:'';position:absolute;left:0;top:22px;width:6px;height:6px;border-radius:50%;background:var(--z-orange)}
+.finding-list li strong{color:var(--z-black)}
+
+/* Recomendaciones por prioridad */
+.reco-tier{margin-bottom:28px}
+.reco-tier:last-child{margin-bottom:0}
+.reco-tier-label{font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;margin-bottom:12px;padding:6px 14px;border-radius:6px;display:inline-block}
+.tier-alta .reco-tier-label{background:#FEF3EC;color:var(--z-orange)}
+.tier-media .reco-tier-label{background:var(--z-gray-100);color:var(--z-gray-700)}
+.tier-comp .reco-tier-label{background:var(--z-gray-100);color:var(--z-gray-400)}
+.reco-tier-list{padding:0;list-style:none}
+.reco-tier-list li{position:relative;padding:12px 0 12px 20px;font-size:14px;color:var(--z-gray-700);line-height:1.65;border-bottom:1px solid var(--z-gray-100)}
+.reco-tier-list li:last-child{border-bottom:none}
+.reco-tier-list li::before{content:'';position:absolute;left:0;top:20px;width:4px;height:4px;border-radius:50%}
+.tier-alta .reco-tier-list li::before{background:var(--z-orange)}
+.tier-media .reco-tier-list li::before{background:var(--z-gray-500)}
+.tier-comp .reco-tier-list li::before{background:var(--z-gray-400)}
+.reco-tier-list li strong{color:var(--z-black)}
+
+/* Resolución del comité */
+.resolution{border:1px solid var(--z-gray-200);border-radius:var(--z-radius);overflow:hidden}
+.resolution-header{background:var(--z-black);color:var(--z-white);padding:20px 32px;font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase}
+.resolution-body{padding:32px}
+.resolution-row{margin-bottom:24px}
+.resolution-row:last-child{margin-bottom:0}
+.resolution-label{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--z-gray-400);margin-bottom:8px}
+.resolution-value{font-size:15px;color:var(--z-gray-700);line-height:1.7}
+.resolution-value strong{color:var(--z-black)}
+.resolution-decision{font-size:17px;font-weight:700;line-height:1.3}
+
+/* Body content */
+.body-content h3{font-size:16px;font-weight:700;color:var(--z-black);margin:36px 0 14px;padding-left:16px;border-left:3px solid var(--z-orange)}
+.body-content h4{font-size:14px;font-weight:700;color:var(--z-black);margin:28px 0 10px}
+.body-content p{font-size:14px;color:var(--z-gray-700);line-height:1.8;margin:0 0 16px}
+.body-content ul,.body-content ol{padding-left:22px;margin:10px 0 18px}
+.body-content li{font-size:14px;color:var(--z-gray-700);line-height:1.7;margin-bottom:6px}
+.body-content strong{color:var(--z-black)}
+.quiet{font-size:14px;color:var(--z-gray-400)}
+
+/* Footer */
+.report-footer{margin-top:64px;padding-top:24px;border-top:1px solid var(--z-gray-200);font-size:12px;color:var(--z-gray-400);line-height:1.7}
+.footer-brand{font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--z-gray-500)}
+
+/* Toolbar */
+.toolbar{display:none}
+.btn-pdf{padding:10px 18px;border:1px solid var(--z-gray-200);border-radius:6px;background:var(--z-white);color:var(--z-black);font-family:var(--z-font);font-size:13px;font-weight:600;cursor:pointer;transition:background .15s}
+.btn-pdf:hover{background:var(--z-gray-100)}
+
+/* Print */
+@page{size:A4;margin:18mm 14mm 20mm 14mm}
+@media screen{.toolbar{display:block;position:fixed;top:20px;right:20px;z-index:100}}
+@media print{html{font-size:13px}body{background:#fff}.report{max-width:100%;padding:0}.toolbar{display:none!important}.result-card,.scorecard,.judgment,.resolution,.reco-tier{break-inside:avoid;page-break-inside:avoid}.section{break-inside:avoid;page-break-inside:avoid}.body-content h3,.body-content h4{page-break-after:avoid}p{orphans:3;widows:3}body{-webkit-print-color-adjust:exact;print-color-adjust:exact}}
+
+/* Responsive */
+@media(max-width:640px){.report{padding:36px 20px 52px}.cover h1{font-size:23px}.result-card{flex-direction:column;gap:28px;padding:28px 24px}.result-value{font-size:19px}.scorecard td,.scorecard th{padding:14px 10px;font-size:13px}.resolution-body{padding:24px}}
+</style>
+</head>
+<body>
+
+  <div class="toolbar">
+    <button type="button" class="btn-pdf" onclick="window.print()">Exportar informe</button>
+  </div>
+
+  <div class="report">
+
+    <header class="cover">
+      <div class="wordmark">ZENTI</div>
+      <hr class="accent-line" />
+      <h1>Informe ejecutivo de competitividad</h1>
+      <p class="cover-sub">Diagnóstico de competitividad y ruta de fortalecimiento para postulación a fondos de innovación</p>
+      <div class="cover-meta">
+        Proyecto: <strong>GeoSentinel</strong><br/>
+        Empresa: <strong>Mineral AI SpA</strong><br/>
+        Instrumento: <strong>CORFO Crea y Valida</strong><br/>
+        Nivel de madurez: <strong>TRL 4 - Validado en laboratorio</strong><br/>
+        Fecha de emisión: <strong>2026-03-27</strong>
+      </div>
+    </header>
+
+    <section class="section">
+      <div class="section-title">Resultado consolidado</div>
+      <div class="result-card">
+        <div class="result-item">
+          <span class="result-label">Nota final</span>
+          <span class="result-value accent">3.9/5.0</span>
+        </div>
+        <div class="result-item">
+          <span class="result-label">Veredicto</span>
+          <span class="result-value-sm">Favorable con observaciones</span>
+        </div>
+        <div class="result-item">
+          <span class="result-label">Estimación de adjudicación</span>
+          <span class="result-value accent">64%</span>
+          <div class="prob-track"><div class="prob-fill" style="width:64%"></div></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-title">Juicio experto ZENTI</div>
+      <div class="judgment">GeoSentinel presenta una base tecnica promisoria y una tesis de valor clara para operaciones mineras, aunque todavia necesita una formulacion mas solida en metodologia, indicadores y priorizacion comercial para competir al nivel de los mejores proyectos del fondo.</div>
+    </section>
+
+    <section class="section">
+      <div class="section-title">Diagnóstico de competitividad</div>
+      <table class="scorecard"><thead><tr><th>Criterio</th><th>Nota</th><th>Lectura ejecutiva</th></tr></thead><tbody><tr><td class="sc-name">Diagnóstico</td><td class="sc-score"><span class="pill hi">4.2<span class="pill-max">/5</span></span></td><td class="sc-read">El problema operacional esta bien definido y conectado a una necesidad de la industria minera.</td></tr><tr><td class="sc-name">Mercado Objetivo</td><td class="sc-score"><span class="pill hi">3.4<span class="pill-max">/5</span></span></td><td class="sc-read">Existe una hipotesis de cliente plausible, pero falta mayor segmentacion y evidencia de disposicion a pago.</td></tr><tr><td class="sc-name">Metodología</td><td class="sc-score"><span class="pill hi">3.2<span class="pill-max">/5</span></span></td><td class="sc-read">La secuencia de validacion requiere hitos, indicadores y criterios de exito mas precisos.</td></tr><tr><td class="sc-name">Novedad e I+D</td><td class="sc-score"><span class="pill hi">4<span class="pill-max">/5</span></span></td><td class="sc-read">La combinacion de sensorizacion, modelos fisicos y analitica aporta diferenciacion relevante.</td></tr><tr><td class="sc-name">Capacidades</td><td class="sc-score"><span class="pill hi">3.7<span class="pill-max">/5</span></span></td><td class="sc-read">El equipo tiene base tecnica, pero necesita reforzar perfil comercial y validacion en terreno.</td></tr></tbody></table>
+    </section>
+
+    <section class="section"><div class="section-title">Brechas críticas de postulación</div><ul class="finding-list"><li>La propuesta no explicita con suficiente detalle el plan de validacion en entorno relevante ni los criterios de exito por etapa.</li><li>La evidencia comercial es todavia incipiente y no diferencia claramente entre early adopters y mercado expandido.</li><li>El presupuesto requiere una logica mas explicita entre actividades criticas, horas del equipo y subcontratacion.</li></ul></section>
+
+    <section class="section"><div class="section-title">Ruta de fortalecimiento recomendada</div><div class="reco-tier tier-alta"><div class="reco-tier-label">Prioridad alta</div><ul class="reco-tier-list"><li>Definir 3 hitos de validacion con entregables verificables, indicadores cuantitativos y responsable por etapa.</li><li>Agregar evidencia de conversaciones con faenas o cartas de interes que sustenten urgencia y disposicion a adopcion.</li><li>Explicitar la proporcion de I+D y justificar por que la arquitectura tecnica requiere desarrollo y no solo integracion.</li></ul></div><div class="reco-tier tier-media"><div class="reco-tier-label">Prioridad media</div><ul class="reco-tier-list"><li>Incorporar un responsable comercial o advisor con acceso a operaciones mineras.</li><li>Separar presupuesto en actividades nucleares, validacion en terreno, analitica y overhead para facilitar evaluacion.</li></ul></div></section>
+
+    <section class="section"><div class="section-title">Fundamentación detallada</div><div class="body-content"><h3>Fundamentación</h3>
+<p>
+La propuesta tiene coherencia estrategica, pero para elevar su competitividad debe mostrar con mayor nitidez la ruta entre problema operacional, tesis tecnologica, validacion y adopcion comercial. El comite evaluador esperaria evidencia mas dura de metodologia y un puente mas claro entre el componente I+D y el impacto economico esperado.
+</p></div></section>
+
+    <section class="section" style="opacity:1">
+      <div style="background:var(--z-gray-100);border:1px solid var(--z-gray-200);border-radius:var(--z-radius);padding:36px 32px;text-align:center">
+        <div style="font-size:32px;margin-bottom:12px">U0001f512</div>
+        <div style="font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--z-gray-400);margin-bottom:16px">Contenido premium</div>
+        <div style="font-size:14px;color:var(--z-gray-500);line-height:1.7;max-width:480px;margin:0 auto 8px">
+          Las siguientes secciones están disponibles en el <strong style="color:var(--z-black)">informe premium</strong>:
+        </div>
+        <ul style="list-style:none;padding:0;margin:16px auto 24px;max-width:380px;text-align:left">
+          <li style="padding:8px 0;border-bottom:1px solid var(--z-gray-200);font-size:14px;color:var(--z-gray-500)">U0001f512 Mercado, competencia e I+D</li>
+          <li style="padding:8px 0;border-bottom:1px solid var(--z-gray-200);font-size:14px;color:var(--z-gray-500)">U0001f512 Equipo, capacidades y metodología</li>
+          <li style="padding:8px 0;border-bottom:1px solid var(--z-gray-200);font-size:14px;color:var(--z-gray-500)">U0001f512 Presupuesto recomendado con % por partida</li>
+          <li style="padding:8px 0;border-bottom:1px solid var(--z-gray-200);font-size:14px;color:var(--z-gray-500)">U0001f512 Checklist de requisitos vs bases oficiales</li>
+          <li style="padding:8px 0;font-size:14px;color:var(--z-gray-500)">U0001f512 Comparativa, IP y continuidad estratégica</li>
+        </ul>
+        <a href="https://zentigrants.com/#pricing" style="display:inline-block;padding:14px 36px;background:var(--z-orange);color:#fff;border-radius:8px;font-weight:700;font-size:15px;text-decoration:none;letter-spacing:.02em">Desbloquear informe completo — $89 USD</a>
+        <div style="margin-top:12px;font-size:13px;color:var(--z-gray-500)">Chile: <a href="https://zentigrants.com/#pricing" style="color:var(--z-orange);font-weight:700;text-decoration:none">$80.000 CLP</a> · pago seguro</div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-title">Resolución del comité evaluador</div>
+      <div class="resolution">
+        <div class="resolution-header">Dictamen técnico</div>
+        <div class="resolution-body">
+          <div class="resolution-row">
+            <div class="resolution-label">Decisión</div>
+            <div class="resolution-value resolution-decision" style="color:#16a34a">Favorable con observaciones</div>
+          </div>
+          <div class="resolution-row">
+            <div class="resolution-label">Fundamento</div>
+            <div class="resolution-value">La propuesta aborda un problema industrial real con componente tecnico claro, pero requiere fortalecer evidencia de mercado, plan de validacion y consistencia presupuestaria.</div>
+          </div>
+          <div class="resolution-row">
+            <div class="resolution-label">Condiciones para reconsideración</div>
+            <div class="resolution-value">Abordar las brechas identificadas para consolidar la posición competitiva. El proyecto presenta bases sólidas que justifican avanzar con la postulación formal.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" style="margin-top:16px">
+      <div class="section-title">Consultoría estratégica</div>
+      <div class="judgment" style="text-align:center">
+        <p style="margin:0 0 16px;font-size:15px;color:var(--z-gray-700)">¿Necesita apoyo para fortalecer la postulación? El equipo ZENTI puede trabajar las brechas identificadas y estructurar una propuesta competitiva.</p>
+        <a href="https://cal.com/zenti" style="display:inline-block;padding:12px 32px;background:var(--z-orange);color:#fff;border-radius:8px;font-weight:700;font-size:14px;text-decoration:none;letter-spacing:.02em">Agendar sesión de consultoría</a>
+      </div>
+    </section>
+
+    <footer class="report-footer">
+      <span class="footer-brand">ZENTI</span> &middot; Evaluación técnico-estratégica de postulaciones a fondos de innovación, I+D+i y emprendimiento.<br/>
+      <span style="color:var(--z-gray-400);font-size:11px">Documento generado el 2026-03-27. Este informe es una simulación orientativa y no constituye una evaluación oficial del organismo otorgante.</span>
+    </footer>
+
+  </div>
+</body>
+</html>
