@@ -1,0 +1,6 @@
+workflow_id: dprb1lXPcBPYM08p
+form_url: https://zenti.app.n8n.cloud/form/cff65159-a00b-423f-a02d-3ebac9ce30bd
+webhook_id: cff65159-a00b-423f-a02d-3ebac9ce30bd
+status: active
+deployed: 2026-03-25T01:29:12Z
+tested: 2026-03-25T01:34:46Z (execution 69 - success)

@@ -1,0 +1,47 @@
+{
+  "generado_en": "2026-03-27T22:28:26.980Z",
+  "fuente": "scripts/qa-premium-informes-build.mjs (sin LLM; markdown de muestra)",
+  "archivos": [
+    {
+      "archivo": "01-informe-premium-completo-geo-sentinel.html",
+      "descripcion": "Las 9 secciones premium + bloque free (GeoSentinel / Crea y Valida)",
+      "premium_sections_found": [
+        "mercado",
+        "id_tecnico",
+        "equipo",
+        "metodologia",
+        "presupuesto",
+        "checklist",
+        "ip_continuidad",
+        "comparativa",
+        "redaccion"
+      ],
+      "premium_missing_sections": []
+    },
+    {
+      "archivo": "02-informe-gratuito-solo-scorecard.html",
+      "descripcion": "Solo capa gratuita (render-html-premium) para comparar"
+    },
+    {
+      "archivo": "03-prompt-llm-premium-para-anthropic.txt",
+      "descripcion": "Prompt que usaría el nodo Code en n8n antes del LLM premium"
+    },
+    {
+      "archivo": "04-informe-premium-secciones-parciales-qa.html",
+      "descripcion": "Markdown corto: verifica secciones faltantes y layout",
+      "premium_sections_found": [
+        "mercado",
+        "id_tecnico",
+        "equipo",
+        "metodologia"
+      ],
+      "premium_missing_sections": [
+        "presupuesto",
+        "checklist",
+        "ip_continuidad",
+        "comparativa",
+        "redaccion"
+      ]
+    }
+  ]
+}

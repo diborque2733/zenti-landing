@@ -1,0 +1,13 @@
+{
+  "nombre": "GeoSentinel",
+  "empresa": "Mineral AI SpA",
+  "fondo": "CORFO Crea y Valida",
+  "trl": "TRL 4 - Validado en laboratorio",
+  "email": "test-zenti@example.com",
+  "propuesta": "GeoSentinel desarrolla una plataforma de monitoreo predictivo para pilas de lixiviacion basada en sensores, modelos fisicos y analitica avanzada. El problema es la deteccion tardia de inestabilidades y perdidas operacionales en faenas mineras. La solucion combina captura continua de datos, modelos de comportamiento del material y alertas tempranas para reducir riesgos, optimizar recuperacion metalurgica y mejorar continuidad operacional. El mercado objetivo inicial son mineras medianas y grandes con operaciones de lixiviacion en Chile y Peru. El equipo tiene experiencia en geotecnia, mineria de procesos y desarrollo de software industrial. Se busca validar tecnicamente el sistema en entorno relevante, demostrar reduccion de desviaciones operacionales y preparar escalamiento comercial.",
+  "config": {
+    "escala": "1-5",
+    "criterios": "diagnóstico, mercado, metodología, novedad, I+D, impacto, escalabilidad, capacidades",
+    "enfasis": "I+D aplicado, validación técnica y comercial, impacto operacional"
+  }
+}
