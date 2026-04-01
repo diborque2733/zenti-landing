@@ -22,6 +22,13 @@ def replace_or_fail(content: str, pattern: str, repl: str, file: Path) -> str:
     return updated
 
 
+def choose_existing(*candidates: Path) -> Path:
+    for c in candidates:
+        if c.exists():
+            return c
+    raise FileNotFoundError(f"No existe ninguno de los paths esperados: {', '.join(str(c) for c in candidates)}")
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--config", default="scripts/payment-links.json")
@@ -37,8 +44,9 @@ def main() -> int:
     ga4_id = cfg.get("ga4MeasurementId", "")
 
     files = {
-        "landing": root / "workflows/zenti-landing/zenti-eval-chat.html",
+        "landing": choose_existing(root / "index.html", root / "workflows/zenti-landing/zenti-eval-chat.html"),
         "render": root / "workflows/zenti-node-code/render-html-premium.js",
+        "render_premium": root / "workflows/zenti-node-code/render-premium-report.js",
         "email": root / "workflows/zenti-node-code/preparar-email-premium.js",
     }
 
@@ -47,28 +55,24 @@ def main() -> int:
     c = landing.read_text(encoding="utf-8")
     c = replace_or_fail(
         c,
-        r"const ZENTI_GA4_MEASUREMENT_ID = '[^']*';",
-        f"const ZENTI_GA4_MEASUREMENT_ID = '{ga4_id}';",
+        r"const ZENTI_PAY_LINKS = \{[\s\S]*?\};",
+        (
+            "const ZENTI_PAY_LINKS = {\n"
+            f"      premiumUsd: '{premium_usd}',\n"
+            f"      premiumClp: '{premium_clp}',\n"
+            f"      consultCal: '{consult_cal}',\n"
+            "    };"
+        ),
         landing,
     )
-    c = replace_or_fail(
-        c,
-        r"premiumUsd:\s*'[^']*',",
-        f"premiumUsd: '{premium_usd}',",
-        landing,
-    )
-    c = replace_or_fail(
-        c,
-        r"premiumClp:\s*'[^']*',",
-        f"premiumClp: '{premium_clp}',",
-        landing,
-    )
-    c = replace_or_fail(
-        c,
-        r"consultCal:\s*'[^']*',",
-        f"consultCal: '{consult_cal}',",
-        landing,
-    )
+    if "const ZENTI_GA4_MEASUREMENT_ID" in c:
+        c = replace_or_fail(
+            c,
+            r"const ZENTI_GA4_MEASUREMENT_ID = '[^']*';",
+            f"const ZENTI_GA4_MEASUREMENT_ID = '{ga4_id}';",
+            landing,
+        )
+    c = re.sub(r'href="https://(?:cal\.com/zenti|calendly\.com/diego-zentigrants/consultoria-estrategica-zenti)"', f'href="{consult_cal}"', c)
     landing.write_text(c, encoding="utf-8")
 
     # Render report constants + consultoria CTA
@@ -86,13 +90,19 @@ def main() -> int:
         f"const ZENTI_LINK_PREMIUM_CLP = '{premium_clp}';",
         render,
     )
+    c = re.sub(r'href="https://(?:cal\.com/zenti|calendly\.com/diego-zentigrants/consultoria-estrategica-zenti)"', f'href="{consult_cal}"', c)
+    render.write_text(c, encoding="utf-8")
+
+    # Premium render node consult link constant
+    render_premium = files["render_premium"]
+    c = render_premium.read_text(encoding="utf-8")
     c = replace_or_fail(
         c,
-        r'href="https://cal\.com/zenti"',
-        f'href="{consult_cal}"',
-        render,
+        r"const CONSULT_CAL_LINK = '[^']*';",
+        f"const CONSULT_CAL_LINK = '{consult_cal}';",
+        render_premium,
     )
-    render.write_text(c, encoding="utf-8")
+    render_premium.write_text(c, encoding="utf-8")
 
     # Email constants + consultoria CTA
     email = files["email"]
@@ -109,15 +119,10 @@ def main() -> int:
         f"const LINK_PREMIUM_CLP = '{premium_clp}';",
         email,
     )
-    c = replace_or_fail(
-        c,
-        r'href="https://cal\.com/zenti"',
-        f'href="{consult_cal}"',
-        email,
-    )
+    c = re.sub(r'href="https://(?:cal\.com/zenti|calendly\.com/diego-zentigrants/consultoria-estrategica-zenti)"', f'href="{consult_cal}"', c)
     email.write_text(c, encoding="utf-8")
 
-    print("OK: ga4MeasurementId + links sincronizados (landing, render-html-premium, preparar-email-premium)")
+    print("OK: links sincronizados (landing, render-html-premium, render-premium-report, preparar-email-premium)")
     return 0
 
 

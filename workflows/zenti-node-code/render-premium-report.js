@@ -33,6 +33,7 @@ const proyecto = consolidar.nombre  || 'Proyecto';
 const empresa  = consolidar.empresa || '';
 const fondo    = consolidar.fondo   || '';
 const trl      = consolidar.trl     || '';
+const CONSULT_CAL_LINK = 'https://cal.com/zenti';
 
 /* ══════════════════════════════════════════════════════════
    UTILITIES
@@ -571,7 +572,7 @@ const html = `<!DOCTYPE html>
       <div class="section-title">Consultoría estratégica</div>
       <div class="judgment" style="text-align:center">
         <p style="margin:0 0 16px;font-size:15px;color:var(--z-gray-700)">¿Necesita apoyo para implementar las recomendaciones de este informe? El equipo ZENTI puede trabajar las brechas identificadas y estructurar una propuesta competitiva.</p>
-        <a href="https://calendly.com/diego-zentigrants/consultoria-estrategica-zenti" style="display:inline-block;padding:12px 32px;background:var(--z-orange);color:#fff;border-radius:8px;font-weight:700;font-size:14px;text-decoration:none;letter-spacing:.02em">Agendar sesión de consultoría — $197 USD</a>
+        <a href="${esc(CONSULT_CAL_LINK)}" style="display:inline-block;padding:12px 32px;background:var(--z-orange);color:#fff;border-radius:8px;font-weight:700;font-size:14px;text-decoration:none;letter-spacing:.02em">Agendar sesión de consultoría — $197 USD</a>
       </div>
     </section>
 

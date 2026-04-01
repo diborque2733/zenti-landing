@@ -475,7 +475,7 @@ const html = `<!DOCTYPE html>
       <div class="section-title">Consultor\u00eda estrat\u00e9gica</div>
       <div class="consultoria-cta">
         <p style="font-size:15px;color:var(--z-gray-700);margin:0 0 16px">\u00bfNecesita apoyo para fortalecer la postulaci\u00f3n? El equipo ZENTI puede trabajar las brechas y estructurar una propuesta competitiva.</p>
-        <a href="https://calendly.com/diego-zentigrants/consultoria-estrategica-zenti" style="display:inline-block;padding:13px 32px;background:var(--z-orange);color:#fff;border-radius:8px;font-weight:700;font-size:14px;text-decoration:none">Agendar sesi\u00f3n de consultor\u00eda \u2014 $197 USD</a>
+        <a href="https://cal.com/zenti" style="display:inline-block;padding:13px 32px;background:var(--z-orange);color:#fff;border-radius:8px;font-weight:700;font-size:14px;text-decoration:none">Agendar sesi\u00f3n de consultor\u00eda \u2014 $197 USD</a>
       </div>
     </section>
 
