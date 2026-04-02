@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="ZENTI — Visor de informe de evaluación técnico-estratégica." />
+  <title>ZENTI — Tu informe de evaluación</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --z-black: #111111;
+      --z-orange: #F26C22;
+      --z-orange-soft: #FEF3EC;
+      --z-orange-mid: rgba(242,108,34,.15);
+      --z-gray-700: #444444;
+      --z-gray-500: #6b6b6b;
+      --z-gray-400: #9CA3AF;
+      --z-gray-100: #F3F4F6;
+      --z-border: #E5E7EB;
+      --z-white: #FFFFFF;
+      --z-font: 'Inter', ui-sans-serif, system-ui, -apple-system, sans-serif;
+      --z-max-w: 900px;
+      --z-radius: 16px;
+      --nav-h: 56px;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { font-size: 16px; scroll-behavior: smooth; overflow-x: hidden; }
+    body {
+      font-family: var(--z-font);
+      color: var(--z-black);
+      background: var(--z-white);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      min-height: 100vh;
+    }
+
+    /* ── NAV ── */
+    .nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      background: rgba(17,17,17,.97);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(255,255,255,.06);
+      height: var(--nav-h);
+    }
+    .nav-inner {
+      max-width: var(--z-max-w);
+      margin: 0 auto;
+      padding: 0 24px;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .nav-brand {
+      display: flex; align-items: center; gap: 10px;
+      text-decoration: none; color: #fff;
+    }
+    .nav-logo-wrap {
+      display: flex; align-items: center; gap: 4px;
+    }
+    .nav-wordmark {
+      font-size: 15px; font-weight: 900;
+      letter-spacing: .12em; color: #fff;
+    }
+    .nav-dot {
+      width: 7px; height: 7px; border-radius: 50%;
+      background: var(--z-orange);
+      display: inline-block;
+      margin-bottom: 6px;
+    }
+    .nav-tagline {
+      font-size: 11px; font-weight: 500;
+      color: rgba(255,255,255,.45);
+      letter-spacing: .04em;
+    }
+    .nav-back {
+      font-size: 12px; font-weight: 600;
+      color: rgba(255,255,255,.6);
+      text-decoration: none;
+      display: flex; align-items: center; gap: 6px;
+      transition: color .15s;
+    }
+    .nav-back:hover { color: #fff; }
+    .nav-back svg { flex-shrink: 0; }
+
+    /* ── MAIN LAYOUT ── */
+    .page-wrap {
+      padding-top: var(--nav-h);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ── STATES CONTAINER ── */
+    .state { display: none; }
+    .state.active { display: flex; flex-direction: column; flex: 1; }
+
+    /* ─────────────────────────────────
+       STATE: FORM (no params)
+    ───────────────────────────────── */
+    .form-state {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 48px 24px 80px;
+    }
+    .form-card {
+      width: 100%;
+      max-width: 480px;
+      background: var(--z-white);
+      border: 1px solid var(--z-border);
+      border-radius: 24px;
+      padding: 48px 40px;
+      box-shadow: 0 4px 32px rgba(0,0,0,.06), 0 1px 4px rgba(0,0,0,.04);
+      text-align: center;
+    }
+    .form-icon {
+      width: 64px; height: 64px;
+      background: var(--z-orange-soft);
+      border-radius: 18px;
+      display: grid; place-items: center;
+      margin: 0 auto 24px;
+    }
+    .form-icon svg { color: var(--z-orange); }
+    .form-title {
+      font-size: 22px; font-weight: 800;
+      color: var(--z-black);
+      margin-bottom: 8px;
+      letter-spacing: -.02em;
+    }
+    .form-subtitle {
+      font-size: 14px; color: var(--z-gray-500);
+      margin-bottom: 32px;
+      line-height: 1.55;
+    }
+    .form-label {
+      display: block;
+      text-align: left;
+      font-size: 12px; font-weight: 600;
+      color: var(--z-gray-700);
+      letter-spacing: .04em;
+      margin-bottom: 8px;
+    }
+    .form-input {
+      width: 100%;
+      padding: 14px 16px;
+      border: 1.5px solid var(--z-border);
+      border-radius: 10px;
+      font-family: var(--z-font);
+      font-size: 14px;
+      color: var(--z-black);
+      background: #FAFAFA;
+      outline: none;
+      transition: border-color .15s, box-shadow .15s;
+      margin-bottom: 16px;
+    }
+    .form-input:focus {
+      border-color: var(--z-orange);
+      box-shadow: 0 0 0 3px rgba(242,108,34,.12);
+      background: var(--z-white);
+    }
+    .form-input::placeholder { color: var(--z-gray-400); }
+    .form-btn {
+      width: 100%;
+      padding: 15px 24px;
+      background: var(--z-orange);
+      color: #fff;
+      font-family: var(--z-font);
+      font-size: 14px; font-weight: 700;
+      border: none; border-radius: 10px;
+      cursor: pointer;
+      transition: opacity .15s, transform .1s;
+      letter-spacing: .02em;
+    }
+    .form-btn:hover { opacity: .9; transform: translateY(-1px); }
+    .form-btn:active { opacity: 1; transform: translateY(0); }
+    .form-hint {
+      font-size: 12px; color: var(--z-gray-400);
+      margin-top: 16px;
+      line-height: 1.5;
+    }
+    .form-hint a { color: var(--z-orange); text-decoration: none; }
+    .form-hint a:hover { text-decoration: underline; }
+
+    /* ─────────────────────────────────
+       STATE: LOADING
+    ───────────────────────────────── */
+    .loading-state {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 48px 24px;
+    }
+    .spinner {
+      width: 48px; height: 48px;
+      border: 3px solid var(--z-border);
+      border-top-color: var(--z-orange);
+      border-radius: 50%;
+      animation: spin .75s linear infinite;
+      margin-bottom: 24px;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .loading-text {
+      font-size: 14px; color: var(--z-gray-500);
+      font-weight: 500;
+    }
+
+    /* ─────────────────────────────────
+       STATE: VIEWER
+    ───────────────────────────────── */
+    .viewer-state {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+    .viewer-header {
+      background: var(--z-white);
+      border-bottom: 1px solid var(--z-border);
+      padding: 16px 24px;
+    }
+    .viewer-header-inner {
+      max-width: var(--z-max-w);
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .viewer-meta {}
+    .viewer-meta-label {
+      font-size: 11px; font-weight: 700;
+      color: var(--z-orange);
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      margin-bottom: 2px;
+    }
+    .viewer-meta-id {
+      font-size: 13px; font-weight: 600;
+      color: var(--z-gray-700);
+      font-variant-numeric: tabular-nums;
+    }
+    .viewer-ctas {
+      display: flex; gap: 10px; flex-wrap: wrap;
+    }
+    .btn-secondary {
+      display: inline-flex; align-items: center; gap: 7px;
+      padding: 9px 18px;
+      border: 1.5px solid var(--z-border);
+      border-radius: 8px;
+      font-family: var(--z-font);
+      font-size: 13px; font-weight: 600;
+      color: var(--z-gray-700);
+      text-decoration: none;
+      background: var(--z-white);
+      cursor: pointer;
+      transition: border-color .15s, color .15s, background .15s;
+    }
+    .btn-secondary:hover {
+      border-color: var(--z-black);
+      color: var(--z-black);
+    }
+    .btn-primary {
+      display: inline-flex; align-items: center; gap: 7px;
+      padding: 9px 18px;
+      background: var(--z-orange);
+      border: 1.5px solid var(--z-orange);
+      border-radius: 8px;
+      font-family: var(--z-font);
+      font-size: 13px; font-weight: 700;
+      color: #fff;
+      text-decoration: none;
+      cursor: pointer;
+      transition: opacity .15s;
+    }
+    .btn-primary:hover { opacity: .88; }
+    .iframe-wrap {
+      flex: 1;
+      position: relative;
+      background: var(--z-gray-100);
+      min-height: 600px;
+    }
+    .iframe-loading {
+      position: absolute; inset: 0;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      gap: 16px;
+      background: var(--z-gray-100);
+      z-index: 2;
+      transition: opacity .3s;
+    }
+    .iframe-loading.hidden { opacity: 0; pointer-events: none; }
+    .iframe-loading .spinner { margin-bottom: 0; }
+    .iframe-loading p { font-size: 13px; color: var(--z-gray-500); font-weight: 500; }
+    .report-iframe {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%;
+      border: none;
+      background: var(--z-white);
+    }
+
+    /* ─────────────────────────────────
+       STATE: NOT FOUND
+    ───────────────────────────────── */
+    .notfound-state {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 48px 24px 80px;
+      text-align: center;
+    }
+    .notfound-icon {
+      width: 72px; height: 72px;
+      background: #FEF2F2;
+      border-radius: 20px;
+      display: grid; place-items: center;
+      margin: 0 auto 24px;
+      font-size: 32px;
+    }
+    .notfound-title {
+      font-size: 22px; font-weight: 800;
+      color: var(--z-black);
+      margin-bottom: 10px;
+      letter-spacing: -.02em;
+    }
+    .notfound-body {
+      font-size: 14px; color: var(--z-gray-500);
+      max-width: 380px; margin: 0 auto 32px;
+      line-height: 1.6;
+    }
+    .notfound-actions {
+      display: flex; gap: 12px; flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    /* ── FOOTER STRIP ── */
+    .footer-strip {
+      border-top: 1px solid var(--z-border);
+      padding: 20px 24px;
+      text-align: center;
+    }
+    .footer-strip p {
+      font-size: 12px; color: var(--z-gray-400);
+    }
+    .footer-strip a {
+      color: var(--z-orange); text-decoration: none;
+      font-weight: 600;
+    }
+    .footer-strip a:hover { text-decoration: underline; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 600px) {
+      .form-card { padding: 32px 24px; }
+      .viewer-header-inner { flex-direction: column; align-items: flex-start; }
+      .viewer-ctas { width: 100%; }
+      .btn-secondary, .btn-primary { flex: 1; justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="nav">
+    <div class="nav-inner">
+      <a href="/" class="nav-brand">
+        <div class="nav-logo-wrap">
+          <span class="nav-wordmark">ZENTI</span><span class="nav-dot"></span>
+        </div>
+        <span class="nav-tagline">Evaluación de fondos</span>
+      </a>
+      <a href="/" class="nav-back">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M9 11L5 7L9 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        Volver al inicio
+      </a>
+    </div>
+  </nav>
+
+  <div class="page-wrap">
+
+    <!-- ── STATE: FORM ── -->
+    <div id="state-form" class="state form-state">
+      <div class="form-card">
+        <div class="form-icon">
+          <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M6 4h12l4 4v16a2 2 0 01-2 2H6a2 2 0 01-2-2V6a2 2 0 012-2z" stroke="#F26C22" stroke-width="1.7" stroke-linejoin="round"/>
+            <path d="M18 4v4h4" stroke="#F26C22" stroke-width="1.7" stroke-linejoin="round"/>
+            <path d="M9 13h10M9 17h7" stroke="#F26C22" stroke-width="1.7" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <h1 class="form-title">Ver tu informe ZENTI</h1>
+        <p class="form-subtitle">Ingresa el código de evaluación que recibiste por correo para acceder a tu informe.</p>
+        <form id="lookup-form" onsubmit="handleFormSubmit(event)">
+          <label class="form-label" for="eval-id">CÓDIGO DE EVALUACIÓN</label>
+          <input
+            id="eval-id"
+            class="form-input"
+            type="text"
+            placeholder="Ej: eval-2026-abc123"
+            autocomplete="off"
+            spellcheck="false"
+          />
+          <button type="submit" class="form-btn">Ver mi informe &rarr;</button>
+        </form>
+        <p class="form-hint">
+          ¿No tienes un código? <a href="https://zentigrants.com/#evaluator">Solicita tu evaluación aquí</a>.<br/>
+          Si tienes el link directo de tu informe, ábrelo desde el correo que recibiste.
+        </p>
+      </div>
+    </div>
+
+    <!-- ── STATE: LOADING ── -->
+    <div id="state-loading" class="state loading-state">
+      <div class="spinner"></div>
+      <p class="loading-text">Cargando tu informe…</p>
+    </div>
+
+    <!-- ── STATE: VIEWER ── -->
+    <div id="state-viewer" class="state viewer-state">
+      <div class="viewer-header">
+        <div class="viewer-header-inner">
+          <div class="viewer-meta">
+            <div class="viewer-meta-label">Informe de evaluación</div>
+            <div class="viewer-meta-id" id="viewer-id-label">—</div>
+          </div>
+          <div class="viewer-ctas">
+            <a id="btn-download" href="#" class="btn-secondary" target="_blank" rel="noopener">
+              <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M7.5 1v9M4 7l3.5 3.5L11 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M2 13h11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+              </svg>
+              Descargar PDF
+            </a>
+            <a
+              href="https://calendly.com/diego-zentigrants/consultoria-estrategica-zenti"
+              target="_blank"
+              rel="noopener"
+              class="btn-primary"
+            >
+              <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="2" y="3" width="11" height="10" rx="2" stroke="currentColor" stroke-width="1.4"/>
+                <path d="M5 2v2M10 2v2M2 7h11" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+              </svg>
+              Agendar consultoría
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="iframe-wrap">
+        <div class="iframe-loading" id="iframe-loading">
+          <div class="spinner"></div>
+          <p>Preparando tu informe…</p>
+        </div>
+        <iframe
+          id="report-iframe"
+          class="report-iframe"
+          title="Informe ZENTI"
+          allow="fullscreen"
+          onload="handleIframeLoad()"
+        ></iframe>
+      </div>
+    </div>
+
+    <!-- ── STATE: NOT FOUND ── -->
+    <div id="state-notfound" class="state notfound-state">
+      <div class="notfound-icon">📄</div>
+      <h2 class="notfound-title">No se encontró el informe</h2>
+      <p class="notfound-body">
+        No pudimos encontrar el informe asociado a este código o enlace. Es posible que el link haya expirado o que el código sea incorrecto.
+      </p>
+      <div class="notfound-actions">
+        <a href="/informe" class="btn-secondary">Intentar de nuevo</a>
+        <a href="https://calendly.com/diego-zentigrants/consultoria-estrategica-zenti" target="_blank" rel="noopener" class="btn-primary">
+          Agendar consultoría
+        </a>
+      </div>
+    </div>
+
+    <div class="footer-strip">
+      <p>
+        ZENTI · Evaluación técnico-estratégica de fondos ·
+        <a href="https://zentigrants.com">zentigrants.com</a>
+      </p>
+    </div>
+
+  </div>
+
+  <script>
+    // ── Utility ──────────────────────────────────────────────────────────────
+
+    function getParams() {
+      const p = new URLSearchParams(window.location.search);
+      return {
+        id: p.get('id') || '',
+        link: p.get('link') || '',
+      };
+    }
+
+    /**
+     * Extract Google Drive file ID from various Drive URL formats:
+     *   https://drive.google.com/file/d/FILE_ID/view
+     *   https://drive.google.com/file/d/FILE_ID/
+     *   https://drive.google.com/open?id=FILE_ID
+     *   https://docs.google.com/...d/FILE_ID/...
+     */
+    function extractDriveFileId(link) {
+      if (!link) return null;
+
+      // Match /file/d/ID/ pattern
+      const fileMatch = link.match(/\/file\/d\/([a-zA-Z0-9_-]+)/);
+      if (fileMatch) return fileMatch[1];
+
+      // Match ?id=ID or &id=ID
+      const idMatch = link.match(/[?&]id=([a-zA-Z0-9_-]+)/);
+      if (idMatch) return idMatch[1];
+
+      // Match /d/ID/ in Docs/Sheets/Slides URLs
+      const docMatch = link.match(/\/d\/([a-zA-Z0-9_-]+)/);
+      if (docMatch) return docMatch[1];
+
+      return null;
+    }
+
+    function buildPreviewUrl(fileId) {
+      return `https://drive.google.com/file/d/${fileId}/preview`;
+    }
+
+    function buildDownloadUrl(fileId) {
+      return `https://drive.google.com/uc?export=download&id=${fileId}`;
+    }
+
+    // ── State management ─────────────────────────────────────────────────────
+
+    function showState(name) {
+      const states = ['form', 'loading', 'viewer', 'notfound'];
+      states.forEach(s => {
+        const el = document.getElementById(`state-${s}`);
+        if (el) {
+          el.classList.toggle('active', s === name);
+        }
+      });
+    }
+
+    function handleIframeLoad() {
+      const overlay = document.getElementById('iframe-loading');
+      if (overlay) overlay.classList.add('hidden');
+    }
+
+    function handleFormSubmit(e) {
+      e.preventDefault();
+      const val = document.getElementById('eval-id').value.trim();
+      if (!val) return;
+      // Navigate to same page with ?id= set
+      const url = new URL(window.location.href);
+      url.searchParams.set('id', val);
+      // Remove link if present from a previous session
+      url.searchParams.delete('link');
+      window.location.href = url.toString();
+    }
+
+    // ── Init ─────────────────────────────────────────────────────────────────
+
+    function init() {
+      const { id, link } = getParams();
+
+      // No params at all → show form
+      if (!id && !link) {
+        showState('form');
+        return;
+      }
+
+      // Show loading while we resolve
+      showState('loading');
+
+      // Small delay for UX polish (avoids flash)
+      setTimeout(function() {
+        resolve(id, link);
+      }, 600);
+    }
+
+    function resolve(id, link) {
+      let fileId = null;
+
+      if (link) {
+        fileId = extractDriveFileId(link);
+      }
+
+      // If we only have an ID but no link, we can't resolve to a Drive file
+      // on the client side — show not-found with a helpful message
+      if (!fileId) {
+        showState('notfound');
+        return;
+      }
+
+      // We have a valid file ID — set up the viewer
+      const previewUrl = buildPreviewUrl(fileId);
+      const downloadUrl = buildDownloadUrl(fileId);
+
+      // Set iframe src
+      const iframe = document.getElementById('report-iframe');
+      iframe.src = previewUrl;
+
+      // Set download button
+      const dlBtn = document.getElementById('btn-download');
+      dlBtn.href = downloadUrl;
+
+      // Set label
+      const label = document.getElementById('viewer-id-label');
+      if (id) {
+        label.textContent = `ID: ${id}`;
+      } else {
+        label.textContent = 'Informe adjunto';
+      }
+
+      // Show viewer
+      showState('viewer');
+    }
+
+    // Run on DOMContentLoaded
+    document.addEventListener('DOMContentLoaded', init);
+  </script>
+</body>
+</html>
