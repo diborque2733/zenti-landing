@@ -11,3 +11,7 @@ Se atendió feedback del QA: se aplicaron mejoras concretas para el problema de 
 ## Registro de sesión — 2026-04-01 (iteración 3)
 
 Se restauró en el repo el script faltante `scripts/apply-zenti-premium-design.py` que usa `zenti-deploy.sh` para actualizar por Public API el workflow ZENTI.eval en n8n Cloud. El script obtiene el workflow, reemplaza `jsCode` de 6 nodos Code desde `workflows/zenti-node-code/` y hace PUT del workflow actualizado. Queda pendiente validación en entorno real con `.env.local` (N8N_BASE_URL/N8N_API_KEY).
+
+## Registro de sesión — 2026-04-01 (iteración 4)
+
+Se ejecutó el frente P0 solicitado con evidencia local: `./scripts/e2e-zenti-checklist-run.sh` falló por conectividad de sandbox hacia `zenti.app.n8n.cloud` y no permite cerrar E2E real desde este entorno. Para dejar revisión continua “en sistema”, se creó `scripts/backlog-review.sh` (modo seguro + `--run-live`) y un workflow de GitHub Actions (`.github/workflows/backlog-review.yml`) que genera reporte automático. Además se actualizó `docs/KANBAN-ZENTI.md` con ritual operativo y registro de corrida. Pendiente inmediato: correr `./scripts/backlog-review.sh --run-live` en la máquina operativa con `.env.local` para cerrar P0-DEPLOY/P0-E2E/P0-DOMAIN con estado PASS/WARN real.

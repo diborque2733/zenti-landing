@@ -21,8 +21,8 @@ Tablero vivo. **FLOW (Flow.cl)** y **GA4** quedan explícitamente para **mañana
 
 | Prioridad | Tarjeta | Criterio de hecho |
 |-----------|---------|-------------------|
-| P0 | **Deploy código repo → n8n Cloud** | Ejecutar `./scripts/zenti-deploy.sh` desde máquina con `.env.local`; workflow `oabhou5V20poYB55` con `preparar-datos` (webhook body), Drive carpeta Evaluaciones, PDFShift `jsonBody` objeto, Gmail resource/send. |
-| P0 | **E2E eval + start + correo** | Correr `e2e-zenti-checklist-run.sh`; tachar `docs/E2E-ZENTI-CHECKLIST.md`; anotar IDs ejecución. |
+| P0 | **Deploy código repo → n8n Cloud** | Ejecutar `./scripts/zenti-deploy.sh` desde máquina con `.env.local`; workflow `oabhou5V20poYB55` con `preparar-datos` (webhook body), Drive carpeta Evaluaciones, PDFShift `jsonBody` objeto, Gmail resource/send. **Seguimiento automático:** `./scripts/backlog-review.sh --run-live` debe marcar `P0-DEPLOY=PASS/WARN`. |
+| P0 | **E2E eval + start + correo** | Correr `e2e-zenti-checklist-run.sh`; tachar `docs/E2E-ZENTI-CHECKLIST.md`; anotar IDs ejecución. **Seguimiento automático:** `./scripts/backlog-review.sh --run-live` debe marcar `P0-E2E=PASS/WARN`. |
 | P1 | **Google Sheets dashboard** | Credencial OAuth2 en n8n; nodos Append a hoja `1cm1-DkAaH8pPm6H3UrVRfv4d1t049kFQgU4HcXshfHw` (Evaluaciones, Matches, KPIs). |
 | P1 | **PDFShift** | Revisar créditos/plan; si se agota, fallback HTML OK pero documentar. |
 | P2 | **Error workflow** | Workflow dedicado + notificación con link a ejecución fallida (ID en contexto: `YSEWKL9bL0GSzW0Y`). |
@@ -61,5 +61,13 @@ Tablero vivo. **FLOW (Flow.cl)** y **GA4** quedan explícitamente para **mañana
 ## Ritual rápido
 
 1. Cada mañana: mirar columna **Mañana AM** si toca FLOW/GA.  
-2. Cada deploy n8n: anotar fecha en esta tabla o en `ZENTI-CONTEXTO.md`.  
+2. Cada deploy n8n: correr `./scripts/backlog-review.sh --run-live` y revisar `docs/BACKLOG-REVISION-AUTOMATICA.md`.  
 3. Cierre de sprint: mover tarjetas **Hecho** y vaciar bloqueos.
+
+---
+
+## Registro operativo (últimas corridas)
+
+| Fecha UTC | Comando | Estado | Nota |
+|---|---|---|---|
+| 2026-04-01 | `./scripts/backlog-review.sh --run-live` | Bloqueado en este entorno | Falló conexión HTTPS a `zenti.app.n8n.cloud` al ejecutar E2E desde sandbox; repetir en máquina del operador con red real. |

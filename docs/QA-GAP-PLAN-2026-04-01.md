@@ -41,3 +41,8 @@ Este documento compara el backlog QA compartido por negocio con el estado actual
 2. Implementar #6 (viewer online).
 3. Diseñar MVP #5 (cupones) y plan #16 (scraping).
 
+## Sistema de revisión continua (nuevo)
+
+- **Script operativo:** `scripts/backlog-review.sh` (modo local y `--run-live`).
+- **Reporte automático:** `docs/BACKLOG-REVISION-AUTOMATICA.md`.
+- **Automatización en CI:** `.github/workflows/backlog-review.yml` (programado + manual).

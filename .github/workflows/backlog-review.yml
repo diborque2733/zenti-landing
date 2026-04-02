@@ -1,0 +1,42 @@
+name: zenti-backlog-review
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 13 * * 1-5' # 13:00 UTC, lunes-viernes
+  push:
+    branches: ["main", "work"]
+    paths:
+      - 'scripts/backlog-review.sh'
+      - 'scripts/e2e-zenti-*.sh'
+      - 'scripts/zenti-cto-cycle.sh'
+      - 'scripts/sync-payment-links.py'
+      - 'workflows/zenti-node-code/**'
+      - 'docs/KANBAN-ZENTI.md'
+      - 'docs/E2E-ZENTI-CHECKLIST.md'
+
+jobs:
+  review:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Run backlog review (safe mode)
+        run: ./scripts/backlog-review.sh
+
+      - name: Upload automated report
+        uses: actions/upload-artifact@v4
+        with:
+          name: backlog-review-report
+          path: docs/BACKLOG-REVISION-AUTOMATICA.md
