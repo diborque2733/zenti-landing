@@ -767,8 +767,9 @@
               <li>Comparativa con proyectos similares</li>
             </ul>
           </div>
-          <a href="#evaluator" style="display:block;text-align:center;padding:12px 0;background:var(--z-orange);border-radius:999px;color:#fff;font-weight:700;font-size:14px;text-decoration:none;margin-top:24px;box-shadow:0 6px 18px rgba(242,108,34,.25)">Empezar evaluaci&oacute;n</a>
-          <div style="text-align:center;margin-top:8px;font-size:12px;color:var(--z-gray-400)">El upgrade se ofrece con tu resultado</div>
+          <a href="https://zentigrants.com/#pricing" id="pricing-cta-premium-usd" data-ab-role="premium-cta" style="display:block;text-align:center;padding:12px 0;background:var(--z-orange);border-radius:999px;color:#fff;font-weight:700;font-size:14px;text-decoration:none;margin-top:24px;box-shadow:0 6px 18px rgba(242,108,34,.25)">Desbloquear Premium USD</a>
+          <a href="https://www.flow.cl/uri/JSbQZ7S1H" id="pricing-cta-premium-clp" data-ab-role="premium-cta-secondary" style="display:block;text-align:center;padding:11px 0;border:1px solid var(--z-orange);border-radius:999px;color:var(--z-orange);font-weight:700;font-size:13px;text-decoration:none;margin-top:10px">Pagar en CLP</a>
+          <div id="pricing-ab-copy" style="text-align:center;margin-top:8px;font-size:12px;color:var(--z-gray-400)">El upgrade se ofrece con tu resultado</div>
         </div>
         <div class="step" style="display:flex;flex-direction:column;justify-content:space-between">
           <div>
@@ -788,6 +789,10 @@
         </div>
       </div>
       <p style="text-align:center;margin-top:24px;font-size:13px;color:var(--z-gray-400)">Paga con tarjeta internacional (USD) o d&eacute;bito/cr&eacute;dito Chile (CLP)</p>
+      <div style="max-width:780px;margin:16px auto 0;padding:14px 16px;border:1px dashed var(--z-border);border-radius:12px;font-size:13px;color:var(--z-gray-500);text-align:left">
+        <strong style="color:var(--z-black)">Wishlist abierta (G-10):</strong> cu&eacute;ntanos qu&eacute; te frena para comprar el premium o qu&eacute; cup&oacute;n te ayudar&iacute;a a probarlo.
+        <a href="https://forms.gle/zenti-wishlist-feedback" target="_blank" rel="noopener" style="color:var(--z-orange);font-weight:700;text-decoration:none">Dejar comentario</a>
+      </div>
     </div>
   </section>
 
@@ -1011,6 +1016,51 @@
       if (consultPricing && ZENTI_PAY_LINKS.consultCal) consultPricing.href = ZENTI_PAY_LINKS.consultCal;
       if (consultMain && ZENTI_PAY_LINKS.consultCal) consultMain.href = ZENTI_PAY_LINKS.consultCal;
       if (consultStartSuccess && ZENTI_PAY_LINKS.consultCal) consultStartSuccess.href = ZENTI_PAY_LINKS.consultCal;
+
+      // A/B simple (G-08/G-09/G-10): controlar copy del CTA premium en pricing.
+      function getAbVariant() {
+        var params = new URLSearchParams(window.location.search || '');
+        var forced = params.get('ab_premium');
+        if (forced === 'control' || forced === 'roadmap') return forced;
+        var cached = localStorage.getItem('zenti_ab_premium');
+        if (cached === 'control' || cached === 'roadmap') return cached;
+        var variant = Math.random() < 0.5 ? 'control' : 'roadmap';
+        localStorage.setItem('zenti_ab_premium', variant);
+        return variant;
+      }
+      function withUtm(url, variant, channel) {
+        try {
+          var u = new URL(url);
+          u.searchParams.set('utm_source', 'zenti_landing');
+          u.searchParams.set('utm_medium', channel);
+          u.searchParams.set('utm_campaign', 'ab_premium_' + variant);
+          return u.toString();
+        } catch (e) {
+          return url;
+        }
+      }
+      var abVariant = getAbVariant();
+      var abCopy = document.getElementById('pricing-ab-copy');
+      if (premiumUsd) {
+        premiumUsd.href = withUtm(premiumUsd.href, abVariant, 'cta_usd');
+        premiumUsd.textContent = abVariant === 'roadmap' ? 'Ver mini-roadmap premium + pago USD' : 'Desbloquear Premium USD';
+      }
+      if (premiumClp) {
+        premiumClp.href = withUtm(premiumClp.href, abVariant, 'cta_clp');
+        premiumClp.textContent = abVariant === 'roadmap' ? 'Usar cupón + pagar CLP' : 'Pagar en CLP';
+      }
+      if (abCopy) {
+        abCopy.textContent = abVariant === 'roadmap'
+          ? 'Variante B: destaca roadmap + cupón + wishlist para acelerar conversión.'
+          : 'Variante A: mensaje de conversión estándar premium.';
+      }
+      zentiTrack('ab_premium_impression', { variant: abVariant });
+      [premiumUsd, premiumClp].forEach(function (el) {
+        if (!el) return;
+        el.addEventListener('click', function () {
+          zentiTrack('ab_premium_click', { variant: abVariant, cta_id: el.id || 'premium_cta' });
+        });
+      });
     });
 
     /* ── Path switcher (How it works) ── */
