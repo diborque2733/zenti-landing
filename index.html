@@ -3,8 +3,12 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="ZENTI — Evaluación técnico-estratégica de postulaciones a fondos de innovación, I+D+i y emprendimiento. Diagnóstico calibrado por instrumento." />
-  <title>ZENTI — Evaluación técnico-estratégica de postulaciones</title>
+  <meta name="description" content="ZENTI simula el comité evaluador de CORFO, Startup Chile, NSF SBIR, Horizon Europe y +30 fondos de innovación. Recibe nota, brechas y recomendaciones en minutos. Siempre gratis para empezar." />
+  <title>ZENTI | Evalúa tu postulación a CORFO, NSF, Horizon Europe y +30 fondos — en minutos</title>
+  <meta property="og:title" content="ZENTI — Evalúa tu postulación antes de enviarla" />
+  <meta property="og:description" content="Simula el comité de CORFO, NSF, Horizon Europe y +30 fondos. Informe ejecutivo en minutos." />
+  <meta property="og:url" content="https://zentigrants.com" />
+  <meta property="og:type" content="website" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
@@ -229,11 +233,31 @@
       color: rgba(255,255,255,.25);
       font-size: 13px;
     }
-    .hero-trust {
+    .hero-trust { display: none; }
+    .ticker-wrap {
       margin-top: 48px;
-      font-size: 13px;
+      overflow: hidden;
+      width: 100%;
+      mask-image: linear-gradient(90deg, transparent, black 10%, black 90%, transparent);
+      -webkit-mask-image: linear-gradient(90deg, transparent, black 10%, black 90%, transparent);
+    }
+    @keyframes ticker {
+      0%   { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+    .ticker-track {
+      display: flex;
+      gap: 32px;
+      width: max-content;
+      animation: ticker 30s linear infinite;
+      white-space: nowrap;
+    }
+    .ticker-track:hover { animation-play-state: paused; }
+    .ticker-item {
+      font-size: 12px;
+      font-weight: 600;
       color: rgba(255,255,255,.35);
-      letter-spacing: .02em;
+      letter-spacing: .04em;
     }
 
     /* ── HOW IT WORKS ── */
@@ -693,14 +717,72 @@
       <div class="hero-badge">Evaluación técnico-estratégica con IA</div>
       <h1>Conoce tus probabilidades <span class="accent">antes de postular</span></h1>
       <p class="hero-sub">
-        ZENTI simula un comité evaluador calibrado por instrumento. Recibe un informe ejecutivo con nota, veredicto, brechas y recomendaciones — en minutos.
+        Evalúa tu postulación a CORFO, NSF SBIR, Horizon Europe, Y Combinator y +30 fondos — con los criterios reales de cada comité. Informe ejecutivo en minutos.
       </p>
       <div class="hero-ctas">
         <a href="#evaluator" class="hero-btn hero-btn--primary" data-scroll-eval>Evaluar mi propuesta gratis</a>
         <span class="hero-sep">o</span>
         <a href="#start" class="hero-btn hero-btn--secondary" data-scroll-start>Explorar con mi idea</a>
       </div>
-      <p class="hero-trust">Chile · Latam · USA · Europa — fondos de innovación, I+D y emprendimiento</p>
+      <div class="ticker-wrap">
+        <div class="ticker-track" id="ticker-track">
+          <span class="ticker-item">CORFO Crea y Valida</span>
+          <span class="ticker-item">·</span>
+          <span class="ticker-item">Startup Chile</span>
+          <span class="ticker-item">·</span>
+          <span class="ticker-item">NSF SBIR/STTR</span>
+          <span class="ticker-item">·</span>
+          <span class="ticker-item">Y Combinator</span>
+          <span class="ticker-item">·</span>
+          <span class="ticker-item">Horizon Europe</span>
+          <span class="ticker-item">·</span>
+          <span class="ticker-item">EIC Accelerator</span>
+          <span class="ticker-item">·</span>
+          <span class="ticker-item">Innovate UK</span>
+          <span class="ticker-item">·</span>
+          <span class="ticker-item">Eurostars</span>
+          <span class="ticker-item">·</span>
+          <span class="ticker-item">iNNpulsa</span>
+          <span class="ticker-item">·</span>
+          <span class="ticker-item">FINEP</span>
+          <span class="ticker-item">·</span>
+          <span class="ticker-item">ANID FONDEF</span>
+          <span class="ticker-item">·</span>
+          <span class="ticker-item">DOE SBIR</span>
+          <span class="ticker-item">·</span>
+          <span class="ticker-item">FONTAR Argentina</span>
+          <span class="ticker-item">·</span>
+          <span class="ticker-item">+30 fondos →</span>
+          <!-- duplicado para loop sin salto -->
+          <span class="ticker-item">CORFO Crea y Valida</span>
+          <span class="ticker-item">·</span>
+          <span class="ticker-item">Startup Chile</span>
+          <span class="ticker-item">·</span>
+          <span class="ticker-item">NSF SBIR/STTR</span>
+          <span class="ticker-item">·</span>
+          <span class="ticker-item">Y Combinator</span>
+          <span class="ticker-item">·</span>
+          <span class="ticker-item">Horizon Europe</span>
+          <span class="ticker-item">·</span>
+          <span class="ticker-item">EIC Accelerator</span>
+          <span class="ticker-item">·</span>
+          <span class="ticker-item">Innovate UK</span>
+          <span class="ticker-item">·</span>
+          <span class="ticker-item">Eurostars</span>
+          <span class="ticker-item">·</span>
+          <span class="ticker-item">iNNpulsa</span>
+          <span class="ticker-item">·</span>
+          <span class="ticker-item">FINEP</span>
+          <span class="ticker-item">·</span>
+          <span class="ticker-item">ANID FONDEF</span>
+          <span class="ticker-item">·</span>
+          <span class="ticker-item">DOE SBIR</span>
+          <span class="ticker-item">·</span>
+          <span class="ticker-item">FONTAR Argentina</span>
+          <span class="ticker-item">·</span>
+          <span class="ticker-item">+30 fondos →</span>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -776,8 +858,8 @@
       <div class="section-label">Cobertura global</div>
       <h2 class="section-title">Fondos de innovación en 4 continentes</h2>
       <p style="text-align:center;max-width:720px;margin:0 auto 8px;font-size:14px;color:var(--z-gray-500);line-height:1.65">
-        El <strong>evaluador interactivo</strong> de esta página incluye hoy los instrumentos del menú desplegable (Chile, USA, Europa y Latam seleccionados).
-        El listado ampliado de fondos refleja nuestra <strong>hoja de ruta</strong>; iremos sumando calibraciones según demanda.
+        Los instrumentos del <strong>evaluador interactivo</strong> están activos hoy (menú desplegable: Chile, USA, Europa y Latam).
+        El listado completo refleja nuestra <strong>cobertura en expansión</strong> — nuevos fondos se agregan mensualmente.
       </p>
       <div class="inst-grid">
         <span class="inst-tag" style="border-color:var(--z-orange);color:var(--z-orange)">Chile</span>
@@ -824,77 +906,7 @@
     </div>
   </section>
 
-  <!-- PRICING -->
-  <section class="how" id="pricing">
-    <div class="how-inner">
-      <div class="section-label">Planes</div>
-      <h2 class="section-title">Elige tu nivel de profundidad</h2>
-      <div class="step" style="max-width:720px;margin:0 auto 32px;padding:20px 24px;background:var(--z-gray-100);border:1px solid var(--z-border);border-radius:var(--z-radius);text-align:left">
-        <div style="font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--z-orange);margin-bottom:10px">¿Cuándo pagás?</div>
-        <ol style="margin:0;padding-left:20px;font-size:14px;color:var(--z-gray-700);line-height:1.75">
-          <li><strong>Evaluación inicial:</strong> siempre empezás <strong>gratis</strong> desde este sitio (botones &laquo;Empezar&raquo; llevan al evaluador).</li>
-          <li><strong>Después del informe:</strong> recibís el resultado en tu <strong>correo</strong>. Ahí te explicamos cómo acceder al <strong>informe ampliado (Premium)</strong> si lo querés.</li>
-          <li><strong>Pago:</strong> el checkout (tarjeta internacional en USD o Chile en CLP) se abre desde los <strong>enlaces del correo o de la landing de precios</strong> de ZENTI &mdash; no hay cargo oculto al enviar el formulario.</li>
-        </ol>
-        <p style="margin:12px 0 0;font-size:13px;color:var(--z-gray-500)">Consultor&iacute;a $197 USD / $179.000 CLP: incluye sesi&oacute;n 1:1; el pago se coordina al agendar en Calendly.</p>
-      </div>
-      <p class="price-anchor">Una consultoría tradicional cuesta <strong>$3.000–5.000 USD</strong>. ZENTI entrega el mismo diagnóstico en minutos.</p>
-      <div class="steps" style="align-items:stretch">
-        <div class="step" style="display:flex;flex-direction:column;justify-content:space-between">
-          <div>
-            <div style="font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--z-gray-400);margin-bottom:12px">Free</div>
-            <div style="font-size:36px;font-weight:800;color:var(--z-black);margin-bottom:4px">$0</div>
-            <div style="font-size:13px;color:var(--z-gray-400);margin-bottom:20px">Sin costo</div>
-            <ul style="list-style:none;padding:0;font-size:14px;color:var(--z-gray-500);line-height:2">
-              <li>Match de instrumento</li>
-              <li>Nota y veredicto</li>
-              <li>Brechas cr&iacute;ticas</li>
-              <li>Ruta de fortalecimiento</li>
-              <li>Informe PDF b&aacute;sico</li>
-            </ul>
-          </div>
-          <a href="#evaluator" style="display:block;text-align:center;padding:12px 0;border:1px solid var(--z-border);border-radius:999px;color:var(--z-black);font-weight:700;font-size:14px;text-decoration:none;margin-top:24px">Empezar gratis</a>
-        </div>
-        <div class="step" style="display:flex;flex-direction:column;justify-content:space-between;border-color:var(--z-orange);position:relative">
-          <div style="position:absolute;top:-11px;left:50%;transform:translateX(-50%);background:#F26C22;color:#fff;font-size:10px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;padding:4px 14px;border-radius:20px;white-space:nowrap">Más popular</div>
-          <div>
-            <div style="font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--z-orange);margin-bottom:12px">Premium</div>
-            <div style="font-size:36px;font-weight:800;color:var(--z-black);margin-bottom:4px">$89 <span style="font-size:16px;font-weight:400;color:var(--z-gray-400)">USD</span></div>
-            <div style="font-size:13px;color:var(--z-gray-400);margin-bottom:20px">$80.000 CLP</div>
-            <ul style="list-style:none;padding:0;font-size:14px;color:var(--z-gray-500);line-height:2">
-              <li><strong style="color:var(--z-black)">Todo lo free</strong> m&aacute;s:</li>
-              <li>An&aacute;lisis detallado por cap&iacute;tulo</li>
-              <li>Checklist de requisitos vs bases</li>
-              <li>Citas a bases oficiales</li>
-              <li>Estructura de presupuesto sugerida</li>
-              <li>Comparativa con proyectos similares</li>
-            </ul>
-          </div>
-          <a href="#evaluator" style="display:block;text-align:center;padding:12px 0;background:var(--z-orange);border-radius:999px;color:#fff;font-weight:700;font-size:14px;text-decoration:none;margin-top:24px;box-shadow:0 6px 18px rgba(242,108,34,.25)">Empezar evaluaci&oacute;n</a>
-          <div style="text-align:center;margin-top:8px;font-size:12px;color:var(--z-gray-400)">El upgrade se ofrece con tu resultado</div>
-        </div>
-        <div class="step" style="display:flex;flex-direction:column;justify-content:space-between">
-          <div>
-            <div style="font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--z-gray-400);margin-bottom:12px">Consultor&iacute;a</div>
-            <div style="font-size:36px;font-weight:800;color:var(--z-black);margin-bottom:4px">$197 <span style="font-size:16px;font-weight:400;color:var(--z-gray-400)">USD</span></div>
-            <div style="font-size:13px;color:var(--z-gray-400);margin-bottom:20px">$179.000 CLP</div>
-            <ul style="list-style:none;padding:0;font-size:14px;color:var(--z-gray-500);line-height:2">
-              <li><strong style="color:var(--z-black)">Todo lo premium</strong> m&aacute;s:</li>
-              <li>Sesi&oacute;n 1:1 con experto ZENTI</li>
-              <li>Revisi&oacute;n de postulaci&oacute;n en vivo</li>
-              <li>Plan de acci&oacute;n personalizado</li>
-              <li>Seguimiento post-sesi&oacute;n</li>
-            </ul>
-          </div>
-          <a href="https://calendly.com/diego-zentigrants/consultoria-estrategica-zenti" target="_blank" rel="noopener" style="display:block;text-align:center;padding:12px 0;border:1px solid var(--z-border);border-radius:999px;color:var(--z-black);font-weight:700;font-size:14px;text-decoration:none;margin-top:24px">Agendar sesi&oacute;n</a>
-          <div style="text-align:center;margin-top:8px;font-size:12px;color:var(--z-gray-400)">El pago se coordina al agendar</div>
-        </div>
-      </div>
-      <p style="text-align:center;margin-top:24px;font-size:13px;color:var(--z-gray-400)">Paga con tarjeta internacional (USD) o d&eacute;bito/cr&eacute;dito Chile (CLP)</p>
-    </div>
-  </section>
-
-  <!-- SOCIAL PROOF -->
+  <!-- SOCIAL PROOF — antes de Precios para credibilidad -->
   <section class="how">
     <div class="how-inner">
       <div class="section-label">Confianza</div>
@@ -914,6 +926,71 @@
           <cite>Emprendedor &middot; agro &middot; regi&oacute;n</cite>
         </div>
       </div>
+    </div>
+  </section>
+
+  <!-- PRICING -->
+  <section class="how" id="pricing">
+    <div class="how-inner">
+      <div class="section-label">Planes</div>
+      <h2 class="section-title">Elige tu nivel de profundidad</h2>
+      <p style="text-align:center;max-width:600px;margin:0 auto 32px;font-size:14px;color:var(--z-gray-500);line-height:1.7">Siempre empezás gratis. El informe ampliado (Premium) se ofrece después de recibir tu resultado — sin cargo al enviar el formulario.</p>
+      <p class="price-anchor">Una consultoría tradicional cuesta <strong>$3.000–5.000 USD</strong>. ZENTI entrega el mismo diagnóstico en minutos.</p>
+      <div class="steps" style="align-items:stretch">
+        <div class="step" style="display:flex;flex-direction:column;justify-content:space-between">
+          <div>
+            <div style="font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--z-gray-400);margin-bottom:12px">Free</div>
+            <div style="font-size:36px;font-weight:800;color:var(--z-black);margin-bottom:4px">$0</div>
+            <div style="font-size:13px;color:var(--z-gray-400);margin-bottom:8px">Sin costo</div>
+            <p style="font-size:13px;color:var(--z-gray-500);font-style:italic;margin:0 0 16px;line-height:1.5">Para explorar y entender tus brechas principales.</p>
+            <ul style="list-style:none;padding:0;font-size:14px;color:var(--z-gray-500);line-height:2">
+              <li>Match de instrumento</li>
+              <li>Nota y veredicto</li>
+              <li>Brechas cr&iacute;ticas</li>
+              <li>Ruta de fortalecimiento</li>
+              <li>Informe PDF b&aacute;sico</li>
+            </ul>
+          </div>
+          <a href="#evaluator" style="display:block;text-align:center;padding:12px 0;border:1px solid var(--z-border);border-radius:999px;color:var(--z-black);font-weight:700;font-size:14px;text-decoration:none;margin-top:24px">Empezar gratis</a>
+        </div>
+        <div class="step" style="display:flex;flex-direction:column;justify-content:space-between;border-color:var(--z-orange);position:relative">
+          <div style="position:absolute;top:-11px;left:50%;transform:translateX(-50%);background:#F26C22;color:#fff;font-size:10px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;padding:4px 14px;border-radius:20px;white-space:nowrap">Más popular</div>
+          <div>
+            <div style="font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--z-orange);margin-bottom:12px">Premium</div>
+            <div style="font-size:36px;font-weight:800;color:var(--z-black);margin-bottom:4px">$89 <span style="font-size:16px;font-weight:400;color:var(--z-gray-400)">USD</span></div>
+            <div style="font-size:13px;color:var(--z-gray-400);margin-bottom:8px">$80.000 CLP</div>
+            <p style="font-size:13px;color:var(--z-gray-500);font-style:italic;margin:0 0 16px;line-height:1.5">Para equipos que van a enviar la postulación en los próximos 30 días.</p>
+            <ul style="list-style:none;padding:0;font-size:14px;color:var(--z-gray-500);line-height:2">
+              <li><strong style="color:var(--z-black)">Todo lo free</strong> m&aacute;s:</li>
+              <li>An&aacute;lisis detallado por cap&iacute;tulo</li>
+              <li>Checklist de requisitos vs bases</li>
+              <li>Citas a bases oficiales</li>
+              <li>Estructura de presupuesto sugerida</li>
+              <li>Comparativa con proyectos similares</li>
+            </ul>
+          </div>
+          <a href="#evaluator" style="display:block;text-align:center;padding:12px 0;background:var(--z-orange);border-radius:999px;color:#fff;font-weight:700;font-size:14px;text-decoration:none;margin-top:24px;box-shadow:0 6px 18px rgba(242,108,34,.25)">Empezar evaluaci&oacute;n</a>
+          <div style="text-align:center;margin-top:8px;font-size:12px;color:var(--z-gray-400)">El upgrade se ofrece con tu resultado</div>
+        </div>
+        <div class="step" style="display:flex;flex-direction:column;justify-content:space-between">
+          <div>
+            <div style="font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--z-gray-400);margin-bottom:12px">Consultor&iacute;a</div>
+            <div style="font-size:36px;font-weight:800;color:var(--z-black);margin-bottom:4px">$197 <span style="font-size:16px;font-weight:400;color:var(--z-gray-400)">USD</span></div>
+            <div style="font-size:13px;color:var(--z-gray-400);margin-bottom:8px">$179.000 CLP <span style="font-size:11px;opacity:.6">referencial</span></div>
+            <p style="font-size:13px;color:var(--z-gray-500);font-style:italic;margin:0 0 16px;line-height:1.5">Para postulaciones de alto valor donde necesitás apoyo experto.</p>
+            <ul style="list-style:none;padding:0;font-size:14px;color:var(--z-gray-500);line-height:2">
+              <li><strong style="color:var(--z-black)">Todo lo premium</strong> m&aacute;s:</li>
+              <li>Sesi&oacute;n 1:1 con experto ZENTI</li>
+              <li>Revisi&oacute;n de postulaci&oacute;n en vivo</li>
+              <li>Plan de acci&oacute;n personalizado</li>
+              <li>Seguimiento post-sesi&oacute;n</li>
+            </ul>
+          </div>
+          <a href="https://calendly.com/diego-zentigrants/consultoria-estrategica-zenti" target="_blank" rel="noopener" style="display:block;text-align:center;padding:12px 0;border:1px solid var(--z-border);border-radius:999px;color:var(--z-black);font-weight:700;font-size:14px;text-decoration:none;margin-top:24px">Hablar con un experto</a>
+          <div style="text-align:center;margin-top:8px;font-size:12px;color:var(--z-gray-400)">El pago se coordina al agendar</div>
+        </div>
+      </div>
+      <p style="text-align:center;margin-top:24px;font-size:13px;color:var(--z-gray-400)">Paga con tarjeta internacional (USD) o d&eacute;bito/cr&eacute;dito Chile (CLP)</p>
     </div>
   </section>
 
@@ -1109,6 +1186,10 @@
       <p>
         Evaluación técnico-estratégica de postulaciones a fondos de innovación, I+D+i y emprendimiento.<br/>
         <a href="privacidad.html" style="color:var(--z-gray-400);text-decoration:none">Pol&iacute;tica de privacidad</a>
+        &nbsp;·&nbsp;
+        <a href="mailto:hola@zentigrants.com" style="color:var(--z-gray-400);text-decoration:none">hola@zentigrants.com</a>
+        &nbsp;·&nbsp;
+        <span style="color:var(--z-gray-400)">&copy; 2026 ZENTI</span>
       </p>
       <p class="footer-attribution">
         Partner de dise&ntilde;o y asesor&iacute;a: <a href="https://www.aiadvisors.pl/en" target="_blank" rel="noopener">AI Advisors</a>
@@ -1186,6 +1267,11 @@
     })();
 
     const FONDOS = [
+      '── 🌎 Global / Popular ──',
+      'Y Combinator',
+      'NSF SBIR/STTR',
+      'Horizon Europe',
+      'EIC Accelerator',
       '── Chile ──',
       'CORFO Crea y Valida',
       'CORFO Innova Alta Tecnología',
@@ -1196,12 +1282,9 @@
       'Innova Región',
       'ANID FONDEF',
       '── USA ──',
-      'NSF SBIR/STTR',
       'DOE SBIR/STTR',
       'NIH SBIR/STTR',
       '── Europa ──',
-      'Horizon Europe',
-      'EIC Accelerator',
       'Eurostars',
       'Innovate UK',
       '── Latam ──',
