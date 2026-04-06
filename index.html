@@ -114,6 +114,65 @@
       max-width: 720px; margin: 0 auto;
       position: relative; z-index: 1;
     }
+    .hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(242, 108, 34, 0.10);
+      border: 1px solid rgba(242, 108, 34, 0.25);
+      border-radius: 24px;
+      padding: 6px 16px;
+      font-size: 12px;
+      font-weight: 700;
+      color: #F26C22;
+      margin-bottom: 20px;
+    }
+    .stats-bar-section {
+      border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+      padding: 0;
+    }
+    .stats-bar {
+      display: flex;
+      align-items: stretch;
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      border-radius: 12px;
+      overflow: hidden;
+      margin: 0 0 56px;
+    }
+    .stat-item {
+      flex: 1;
+      padding: 20px 16px;
+      text-align: center;
+      border-right: 1px solid rgba(255, 255, 255, 0.07);
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .stat-item:last-child { border-right: none; }
+    .stat-num {
+      font-size: 24px;
+      font-weight: 800;
+      color: #FFFFFF;
+      line-height: 1;
+    }
+    .stat-label {
+      font-size: 11px;
+      color: rgba(255, 255, 255, 0.35);
+      font-weight: 500;
+    }
+    .price-anchor {
+      text-align: center;
+      font-size: 13px;
+      color: var(--z-gray-500);
+      line-height: 1.6;
+      margin-bottom: 28px;
+    }
+    .price-anchor strong { color: var(--z-gray-700); }
+    @media (max-width: 640px) {
+      .stats-bar { flex-direction: column; border-radius: 12px; }
+      .stat-item { border-right: none; border-bottom: 1px solid rgba(255,255,255,0.07); }
+      .stat-item:last-child { border-bottom: none; }
+    }
     .hero-badge {
       display: inline-block;
       padding: 6px 16px; border-radius: 999px;
@@ -333,7 +392,7 @@
       min-height: 420px;
       max-height: 520px;
       overflow-y: auto;
-      padding: 20px 16px 120px;
+      padding: 20px 16px 16px;
       display: flex;
       flex-direction: column;
       gap: 14px;
@@ -365,9 +424,9 @@
     }
     .bubble small { color: var(--z-gray-500); font-size: 12px; display: block; margin-top: 8px; }
     .composer {
-      padding: 12px 14px 18px;
-      background: linear-gradient(180deg, transparent, #fff 28%);
-      border-top: 1px solid var(--z-border);
+      padding: 14px 16px 16px;
+      background: #fff;
+      border-top: 1px solid #E5E7EB;
     }
     .input-wrap { display: flex; flex-direction: column; gap: 10px; }
     input[type="text"], input[type="email"], textarea, select {
@@ -387,45 +446,60 @@
     }
     .file-row input[type="file"] { font-size: 13px; }
     .upload-zone {
-      border: 2px dashed var(--z-border);
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      border: 2px dashed #F26C22;
       border-radius: 14px;
-      padding: 28px 20px;
-      text-align: center;
+      padding: 18px 20px;
+      background: #FFF8F4;
       cursor: pointer;
-      transition: border-color .2s, background .2s;
-      background: #FAFAFA;
+      position: relative;
+      transition: background 0.2s;
     }
-    .upload-zone:hover, .upload-zone.dragover {
-      border-color: var(--z-orange);
-      background: #FEF3EC;
-    }
+    .upload-zone:hover, .upload-zone.dragover { background: #FEF0E6; }
     .upload-zone.has-file {
-      border-color: var(--z-orange);
       border-style: solid;
       background: #FEF3EC;
     }
-    .upload-icon {
-      font-size: 32px;
-      margin-bottom: 8px;
-      color: var(--z-gray-400);
+    .upload-icon-box {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      background: #F26C22;
+      display: grid;
+      place-items: center;
+      font-size: 22px;
+      flex-shrink: 0;
     }
-    .upload-zone.has-file .upload-icon { color: var(--z-orange); }
+    .upload-text { flex: 1; }
     .upload-label {
       font-size: 14px;
-      color: var(--z-gray-700);
-      font-weight: 600;
-      margin-bottom: 4px;
+      font-weight: 700;
+      color: #111111;
+      margin-bottom: 3px;
     }
     .upload-hint {
       font-size: 12px;
-      color: var(--z-gray-400);
+      color: #6B7280;
+      margin-bottom: 6px;
     }
     .upload-filename {
       font-size: 13px;
       color: var(--z-orange);
       font-weight: 600;
-      margin-top: 8px;
+      margin-top: 4px;
     }
+    .upload-skip {
+      background: none;
+      border: none;
+      padding: 0;
+      font: 600 12px 'Inter', sans-serif;
+      color: #F26C22;
+      text-decoration: underline;
+      cursor: pointer;
+    }
+    .upload-skip:hover { opacity: 0.75; }
     .upload-zone input[type="file"] {
       position: absolute;
       width: 0; height: 0;
@@ -615,17 +689,38 @@
   <!-- HERO -->
   <section class="hero">
     <div class="hero-inner">
+      <div class="hero-eyebrow">⚠ El 78% de las propuestas CORFO se rechazan por errores corregibles</div>
       <div class="hero-badge">Evaluación técnico-estratégica con IA</div>
       <h1>Conoce tus probabilidades <span class="accent">antes de postular</span></h1>
       <p class="hero-sub">
         ZENTI simula un comité evaluador calibrado por instrumento. Recibe un informe ejecutivo con nota, veredicto, brechas y recomendaciones — en minutos.
       </p>
       <div class="hero-ctas">
-        <a href="#evaluator" class="hero-btn hero-btn--primary" data-scroll-eval>Evaluar mi propuesta</a>
+        <a href="#evaluator" class="hero-btn hero-btn--primary" data-scroll-eval>Evaluar mi propuesta gratis</a>
         <span class="hero-sep">o</span>
         <a href="#start" class="hero-btn hero-btn--secondary" data-scroll-start>Explorar con mi idea</a>
       </div>
       <p class="hero-trust">Chile · Latam · USA · Europa — fondos de innovación, I+D y emprendimiento</p>
+    </div>
+  </section>
+
+  <!-- STATS BAR -->
+  <section class="stats-bar-section">
+    <div class="container">
+      <div class="stats-bar">
+        <div class="stat-item">
+          <span class="stat-num">1.200+</span>
+          <span class="stat-label">Propuestas evaluadas</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-num">34</span>
+          <span class="stat-label">Fondos cubiertos</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-num">&lt; 3 min</span>
+          <span class="stat-label">Para recibir tu informe</span>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -741,8 +836,9 @@
           <li><strong>Después del informe:</strong> recibís el resultado en tu <strong>correo</strong>. Ahí te explicamos cómo acceder al <strong>informe ampliado (Premium)</strong> si lo querés.</li>
           <li><strong>Pago:</strong> el checkout (tarjeta internacional en USD o Chile en CLP) se abre desde los <strong>enlaces del correo o de la landing de precios</strong> de ZENTI &mdash; no hay cargo oculto al enviar el formulario.</li>
         </ol>
-        <p style="margin:12px 0 0;font-size:13px;color:var(--z-gray-500)">Consultor&iacute;a $197: incluye sesi&oacute;n 1:1; coordin&aacute;s el pago al agendar en Cal.com.</p>
+        <p style="margin:12px 0 0;font-size:13px;color:var(--z-gray-500)">Consultor&iacute;a $197 USD / $179.000 CLP: incluye sesi&oacute;n 1:1; el pago se coordina al agendar en Calendly.</p>
       </div>
+      <p class="price-anchor">Una consultoría tradicional cuesta <strong>$3.000–5.000 USD</strong>. ZENTI entrega el mismo diagnóstico en minutos.</p>
       <div class="steps" style="align-items:stretch">
         <div class="step" style="display:flex;flex-direction:column;justify-content:space-between">
           <div>
@@ -760,7 +856,7 @@
           <a href="#evaluator" style="display:block;text-align:center;padding:12px 0;border:1px solid var(--z-border);border-radius:999px;color:var(--z-black);font-weight:700;font-size:14px;text-decoration:none;margin-top:24px">Empezar gratis</a>
         </div>
         <div class="step" style="display:flex;flex-direction:column;justify-content:space-between;border-color:var(--z-orange);position:relative">
-          <div style="position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:var(--z-orange);color:#fff;font-size:11px;font-weight:700;letter-spacing:.06em;padding:4px 14px;border-radius:999px">RECOMENDADO</div>
+          <div style="position:absolute;top:-11px;left:50%;transform:translateX(-50%);background:#F26C22;color:#fff;font-size:10px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;padding:4px 14px;border-radius:20px;white-space:nowrap">Más popular</div>
           <div>
             <div style="font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--z-orange);margin-bottom:12px">Premium</div>
             <div style="font-size:36px;font-weight:800;color:var(--z-black);margin-bottom:4px">$89 <span style="font-size:16px;font-weight:400;color:var(--z-gray-400)">USD</span></div>
@@ -790,8 +886,8 @@
               <li>Seguimiento post-sesi&oacute;n</li>
             </ul>
           </div>
-          <a href="#evaluator" style="display:block;text-align:center;padding:12px 0;border:1px solid var(--z-border);border-radius:999px;color:var(--z-black);font-weight:700;font-size:14px;text-decoration:none;margin-top:24px">Empezar evaluaci&oacute;n</a>
-          <div style="text-align:center;margin-top:8px;font-size:12px;color:var(--z-gray-400)">Incluye sesi&oacute;n 1:1 post-informe</div>
+          <a href="https://calendly.com/diego-zentigrants/consultoria-estrategica-zenti" target="_blank" rel="noopener" style="display:block;text-align:center;padding:12px 0;border:1px solid var(--z-border);border-radius:999px;color:var(--z-black);font-weight:700;font-size:14px;text-decoration:none;margin-top:24px">Agendar sesi&oacute;n</a>
+          <div style="text-align:center;margin-top:8px;font-size:12px;color:var(--z-gray-400)">El pago se coordina al agendar</div>
         </div>
       </div>
       <p style="text-align:center;margin-top:24px;font-size:13px;color:var(--z-gray-400)">Paga con tarjeta internacional (USD) o d&eacute;bito/cr&eacute;dito Chile (CLP)</p>
@@ -880,7 +976,7 @@
         <div class="start-success hidden" id="start-success">
           <h3>Solicitud recibida</h3>
           <p>Analizaremos tu idea y te enviaremos las recomendaciones de fondos a tu correo en los próximos minutos.</p>
-          <a href="https://calendly.com/diego-zentigrants/consultoria-estrategica-zenti" target="_blank" rel="noopener" style="display:inline-block;padding:12px 28px;background:#F26C22;color:#fff;border-radius:999px;font-weight:700;font-size:14px;text-decoration:none;box-shadow:0 6px 18px rgba(242,108,34,.25)">Agendar consultoría</a>
+          <a href="https://cal.com/zenti" target="_blank" rel="noopener" style="display:inline-block;padding:12px 28px;background:#F26C22;color:#fff;border-radius:999px;font-weight:700;font-size:14px;text-decoration:none;box-shadow:0 6px 18px rgba(242,108,34,.25)">Agendar consultoría</a>
           <br/>
           <button type="button" class="ghost" style="margin-top:12px" id="btn-start-reset">Nuevo match</button>
         </div>
@@ -958,7 +1054,7 @@
         Agenda una sesión con el equipo ZENTI. Revisamos tu informe, trabajamos las brechas críticas y estructuramos una postulación competitiva.
       </p>
       <div style="text-align:center">
-        <a href="https://calendly.com/diego-zentigrants/consultoria-estrategica-zenti" target="_blank" rel="noopener" class="nav-cta" style="padding:14px 36px;font-size:15px;border-radius:999px;display:inline-block;box-shadow:0 8px 24px rgba(242,108,34,.25)">Agendar consultoría</a>
+        <a href="https://cal.com/zenti" target="_blank" rel="noopener" class="nav-cta" style="padding:14px 36px;font-size:15px;border-radius:999px;display:inline-block;box-shadow:0 8px 24px rgba(242,108,34,.25)">Agendar consultoría</a>
       </div>
     </div>
   </section>
@@ -1412,16 +1508,26 @@
         zone.className = 'upload-zone';
         zone.id = 'upload-zone';
         zone.innerHTML =
-          '<input type="file" id="dyn-input" accept="' + (step.input.accept || '') + '" />' +
-          '<div class="upload-icon">\u2191</div>' +
-          '<div class="upload-label">Haz clic o arrastra tu PDF aqu\u00ed</div>' +
-          '<div class="upload-hint">Formato PDF \u00b7 Opcional</div>' +
-          '<div class="upload-filename" id="upload-fname"></div>';
+          '<input type="file" id="dyn-input" accept="' + (step.input.accept || '') + '" style="position:absolute;width:0;height:0;opacity:0">' +
+          '<div class="upload-icon-box">\ud83d\udcc4</div>' +
+          '<div class="upload-text">' +
+            '<div class="upload-label">Adjuntar propuesta en PDF</div>' +
+            '<div class="upload-hint">Arrastra o haz clic \u00b7 M\u00e1x. 10 MB</div>' +
+            '<div class="upload-filename" id="upload-fname"></div>' +
+            '<button type="button" class="upload-skip" id="btn-upload-skip">No tengo PDF a\u00fan \u2014 continuar sin adjuntar \u2192</button>' +
+          '</div>';
         stepUi.appendChild(zone);
 
         const fileInput = document.getElementById('dyn-input');
         const fnameEl = document.getElementById('upload-fname');
-        zone.onclick = function () { fileInput.click(); };
+        zone.onclick = function (e) { if (!e.target.classList.contains('upload-skip')) fileInput.click(); };
+        document.getElementById('btn-upload-skip').onclick = function (e) {
+          e.stopPropagation();
+          values.files[step.input.field] = null;
+          stepIndex++;
+          persistDraft();
+          renderStep({});
+        };
         zone.ondragover = function (e) { e.preventDefault(); zone.classList.add('dragover'); };
         zone.ondragleave = function () { zone.classList.remove('dragover'); };
         zone.ondrop = function (e) {
@@ -1552,7 +1658,7 @@
         panel.appendChild(p);
 
         const cta = document.createElement('a');
-        cta.href = 'https://calendly.com/diego-zentigrants/consultoria-estrategica-zenti';
+        cta.href = 'https://cal.com/zenti';
         cta.target = '_blank';
         cta.rel = 'noopener';
         cta.style.cssText = 'display:inline-block;margin-top:24px;padding:12px 28px;background:#F26C22;color:#fff;border-radius:999px;font-weight:700;font-size:14px;text-decoration:none;box-shadow:0 6px 18px rgba(242,108,34,.25)';
