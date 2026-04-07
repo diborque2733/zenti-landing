@@ -334,7 +334,7 @@
       line-height: 1.6;
     }
 
-    /* ── INSTRUMENTS ── */
+    /* ── COBERTURA MAP ── */
     .instruments {
       padding: 64px 24px 80px;
       background: var(--z-gray-100);
@@ -343,26 +343,117 @@
       max-width: var(--z-max-w);
       margin: 0 auto;
     }
-    .inst-grid {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 12px;
-      margin-top: 36px;
-    }
-    .inst-tag {
-      padding: 10px 20px;
-      border-radius: 999px;
-      background: var(--z-white);
+    .cob-card {
+      background: #fff;
       border: 1px solid var(--z-border);
-      font-size: 14px; font-weight: 600;
-      color: var(--z-gray-700);
-      transition: border-color .15s, color .15s;
+      border-radius: 16px;
+      overflow: hidden;
+      margin-top: 32px;
     }
-    .inst-tag:hover {
-      border-color: var(--z-orange);
-      color: var(--z-orange);
+    .cob-body {
+      display: grid;
+      grid-template-columns: 1fr 300px;
+      min-height: 400px;
+      border-top: 1px solid var(--z-border);
     }
+    @media (max-width: 720px) {
+      .cob-body { grid-template-columns: 1fr; }
+      .cob-fund-panel { border-left: none !important; border-top: 1px solid var(--z-border); max-height: 320px; }
+    }
+    /* Map area */
+    .cob-map-area {
+      background: #0D1117;
+      padding: 20px 20px 16px;
+      display: flex; flex-direction: column; gap: 14px;
+    }
+    .cob-world-map { width: 100%; height: auto; display: block; }
+    .cob-continent {
+      fill: rgba(255,255,255,.07);
+      stroke: rgba(255,255,255,.11);
+      stroke-width: .8;
+      transition: fill .2s;
+    }
+    .cob-continent.active { fill: rgba(242,108,34,.2); stroke: rgba(242,108,34,.45); }
+    .cob-fund-dot { cursor: pointer; }
+    .cob-fund-dot .dot-outer {
+      fill: rgba(242,108,34,.2);
+      animation: cobPulse 2.5s ease-out infinite;
+    }
+    .cob-fund-dot .dot-inner { fill: #F26C22; }
+    .cob-fund-dot.inactive .dot-outer { fill: rgba(255,255,255,.06); animation: none; }
+    .cob-fund-dot.inactive .dot-inner { fill: rgba(255,255,255,.22); }
+    @keyframes cobPulse {
+      0%   { r: 9;  opacity: .8; }
+      70%  { r: 16; opacity: 0; }
+      100% { r: 9;  opacity: 0; }
+    }
+    .cob-dot-label {
+      font-size: 8.5px; font-weight: 700;
+      fill: rgba(255,255,255,.5); pointer-events: none;
+      text-anchor: middle; letter-spacing: .03em;
+    }
+    .cob-dot-count {
+      font-size: 7.5px; font-weight: 900;
+      fill: var(--z-orange); pointer-events: none; text-anchor: middle;
+    }
+    .cob-soon { font-size: 7px; font-weight: 600; fill: rgba(255,255,255,.16); pointer-events: none; text-anchor: middle; letter-spacing: .06em; }
+    /* Region tabs */
+    .cob-tabs { display: flex; gap: 5px; flex-wrap: wrap; }
+    .cob-tab {
+      padding: 5px 12px; border-radius: 999px;
+      font-size: 11px; font-weight: 700;
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.05);
+      color: rgba(255,255,255,.55);
+      cursor: pointer; transition: all .15s;
+      display: flex; align-items: center; gap: 5px;
+    }
+    .cob-tab:hover { background: rgba(255,255,255,.1); color: #fff; }
+    .cob-tab.active { background: var(--z-orange); color: #fff; border-color: var(--z-orange); }
+    .cob-tab .cnt { background: rgba(0,0,0,.15); border-radius: 999px; padding: 0 5px; font-size: 9px; font-weight: 900; }
+    .cob-data-note {
+      font-size: 10px; color: rgba(255,255,255,.2);
+      display: flex; align-items: center; justify-content: center; gap: 5px;
+    }
+    .cob-data-dot { width: 5px; height: 5px; border-radius: 50%; background: #10b981; flex-shrink: 0; animation: cobBlink 2s ease-in-out infinite; }
+    @keyframes cobBlink { 0%,100%{opacity:1} 50%{opacity:.3} }
+    /* Fund panel */
+    .cob-fund-panel {
+      border-left: 1px solid var(--z-border);
+      display: flex; flex-direction: column; overflow: hidden;
+    }
+    .cob-panel-hdr {
+      padding: 14px 16px; border-bottom: 1px solid var(--z-border);
+      background: #fff; position: sticky; top: 0; z-index: 1;
+    }
+    .cob-panel-hdr h3 { font-size: 13px; font-weight: 800; }
+    .cob-panel-hdr p  { font-size: 11px; color: var(--z-gray-500); margin-top: 2px; }
+    .cob-fund-list { overflow-y: auto; flex: 1; max-height: 400px; padding: 6px; }
+    .cob-fund-item {
+      display: flex; align-items: flex-start; gap: 9px;
+      padding: 10px 9px; border-radius: 8px;
+      cursor: pointer; transition: background .12s;
+      text-decoration: none; color: inherit;
+    }
+    .cob-fund-item:hover { background: #F9FAFB; }
+    .cob-fi-ico {
+      width: 28px; height: 28px; border-radius: 7px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 8px; font-weight: 900; color: #fff; flex-shrink: 0;
+    }
+    .cob-fi-body { flex: 1; min-width: 0; }
+    .cob-fi-name { font-size: 12px; font-weight: 700; line-height: 1.25; }
+    .cob-fi-row  { display: flex; align-items: center; gap: 5px; margin-top: 3px; }
+    .cob-fi-amt  { font-size: 10px; color: var(--z-gray-500); }
+    .cob-fdot    { width: 5px; height: 5px; border-radius: 50%; flex-shrink: 0; }
+    .cob-fdot-open   { background: #10b981; }
+    .cob-fdot-coming { background: #f59e0b; }
+    .cob-fdot-closed { background: #D1D5DB; }
+    .cob-fst     { font-size: 10px; font-weight: 700; }
+    .cob-fst-open   { color: #059669; }
+    .cob-fst-coming { color: #d97706; }
+    .cob-fst-closed { color: #9CA3AF; }
+    .cob-fi-cta  { font-size: 10px; font-weight: 700; color: var(--z-orange); white-space: nowrap; align-self: center; flex-shrink: 0; }
 
     /* ── EVALUATOR (CHAT) ── */
     .evaluator {
@@ -920,57 +1011,100 @@
     </div>
   </section>
 
-  <!-- INSTRUMENTS -->
+  <!-- COBERTURA MAP -->
   <section class="instruments" id="cobertura">
     <div class="instruments-inner">
       <div class="section-label">Cobertura global</div>
-      <h2 class="section-title">Fondos de innovación en 4 continentes</h2>
-      <p style="text-align:center;max-width:720px;margin:0 auto 8px;font-size:14px;color:var(--z-gray-500);line-height:1.65">
-        Los instrumentos del <strong>evaluador interactivo</strong> están activos hoy (menú desplegable: Chile, USA, Europa y Latam).
-        El listado completo refleja nuestra <strong>cobertura en expansión</strong> — nuevos fondos se agregan mensualmente.
+      <h2 class="section-title">+30 fondos en 4 regiones</h2>
+      <p style="text-align:center;max-width:620px;margin:0 auto;font-size:14px;color:var(--z-gray-500);line-height:1.65">
+        Selecciona tu región para ver los instrumentos disponibles y su estado actual.
       </p>
-      <div class="inst-grid">
-        <span class="inst-tag" style="border-color:var(--z-orange);color:var(--z-orange)">Chile</span>
-        <a class="inst-tag" href="https://www.corfo.cl/sites/cpp/crea-y-valida" target="_blank" rel="noopener">CORFO Crea y Valida</a>
-        <a class="inst-tag" href="https://www.corfo.cl/sites/cpp/innova-i-mas-d-empresas" target="_blank" rel="noopener">CORFO Innova Alta Tecnología</a>
-        <a class="inst-tag" href="https://www.corfo.cl/sites/cpp/semilla-inicia" target="_blank" rel="noopener">CORFO Semilla Inicia</a>
-        <a class="inst-tag" href="https://www.corfo.cl/sites/cpp/semilla-expande" target="_blank" rel="noopener">CORFO Semilla Expande</a>
-        <a class="inst-tag" href="https://www.corfo.cl/sites/cpp/escala" target="_blank" rel="noopener">CORFO Escalamiento</a>
-        <a class="inst-tag" href="https://www.startupchile.org/programs/build" target="_blank" rel="noopener">Startup Chile Build</a>
-        <a class="inst-tag" href="https://www.startupchile.org/programs/ignite" target="_blank" rel="noopener">Startup Chile Ignite</a>
-        <a class="inst-tag" href="https://www.corfo.cl/sites/cpp/innova-region" target="_blank" rel="noopener">Innova Región</a>
-        <a class="inst-tag" href="https://anid.cl/concursos/fondef/" target="_blank" rel="noopener">ANID FONDEF</a>
-        <a class="inst-tag" href="https://www.startupchile.org/programs/growth" target="_blank" rel="noopener">Startup Chile Growth</a>
+      <div class="cob-card">
+        <!-- MAP AREA -->
+        <div class="cob-body">
+          <div class="cob-map-area">
+            <svg class="cob-world-map" viewBox="0 0 640 300" xmlns="http://www.w3.org/2000/svg">
+              <!-- North America -->
+              <path class="cob-continent" id="cob-cont-usa" d="M 55,28 L 80,22 L 120,18 L 155,20 L 178,30 L 192,48 L 198,68 L 188,92 L 170,108 L 148,118 L 122,122 L 98,118 L 75,108 L 58,92 L 48,72 L 48,50 Z"/>
+              <path class="cob-continent" d="M 30,40 L 52,35 L 55,48 L 42,58 L 28,55 Z"/>
+              <path class="cob-continent" d="M 110,122 L 148,118 L 155,138 L 145,152 L 128,158 L 112,150 L 108,135 Z"/>
+              <!-- South America -->
+              <path class="cob-continent" id="cob-cont-latam" d="M 128,160 L 175,155 L 200,168 L 212,190 L 215,220 L 208,252 L 195,278 L 175,292 L 155,292 L 138,278 L 126,252 L 120,220 L 118,192 Z"/>
+              <!-- Chile strip -->
+              <path class="cob-continent" id="cob-cont-chile" d="M 118,205 L 130,202 L 132,220 L 130,250 L 126,272 L 118,282 L 112,275 L 113,252 L 115,228 Z"/>
+              <!-- Greenland -->
+              <path class="cob-continent" d="M 195,8 L 228,5 L 240,18 L 235,32 L 215,38 L 198,28 Z" style="fill:rgba(255,255,255,.04)"/>
+              <!-- Europe -->
+              <path class="cob-continent" id="cob-cont-eu" d="M 285,22 L 310,18 L 345,16 L 370,20 L 388,32 L 392,50 L 385,68 L 365,78 L 342,82 L 318,80 L 298,72 L 282,58 L 280,40 Z"/>
+              <path class="cob-continent" d="M 272,25 L 282,22 L 286,35 L 278,42 L 270,38 Z"/>
+              <path class="cob-continent" d="M 318,8 L 335,5 L 348,12 L 342,28 L 325,30 L 314,22 Z" style="fill:rgba(255,255,255,.04)"/>
+              <path class="cob-continent" d="M 268,55 L 285,52 L 290,65 L 282,75 L 268,72 L 262,62 Z"/>
+              <!-- Africa -->
+              <path class="cob-continent" d="M 282,88 L 320,85 L 355,90 L 375,108 L 378,140 L 370,175 L 350,205 L 320,215 L 295,210 L 275,188 L 268,155 L 270,118 L 278,100 Z" style="fill:rgba(255,255,255,.04);stroke:rgba(255,255,255,.07)"/>
+              <!-- Middle East -->
+              <path class="cob-continent" d="M 388,68 L 420,65 L 435,80 L 430,100 L 408,108 L 390,100 L 382,85 Z" style="fill:rgba(255,255,255,.04)"/>
+              <!-- Asia -->
+              <path class="cob-continent" d="M 395,18 L 450,12 L 510,10 L 565,15 L 598,30 L 610,55 L 598,80 L 568,98 L 528,108 L 488,112 L 450,108 L 418,98 L 395,78 L 390,50 Z" style="fill:rgba(255,255,255,.04);stroke:rgba(255,255,255,.07)"/>
+              <path class="cob-continent" d="M 462,112 L 490,110 L 498,128 L 490,148 L 475,152 L 462,140 L 458,122 Z" style="fill:rgba(255,255,255,.04)"/>
+              <path class="cob-continent" d="M 526,112 L 565,108 L 578,125 L 568,140 L 545,145 L 528,135 Z" style="fill:rgba(255,255,255,.04)"/>
+              <!-- Oceania -->
+              <path class="cob-continent" d="M 530,185 L 578,180 L 598,196 L 592,218 L 565,225 L 532,220 L 518,205 Z" style="fill:rgba(255,255,255,.04)"/>
+              <!-- Fund dots -->
+              <g class="cob-fund-dot" id="cob-dot-chile" onclick="cobSelect('chile')">
+                <circle class="dot-outer" cx="122" cy="238" r="9"/>
+                <circle class="dot-inner" cx="122" cy="238" r="4"/>
+              </g>
+              <text class="cob-dot-count" x="122" y="222">10</text>
+              <text class="cob-dot-label" x="122" y="256">Chile</text>
+              <g class="cob-fund-dot" id="cob-dot-latam" onclick="cobSelect('latam')">
+                <circle class="dot-outer" cx="170" cy="198" r="9"/>
+                <circle class="dot-inner" cx="170" cy="198" r="4"/>
+              </g>
+              <text class="cob-dot-count" x="170" y="182">8</text>
+              <text class="cob-dot-label" x="170" y="216">Latam</text>
+              <g class="cob-fund-dot" id="cob-dot-usa" onclick="cobSelect('usa')">
+                <circle class="dot-outer" cx="122" cy="70" r="9"/>
+                <circle class="dot-inner" cx="122" cy="70" r="4"/>
+              </g>
+              <text class="cob-dot-count" x="122" y="54">6</text>
+              <text class="cob-dot-label" x="122" y="88">USA</text>
+              <g class="cob-fund-dot" id="cob-dot-eu" onclick="cobSelect('eu')">
+                <circle class="dot-outer" cx="332" cy="46" r="9"/>
+                <circle class="dot-inner" cx="332" cy="46" r="4"/>
+              </g>
+              <text class="cob-dot-count" x="332" y="30">5</text>
+              <text class="cob-dot-label" x="332" y="64">Europa</text>
+              <!-- Coming soon -->
+              <circle cx="490" cy="58" r="3" fill="rgba(255,255,255,.1)"/>
+              <text class="cob-soon" x="490" y="74">Próximamente</text>
+              <circle cx="325" cy="145" r="3" fill="rgba(255,255,255,.1)"/>
+              <text class="cob-soon" x="325" y="160">Próximamente</text>
+            </svg>
+            <!-- Tabs -->
+            <div class="cob-tabs">
+              <button class="cob-tab active" data-r="all"   onclick="cobSelect('all')">🌎 Todos <span class="cnt">30+</span></button>
+              <button class="cob-tab"        data-r="chile" onclick="cobSelect('chile')">🇨🇱 Chile <span class="cnt">10</span></button>
+              <button class="cob-tab"        data-r="usa"   onclick="cobSelect('usa')">🇺🇸 USA <span class="cnt">6</span></button>
+              <button class="cob-tab"        data-r="eu"    onclick="cobSelect('eu')">🇪🇺 Europa <span class="cnt">5</span></button>
+              <button class="cob-tab"        data-r="latam" onclick="cobSelect('latam')">🌎 Latam <span class="cnt">8</span></button>
+            </div>
+            <div class="cob-data-note">
+              <span class="cob-data-dot"></span>
+              Estado actualizado diariamente
+            </div>
+          </div>
+          <!-- FUND PANEL -->
+          <div class="cob-fund-panel">
+            <div class="cob-panel-hdr">
+              <h3 id="cob-panel-title">Todos los fondos</h3>
+              <p  id="cob-panel-desc">30+ instrumentos en 4 regiones</p>
+            </div>
+            <div class="cob-fund-list" id="cob-fund-list">
+              <div style="padding:32px 16px;text-align:center;color:var(--z-gray-400);font-size:13px">Cargando fondos…</div>
+            </div>
+          </div>
+        </div>
       </div>
-      <div class="inst-grid" style="margin-top:12px">
-        <span class="inst-tag" style="border-color:var(--z-orange);color:var(--z-orange)">USA &amp; Global</span>
-        <a class="inst-tag" href="https://www.sbir.gov/" target="_blank" rel="noopener">NSF SBIR/STTR</a>
-        <a class="inst-tag" href="https://science.osti.gov/sbir" target="_blank" rel="noopener">DOE SBIR/STTR</a>
-        <a class="inst-tag" href="https://sbir.nih.gov/" target="_blank" rel="noopener">NIH SBIR/STTR</a>
-        <a class="inst-tag" href="https://www.ycombinator.com/apply" target="_blank" rel="noopener">Y Combinator</a>
-        <a class="inst-tag" href="https://www.techstars.com/accelerators" target="_blank" rel="noopener">Techstars</a>
-        <a class="inst-tag" href="https://500.co/accelerator" target="_blank" rel="noopener">500 Global</a>
-      </div>
-      <div class="inst-grid" style="margin-top:12px">
-        <span class="inst-tag" style="border-color:var(--z-orange);color:var(--z-orange)">Europa</span>
-        <a class="inst-tag" href="https://research-and-innovation.ec.europa.eu/funding/funding-opportunities/funding-programmes-and-open-calls/horizon-europe_en" target="_blank" rel="noopener">Horizon Europe</a>
-        <a class="inst-tag" href="https://eic.ec.europa.eu/eic-funding/eic-accelerator_en" target="_blank" rel="noopener">EIC Accelerator</a>
-        <a class="inst-tag" href="https://www.eurostars-eureka.eu/" target="_blank" rel="noopener">Eurostars</a>
-        <a class="inst-tag" href="https://www.ukri.org/opportunity/innovate-uk-smart-grants/" target="_blank" rel="noopener">Innovate UK Smart Grants</a>
-        <a class="inst-tag" href="https://lanzadera.es/" target="_blank" rel="noopener">Lanzadera / Startup Valencia</a>
-      </div>
-      <div class="inst-grid" style="margin-top:12px">
-        <span class="inst-tag" style="border-color:var(--z-orange);color:var(--z-orange)">Latam</span>
-        <a class="inst-tag" href="https://www.innpulsacolombia.com/" target="_blank" rel="noopener">iNNpulsa ALDEA+ (Colombia)</a>
-        <a class="inst-tag" href="https://www.rutanmedellin.org/" target="_blank" rel="noopener">Ruta N Medellín Next (Colombia)</a>
-        <a class="inst-tag" href="https://startupperu.pe/" target="_blank" rel="noopener">Startup Perú (ProInnóvate)</a>
-        <a class="inst-tag" href="https://www.proinnovate.gob.pe/" target="_blank" rel="noopener">Validación de Innovación (Perú)</a>
-        <a class="inst-tag" href="https://www.agencia.mincyt.gob.ar/fontar" target="_blank" rel="noopener">FONTAR ANR I+D (Argentina)</a>
-        <a class="inst-tag" href="https://www.agencia.mincyt.gob.ar/fontar" target="_blank" rel="noopener">FONTAR Crédito Fiscal (Argentina)</a>
-        <a class="inst-tag" href="https://www.finep.gov.br/" target="_blank" rel="noopener">FINEP Mais Inovação (Brasil)</a>
-        <a class="inst-tag" href="https://www.finep.gov.br/" target="_blank" rel="noopener">FINEP Startup (Brasil)</a>
-      </div>
-      <p style="text-align:center;margin-top:20px;font-size:13px;color:var(--z-gray-400)">Nuevos instrumentos se agregan continuamente</p>
     </div>
   </section>
 
@@ -1059,6 +1193,22 @@
         </div>
       </div>
       <p style="text-align:center;margin-top:24px;font-size:13px;color:var(--z-gray-400)">Paga con tarjeta internacional (USD) o d&eacute;bito/cr&eacute;dito Chile (CLP)</p>
+
+      <!-- Fondos soportados con links oficiales (G-07) -->
+      <div style="margin-top:40px;padding-top:32px;border-top:1px solid var(--z-border)">
+        <p style="text-align:center;font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--z-gray-400);margin-bottom:20px">Fondos soportados — criterios calibrados</p>
+        <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:10px;max-width:800px;margin:0 auto">
+          <a href="https://www.corfo.cl/sites/cpp/crea-y-valida" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border:1px solid var(--z-border);border-radius:20px;font-size:12px;color:var(--z-gray-500);text-decoration:none;transition:border-color .2s" onmouseover="this.style.borderColor='#003087'" onmouseout="this.style.borderColor='var(--z-border)'"><span style="font-weight:700;color:#003087">CORFO</span> Crea y Valida</a>
+          <a href="https://www.corfo.cl/sites/cpp/programa-semilla-de-asignacion-flexible-ssaf" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border:1px solid var(--z-border);border-radius:20px;font-size:12px;color:var(--z-gray-500);text-decoration:none;transition:border-color .2s" onmouseover="this.style.borderColor='#003087'" onmouseout="this.style.borderColor='var(--z-border)'"><span style="font-weight:700;color:#003087">CORFO</span> SSAF</a>
+          <a href="https://anid.cl/concursos/fondef-idea-id/" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border:1px solid var(--z-border);border-radius:20px;font-size:12px;color:var(--z-gray-500);text-decoration:none;transition:border-color .2s" onmouseover="this.style.borderColor='#C8102E'" onmouseout="this.style.borderColor='var(--z-border)'"><span style="font-weight:700;color:#C8102E">ANID</span> FONDEF IDeA I+D</a>
+          <a href="https://anid.cl/concursos/viu/" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border:1px solid var(--z-border);border-radius:20px;font-size:12px;color:var(--z-gray-500);text-decoration:none;transition:border-color .2s" onmouseover="this.style.borderColor='#C8102E'" onmouseout="this.style.borderColor='var(--z-border)'"><span style="font-weight:700;color:#C8102E">ANID</span> VIU</a>
+          <a href="https://www.startupchile.org/programs/build" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border:1px solid var(--z-border);border-radius:20px;font-size:12px;color:var(--z-gray-500);text-decoration:none;transition:border-color .2s" onmouseover="this.style.borderColor='#F26C22'" onmouseout="this.style.borderColor='var(--z-border)'"><span style="font-weight:700;color:#F26C22">Startup Chile</span> Build</a>
+          <a href="https://www.startupchile.org/programs/growth" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border:1px solid var(--z-border);border-radius:20px;font-size:12px;color:var(--z-gray-500);text-decoration:none;transition:border-color .2s" onmouseover="this.style.borderColor='#F26C22'" onmouseout="this.style.borderColor='var(--z-border)'"><span style="font-weight:700;color:#F26C22">Startup Chile</span> Growth</a>
+          <a href="https://eic.ec.europa.eu/eic-funding/eic-accelerator_en" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border:1px solid var(--z-border);border-radius:20px;font-size:12px;color:var(--z-gray-500);text-decoration:none;transition:border-color .2s" onmouseover="this.style.borderColor='#003399'" onmouseout="this.style.borderColor='var(--z-border)'"><span style="font-weight:700;color:#003399">Horizon EU</span> EIC Accelerator</a>
+          <a href="https://www.bidlab.org/es/call-for-proposals" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border:1px solid var(--z-border);border-radius:20px;font-size:12px;color:var(--z-gray-500);text-decoration:none;transition:border-color .2s" onmouseover="this.style.borderColor='#009FDA'" onmouseout="this.style.borderColor='var(--z-border)'"><span style="font-weight:700;color:#009FDA">BID Lab</span> Open Call</a>
+        </div>
+        <p style="text-align:center;margin-top:12px;font-size:11px;color:var(--z-gray-400)">+26 fondos adicionales soportados &mdash; criterios actualizados por convocatoria</p>
+      </div>
     </div>
   </section>
 
@@ -2003,6 +2153,94 @@
           form.reset();
         });
       });
+    })();
+  </script>
+
+  <!-- COBERTURA MAP JS -->
+  <script>
+    (function() {
+      const COB_META = {
+        all:   { t: 'Todos los fondos',   d: '30+ instrumentos en 4 regiones' },
+        chile: { t: '🇨🇱 Chile',          d: 'CORFO · Startup Chile · ANID' },
+        usa:   { t: '🇺🇸 USA & Global',   d: 'NSF · DOE · NIH · Y Combinator' },
+        eu:    { t: '🇪🇺 Europa',         d: 'Horizon Europe · EIC · Eurostars · Innovate UK' },
+        latam: { t: '🌎 Latam',          d: 'Colombia · Perú · Argentina · Brasil' },
+      };
+      const COB_CONT = { chile: 'cob-cont-chile', usa: 'cob-cont-usa', eu: 'cob-cont-eu', latam: 'cob-cont-latam' };
+      const SL = { open: 'Abierto', coming: 'Próximo', closed: 'Cerrado' };
+
+      let FUNDS_DATA = null;
+
+      function cobRender(region) {
+        if (!FUNDS_DATA) return;
+        const m = COB_META[region] || COB_META.all;
+        const el = document.getElementById('cob-panel-title');
+        const de = document.getElementById('cob-panel-desc');
+        if (el) el.textContent = m.t;
+        if (de) de.textContent = m.d;
+        const all = ['chile','usa','eu','latam'];
+        const funds = region === 'all'
+          ? all.flatMap(r => FUNDS_DATA[r] || [])
+          : (FUNDS_DATA[region] || []);
+        const list = document.getElementById('cob-fund-list');
+        if (!list) return;
+        list.innerHTML = funds.map(f => `
+          <a class="cob-fund-item" href="#evaluator" data-scroll-eval>
+            <div class="cob-fi-ico" style="background:${f.color}">${f.icon}</div>
+            <div class="cob-fi-body">
+              <div class="cob-fi-name">${f.name}</div>
+              <div class="cob-fi-row">
+                <span class="cob-fi-amt">${f.amount}</span>
+                <span class="cob-fdot cob-fdot-${f.status}"></span>
+                <span class="cob-fst cob-fst-${f.status}">${SL[f.status]}</span>
+              </div>
+            </div>
+            <span class="cob-fi-cta">Evaluar →</span>
+          </a>`).join('');
+      }
+
+      window.cobSelect = function(region) {
+        document.querySelectorAll('.cob-tab').forEach(t => t.classList.toggle('active', t.dataset.r === region));
+        document.querySelectorAll('.cob-continent').forEach(c => c.classList.remove('active'));
+        document.querySelectorAll('.cob-fund-dot').forEach(d => d.classList.remove('inactive'));
+        if (region !== 'all') {
+          const contId = COB_CONT[region];
+          if (contId) document.getElementById(contId)?.classList.add('active');
+          ['chile','usa','eu','latam'].forEach(id => {
+            if (id !== region) document.getElementById('cob-dot-'+id)?.classList.add('inactive');
+          });
+        }
+        cobRender(region);
+      };
+
+      // Load from funds.json
+      fetch('/funds.json')
+        .then(r => r.json())
+        .then(data => { FUNDS_DATA = data; cobSelect('all'); })
+        .catch(() => {
+          // Fallback hardcoded if fetch fails (local dev without server)
+          FUNDS_DATA = {
+            chile: [
+              { name:'CORFO Crea y Valida', icon:'CO', color:'#003087', amount:'hasta $40M CLP', status:'open' },
+              { name:'CORFO Semilla Inicia', icon:'CO', color:'#003087', amount:'hasta $60M CLP', status:'open' },
+              { name:'ANID FONDEF', icon:'AN', color:'#C8102E', amount:'hasta $400M CLP', status:'open' },
+              { name:'Startup Chile Ignite', icon:'SC', color:'#F26C22', amount:'USD 100K', status:'open' },
+            ],
+            usa: [
+              { name:'Y Combinator', icon:'YC', color:'#FF6600', amount:'USD 500K + red', status:'open' },
+              { name:'NSF SBIR Phase I', icon:'NSF', color:'#003366', amount:'hasta USD 275K', status:'coming' },
+            ],
+            eu: [
+              { name:'Horizon Europe EIC', icon:'★', color:'#003399', amount:'hasta EUR 2.5M', status:'open' },
+              { name:'EIC Accelerator', icon:'EIC', color:'#003399', amount:'hasta EUR 2.5M', status:'open' },
+            ],
+            latam: [
+              { name:'iNNpulsa ALDEA+ (CO)', icon:'iN', color:'#D4222A', amount:'hasta COP 1.000M', status:'open' },
+              { name:'FINEP Brasil', icon:'FN', color:'#009C3B', amount:'hasta BRL 2M', status:'open' },
+            ],
+          };
+          cobSelect('all');
+        });
     })();
   </script>
 </body>
