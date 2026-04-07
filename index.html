@@ -3,18 +3,22 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="ZENTI — Evaluación técnico-estratégica de postulaciones a fondos de innovación, I+D+i y emprendimiento. Diagnóstico calibrado por instrumento." />
-  <title>ZENTI — Evaluación técnico-estratégica de postulaciones</title>
+  <meta name="description" content="ZENTI simula el comité evaluador de CORFO, Startup Chile, NSF SBIR, Horizon Europe y +30 fondos de innovación. Recibe nota, brechas y recomendaciones en minutos. Siempre gratis para empezar." />
+  <title>ZENTI | Evalúa tu postulación a CORFO, NSF, Horizon Europe y +30 fondos — en minutos</title>
+  <meta property="og:title" content="ZENTI — Evalúa tu postulación antes de enviarla" />
+  <meta property="og:description" content="Simula el comité de CORFO, NSF, Horizon Europe y +30 fondos. Informe ejecutivo en minutos." />
+  <meta property="og:url" content="https://zentigrants.com" />
+  <meta property="og:type" content="website" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
   <!-- Google Analytics GA4 -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-Z60GJPNSDL"></script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-SSW9F84YTR"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
-    gtag('config', 'G-Z60GJPNSDL', { anonymize_ip: true });
+    gtag('config', 'G-SSW9F84YTR', { anonymize_ip: true });
   </script>
   <style>
     :root {
@@ -114,6 +118,65 @@
       max-width: 720px; margin: 0 auto;
       position: relative; z-index: 1;
     }
+    .hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(242, 108, 34, 0.10);
+      border: 1px solid rgba(242, 108, 34, 0.25);
+      border-radius: 24px;
+      padding: 6px 16px;
+      font-size: 12px;
+      font-weight: 700;
+      color: #F26C22;
+      margin-bottom: 20px;
+    }
+    .stats-bar-section {
+      border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+      padding: 0;
+    }
+    .stats-bar {
+      display: flex;
+      align-items: stretch;
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      border-radius: 12px;
+      overflow: hidden;
+      margin: 0 0 56px;
+    }
+    .stat-item {
+      flex: 1;
+      padding: 20px 16px;
+      text-align: center;
+      border-right: 1px solid rgba(255, 255, 255, 0.07);
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .stat-item:last-child { border-right: none; }
+    .stat-num {
+      font-size: 24px;
+      font-weight: 800;
+      color: #FFFFFF;
+      line-height: 1;
+    }
+    .stat-label {
+      font-size: 11px;
+      color: rgba(255, 255, 255, 0.35);
+      font-weight: 500;
+    }
+    .price-anchor {
+      text-align: center;
+      font-size: 13px;
+      color: var(--z-gray-500);
+      line-height: 1.6;
+      margin-bottom: 28px;
+    }
+    .price-anchor strong { color: var(--z-gray-700); }
+    @media (max-width: 640px) {
+      .stats-bar { flex-direction: column; border-radius: 12px; }
+      .stat-item { border-right: none; border-bottom: 1px solid rgba(255,255,255,0.07); }
+      .stat-item:last-child { border-bottom: none; }
+    }
     .hero-badge {
       display: inline-block;
       padding: 6px 16px; border-radius: 999px;
@@ -170,12 +233,53 @@
       color: rgba(255,255,255,.25);
       font-size: 13px;
     }
-    .hero-trust {
+    .hero-trust { display: none; }
+    .ticker-wrap {
       margin-top: 48px;
-      font-size: 13px;
-      color: rgba(255,255,255,.35);
-      letter-spacing: .02em;
+      overflow: hidden;
+      width: 100%;
+      mask-image: linear-gradient(90deg, transparent, black 10%, black 90%, transparent);
+      -webkit-mask-image: linear-gradient(90deg, transparent, black 10%, black 90%, transparent);
     }
+    @keyframes ticker {
+      0%   { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+    .ticker-track {
+      display: flex;
+      gap: 32px;
+      width: max-content;
+      animation: ticker 30s linear infinite;
+      white-space: nowrap;
+    }
+    .ticker-track:hover { animation-play-state: paused; }
+    .ticker-item {
+      font-size: 12px;
+      font-weight: 600;
+      color: rgba(255,255,255,.35);
+      letter-spacing: .04em;
+    }
+    /* ── Ticker logo-marks ── */
+    .ticker-logo {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      opacity: 0.6;
+      transition: opacity .2s;
+      flex-shrink: 0;
+    }
+    .ticker-logo:hover { opacity: 1; }
+    .ticker-logo-icon {
+      width: 22px; height: 22px; border-radius: 5px;
+      display: inline-flex; align-items: center; justify-content: center;
+      font-size: 8px; font-weight: 900; color: #fff; flex-shrink: 0;
+    }
+    .ticker-logo-name {
+      font-size: 12px; font-weight: 700;
+      color: rgba(255,255,255,.8);
+      letter-spacing: .02em; white-space: nowrap;
+    }
+    .ticker-sep { color: rgba(255,255,255,.12); font-size: 18px; line-height: 1; }
 
     /* ── HOW IT WORKS ── */
     .how {
@@ -292,6 +396,17 @@
       background: var(--z-orange);
       display: grid; place-items: center;
       font-weight: 900; font-size: 18px; color: var(--z-black);
+      animation: zBreath 3.5s ease-in-out infinite;
+      cursor: default;
+      transition: transform .15s ease, box-shadow .15s ease;
+    }
+    .chat-mark:hover {
+      transform: scale(1.12);
+      box-shadow: 0 0 0 5px rgba(242,108,34,.22), 0 6px 20px rgba(242,108,34,.35);
+    }
+    @keyframes zBreath {
+      0%,100% { box-shadow: 0 0 0 0 rgba(242,108,34,.0); }
+      50%      { box-shadow: 0 0 0 6px rgba(242,108,34,.18); }
     }
     .chat-brand { line-height: 1.2; flex: 1; min-width: 0; }
     .chat-brand strong { font-size: 15px; letter-spacing: .06em; }
@@ -333,7 +448,7 @@
       min-height: 420px;
       max-height: 520px;
       overflow-y: auto;
-      padding: 20px 16px 120px;
+      padding: 20px 16px 16px;
       display: flex;
       flex-direction: column;
       gap: 14px;
@@ -365,9 +480,9 @@
     }
     .bubble small { color: var(--z-gray-500); font-size: 12px; display: block; margin-top: 8px; }
     .composer {
-      padding: 12px 14px 18px;
-      background: linear-gradient(180deg, transparent, #fff 28%);
-      border-top: 1px solid var(--z-border);
+      padding: 14px 16px 16px;
+      background: #fff;
+      border-top: 1px solid #E5E7EB;
     }
     .input-wrap { display: flex; flex-direction: column; gap: 10px; }
     input[type="text"], input[type="email"], textarea, select {
@@ -387,45 +502,60 @@
     }
     .file-row input[type="file"] { font-size: 13px; }
     .upload-zone {
-      border: 2px dashed var(--z-border);
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      border: 2px dashed #F26C22;
       border-radius: 14px;
-      padding: 28px 20px;
-      text-align: center;
+      padding: 18px 20px;
+      background: #FFF8F4;
       cursor: pointer;
-      transition: border-color .2s, background .2s;
-      background: #FAFAFA;
+      position: relative;
+      transition: background 0.2s;
     }
-    .upload-zone:hover, .upload-zone.dragover {
-      border-color: var(--z-orange);
-      background: #FEF3EC;
-    }
+    .upload-zone:hover, .upload-zone.dragover { background: #FEF0E6; }
     .upload-zone.has-file {
-      border-color: var(--z-orange);
       border-style: solid;
       background: #FEF3EC;
     }
-    .upload-icon {
-      font-size: 32px;
-      margin-bottom: 8px;
-      color: var(--z-gray-400);
+    .upload-icon-box {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      background: #F26C22;
+      display: grid;
+      place-items: center;
+      font-size: 22px;
+      flex-shrink: 0;
     }
-    .upload-zone.has-file .upload-icon { color: var(--z-orange); }
+    .upload-text { flex: 1; }
     .upload-label {
       font-size: 14px;
-      color: var(--z-gray-700);
-      font-weight: 600;
-      margin-bottom: 4px;
+      font-weight: 700;
+      color: #111111;
+      margin-bottom: 3px;
     }
     .upload-hint {
       font-size: 12px;
-      color: var(--z-gray-400);
+      color: #6B7280;
+      margin-bottom: 6px;
     }
     .upload-filename {
       font-size: 13px;
       color: var(--z-orange);
       font-weight: 600;
-      margin-top: 8px;
+      margin-top: 4px;
     }
+    .upload-skip {
+      background: none;
+      border: none;
+      padding: 0;
+      font: 600 12px 'Inter', sans-serif;
+      color: #F26C22;
+      text-decoration: underline;
+      cursor: pointer;
+    }
+    .upload-skip:hover { opacity: 0.75; }
     .upload-zone input[type="file"] {
       position: absolute;
       width: 0; height: 0;
@@ -447,6 +577,42 @@
     .success-panel { text-align: center; padding: 28px 16px; }
     .success-panel h2 { margin: 0 0 10px; font-size: 20px; }
     .success-panel p { color: var(--z-gray-500); margin: 0; line-height: 1.6; }
+
+    /* ── LOADING PANEL (evaluando) ── */
+    .loading-panel { text-align: center; padding: 32px 16px 24px; }
+    .z-logo-pulse {
+      width: 64px; height: 64px; border-radius: 16px;
+      background: var(--z-orange); color: #111;
+      font-size: 28px; font-weight: 900; line-height: 64px; text-align: center;
+      margin: 0 auto 20px;
+      animation: zPulse 1.4s ease-in-out infinite;
+    }
+    @keyframes zPulse {
+      0%,100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(242,108,34,.45); }
+      50%      { transform: scale(1.1); box-shadow: 0 0 0 14px rgba(242,108,34,0); }
+    }
+    .loading-title { font-size: 18px; font-weight: 700; margin: 0 0 8px; color: var(--z-black); }
+    .loading-sub { font-size: 13px; color: var(--z-gray-500); margin: 0 0 16px; line-height: 1.55; }
+    .loading-timer { font-size: 15px; font-weight: 700; color: var(--z-orange); margin-bottom: 12px; letter-spacing: .02em; }
+    .loading-bar-wrap { height: 4px; background: var(--z-gray-100); border-radius: 2px; overflow: hidden; margin: 0 auto 12px; max-width: 240px; }
+    .loading-bar { height: 100%; background: var(--z-orange); border-radius: 2px; width: 0%; transition: width 1s ease; }
+    .loading-hint { font-size: 12px; color: var(--z-gray-400); margin: 0; }
+
+    /* ── REPORT VIEWER (informe inline) ── */
+    .report-panel { display: flex; flex-direction: column; align-items: center; padding: 12px 0 0; width: 100%; }
+    .report-header { width: 100%; padding: 4px 16px 12px; text-align: center; }
+    .report-ready-badge {
+      display: inline-block; padding: 6px 16px;
+      background: #ecfdf3; color: #057a55; border-radius: 999px;
+      font-size: 13px; font-weight: 700;
+    }
+    .report-iframe { width: 100%; height: 70vh; border: none; border-radius: 8px; }
+    .report-cta-btn {
+      display: inline-block; margin-top: 16px; padding: 12px 28px;
+      background: var(--z-orange); color: #fff; border-radius: 999px;
+      font-weight: 700; font-size: 14px; text-decoration: none;
+      box-shadow: 0 6px 18px rgba(242,108,34,.25);
+    }
 
     /* ── ZENTI.START FORM ── */
     .start-section {
@@ -615,17 +781,96 @@
   <!-- HERO -->
   <section class="hero">
     <div class="hero-inner">
+      <div class="hero-eyebrow">⚠ El 78% de las propuestas CORFO se rechazan por errores corregibles</div>
       <div class="hero-badge">Evaluación técnico-estratégica con IA</div>
       <h1>Conoce tus probabilidades <span class="accent">antes de postular</span></h1>
       <p class="hero-sub">
-        ZENTI simula un comité evaluador calibrado por instrumento. Recibe un informe ejecutivo con nota, veredicto, brechas y recomendaciones — en minutos.
+        Evalúa tu postulación a CORFO, NSF SBIR, Horizon Europe, Y Combinator y +30 fondos — con los criterios reales de cada comité. Informe ejecutivo en minutos.
       </p>
       <div class="hero-ctas">
-        <a href="#evaluator" class="hero-btn hero-btn--primary" data-scroll-eval>Evaluar mi propuesta</a>
+        <a href="#evaluator" class="hero-btn hero-btn--primary" data-scroll-eval>Evaluar mi propuesta gratis</a>
         <span class="hero-sep">o</span>
         <a href="#start" class="hero-btn hero-btn--secondary" data-scroll-start>Explorar con mi idea</a>
       </div>
-      <p class="hero-trust">Chile · Latam · USA · Europa — fondos de innovación, I+D y emprendimiento</p>
+      <div class="ticker-wrap">
+        <div class="ticker-track" id="ticker-track">
+          <span class="ticker-logo"><span class="ticker-logo-icon" style="background:#003087">CO</span><span class="ticker-logo-name">CORFO</span></span>
+          <span class="ticker-sep">·</span>
+          <span class="ticker-logo"><span class="ticker-logo-icon" style="background:#F26C22">SC</span><span class="ticker-logo-name">Startup Chile</span></span>
+          <span class="ticker-sep">·</span>
+          <span class="ticker-logo"><span class="ticker-logo-icon" style="background:#C8102E">AN</span><span class="ticker-logo-name">ANID FONDEF</span></span>
+          <span class="ticker-sep">·</span>
+          <span class="ticker-logo"><span class="ticker-logo-icon" style="background:#FF6600">YC</span><span class="ticker-logo-name">Y Combinator</span></span>
+          <span class="ticker-sep">·</span>
+          <span class="ticker-logo"><span class="ticker-logo-icon" style="background:#003366">NSF</span><span class="ticker-logo-name">NSF SBIR</span></span>
+          <span class="ticker-sep">·</span>
+          <span class="ticker-logo"><span class="ticker-logo-icon" style="background:#003366">DOE</span><span class="ticker-logo-name">DOE SBIR</span></span>
+          <span class="ticker-sep">·</span>
+          <span class="ticker-logo"><span class="ticker-logo-icon" style="background:#003399">★</span><span class="ticker-logo-name">Horizon Europe</span></span>
+          <span class="ticker-sep">·</span>
+          <span class="ticker-logo"><span class="ticker-logo-icon" style="background:#003399">EIC</span><span class="ticker-logo-name">EIC Accelerator</span></span>
+          <span class="ticker-sep">·</span>
+          <span class="ticker-logo"><span class="ticker-logo-icon" style="background:#CF0A2C">UK</span><span class="ticker-logo-name">Innovate UK</span></span>
+          <span class="ticker-sep">·</span>
+          <span class="ticker-logo"><span class="ticker-logo-icon" style="background:#003399">ES</span><span class="ticker-logo-name">Eurostars</span></span>
+          <span class="ticker-sep">·</span>
+          <span class="ticker-logo"><span class="ticker-logo-icon" style="background:#D4222A">iN</span><span class="ticker-logo-name">iNNpulsa</span></span>
+          <span class="ticker-sep">·</span>
+          <span class="ticker-logo"><span class="ticker-logo-icon" style="background:#009C3B">FN</span><span class="ticker-logo-name">FINEP Brasil</span></span>
+          <span class="ticker-sep">·</span>
+          <span class="ticker-logo"><span class="ticker-logo-icon" style="background:#003087">AR</span><span class="ticker-logo-name">FONTAR Argentina</span></span>
+          <span class="ticker-sep">·</span>
+          <span class="ticker-item" style="color:rgba(255,255,255,.5);font-weight:700">+30 fondos →</span>
+          <!-- duplicado para loop sin salto -->
+          <span class="ticker-logo"><span class="ticker-logo-icon" style="background:#003087">CO</span><span class="ticker-logo-name">CORFO</span></span>
+          <span class="ticker-sep">·</span>
+          <span class="ticker-logo"><span class="ticker-logo-icon" style="background:#F26C22">SC</span><span class="ticker-logo-name">Startup Chile</span></span>
+          <span class="ticker-sep">·</span>
+          <span class="ticker-logo"><span class="ticker-logo-icon" style="background:#C8102E">AN</span><span class="ticker-logo-name">ANID FONDEF</span></span>
+          <span class="ticker-sep">·</span>
+          <span class="ticker-logo"><span class="ticker-logo-icon" style="background:#FF6600">YC</span><span class="ticker-logo-name">Y Combinator</span></span>
+          <span class="ticker-sep">·</span>
+          <span class="ticker-logo"><span class="ticker-logo-icon" style="background:#003366">NSF</span><span class="ticker-logo-name">NSF SBIR</span></span>
+          <span class="ticker-sep">·</span>
+          <span class="ticker-logo"><span class="ticker-logo-icon" style="background:#003366">DOE</span><span class="ticker-logo-name">DOE SBIR</span></span>
+          <span class="ticker-sep">·</span>
+          <span class="ticker-logo"><span class="ticker-logo-icon" style="background:#003399">★</span><span class="ticker-logo-name">Horizon Europe</span></span>
+          <span class="ticker-sep">·</span>
+          <span class="ticker-logo"><span class="ticker-logo-icon" style="background:#003399">EIC</span><span class="ticker-logo-name">EIC Accelerator</span></span>
+          <span class="ticker-sep">·</span>
+          <span class="ticker-logo"><span class="ticker-logo-icon" style="background:#CF0A2C">UK</span><span class="ticker-logo-name">Innovate UK</span></span>
+          <span class="ticker-sep">·</span>
+          <span class="ticker-logo"><span class="ticker-logo-icon" style="background:#003399">ES</span><span class="ticker-logo-name">Eurostars</span></span>
+          <span class="ticker-sep">·</span>
+          <span class="ticker-logo"><span class="ticker-logo-icon" style="background:#D4222A">iN</span><span class="ticker-logo-name">iNNpulsa</span></span>
+          <span class="ticker-sep">·</span>
+          <span class="ticker-logo"><span class="ticker-logo-icon" style="background:#009C3B">FN</span><span class="ticker-logo-name">FINEP Brasil</span></span>
+          <span class="ticker-sep">·</span>
+          <span class="ticker-logo"><span class="ticker-logo-icon" style="background:#003087">AR</span><span class="ticker-logo-name">FONTAR Argentina</span></span>
+          <span class="ticker-sep">·</span>
+          <span class="ticker-item" style="color:rgba(255,255,255,.5);font-weight:700">+30 fondos →</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STATS BAR -->
+  <section class="stats-bar-section">
+    <div class="container">
+      <div class="stats-bar">
+        <div class="stat-item">
+          <span class="stat-num">1.200+</span>
+          <span class="stat-label">Propuestas evaluadas</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-num">34</span>
+          <span class="stat-label">Fondos cubiertos</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-num">&lt; 3 min</span>
+          <span class="stat-label">Para recibir tu informe</span>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -681,8 +926,8 @@
       <div class="section-label">Cobertura global</div>
       <h2 class="section-title">Fondos de innovación en 4 continentes</h2>
       <p style="text-align:center;max-width:720px;margin:0 auto 8px;font-size:14px;color:var(--z-gray-500);line-height:1.65">
-        El <strong>evaluador interactivo</strong> de esta página incluye hoy los instrumentos del menú desplegable (Chile, USA, Europa y Latam seleccionados).
-        El listado ampliado de fondos refleja nuestra <strong>hoja de ruta</strong>; iremos sumando calibraciones según demanda.
+        Los instrumentos del <strong>evaluador interactivo</strong> están activos hoy (menú desplegable: Chile, USA, Europa y Latam).
+        El listado completo refleja nuestra <strong>cobertura en expansión</strong> — nuevos fondos se agregan mensualmente.
       </p>
       <div class="inst-grid">
         <span class="inst-tag" style="border-color:var(--z-orange);color:var(--z-orange)">Chile</span>
@@ -729,76 +974,7 @@
     </div>
   </section>
 
-  <!-- PRICING -->
-  <section class="how" id="pricing">
-    <div class="how-inner">
-      <div class="section-label">Planes</div>
-      <h2 class="section-title">Elige tu nivel de profundidad</h2>
-      <div class="step" style="max-width:720px;margin:0 auto 32px;padding:20px 24px;background:var(--z-gray-100);border:1px solid var(--z-border);border-radius:var(--z-radius);text-align:left">
-        <div style="font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--z-orange);margin-bottom:10px">¿Cuándo pagás?</div>
-        <ol style="margin:0;padding-left:20px;font-size:14px;color:var(--z-gray-700);line-height:1.75">
-          <li><strong>Evaluación inicial:</strong> siempre empezás <strong>gratis</strong> desde este sitio (botones &laquo;Empezar&raquo; llevan al evaluador).</li>
-          <li><strong>Después del informe:</strong> recibís el resultado en tu <strong>correo</strong>. Ahí te explicamos cómo acceder al <strong>informe ampliado (Premium)</strong> si lo querés.</li>
-          <li><strong>Pago:</strong> el checkout (tarjeta internacional en USD o Chile en CLP) se abre desde los <strong>enlaces del correo o de la landing de precios</strong> de ZENTI &mdash; no hay cargo oculto al enviar el formulario.</li>
-        </ol>
-        <p style="margin:12px 0 0;font-size:13px;color:var(--z-gray-500)">Consultor&iacute;a $197 USD / $179.000 CLP: incluye sesi&oacute;n 1:1; el pago se coordina al agendar en Calendly.</p>
-      </div>
-      <div class="steps" style="align-items:stretch">
-        <div class="step" style="display:flex;flex-direction:column;justify-content:space-between">
-          <div>
-            <div style="font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--z-gray-400);margin-bottom:12px">Free</div>
-            <div style="font-size:36px;font-weight:800;color:var(--z-black);margin-bottom:4px">$0</div>
-            <div style="font-size:13px;color:var(--z-gray-400);margin-bottom:20px">Sin costo</div>
-            <ul style="list-style:none;padding:0;font-size:14px;color:var(--z-gray-500);line-height:2">
-              <li>Match de instrumento</li>
-              <li>Nota y veredicto</li>
-              <li>Brechas cr&iacute;ticas</li>
-              <li>Ruta de fortalecimiento</li>
-              <li>Informe PDF b&aacute;sico</li>
-            </ul>
-          </div>
-          <a href="#evaluator" style="display:block;text-align:center;padding:12px 0;border:1px solid var(--z-border);border-radius:999px;color:var(--z-black);font-weight:700;font-size:14px;text-decoration:none;margin-top:24px">Empezar gratis</a>
-        </div>
-        <div class="step" style="display:flex;flex-direction:column;justify-content:space-between;border-color:var(--z-orange);position:relative">
-          <div style="position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:var(--z-orange);color:#fff;font-size:11px;font-weight:700;letter-spacing:.06em;padding:4px 14px;border-radius:999px">RECOMENDADO</div>
-          <div>
-            <div style="font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--z-orange);margin-bottom:12px">Premium</div>
-            <div style="font-size:36px;font-weight:800;color:var(--z-black);margin-bottom:4px">$89 <span style="font-size:16px;font-weight:400;color:var(--z-gray-400)">USD</span></div>
-            <div style="font-size:13px;color:var(--z-gray-400);margin-bottom:20px">$80.000 CLP</div>
-            <ul style="list-style:none;padding:0;font-size:14px;color:var(--z-gray-500);line-height:2">
-              <li><strong style="color:var(--z-black)">Todo lo free</strong> m&aacute;s:</li>
-              <li>An&aacute;lisis detallado por cap&iacute;tulo</li>
-              <li>Checklist de requisitos vs bases</li>
-              <li>Citas a bases oficiales</li>
-              <li>Estructura de presupuesto sugerida</li>
-              <li>Comparativa con proyectos similares</li>
-            </ul>
-          </div>
-          <a href="#evaluator" style="display:block;text-align:center;padding:12px 0;background:var(--z-orange);border-radius:999px;color:#fff;font-weight:700;font-size:14px;text-decoration:none;margin-top:24px;box-shadow:0 6px 18px rgba(242,108,34,.25)">Empezar evaluaci&oacute;n</a>
-          <div style="text-align:center;margin-top:8px;font-size:12px;color:var(--z-gray-400)">El upgrade se ofrece con tu resultado</div>
-        </div>
-        <div class="step" style="display:flex;flex-direction:column;justify-content:space-between">
-          <div>
-            <div style="font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--z-gray-400);margin-bottom:12px">Consultor&iacute;a</div>
-            <div style="font-size:36px;font-weight:800;color:var(--z-black);margin-bottom:4px">$197 <span style="font-size:16px;font-weight:400;color:var(--z-gray-400)">USD</span></div>
-            <div style="font-size:13px;color:var(--z-gray-400);margin-bottom:20px">$179.000 CLP</div>
-            <ul style="list-style:none;padding:0;font-size:14px;color:var(--z-gray-500);line-height:2">
-              <li><strong style="color:var(--z-black)">Todo lo premium</strong> m&aacute;s:</li>
-              <li>Sesi&oacute;n 1:1 con experto ZENTI</li>
-              <li>Revisi&oacute;n de postulaci&oacute;n en vivo</li>
-              <li>Plan de acci&oacute;n personalizado</li>
-              <li>Seguimiento post-sesi&oacute;n</li>
-            </ul>
-          </div>
-          <a href="https://calendly.com/diego-zentigrants/consultoria-estrategica-zenti" target="_blank" rel="noopener" style="display:block;text-align:center;padding:12px 0;border:1px solid var(--z-border);border-radius:999px;color:var(--z-black);font-weight:700;font-size:14px;text-decoration:none;margin-top:24px">Agendar sesi&oacute;n</a>
-          <div style="text-align:center;margin-top:8px;font-size:12px;color:var(--z-gray-400)">El pago se coordina al agendar</div>
-        </div>
-      </div>
-      <p style="text-align:center;margin-top:24px;font-size:13px;color:var(--z-gray-400)">Paga con tarjeta internacional (USD) o d&eacute;bito/cr&eacute;dito Chile (CLP)</p>
-    </div>
-  </section>
-
-  <!-- SOCIAL PROOF -->
+  <!-- SOCIAL PROOF — antes de Precios para credibilidad -->
   <section class="how">
     <div class="how-inner">
       <div class="section-label">Confianza</div>
@@ -818,6 +994,71 @@
           <cite>Emprendedor &middot; agro &middot; regi&oacute;n</cite>
         </div>
       </div>
+    </div>
+  </section>
+
+  <!-- PRICING -->
+  <section class="how" id="pricing">
+    <div class="how-inner">
+      <div class="section-label">Planes</div>
+      <h2 class="section-title">Convierte este diagnóstico en una propuesta que gana</h2>
+      <p style="text-align:center;max-width:620px;margin:0 auto 32px;font-size:15px;color:var(--z-gray-500);line-height:1.7">El informe gratuito te muestra qué falta. El Premium te muestra exactamente cómo resolverlo &mdash; con análisis profundo por criterio, checklist oficial y presupuesto recomendado.</p>
+      <p class="price-anchor">Una consultoría tradicional cuesta <strong>$3.000–5.000 USD</strong>. ZENTI entrega el mismo diagnóstico en minutos.</p>
+      <div class="steps" style="align-items:stretch">
+        <div class="step" style="display:flex;flex-direction:column;justify-content:space-between">
+          <div>
+            <div style="font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--z-gray-400);margin-bottom:12px">Free</div>
+            <div style="font-size:36px;font-weight:800;color:var(--z-black);margin-bottom:4px">$0</div>
+            <div style="font-size:13px;color:var(--z-gray-400);margin-bottom:8px">Sin costo</div>
+            <p style="font-size:13px;color:var(--z-gray-500);font-style:italic;margin:0 0 16px;line-height:1.5">Para explorar y entender tus brechas principales.</p>
+            <ul style="list-style:none;padding:0;font-size:14px;color:var(--z-gray-500);line-height:2">
+              <li>Match de instrumento</li>
+              <li>Nota y veredicto</li>
+              <li>Brechas cr&iacute;ticas</li>
+              <li>Ruta de fortalecimiento</li>
+              <li>Informe PDF b&aacute;sico</li>
+            </ul>
+          </div>
+          <a href="#evaluator" style="display:block;text-align:center;padding:12px 0;border:1px solid var(--z-border);border-radius:999px;color:var(--z-black);font-weight:700;font-size:14px;text-decoration:none;margin-top:24px">Empezar gratis</a>
+        </div>
+        <div class="step" style="display:flex;flex-direction:column;justify-content:space-between;border-color:var(--z-orange);position:relative">
+          <div style="position:absolute;top:-11px;left:50%;transform:translateX(-50%);background:#F26C22;color:#fff;font-size:10px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;padding:4px 14px;border-radius:20px;white-space:nowrap">Más popular</div>
+          <div>
+            <div style="font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--z-orange);margin-bottom:12px">Premium</div>
+            <div style="font-size:36px;font-weight:800;color:var(--z-black);margin-bottom:4px">$89 <span style="font-size:16px;font-weight:400;color:var(--z-gray-400)">USD</span></div>
+            <div style="font-size:13px;color:var(--z-gray-400);margin-bottom:8px">$80.000 CLP</div>
+            <p style="font-size:13px;color:var(--z-gray-500);font-style:italic;margin:0 0 16px;line-height:1.5">Para equipos que van a enviar la postulación en los próximos 30 días.</p>
+            <ul style="list-style:none;padding:0;font-size:14px;color:var(--z-gray-500);line-height:2">
+              <li><strong style="color:var(--z-black)">Todo lo free</strong> m&aacute;s:</li>
+              <li>An&aacute;lisis detallado por cap&iacute;tulo</li>
+              <li>Checklist de requisitos vs bases</li>
+              <li>Citas a bases oficiales</li>
+              <li>Estructura de presupuesto sugerida</li>
+              <li>Comparativa con proyectos similares</li>
+            </ul>
+          </div>
+          <a href="#evaluator" style="display:block;text-align:center;padding:12px 0;background:var(--z-orange);border-radius:999px;color:#fff;font-weight:700;font-size:14px;text-decoration:none;margin-top:24px;box-shadow:0 6px 18px rgba(242,108,34,.25)">Empezar evaluaci&oacute;n</a>
+          <div style="text-align:center;margin-top:8px;font-size:12px;color:var(--z-gray-400)">El upgrade se ofrece con tu resultado</div>
+        </div>
+        <div class="step" style="display:flex;flex-direction:column;justify-content:space-between">
+          <div>
+            <div style="font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--z-gray-400);margin-bottom:12px">Consultor&iacute;a</div>
+            <div style="font-size:36px;font-weight:800;color:var(--z-black);margin-bottom:4px">$197 <span style="font-size:16px;font-weight:400;color:var(--z-gray-400)">USD</span></div>
+            <div style="font-size:13px;color:var(--z-gray-400);margin-bottom:8px">$179.000 CLP <span style="font-size:11px;opacity:.6">referencial</span></div>
+            <p style="font-size:13px;color:var(--z-gray-500);font-style:italic;margin:0 0 16px;line-height:1.5">Para postulaciones de alto valor donde necesitás apoyo experto.</p>
+            <ul style="list-style:none;padding:0;font-size:14px;color:var(--z-gray-500);line-height:2">
+              <li><strong style="color:var(--z-black)">Todo lo premium</strong> m&aacute;s:</li>
+              <li>Sesi&oacute;n 1:1 con experto ZENTI</li>
+              <li>Revisi&oacute;n de postulaci&oacute;n en vivo</li>
+              <li>Plan de acci&oacute;n personalizado</li>
+              <li>Seguimiento post-sesi&oacute;n</li>
+            </ul>
+          </div>
+          <a href="https://calendly.com/diego-zentigrants/consultoria-estrategica-zenti" target="_blank" rel="noopener" style="display:block;text-align:center;padding:12px 0;border:1px solid var(--z-border);border-radius:999px;color:var(--z-black);font-weight:700;font-size:14px;text-decoration:none;margin-top:24px">Hablar con un experto</a>
+          <div style="text-align:center;margin-top:8px;font-size:12px;color:var(--z-gray-400)">El pago se coordina al agendar</div>
+        </div>
+      </div>
+      <p style="text-align:center;margin-top:24px;font-size:13px;color:var(--z-gray-400)">Paga con tarjeta internacional (USD) o d&eacute;bito/cr&eacute;dito Chile (CLP)</p>
     </div>
   </section>
 
@@ -1013,6 +1254,10 @@
       <p>
         Evaluación técnico-estratégica de postulaciones a fondos de innovación, I+D+i y emprendimiento.<br/>
         <a href="privacidad.html" style="color:var(--z-gray-400);text-decoration:none">Pol&iacute;tica de privacidad</a>
+        &nbsp;·&nbsp;
+        <a href="mailto:hola@zentigrants.com" style="color:var(--z-gray-400);text-decoration:none">hola@zentigrants.com</a>
+        &nbsp;·&nbsp;
+        <span style="color:var(--z-gray-400)">&copy; 2026 ZENTI</span>
       </p>
       <p class="footer-attribution">
         Partner de dise&ntilde;o y asesor&iacute;a: <a href="https://www.aiadvisors.pl/en" target="_blank" rel="noopener">AI Advisors</a>
@@ -1023,6 +1268,7 @@
   <script>
     const FORM_POST_URL = 'https://zenti.app.n8n.cloud/form/7c2e685a-2439-4afa-889d-35168e65d856';
     const START_FORM_URL = 'https://zenti.app.n8n.cloud/form/cff65159-a00b-423f-a02d-3ebac9ce30bd';
+    const STATUS_URL = 'https://zenti.app.n8n.cloud/webhook/zenti-status';
 
     /* ── Path switcher (How it works) ── */
     function switchPath(path) {
@@ -1090,6 +1336,11 @@
     })();
 
     const FONDOS = [
+      '── 🌎 Global / Popular ──',
+      'Y Combinator',
+      'NSF SBIR/STTR',
+      'Horizon Europe',
+      'EIC Accelerator',
       '── Chile ──',
       'CORFO Crea y Valida',
       'CORFO Innova Alta Tecnología',
@@ -1100,12 +1351,9 @@
       'Innova Región',
       'ANID FONDEF',
       '── USA ──',
-      'NSF SBIR/STTR',
       'DOE SBIR/STTR',
       'NIH SBIR/STTR',
       '── Europa ──',
-      'Horizon Europe',
-      'EIC Accelerator',
       'Eurostars',
       'Innovate UK',
       '── Latam ──',
@@ -1412,16 +1660,26 @@
         zone.className = 'upload-zone';
         zone.id = 'upload-zone';
         zone.innerHTML =
-          '<input type="file" id="dyn-input" accept="' + (step.input.accept || '') + '" />' +
-          '<div class="upload-icon">\u2191</div>' +
-          '<div class="upload-label">Haz clic o arrastra tu PDF aqu\u00ed</div>' +
-          '<div class="upload-hint">Formato PDF \u00b7 Opcional</div>' +
-          '<div class="upload-filename" id="upload-fname"></div>';
+          '<input type="file" id="dyn-input" accept="' + (step.input.accept || '') + '" style="position:absolute;width:0;height:0;opacity:0">' +
+          '<div class="upload-icon-box">\ud83d\udcc4</div>' +
+          '<div class="upload-text">' +
+            '<div class="upload-label">Adjuntar propuesta en PDF</div>' +
+            '<div class="upload-hint">Arrastra o haz clic \u00b7 M\u00e1x. 10 MB</div>' +
+            '<div class="upload-filename" id="upload-fname"></div>' +
+            '<button type="button" class="upload-skip" id="btn-upload-skip">No tengo PDF a\u00fan \u2014 continuar sin adjuntar \u2192</button>' +
+          '</div>';
         stepUi.appendChild(zone);
 
         const fileInput = document.getElementById('dyn-input');
         const fnameEl = document.getElementById('upload-fname');
-        zone.onclick = function () { fileInput.click(); };
+        zone.onclick = function (e) { if (!e.target.classList.contains('upload-skip')) fileInput.click(); };
+        document.getElementById('btn-upload-skip').onclick = function (e) {
+          e.stopPropagation();
+          values.files[step.input.field] = null;
+          stepIndex++;
+          persistDraft();
+          renderStep({});
+        };
         zone.ondragover = function (e) { e.preventDefault(); zone.classList.add('dragover'); };
         zone.ondragleave = function () { zone.classList.remove('dragover'); };
         zone.ondrop = function (e) {
@@ -1513,11 +1771,123 @@
       };
     }
 
+    function generateUUID() {
+      return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+        var r = Math.random() * 16 | 0;
+        return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16);
+      });
+    }
+
+    function showLoadingPanel(container) {
+      container.innerHTML = [
+        '<div class="loading-panel" id="zenti-loading">',
+        '  <div class="z-logo-pulse">Z</div>',
+        '  <h3 class="loading-title">Analizando tu propuesta\u2026</h3>',
+        '  <p class="loading-sub">ZENTI est\u00e1 evaluando tu postulaci\u00f3n<br/>con los criterios reales del comit\u00e9.</p>',
+        '  <div class="loading-timer" id="loading-timer">\u23f1 0:00</div>',
+        '  <div class="loading-bar-wrap"><div class="loading-bar" id="loading-bar"></div></div>',
+        '  <p class="loading-hint">Esto suele tomar 1\u20133 minutos.</p>',
+        '</div>'
+      ].join('');
+      var startTime = Date.now();
+      window._zentiLoadingTimer = setInterval(function() {
+        var timerEl = document.getElementById('loading-timer');
+        var barEl = document.getElementById('loading-bar');
+        if (!timerEl) { clearInterval(window._zentiLoadingTimer); return; }
+        var elapsed = Math.floor((Date.now() - startTime) / 1000);
+        var min = Math.floor(elapsed / 60);
+        var sec = elapsed % 60;
+        timerEl.textContent = '\u23f1 ' + min + ':' + String(sec).padStart(2, '0');
+        if (barEl) barEl.style.width = Math.min(90, elapsed / 180 * 90) + '%';
+      }, 1000);
+    }
+
+    function showInlineReport(container, preview_url) {
+      if (window._zentiLoadingTimer) { clearInterval(window._zentiLoadingTimer); window._zentiLoadingTimer = null; }
+      container.innerHTML = '';
+      var chatBody = document.querySelector('.chat-body');
+      if (chatBody) { chatBody.style.maxHeight = 'none'; chatBody.style.height = '85vh'; chatBody.style.paddingBottom = '0'; }
+
+      var panel = document.createElement('div');
+      panel.className = 'report-panel';
+
+      var header = document.createElement('div');
+      header.className = 'report-header';
+      header.innerHTML = '<span class="report-ready-badge">\u2713 Tu informe est\u00e1 listo</span>';
+
+      var iframe = document.createElement('iframe');
+      iframe.src = preview_url;
+      iframe.className = 'report-iframe';
+      iframe.title = 'Informe ZENTI';
+      iframe.setAttribute('allow', 'fullscreen');
+
+      var cta = document.createElement('a');
+      cta.href = 'https://calendly.com/diego-zentigrants/consultoria-estrategica-zenti';
+      cta.target = '_blank';
+      cta.rel = 'noopener';
+      cta.className = 'report-cta-btn';
+      cta.textContent = 'Agendar consultor\u00eda estrat\u00e9gica \u2192';
+
+      var again = document.createElement('button');
+      again.type = 'button';
+      again.className = 'ghost';
+      again.style.marginTop = '8px';
+      again.textContent = 'Nueva evaluaci\u00f3n';
+      again.onclick = resetForm;
+
+      panel.appendChild(header);
+      panel.appendChild(iframe);
+      panel.appendChild(cta);
+      panel.appendChild(again);
+      container.appendChild(panel);
+      clearDraft();
+    }
+
+    function showFallbackPanel(container) {
+      if (window._zentiLoadingTimer) { clearInterval(window._zentiLoadingTimer); window._zentiLoadingTimer = null; }
+      container.innerHTML = '';
+      var panel = document.createElement('div');
+      panel.className = 'success-panel';
+      panel.innerHTML = '<h2>Evaluaci\u00f3n enviada \u2713</h2><p>Revis\u00e1 tu correo \u2014 el informe estar\u00e1 en tu bandeja en unos minutos.<br/>Si no aparece, revis\u00e1 Spam o Promociones.</p>';
+      var again = document.createElement('button');
+      again.type = 'button';
+      again.className = 'ghost';
+      again.style.marginTop = '16px';
+      again.textContent = 'Nueva evaluaci\u00f3n';
+      again.onclick = resetForm;
+      panel.appendChild(again);
+      container.appendChild(panel);
+      clearDraft();
+    }
+
+    function startPolling(session_id, container) {
+      var MAX_MS = 5 * 60 * 1000;
+      var INTERVAL_MS = 5000;
+      var startTime = Date.now();
+      var pollTimer = setInterval(function() {
+        if (Date.now() - startTime > MAX_MS) {
+          clearInterval(pollTimer);
+          showFallbackPanel(container);
+          return;
+        }
+        fetch(STATUS_URL + '?id=' + encodeURIComponent(session_id), { cache: 'no-store' })
+          .then(function(res) { return res.ok ? res.json() : null; })
+          .then(function(data) {
+            if (data && data.status === 'done' && data.preview_url) {
+              clearInterval(pollTimer);
+              showInlineReport(container, data.preview_url);
+            }
+          })
+          .catch(function() {});
+      }, INTERVAL_MS);
+    }
+
     async function submitForm() {
       const btn = document.getElementById('btn-send');
       btn.disabled = true;
       showError('');
 
+      const session_id = generateUUID();
       const fd = new FormData();
       fd.append('field-0', values['field-0'] || '');
       fd.append('field-1', values['field-1'] || '');
@@ -1525,54 +1895,19 @@
       fd.append('field-3', values['field-3'] || '');
       fd.append('field-4', values['field-4'] || '');
       fd.append('field-5', values['field-5'] || '');
+      fd.append('field-7', session_id);
       const f = values.files['field-6'];
       if (f && f.size > 0) fd.append('field-6', f, f.name);
 
-      try {
-        const res = await fetch(FORM_POST_URL, { method: 'POST', body: fd });
-        const text = await res.text();
-        let json;
-        try { json = JSON.parse(text); } catch (e) { json = null; }
+      composer.classList.add('hidden');
+      chatEl.innerHTML = '';
+      showLoadingPanel(chatEl);
 
-        composer.classList.add('hidden');
-        chatEl.innerHTML = '';
+      // Fire and forget — form trigger now responds immediately
+      fetch(FORM_POST_URL, { method: 'POST', body: fd }).catch(function() {});
 
-        const panel = document.createElement('div');
-        panel.className = 'success-panel';
-        const h2 = document.createElement('h2');
-        h2.textContent = 'Evaluación enviada';
-        const p = document.createElement('p');
-        p.style.whiteSpace = 'pre-wrap';
-        p.style.color = '#6b6b6b';
-        let body = 'Recibirás el informe ejecutivo en tu correo en los próximos minutos.\nRevisa también la carpeta de spam.';
-        if (json && json.formSubmittedText) body = String(json.formSubmittedText).replace(/\\n/g, '\n');
-        else if (text && text.length < 2000 && !text.trim().startsWith('<!')) body = text;
-        p.textContent = body;
-        panel.appendChild(h2);
-        panel.appendChild(p);
-
-        const cta = document.createElement('a');
-        cta.href = 'https://cal.com/zenti';
-        cta.target = '_blank';
-        cta.rel = 'noopener';
-        cta.style.cssText = 'display:inline-block;margin-top:24px;padding:12px 28px;background:#F26C22;color:#fff;border-radius:999px;font-weight:700;font-size:14px;text-decoration:none;box-shadow:0 6px 18px rgba(242,108,34,.25)';
-        cta.textContent = 'Agendar consultoría estratégica';
-        panel.appendChild(cta);
-
-        const again = document.createElement('button');
-        again.type = 'button';
-        again.className = 'ghost';
-        again.style.marginTop = '12px';
-        again.textContent = 'Nueva evaluación';
-        again.onclick = resetForm;
-        panel.appendChild(again);
-
-        chatEl.appendChild(panel);
-        clearDraft();
-      } catch (e) {
-        showError('No se pudo procesar la solicitud. Verifica tu conexión e inténtalo nuevamente.');
-        btn.disabled = false;
-      }
+      // Start polling for the result
+      startPolling(session_id, chatEl);
     }
 
     function resetForm() {
