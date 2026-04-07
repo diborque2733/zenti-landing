@@ -375,6 +375,17 @@
       background: var(--z-orange);
       display: grid; place-items: center;
       font-weight: 900; font-size: 18px; color: var(--z-black);
+      animation: zBreath 3.5s ease-in-out infinite;
+      cursor: default;
+      transition: transform .15s ease, box-shadow .15s ease;
+    }
+    .chat-mark:hover {
+      transform: scale(1.12);
+      box-shadow: 0 0 0 5px rgba(242,108,34,.22), 0 6px 20px rgba(242,108,34,.35);
+    }
+    @keyframes zBreath {
+      0%,100% { box-shadow: 0 0 0 0 rgba(242,108,34,.0); }
+      50%      { box-shadow: 0 0 0 6px rgba(242,108,34,.18); }
     }
     .chat-brand { line-height: 1.2; flex: 1; min-width: 0; }
     .chat-brand strong { font-size: 15px; letter-spacing: .06em; }
