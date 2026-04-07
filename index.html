@@ -546,6 +546,42 @@
     .success-panel h2 { margin: 0 0 10px; font-size: 20px; }
     .success-panel p { color: var(--z-gray-500); margin: 0; line-height: 1.6; }
 
+    /* ── LOADING PANEL (evaluando) ── */
+    .loading-panel { text-align: center; padding: 32px 16px 24px; }
+    .z-logo-pulse {
+      width: 64px; height: 64px; border-radius: 16px;
+      background: var(--z-orange); color: #111;
+      font-size: 28px; font-weight: 900; line-height: 64px; text-align: center;
+      margin: 0 auto 20px;
+      animation: zPulse 1.4s ease-in-out infinite;
+    }
+    @keyframes zPulse {
+      0%,100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(242,108,34,.45); }
+      50%      { transform: scale(1.1); box-shadow: 0 0 0 14px rgba(242,108,34,0); }
+    }
+    .loading-title { font-size: 18px; font-weight: 700; margin: 0 0 8px; color: var(--z-black); }
+    .loading-sub { font-size: 13px; color: var(--z-gray-500); margin: 0 0 16px; line-height: 1.55; }
+    .loading-timer { font-size: 15px; font-weight: 700; color: var(--z-orange); margin-bottom: 12px; letter-spacing: .02em; }
+    .loading-bar-wrap { height: 4px; background: var(--z-gray-100); border-radius: 2px; overflow: hidden; margin: 0 auto 12px; max-width: 240px; }
+    .loading-bar { height: 100%; background: var(--z-orange); border-radius: 2px; width: 0%; transition: width 1s ease; }
+    .loading-hint { font-size: 12px; color: var(--z-gray-400); margin: 0; }
+
+    /* ── REPORT VIEWER (informe inline) ── */
+    .report-panel { display: flex; flex-direction: column; align-items: center; padding: 12px 0 0; width: 100%; }
+    .report-header { width: 100%; padding: 4px 16px 12px; text-align: center; }
+    .report-ready-badge {
+      display: inline-block; padding: 6px 16px;
+      background: #ecfdf3; color: #057a55; border-radius: 999px;
+      font-size: 13px; font-weight: 700;
+    }
+    .report-iframe { width: 100%; height: 70vh; border: none; border-radius: 8px; }
+    .report-cta-btn {
+      display: inline-block; margin-top: 16px; padding: 12px 28px;
+      background: var(--z-orange); color: #fff; border-radius: 999px;
+      font-weight: 700; font-size: 14px; text-decoration: none;
+      box-shadow: 0 6px 18px rgba(242,108,34,.25);
+    }
+
     /* ── ZENTI.START FORM ── */
     .start-section {
       padding: 80px 24px 100px;
@@ -1200,6 +1236,7 @@
   <script>
     const FORM_POST_URL = 'https://zenti.app.n8n.cloud/form/7c2e685a-2439-4afa-889d-35168e65d856';
     const START_FORM_URL = 'https://zenti.app.n8n.cloud/form/cff65159-a00b-423f-a02d-3ebac9ce30bd';
+    const STATUS_URL = 'https://zenti.app.n8n.cloud/webhook/zenti-status';
 
     /* ── Path switcher (How it works) ── */
     function switchPath(path) {
@@ -1702,11 +1739,123 @@
       };
     }
 
+    function generateUUID() {
+      return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+        var r = Math.random() * 16 | 0;
+        return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16);
+      });
+    }
+
+    function showLoadingPanel(container) {
+      container.innerHTML = [
+        '<div class="loading-panel" id="zenti-loading">',
+        '  <div class="z-logo-pulse">Z</div>',
+        '  <h3 class="loading-title">Analizando tu propuesta\u2026</h3>',
+        '  <p class="loading-sub">ZENTI est\u00e1 evaluando tu postulaci\u00f3n<br/>con los criterios reales del comit\u00e9.</p>',
+        '  <div class="loading-timer" id="loading-timer">\u23f1 0:00</div>',
+        '  <div class="loading-bar-wrap"><div class="loading-bar" id="loading-bar"></div></div>',
+        '  <p class="loading-hint">Esto suele tomar 1\u20133 minutos.</p>',
+        '</div>'
+      ].join('');
+      var startTime = Date.now();
+      window._zentiLoadingTimer = setInterval(function() {
+        var timerEl = document.getElementById('loading-timer');
+        var barEl = document.getElementById('loading-bar');
+        if (!timerEl) { clearInterval(window._zentiLoadingTimer); return; }
+        var elapsed = Math.floor((Date.now() - startTime) / 1000);
+        var min = Math.floor(elapsed / 60);
+        var sec = elapsed % 60;
+        timerEl.textContent = '\u23f1 ' + min + ':' + String(sec).padStart(2, '0');
+        if (barEl) barEl.style.width = Math.min(90, elapsed / 180 * 90) + '%';
+      }, 1000);
+    }
+
+    function showInlineReport(container, preview_url) {
+      if (window._zentiLoadingTimer) { clearInterval(window._zentiLoadingTimer); window._zentiLoadingTimer = null; }
+      container.innerHTML = '';
+      var chatBody = document.querySelector('.chat-body');
+      if (chatBody) { chatBody.style.maxHeight = 'none'; chatBody.style.height = '85vh'; chatBody.style.paddingBottom = '0'; }
+
+      var panel = document.createElement('div');
+      panel.className = 'report-panel';
+
+      var header = document.createElement('div');
+      header.className = 'report-header';
+      header.innerHTML = '<span class="report-ready-badge">\u2713 Tu informe est\u00e1 listo</span>';
+
+      var iframe = document.createElement('iframe');
+      iframe.src = preview_url;
+      iframe.className = 'report-iframe';
+      iframe.title = 'Informe ZENTI';
+      iframe.setAttribute('allow', 'fullscreen');
+
+      var cta = document.createElement('a');
+      cta.href = 'https://calendly.com/diego-zentigrants/consultoria-estrategica-zenti';
+      cta.target = '_blank';
+      cta.rel = 'noopener';
+      cta.className = 'report-cta-btn';
+      cta.textContent = 'Agendar consultor\u00eda estrat\u00e9gica \u2192';
+
+      var again = document.createElement('button');
+      again.type = 'button';
+      again.className = 'ghost';
+      again.style.marginTop = '8px';
+      again.textContent = 'Nueva evaluaci\u00f3n';
+      again.onclick = resetForm;
+
+      panel.appendChild(header);
+      panel.appendChild(iframe);
+      panel.appendChild(cta);
+      panel.appendChild(again);
+      container.appendChild(panel);
+      clearDraft();
+    }
+
+    function showFallbackPanel(container) {
+      if (window._zentiLoadingTimer) { clearInterval(window._zentiLoadingTimer); window._zentiLoadingTimer = null; }
+      container.innerHTML = '';
+      var panel = document.createElement('div');
+      panel.className = 'success-panel';
+      panel.innerHTML = '<h2>Evaluaci\u00f3n enviada \u2713</h2><p>Revis\u00e1 tu correo \u2014 el informe estar\u00e1 en tu bandeja en unos minutos.<br/>Si no aparece, revis\u00e1 Spam o Promociones.</p>';
+      var again = document.createElement('button');
+      again.type = 'button';
+      again.className = 'ghost';
+      again.style.marginTop = '16px';
+      again.textContent = 'Nueva evaluaci\u00f3n';
+      again.onclick = resetForm;
+      panel.appendChild(again);
+      container.appendChild(panel);
+      clearDraft();
+    }
+
+    function startPolling(session_id, container) {
+      var MAX_MS = 5 * 60 * 1000;
+      var INTERVAL_MS = 5000;
+      var startTime = Date.now();
+      var pollTimer = setInterval(function() {
+        if (Date.now() - startTime > MAX_MS) {
+          clearInterval(pollTimer);
+          showFallbackPanel(container);
+          return;
+        }
+        fetch(STATUS_URL + '?id=' + encodeURIComponent(session_id), { cache: 'no-store' })
+          .then(function(res) { return res.ok ? res.json() : null; })
+          .then(function(data) {
+            if (data && data.status === 'done' && data.preview_url) {
+              clearInterval(pollTimer);
+              showInlineReport(container, data.preview_url);
+            }
+          })
+          .catch(function() {});
+      }, INTERVAL_MS);
+    }
+
     async function submitForm() {
       const btn = document.getElementById('btn-send');
       btn.disabled = true;
       showError('');
 
+      const session_id = generateUUID();
       const fd = new FormData();
       fd.append('field-0', values['field-0'] || '');
       fd.append('field-1', values['field-1'] || '');
@@ -1714,54 +1863,19 @@
       fd.append('field-3', values['field-3'] || '');
       fd.append('field-4', values['field-4'] || '');
       fd.append('field-5', values['field-5'] || '');
+      fd.append('session_id', session_id);
       const f = values.files['field-6'];
       if (f && f.size > 0) fd.append('field-6', f, f.name);
 
-      try {
-        const res = await fetch(FORM_POST_URL, { method: 'POST', body: fd });
-        const text = await res.text();
-        let json;
-        try { json = JSON.parse(text); } catch (e) { json = null; }
+      composer.classList.add('hidden');
+      chatEl.innerHTML = '';
+      showLoadingPanel(chatEl);
 
-        composer.classList.add('hidden');
-        chatEl.innerHTML = '';
+      // Fire and forget — form trigger now responds immediately
+      fetch(FORM_POST_URL, { method: 'POST', body: fd }).catch(function() {});
 
-        const panel = document.createElement('div');
-        panel.className = 'success-panel';
-        const h2 = document.createElement('h2');
-        h2.textContent = 'Evaluación enviada';
-        const p = document.createElement('p');
-        p.style.whiteSpace = 'pre-wrap';
-        p.style.color = '#6b6b6b';
-        let body = 'Recibirás el informe ejecutivo en tu correo en los próximos minutos.\nRevisa también la carpeta de spam.';
-        if (json && json.formSubmittedText) body = String(json.formSubmittedText).replace(/\\n/g, '\n');
-        else if (text && text.length < 2000 && !text.trim().startsWith('<!')) body = text;
-        p.textContent = body;
-        panel.appendChild(h2);
-        panel.appendChild(p);
-
-        const cta = document.createElement('a');
-        cta.href = 'https://cal.com/zenti';
-        cta.target = '_blank';
-        cta.rel = 'noopener';
-        cta.style.cssText = 'display:inline-block;margin-top:24px;padding:12px 28px;background:#F26C22;color:#fff;border-radius:999px;font-weight:700;font-size:14px;text-decoration:none;box-shadow:0 6px 18px rgba(242,108,34,.25)';
-        cta.textContent = 'Agendar consultoría estratégica';
-        panel.appendChild(cta);
-
-        const again = document.createElement('button');
-        again.type = 'button';
-        again.className = 'ghost';
-        again.style.marginTop = '12px';
-        again.textContent = 'Nueva evaluación';
-        again.onclick = resetForm;
-        panel.appendChild(again);
-
-        chatEl.appendChild(panel);
-        clearDraft();
-      } catch (e) {
-        showError('No se pudo procesar la solicitud. Verifica tu conexión e inténtalo nuevamente.');
-        btn.disabled = false;
-      }
+      // Start polling for the result
+      startPolling(session_id, chatEl);
     }
 
     function resetForm() {
