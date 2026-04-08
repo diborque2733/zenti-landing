@@ -13,7 +13,7 @@
       "name": "CORFO Crea y Valida",
       "icon": "CO",
       "color": "#003087",
-      "amount": "Etapa 1: $50M CLP · Etapa 2: $180M CLP",
+      "amount": "Individual: $180M CLP · Colaborativo: $220M CLP",
       "theme": "i+d",
       "status": "coming",
       "deadline": null,
@@ -41,7 +41,7 @@
       "name": "CORFO Semilla Expande",
       "icon": "CO",
       "color": "#003087",
-      "amount": "Hasta $25M CLP + extensión $10M",
+      "amount": "Etapa 1: $25M CLP · Extensión: $20M adicionales",
       "theme": "startup",
       "status": "coming",
       "deadline": null,
@@ -51,32 +51,32 @@
       "_statusNote": "Verificar convocatoria vigente en corfo.gob.cl"
     },
     {
-      "id": "corfo-escalamiento",
-      "name": "CORFO Escalamiento",
+      "id": "corfo-consolida-expande",
+      "name": "CORFO Consolida y Expande",
       "icon": "CO",
       "color": "#003087",
-      "amount": "Hasta $400M CLP (50% cofinanciamiento)",
+      "amount": "Hasta $250M CLP (cofinanciamiento 50–80%)",
       "theme": "expansión",
       "status": "coming",
       "deadline": null,
       "url": "https://www.corfo.gob.cl/sites/cpp/convocatorias-etapas/",
       "source": "https://www.corfo.gob.cl/sites/cpp/convocatorias-etapas/",
       "region": "chile",
-      "_statusNote": "Verificar convocatoria vigente en corfo.gob.cl"
+      "_statusNote": "Res. Exenta N°19/2024 — verificar convocatoria vigente en corfo.gob.cl"
     },
     {
-      "id": "corfo-innova-id",
-      "name": "CORFO Innova I+D Empresas",
+      "id": "corfo-innova-alta-tec",
+      "name": "CORFO Innova Alta Tecnología",
       "icon": "CO",
       "color": "#003087",
-      "amount": "Hasta $500M CLP (cofinanciamiento 50%)",
+      "amount": "Hasta $1.000M CLP (I+D ≥30%, hasta 48 meses)",
       "theme": "i+d",
       "status": "coming",
       "deadline": null,
       "url": "https://www.corfo.gob.cl/sites/cpp/programasyconvocatorias/",
       "source": "https://www.corfo.gob.cl/sites/cpp/programasyconvocatorias/",
       "region": "chile",
-      "_statusNote": "Verificar convocatoria vigente en corfo.gob.cl"
+      "_statusNote": "Res. Electrónica Exenta N°3 — verificar convocatoria en corfo.gob.cl"
     },
     {
       "id": "startup-chile-build",
