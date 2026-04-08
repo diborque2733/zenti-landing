@@ -1,0 +1,77 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0f172a;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1e3a5f;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="accent" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#3b82f6;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#06b6d4;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="630" fill="url(#bg)"/>
+
+  <!-- Grid lines subtle -->
+  <line x1="0" y1="210" x2="1200" y2="210" stroke="#1e40af" stroke-width="1" opacity="0.2"/>
+  <line x1="0" y1="420" x2="1200" y2="420" stroke="#1e40af" stroke-width="1" opacity="0.2"/>
+  <line x1="400" y1="0" x2="400" y2="630" stroke="#1e40af" stroke-width="1" opacity="0.15"/>
+  <line x1="800" y1="0" x2="800" y2="630" stroke="#1e40af" stroke-width="1" opacity="0.15"/>
+
+  <!-- Accent bar top -->
+  <rect x="0" y="0" width="1200" height="5" fill="url(#accent)"/>
+
+  <!-- Logo mark -->
+  <rect x="80" y="80" width="52" height="52" rx="12" fill="url(#accent)"/>
+  <text x="106" y="116" font-family="'Inter',Arial,sans-serif" font-size="28" font-weight="800" fill="white" text-anchor="middle">Z</text>
+
+  <!-- ZENTI wordmark -->
+  <text x="148" y="116" font-family="'Inter',Arial,sans-serif" font-size="30" font-weight="800" fill="white" letter-spacing="3">ZENTI</text>
+
+  <!-- Tagline under logo -->
+  <text x="80" y="148" font-family="'Inter',Arial,sans-serif" font-size="14" fill="#94a3b8" letter-spacing="1">GRANTS · AI</text>
+
+  <!-- Main headline -->
+  <text x="80" y="260" font-family="'Inter',Arial,sans-serif" font-size="58" font-weight="800" fill="white">Postula a fondos con</text>
+  <text x="80" y="330" font-family="'Inter',Arial,sans-serif" font-size="58" font-weight="800" fill="url(#accent)">inteligencia artificial</text>
+
+  <!-- Subtext -->
+  <text x="80" y="395" font-family="'Inter',Arial,sans-serif" font-size="22" fill="#94a3b8">CORFO · ANID · Startup Chile · NSF SBIR · EIC Accelerator</text>
+
+  <!-- Stat boxes -->
+  <!-- Box 1 -->
+  <rect x="80" y="450" width="220" height="100" rx="12" fill="#1e293b" opacity="0.9"/>
+  <text x="190" y="500" font-family="'Inter',Arial,sans-serif" font-size="36" font-weight="800" fill="#3b82f6" text-anchor="middle">+180M</text>
+  <text x="190" y="528" font-family="'Inter',Arial,sans-serif" font-size="14" fill="#94a3b8" text-anchor="middle">CLP disponibles</text>
+
+  <!-- Box 2 -->
+  <rect x="320" y="450" width="220" height="100" rx="12" fill="#1e293b" opacity="0.9"/>
+  <text x="430" y="500" font-family="'Inter',Arial,sans-serif" font-size="36" font-weight="800" fill="#06b6d4" text-anchor="middle">28</text>
+  <text x="430" y="528" font-family="'Inter',Arial,sans-serif" font-size="14" fill="#94a3b8" text-anchor="middle">fondos activos</text>
+
+  <!-- Box 3 -->
+  <rect x="560" y="450" width="220" height="100" rx="12" fill="#1e293b" opacity="0.9"/>
+  <text x="670" y="500" font-family="'Inter',Arial,sans-serif" font-size="36" font-weight="800" fill="#10b981" text-anchor="middle">IA</text>
+  <text x="670" y="528" font-family="'Inter',Arial,sans-serif" font-size="14" fill="#94a3b8" text-anchor="middle">análisis en segundos</text>
+
+  <!-- Right side decorative globe -->
+  <circle cx="1000" cy="315" r="200" fill="none" stroke="#1e40af" stroke-width="1.5" opacity="0.4"/>
+  <circle cx="1000" cy="315" r="150" fill="none" stroke="#1e40af" stroke-width="1" opacity="0.3"/>
+  <circle cx="1000" cy="315" r="100" fill="none" stroke="#3b82f6" stroke-width="1" opacity="0.3"/>
+  <ellipse cx="1000" cy="315" rx="200" ry="80" fill="none" stroke="#1e40af" stroke-width="1" opacity="0.3"/>
+  <ellipse cx="1000" cy="315" rx="200" ry="140" fill="none" stroke="#1e40af" stroke-width="1" opacity="0.2"/>
+  <line x1="800" y1="315" x2="1200" y2="315" stroke="#1e40af" stroke-width="1" opacity="0.3"/>
+  <line x1="1000" y1="115" x2="1000" y2="515" stroke="#1e40af" stroke-width="1" opacity="0.3"/>
+
+  <!-- Globe dots (cities) -->
+  <circle cx="930" cy="255" r="5" fill="#3b82f6" opacity="0.9"/>
+  <circle cx="1060" cy="270" r="4" fill="#06b6d4" opacity="0.9"/>
+  <circle cx="990" cy="340" r="4" fill="#10b981" opacity="0.9"/>
+  <circle cx="1080" cy="350" r="3" fill="#3b82f6" opacity="0.8"/>
+  <circle cx="920" cy="310" r="3" fill="#f59e0b" opacity="0.8"/>
+  <circle cx="1010" cy="290" r="3" fill="#06b6d4" opacity="0.8"/>
+
+  <!-- URL -->
+  <text x="80" y="590" font-family="'Inter',Arial,sans-serif" font-size="16" fill="#475569">zentigrants.com</text>
+</svg>
