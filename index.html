@@ -11,29 +11,44 @@
   <meta property="og:type" content="website" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@600;700;800&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <!-- D3 + TopoJSON for world map -->
+  <script src="https://cdn.jsdelivr.net/npm/d3@7/dist/d3.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/topojson-client@3/dist/topojson-client.min.js"></script>
   <!-- Google Analytics GA4 -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-Z60GJPNSDL"></script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-SSW9F84YTR"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
-    gtag('config', 'G-Z60GJPNSDL', { anonymize_ip: true });
+    gtag('config', 'G-SSW9F84YTR', { anonymize_ip: true });
   </script>
   <style>
     :root {
-      --z-black: #111111;
-      --z-orange: #F26C22;
-      --z-orange-soft: #FEF3EC;
-      --z-gray-700: #444444;
-      --z-gray-500: #6b6b6b;
-      --z-gray-400: #9CA3AF;
-      --z-gray-100: #F3F4F6;
-      --z-border: #E5E7EB;
-      --z-white: #FFFFFF;
-      --z-font: 'Inter', ui-sans-serif, system-ui, -apple-system, sans-serif;
-      --z-max-w: 1080px;
-      --z-radius: 16px;
+      --z-surface:    #131313;
+      --z-surface-2:  #1C1B1B;
+      --z-surface-3:  #242424;
+      --z-surface-4:  #2A2A2A;
+      --z-surface-5:  #353534;
+      --z-black:      #0A0A0A;
+      --z-orange:     #F26C22;
+      --z-orange-glow: rgba(242,108,34,0.18);
+      --z-orange-soft: rgba(242,108,34,0.08);
+      --z-text:       #E5E2E1;
+      --z-text-muted: rgba(229,226,225,0.55);
+      --z-text-faint: rgba(229,226,225,0.30);
+      --z-ghost:      rgba(229,226,225,0.08);
+      --z-ghost-border: rgba(229,226,225,0.10);
+      --z-white:      #E5E2E1;
+      --z-gray-700:   rgba(229,226,225,0.80);
+      --z-gray-500:   rgba(229,226,225,0.55);
+      --z-gray-400:   rgba(229,226,225,0.35);
+      --z-gray-100:   #1C1B1B;
+      --z-border:     rgba(229,226,225,0.10);
+      --z-font:       'Inter', ui-sans-serif, system-ui, sans-serif;
+      --z-headline:   'Space Grotesk', 'Inter', ui-sans-serif, sans-serif;
+      --z-max-w:      1080px;
+      --z-radius:     14px;
     }
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { font-size: 16px; scroll-behavior: smooth; overflow-x: hidden; scrollbar-gutter: stable; }
@@ -42,8 +57,8 @@
     }
     body {
       font-family: var(--z-font);
-      color: var(--z-black);
-      background: var(--z-white);
+      color: var(--z-text);
+      background: var(--z-surface);
       line-height: 1.6;
       -webkit-font-smoothing: antialiased;
     }
@@ -51,9 +66,9 @@
     /* ── NAV ── */
     .nav {
       position: fixed; top: 0; left: 0; right: 0; z-index: 50;
-      background: rgba(17,17,17,.97);
+      background: rgba(10,10,10,0.95);
       backdrop-filter: blur(12px);
-      border-bottom: 1px solid rgba(255,255,255,.06);
+      border-bottom: 1px solid rgba(229,226,225,0.06);
     }
     .nav-inner {
       max-width: var(--z-max-w);
@@ -91,54 +106,177 @@
       flex-wrap: wrap; justify-content: flex-end;
     }
     .nav-links a {
-      color: rgba(255,255,255,.72); text-decoration: none;
+      color: var(--z-text-muted); text-decoration: none;
       font-size: 12px; font-weight: 600; letter-spacing: .04em;
     }
-    .nav-links a:hover { color: #fff; }
+    .nav-links a:hover { color: var(--z-text); }
     @media (max-width: 900px) {
       .nav-links { display: none; }
     }
 
     /* ── HERO ── */
     .hero {
-      padding: 140px 24px 80px;
-      background: linear-gradient(180deg, #0b0b0b 0%, #1a1a1a 60%, var(--z-black) 100%);
-      color: #fff;
-      text-align: center;
+      padding: 100px 24px 0;
+      background: linear-gradient(160deg, #0A0A0A 0%, #1a1208 50%, #131313 100%);
+      color: var(--z-text);
       position: relative;
       overflow: hidden;
     }
-    .hero::after {
+    .hero::before {
       content: '';
-      position: absolute; bottom: 0; left: 0; right: 0;
-      height: 120px;
-      background: linear-gradient(180deg, transparent, var(--z-white));
+      position: absolute;
+      top: -120px; left: 50%; transform: translateX(-50%);
+      width: 700px; height: 700px;
+      background: radial-gradient(circle, rgba(242,108,34,0.07) 0%, transparent 65%);
+      pointer-events: none;
     }
-    .hero-inner {
-      max-width: 720px; margin: 0 auto;
-      position: relative; z-index: 1;
-    }
-    .hero-eyebrow {
-      display: inline-flex;
+    .hero::after { display: none; }
+    .hero-split {
+      max-width: var(--z-max-w);
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
       align-items: center;
-      gap: 8px;
-      background: rgba(242, 108, 34, 0.10);
-      border: 1px solid rgba(242, 108, 34, 0.25);
+      padding-bottom: 64px;
+    }
+    .hero-left { text-align: left; }
+    .hero-eyebrow {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--z-orange-soft);
+      border: 1px solid rgba(242,108,34,0.22);
       border-radius: 24px;
       padding: 6px 16px;
-      font-size: 12px;
-      font-weight: 700;
-      color: #F26C22;
-      margin-bottom: 20px;
+      font-size: 12px; font-weight: 700; letter-spacing: .04em;
+      color: #FFB695;
+      margin-bottom: 28px;
     }
+    .hero-h1 {
+      font-family: var(--z-headline);
+      font-size: clamp(36px, 4.5vw, 58px);
+      font-weight: 800;
+      line-height: 1.06;
+      letter-spacing: -0.03em;
+      margin-bottom: 22px;
+      color: var(--z-text);
+    }
+    .hero-h1 .accent {
+      background: linear-gradient(135deg, #FFB695, #F26C22);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .hero-sub {
+      font-size: 17px;
+      color: var(--z-text-muted);
+      line-height: 1.65;
+      max-width: 460px;
+      margin-bottom: 36px;
+    }
+    .hero-ctas {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+    .hero-btn {
+      display: inline-block;
+      padding: 14px 28px;
+      border-radius: 999px;
+      text-decoration: none;
+      font-size: 14px; font-weight: 700;
+      transition: transform .2s cubic-bezier(.22,1,.36,1), box-shadow .2s cubic-bezier(.22,1,.36,1);
+    }
+    .hero-btn:hover { transform: translateY(-2px); }
+    .hero-btn--primary {
+      background: var(--z-orange); color: #fff;
+      box-shadow: 0 12px 36px rgba(242,108,34,0.35);
+    }
+    .hero-btn--primary:hover { box-shadow: 0 16px 48px rgba(242,108,34,0.45); }
+    .hero-btn--glass {
+      background: rgba(229,226,225,0.06);
+      color: var(--z-text);
+      border: 1px solid var(--z-ghost-border);
+      backdrop-filter: blur(12px);
+    }
+    .hero-btn--glass:hover { background: rgba(229,226,225,0.10); }
+    /* Hero right: AI graphic + steps */
+    .hero-right {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 32px;
+    }
+    .hero-ai-graphic { width: 200px; }
+    .ai-bulb-svg { width: 100%; height: auto; }
+    @keyframes aiPulse {
+      0%, 100% { opacity: 0.4; transform: scale(0.95); }
+      50%       { opacity: 1;   transform: scale(1.08); }
+    }
+    .ai-pulse { animation: aiPulse 3s ease-in-out infinite; }
+    .hero-steps-list {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+    .hero-step-item { padding: 16px 0; }
+    .hsi-top {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      margin-bottom: 10px;
+    }
+    .hsi-num {
+      font-family: var(--z-headline);
+      font-size: 1.8rem;
+      font-weight: 800;
+      color: var(--z-orange);
+      line-height: 1;
+      flex-shrink: 0;
+      min-width: 40px;
+    }
+    .hsi-title {
+      font-size: 15px; font-weight: 700;
+      color: var(--z-text);
+      margin-bottom: 4px;
+    }
+    .hsi-desc {
+      font-size: 13px;
+      color: var(--z-text-muted);
+      line-height: 1.55;
+    }
+    .hsi-bar {
+      height: 1.5px;
+      background: linear-gradient(90deg, #F26C22 0%, rgba(242,108,34,0.08) 100%);
+      border-radius: 2px;
+    }
+    /* Responsive hero */
+    @media (max-width: 820px) {
+      .hero-split { grid-template-columns: 1fr; gap: 48px; }
+      .hero-left { text-align: center; }
+      .hero-sub { margin: 0 auto 36px; }
+      .hero-ctas { justify-content: center; }
+      .hero-right { order: -1; }
+      .hero-ai-graphic { width: 150px; }
+    }
+    /* Keep legacy classes available for any existing references */
+    .hero-inner { max-width: var(--z-max-w); margin: 0 auto; position: relative; z-index: 1; }
+    .hero-badge { display: none; }
+    .hero h1 .accent { color: var(--z-orange); }
+    .hero-sep { display: none; }
+    .hero-trust { display: none; }
+    /* Stats bar */
     .stats-bar-section {
-      border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+      background: var(--z-surface-2);
+      border-bottom: 1px solid var(--z-ghost-border);
       padding: 0;
     }
     .stats-bar {
       display: flex;
       align-items: stretch;
-      border: 1px solid rgba(255, 255, 255, 0.07);
+      border: 1px solid var(--z-ghost-border);
+      background: var(--z-surface-3);
       border-radius: 12px;
       overflow: hidden;
       margin: 0 0 56px;
@@ -147,22 +285,25 @@
       flex: 1;
       padding: 20px 16px;
       text-align: center;
-      border-right: 1px solid rgba(255, 255, 255, 0.07);
+      border-right: 1px solid var(--z-ghost-border);
       display: flex;
       flex-direction: column;
       gap: 4px;
     }
     .stat-item:last-child { border-right: none; }
     .stat-num {
-      font-size: 24px;
+      font-size: 2.5rem;
       font-weight: 800;
-      color: #FFFFFF;
+      color: var(--z-text);
       line-height: 1;
     }
     .stat-label {
-      font-size: 11px;
-      color: rgba(255, 255, 255, 0.35);
-      font-weight: 500;
+      font-size: 0.75rem;
+      color: var(--z-text-faint);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: .05em;
+      margin-top: 4px;
     }
     .price-anchor {
       text-align: center;
@@ -174,66 +315,9 @@
     .price-anchor strong { color: var(--z-gray-700); }
     @media (max-width: 640px) {
       .stats-bar { flex-direction: column; border-radius: 12px; }
-      .stat-item { border-right: none; border-bottom: 1px solid rgba(255,255,255,0.07); }
+      .stat-item { border-right: none; border-bottom: 1px solid var(--z-ghost-border); }
       .stat-item:last-child { border-bottom: none; }
     }
-    .hero-badge {
-      display: inline-block;
-      padding: 6px 16px; border-radius: 999px;
-      background: rgba(242,108,34,.12);
-      border: 1px solid rgba(242,108,34,.25);
-      font-size: 12px; font-weight: 600;
-      letter-spacing: .04em;
-      color: var(--z-orange);
-      margin-bottom: 28px;
-    }
-    .hero h1 {
-      font-size: clamp(32px, 5vw, 52px);
-      font-weight: 900;
-      line-height: 1.08;
-      letter-spacing: -0.03em;
-      margin-bottom: 20px;
-    }
-    .hero h1 .accent { color: var(--z-orange); }
-    .hero-sub {
-      font-size: clamp(16px, 2vw, 19px);
-      color: rgba(255,255,255,.6);
-      line-height: 1.6;
-      max-width: 560px;
-      margin: 0 auto 40px;
-    }
-    .hero-ctas {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 16px;
-      flex-wrap: wrap;
-    }
-    .hero-btn {
-      display: inline-block;
-      padding: 14px 32px;
-      border-radius: 999px;
-      text-decoration: none;
-      font-size: 15px;
-      font-weight: 700;
-      transition: transform .15s, box-shadow .15s, opacity .15s;
-    }
-    .hero-btn:hover { transform: translateY(-1px); }
-    .hero-btn--primary {
-      background: var(--z-orange); color: #fff;
-      box-shadow: 0 10px 28px rgba(242,108,34,.3);
-    }
-    .hero-btn--primary:hover { box-shadow: 0 14px 36px rgba(242,108,34,.4); }
-    .hero-btn--secondary {
-      background: transparent; color: rgba(255,255,255,.85);
-      border: 1px solid rgba(255,255,255,.2);
-    }
-    .hero-btn--secondary:hover { background: rgba(255,255,255,.06); color: #fff; }
-    .hero-sep {
-      color: rgba(255,255,255,.25);
-      font-size: 13px;
-    }
-    .hero-trust { display: none; }
     .ticker-wrap {
       margin-top: 48px;
       overflow: hidden;
@@ -259,11 +343,32 @@
       color: rgba(255,255,255,.35);
       letter-spacing: .04em;
     }
+    /* ── Ticker logo-marks ── */
+    .ticker-logo {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      opacity: 0.6;
+      transition: opacity .2s;
+      flex-shrink: 0;
+    }
+    .ticker-logo:hover { opacity: 1; }
+    .ticker-logo-icon {
+      width: 22px; height: 22px; border-radius: 5px;
+      display: inline-flex; align-items: center; justify-content: center;
+      font-size: 8px; font-weight: 900; color: #fff; flex-shrink: 0;
+    }
+    .ticker-logo-name {
+      font-size: 12px; font-weight: 700;
+      color: rgba(255,255,255,.8);
+      letter-spacing: .02em; white-space: nowrap;
+    }
+    .ticker-sep { color: rgba(255,255,255,.12); font-size: 18px; line-height: 1; }
 
     /* ── HOW IT WORKS ── */
     .how {
       padding: 80px 24px;
-      background: var(--z-white);
+      background: var(--z-surface-2);
     }
     .how-inner {
       max-width: var(--z-max-w);
@@ -277,11 +382,13 @@
       margin-bottom: 12px;
     }
     .section-title {
+      font-family: var(--z-headline);
       font-size: clamp(24px, 3.5vw, 36px);
       font-weight: 800;
       text-align: center;
       letter-spacing: -0.02em;
       margin-bottom: 56px;
+      color: var(--z-text);
     }
     .steps {
       display: grid;
@@ -289,17 +396,21 @@
       gap: 32px;
     }
     .step {
-      padding: 32px 28px;
-      border: 1px solid var(--z-border);
+      padding: 28px 24px;
+      background: var(--z-surface-4);
+      border: 1px solid var(--z-ghost-border);
       border-radius: var(--z-radius);
-      transition: box-shadow .2s;
+      transition: background .2s;
     }
-    .step:hover {
-      box-shadow: 0 8px 32px rgba(0,0,0,.06);
+    .step:hover { background: var(--z-surface-5); box-shadow: none; }
+    .step[style*="border-color:var(--z-orange)"]:hover,
+    .step[style*="border-color: var(--z-orange)"]:hover {
+      box-shadow: 0 28px 70px rgba(242,108,34,0.25);
+      transform: translateY(-6px);
     }
     .step-num {
       width: 36px; height: 36px; border-radius: 10px;
-      background: var(--z-gray-100); color: var(--z-orange);
+      background: rgba(242,108,34,0.12); color: var(--z-orange);
       font-size: 14px; font-weight: 800;
       display: grid; place-items: center;
       margin-bottom: 20px;
@@ -307,46 +418,156 @@
     .step h3 {
       font-size: 17px; font-weight: 700;
       margin-bottom: 8px;
+      color: var(--z-text);
     }
     .step p {
-      font-size: 14px; color: var(--z-gray-500);
+      font-size: 14px; color: var(--z-text-muted);
       line-height: 1.6;
     }
 
-    /* ── INSTRUMENTS ── */
+    /* ── COBERTURA MAP ── */
     .instruments {
       padding: 64px 24px 80px;
-      background: var(--z-gray-100);
+      background: var(--z-surface);
     }
     .instruments-inner {
       max-width: var(--z-max-w);
       margin: 0 auto;
     }
-    .inst-grid {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 12px;
-      margin-top: 36px;
+    .cob-card {
+      background: var(--z-surface-3);
+      border: 1px solid var(--z-ghost-border);
+      border-radius: 20px;
+      overflow: hidden;
+      margin-top: 32px;
+      box-shadow: 0 0 60px rgba(0,0,0,0.4), 0 -5px 60px rgba(0,0,0,0.2);
     }
-    .inst-tag {
-      padding: 10px 20px;
-      border-radius: 999px;
-      background: var(--z-white);
-      border: 1px solid var(--z-border);
-      font-size: 14px; font-weight: 600;
-      color: var(--z-gray-700);
-      transition: border-color .15s, color .15s;
+    .cob-body {
+      display: grid;
+      grid-template-columns: 1fr 300px;
+      min-height: 420px;
+      border-top: 1px solid var(--z-ghost-border);
     }
-    .inst-tag:hover {
-      border-color: var(--z-orange);
-      color: var(--z-orange);
+    @media (max-width: 720px) {
+      .cob-body { grid-template-columns: 1fr; }
+      .cob-fund-panel { border-left: none !important; border-top: 1px solid var(--z-ghost-border); max-height: 320px; }
     }
+    /* Map area — dark mode */
+    .cob-map-area {
+      background: #0F1117;
+      padding: 24px 20px 16px;
+      display: flex; flex-direction: column; gap: 12px;
+    }
+    .cob-world-map { width: 100%; height: auto; display: block; }
+    .cob-continent {
+      fill: #2A3A5C;
+      stroke: rgba(255,255,255,0.08);
+      stroke-width: 1.2;
+      transition: fill .25s;
+    }
+    .cob-continent.active { fill: rgba(242,108,34,0.35); stroke: rgba(242,108,34,0.5); }
+    .cob-fund-dot { cursor: pointer; }
+    .cob-fund-dot .dot-outer {
+      fill: rgba(242,108,34,.25);
+      animation: cobPulse 2.5s ease-out infinite;
+    }
+    .cob-fund-dot .dot-inner { fill: #F26C22; }
+    .cob-fund-dot.inactive .dot-outer { fill: rgba(0,0,0,.06); animation: none; }
+    .cob-fund-dot.inactive .dot-inner { fill: #C5CDD8; }
+    @keyframes cobPulse {
+      0%   { r: 9;  opacity: .8; }
+      70%  { r: 16; opacity: 0; }
+      100% { r: 9;  opacity: 0; }
+    }
+    .cob-dot-label {
+      font-size: 8.5px; font-weight: 700;
+      fill: rgba(229,226,225,0.55); pointer-events: none;
+      text-anchor: middle; letter-spacing: .03em;
+    }
+    .cob-dot-count {
+      font-size: 7.5px; font-weight: 900;
+      fill: var(--z-orange); pointer-events: none; text-anchor: middle;
+    }
+    .cob-soon { font-size: 7px; font-weight: 600; fill: rgba(229,226,225,0.25); pointer-events: none; text-anchor: middle; letter-spacing: .06em; }
+    /* Region tabs */
+    .cob-tabs { display: flex; gap: 5px; flex-wrap: wrap; }
+    .cob-tab {
+      padding: 5px 12px; border-radius: 999px;
+      font-size: 11px; font-weight: 700;
+      border: 1px solid var(--z-ghost-border);
+      background: transparent;
+      color: var(--z-text-muted);
+      cursor: pointer; transition: all .15s;
+      display: flex; align-items: center; gap: 5px;
+      font-family: var(--z-font);
+    }
+    .cob-tab:hover { border-color: var(--z-orange); color: var(--z-orange); }
+    .cob-tab.active { background: var(--z-orange); color: #fff; border-color: var(--z-orange); }
+    .cob-tab .cnt { background: rgba(229,226,225,0.08); border-radius: 999px; padding: 0 5px; font-size: 9px; font-weight: 900; }
+    .cob-data-note {
+      font-size: 10px; color: #aaa;
+      display: flex; align-items: center; justify-content: center; gap: 5px;
+    }
+    .cob-data-dot { width: 5px; height: 5px; border-radius: 50%; background: #10b981; flex-shrink: 0; animation: cobBlink 2s ease-in-out infinite; }
+    @keyframes cobBlink { 0%,100%{opacity:1} 50%{opacity:.3} }
+    /* Theme pills */
+    .cob-theme-pills {
+      display: flex; flex-wrap: wrap; gap: 6px;
+      padding: 4px 0 2px;
+    }
+    .cob-theme-pill {
+      padding: 4px 12px; border-radius: 20px; font-size: 11px; font-weight: 600;
+      border: 1px solid var(--z-ghost-border); background: transparent;
+      color: var(--z-text-muted); cursor: pointer; transition: all .2s;
+      font-family: var(--z-font);
+    }
+    .cob-theme-pill:hover { border-color: var(--z-orange); color: var(--z-orange); }
+    .cob-theme-pill.active { background: var(--z-orange); border-color: var(--z-orange); color: #fff; }
+    /* Fund panel */
+    .cob-fund-panel {
+      border-left: 1px solid var(--z-ghost-border);
+      display: flex; flex-direction: column; overflow: hidden;
+    }
+    .cob-panel-hdr {
+      padding: 14px 16px; border-bottom: 1px solid var(--z-ghost-border);
+      background: var(--z-surface-3); position: sticky; top: 0; z-index: 1;
+    }
+    .cob-panel-hdr h3 { font-size: 13px; font-weight: 800; color: var(--z-text); }
+    .cob-panel-hdr p  { font-size: 11px; color: var(--z-text-muted); margin-top: 2px; }
+    .cob-fund-list { overflow-y: auto; flex: 1; max-height: 400px; padding: 6px; }
+    .cob-fund-item {
+      display: flex; align-items: flex-start; gap: 9px;
+      padding: 10px 9px; border-radius: 8px;
+      cursor: pointer; transition: background .12s;
+      text-decoration: none; color: inherit;
+    }
+    .cob-fund-item:hover { background: rgba(229,226,225,0.04); }
+    .cob-fi-ico {
+      width: 28px; height: 28px; border-radius: 7px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 8px; font-weight: 900; color: #fff; flex-shrink: 0;
+    }
+    .cob-fi-body { flex: 1; min-width: 0; }
+    .cob-fi-name { font-size: 12px; font-weight: 700; line-height: 1.25; color: var(--z-text); }
+    .cob-fi-row  { display: flex; align-items: center; gap: 5px; margin-top: 3px; }
+    .cob-fi-amt  { font-size: 10px; color: var(--z-text-muted); }
+    .cob-fdot    { width: 5px; height: 5px; border-radius: 50%; flex-shrink: 0; }
+    .cob-fdot-open   { background: #10b981; }
+    .cob-fdot-coming { background: #f59e0b; }
+    .cob-fdot-closed { background: #D1D5DB; }
+    .cob-fst     { font-size: 10px; font-weight: 700; }
+    .cob-fst-open   { color: #059669; }
+    .cob-fst-coming { color: #d97706; }
+    .cob-fst-closed { color: #9CA3AF; }
+    .cob-fi-cta  { font-size: 10px; font-weight: 700; color: var(--z-orange); white-space: nowrap; align-self: center; flex-shrink: 0; }
+
+    /* ── COBERTURA THEME PILLS (duplicate block) ── */
+    /* handled above — keeping selector for specificity */
 
     /* ── EVALUATOR (CHAT) ── */
     .evaluator {
       padding: 80px 24px 100px;
-      background: linear-gradient(180deg, var(--z-white) 0%, var(--z-orange-soft) 50%, var(--z-white) 100%);
+      background: var(--z-surface-2);
     }
     .evaluator-inner {
       max-width: var(--z-max-w);
@@ -357,10 +578,10 @@
       margin: 0 auto;
       border-radius: var(--z-radius);
       overflow: hidden;
-      border: 1px solid var(--z-border);
-      box-shadow: 0 16px 64px rgba(0,0,0,.08);
-      background: rgba(255,255,255,.85);
-      backdrop-filter: blur(8px);
+      background: rgba(36,36,36,0.75);
+      backdrop-filter: blur(24px);
+      border: 1px solid var(--z-ghost-border);
+      box-shadow: 0 40px 80px rgba(0,0,0,0.5);
     }
     .chat-header {
       padding: 14px 18px;
@@ -448,32 +669,36 @@
       font-size: 14px; line-height: 1.55;
     }
     .row.bot .bubble {
-      background: #fff;
-      border: 1px solid var(--z-border);
-      box-shadow: 0 4px 14px rgba(0,0,0,.04);
+      background: var(--z-surface-4);
+      border: 1px solid var(--z-ghost-border);
+      color: var(--z-text);
     }
     .row.user .bubble {
-      background: var(--z-orange-soft);
-      border: 1px solid #ffd8bf;
-      color: #1a1a1a;
+      background: rgba(242,108,34,0.12);
+      border: 1px solid rgba(242,108,34,0.25);
+      color: var(--z-text);
     }
     .bubble small { color: var(--z-gray-500); font-size: 12px; display: block; margin-top: 8px; }
     .composer {
       padding: 14px 16px 16px;
-      background: #fff;
-      border-top: 1px solid #E5E7EB;
+      background: var(--z-surface-3);
+      border-top: 1px solid var(--z-ghost-border);
     }
     .input-wrap { display: flex; flex-direction: column; gap: 10px; }
     input[type="text"], input[type="email"], textarea, select {
       width: 100%; padding: 12px 14px; border-radius: 12px;
-      border: 1px solid var(--z-border);
-      font: inherit; font-size: 15px; background: #fff;
+      border: 1px solid var(--z-ghost-border);
+      font: inherit; font-size: 15px;
+      background: var(--z-surface-2);
+      color: var(--z-text);
     }
     textarea { min-height: 88px; resize: vertical; }
     select { cursor: pointer; }
+    input::placeholder, textarea::placeholder { color: var(--z-text-faint); }
     input:focus, textarea:focus, select:focus {
-      outline: 2px solid rgba(242,108,34,.35);
-      border-color: var(--z-orange);
+      outline: none;
+      border-color: rgba(242,108,34,0.5);
+      box-shadow: 0 0 0 3px rgba(242,108,34,0.12);
     }
     .file-row {
       display: flex; flex-wrap: wrap; align-items: center;
@@ -550,7 +775,11 @@
       box-shadow: 0 8px 20px rgba(242,108,34,.25);
     }
     button.primary:disabled { opacity: .55; cursor: not-allowed; box-shadow: none; }
-    button.ghost { background: #fff; border: 1px solid var(--z-border); color: #333; }
+    button.ghost {
+      background: transparent;
+      border: 1px solid var(--z-ghost-border);
+      color: var(--z-text);
+    }
     .hidden { display: none !important; }
     .error { color: #b42318; font-size: 13px; margin-top: 6px; }
     .success-panel { text-align: center; padding: 28px 16px; }
@@ -585,7 +814,34 @@
       background: #ecfdf3; color: #057a55; border-radius: 999px;
       font-size: 13px; font-weight: 700;
     }
+    .report-toolbar {
+      width: 100%; max-width: 720px; margin: 0 auto 10px; padding: 10px 12px;
+      display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 10px 14px;
+      background: var(--z-gray-50); border: 1px solid var(--z-border); border-radius: 10px;
+    }
+    .report-toolbar-hint {
+      flex: 1 1 220px; margin: 0; font-size: 12px; color: var(--z-gray-500); line-height: 1.5; text-align: center;
+    }
+    .report-fs-btn {
+      flex: 0 0 auto; padding: 8px 14px; font-size: 13px; font-weight: 700;
+      border: 1px solid var(--z-border); border-radius: 999px; background: #fff; color: var(--z-black);
+      cursor: pointer;
+    }
+    .report-fs-btn:focus-visible { outline: 2px solid var(--z-orange); outline-offset: 2px; }
+    .report-iframe-wrap { width: 100%; position: relative; border-radius: 8px; overflow: hidden; }
+    .report-iframe-wrap.report-iframe-fullscreen {
+      position: fixed; inset: 0; z-index: 9999; border-radius: 0; background: #fff;
+    }
+    .report-iframe-wrap.report-iframe-fullscreen .report-iframe { height: calc(100vh - 0px) !important; border-radius: 0; }
+    .chat-shell.report-shell-fs .chat-body { height: 100vh !important; max-height: none !important; }
     .report-iframe { width: 100%; height: 70vh; border: none; border-radius: 8px; }
+    .report-pdf-row { width: 100%; text-align: center; margin-top: 12px; }
+    .report-pdf-btn {
+      display: inline-block; padding: 14px 28px; font-size: 15px; font-weight: 800;
+      background: #fff; color: var(--z-black); border: 2px solid var(--z-orange); border-radius: 999px;
+      text-decoration: none; box-shadow: 0 4px 16px rgba(242,108,34,.2);
+    }
+    .report-pdf-btn:hover { background: #fff7ed; }
     .report-cta-btn {
       display: inline-block; margin-top: 16px; padding: 12px 28px;
       background: var(--z-orange); color: #fff; border-radius: 999px;
@@ -596,7 +852,7 @@
     /* ── ZENTI.START FORM ── */
     .start-section {
       padding: 80px 24px 100px;
-      background: var(--z-white);
+      background: var(--z-surface);
     }
     .start-inner {
       max-width: var(--z-max-w);
@@ -606,9 +862,9 @@
       max-width: 560px;
       margin: 0 auto;
       border-radius: var(--z-radius);
-      border: 1px solid var(--z-border);
-      background: var(--z-white);
-      box-shadow: 0 16px 64px rgba(0,0,0,.06);
+      border: 1px solid var(--z-ghost-border);
+      background: var(--z-surface-3);
+      box-shadow: 0 16px 64px rgba(0,0,0,.3);
       overflow: hidden;
     }
     .start-card-header {
@@ -662,8 +918,8 @@
     .path-tab {
       padding: 10px 24px; border-radius: 999px;
       font-size: 14px; font-weight: 600;
-      border: 1px solid var(--z-border);
-      background: var(--z-white); color: var(--z-gray-500);
+      border: 1px solid var(--z-ghost-border);
+      background: transparent; color: var(--z-text-muted);
       cursor: pointer; transition: all .15s;
     }
     .path-tab:hover { border-color: var(--z-orange); color: var(--z-orange); }
@@ -707,20 +963,26 @@
       margin-top: 32px;
     }
     .quote-card {
-      border: 1px solid var(--z-border);
+      border: 1px solid var(--z-ghost-border);
       border-radius: var(--z-radius);
       padding: 22px;
-      background: var(--z-white);
+      background: var(--z-surface-4);
+      box-shadow: 0 4px 16px rgba(0,0,0,.25);
+      transition: transform .2s, box-shadow .2s;
     }
-    .quote-card p { font-size: 14px; color: var(--z-gray-700); line-height: 1.65; font-style: italic; margin-bottom: 12px; }
+    .quote-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(0,0,0,.35);
+    }
+    .quote-card p { font-size: 14px; color: var(--z-text-muted); line-height: 1.65; font-style: italic; margin-bottom: 12px; }
     .quote-card cite { font-size: 12px; font-weight: 700; color: var(--z-orange); font-style: normal; }
     .faq-list { max-width: 720px; margin: 32px auto 0; text-align: left; }
     .faq-item {
-      border-bottom: 1px solid var(--z-border);
+      border-bottom: 1px solid var(--z-ghost-border);
       padding: 18px 0;
     }
-    .faq-item h3 { font-size: 15px; font-weight: 700; margin-bottom: 8px; color: var(--z-black); }
-    .faq-item p { font-size: 14px; color: var(--z-gray-500); line-height: 1.65; }
+    .faq-item h3 { font-size: 15px; font-weight: 700; margin-bottom: 8px; color: var(--z-text); }
+    .faq-item p { font-size: 14px; color: var(--z-text-muted); line-height: 1.65; }
 
     /* ── RESPONSIVE ── */
     @media (max-width: 640px) {
@@ -759,78 +1021,154 @@
 
   <!-- HERO -->
   <section class="hero">
-    <div class="hero-inner">
-      <div class="hero-eyebrow">⚠ El 78% de las propuestas CORFO se rechazan por errores corregibles</div>
-      <div class="hero-badge">Evaluación técnico-estratégica con IA</div>
-      <h1>Conoce tus probabilidades <span class="accent">antes de postular</span></h1>
-      <p class="hero-sub">
-        Evalúa tu postulación a CORFO, NSF SBIR, Horizon Europe, Y Combinator y +30 fondos — con los criterios reales de cada comité. Informe ejecutivo en minutos.
-      </p>
-      <div class="hero-ctas">
-        <a href="#evaluator" class="hero-btn hero-btn--primary" data-scroll-eval>Evaluar mi propuesta gratis</a>
-        <span class="hero-sep">o</span>
-        <a href="#start" class="hero-btn hero-btn--secondary" data-scroll-start>Explorar con mi idea</a>
+    <div class="hero-split">
+      <!-- LEFT: Text + CTA -->
+      <div class="hero-left">
+        <div class="hero-eyebrow">⚡ IA estratégica para fondos de innovación</div>
+        <h1 class="hero-h1">De la <span class="accent">Idea</span> a la<br><span class="accent">Subvención</span> con IA</h1>
+        <p class="hero-sub">Zenti valida tu idea de startup y construye una postulación ganadora automáticamente, impulsado por IA estratégica.</p>
+        <div class="hero-ctas">
+          <a href="#evaluator" class="hero-btn hero-btn--primary" data-scroll-eval>Validar mi idea ahora</a>
+          <a href="#cobertura" class="hero-btn hero-btn--glass">Ver fondos disponibles →</a>
+        </div>
       </div>
-      <div class="ticker-wrap">
-        <div class="ticker-track" id="ticker-track">
-          <span class="ticker-item">CORFO Crea y Valida</span>
-          <span class="ticker-item">·</span>
-          <span class="ticker-item">Startup Chile</span>
-          <span class="ticker-item">·</span>
-          <span class="ticker-item">NSF SBIR/STTR</span>
-          <span class="ticker-item">·</span>
-          <span class="ticker-item">Y Combinator</span>
-          <span class="ticker-item">·</span>
-          <span class="ticker-item">Horizon Europe</span>
-          <span class="ticker-item">·</span>
-          <span class="ticker-item">EIC Accelerator</span>
-          <span class="ticker-item">·</span>
-          <span class="ticker-item">Innovate UK</span>
-          <span class="ticker-item">·</span>
-          <span class="ticker-item">Eurostars</span>
-          <span class="ticker-item">·</span>
-          <span class="ticker-item">iNNpulsa</span>
-          <span class="ticker-item">·</span>
-          <span class="ticker-item">FINEP</span>
-          <span class="ticker-item">·</span>
-          <span class="ticker-item">ANID FONDEF</span>
-          <span class="ticker-item">·</span>
-          <span class="ticker-item">DOE SBIR</span>
-          <span class="ticker-item">·</span>
-          <span class="ticker-item">FONTAR Argentina</span>
-          <span class="ticker-item">·</span>
-          <span class="ticker-item">+30 fondos →</span>
-          <!-- duplicado para loop sin salto -->
-          <span class="ticker-item">CORFO Crea y Valida</span>
-          <span class="ticker-item">·</span>
-          <span class="ticker-item">Startup Chile</span>
-          <span class="ticker-item">·</span>
-          <span class="ticker-item">NSF SBIR/STTR</span>
-          <span class="ticker-item">·</span>
-          <span class="ticker-item">Y Combinator</span>
-          <span class="ticker-item">·</span>
-          <span class="ticker-item">Horizon Europe</span>
-          <span class="ticker-item">·</span>
-          <span class="ticker-item">EIC Accelerator</span>
-          <span class="ticker-item">·</span>
-          <span class="ticker-item">Innovate UK</span>
-          <span class="ticker-item">·</span>
-          <span class="ticker-item">Eurostars</span>
-          <span class="ticker-item">·</span>
-          <span class="ticker-item">iNNpulsa</span>
-          <span class="ticker-item">·</span>
-          <span class="ticker-item">FINEP</span>
-          <span class="ticker-item">·</span>
-          <span class="ticker-item">ANID FONDEF</span>
-          <span class="ticker-item">·</span>
-          <span class="ticker-item">DOE SBIR</span>
-          <span class="ticker-item">·</span>
-          <span class="ticker-item">FONTAR Argentina</span>
-          <span class="ticker-item">·</span>
-          <span class="ticker-item">+30 fondos →</span>
+      <!-- RIGHT: AI Graphic + Steps -->
+      <div class="hero-right">
+        <div class="hero-ai-graphic">
+          <svg viewBox="0 0 220 260" xmlns="http://www.w3.org/2000/svg" class="ai-bulb-svg">
+            <defs>
+              <radialGradient id="glowGrad" cx="50%" cy="50%" r="50%">
+                <stop offset="0%" stop-color="#F26C22" stop-opacity="0.25"/>
+                <stop offset="100%" stop-color="#F26C22" stop-opacity="0"/>
+              </radialGradient>
+              <filter id="glow"><feGaussianBlur stdDeviation="3" result="coloredBlur"/><feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+            </defs>
+            <!-- Outer glow -->
+            <circle cx="110" cy="108" r="85" fill="url(#glowGrad)" class="ai-pulse"/>
+            <!-- Outer ring -->
+            <circle cx="110" cy="108" r="72" fill="none" stroke="rgba(242,108,34,0.15)" stroke-width="1" stroke-dasharray="4 6"/>
+            <!-- Mid ring -->
+            <circle cx="110" cy="108" r="52" fill="none" stroke="rgba(242,108,34,0.22)" stroke-width="0.8"/>
+            <!-- Bulb dome -->
+            <path d="M 82,138 Q 58,122 58,100 A 52,52 0 0,1 162,100 Q 162,122 138,138 Z" fill="none" stroke="#F26C22" stroke-width="1.8" filter="url(#glow)" opacity="0.9"/>
+            <!-- Bulb base -->
+            <rect x="88" y="136" width="44" height="7" rx="3.5" fill="rgba(242,108,34,0.35)"/>
+            <rect x="92" y="145" width="36" height="6" rx="3" fill="rgba(242,108,34,0.25)"/>
+            <rect x="96" y="153" width="28" height="5" rx="2.5" fill="rgba(242,108,34,0.15)"/>
+            <!-- Neural network nodes -->
+            <circle cx="110" cy="88" r="4" fill="#F26C22" filter="url(#glow)"/>
+            <circle cx="84"  cy="108" r="3" fill="#F26C22" opacity="0.75"/>
+            <circle cx="136" cy="108" r="3" fill="#F26C22" opacity="0.75"/>
+            <circle cx="94"  cy="70"  r="2.5" fill="#FFB695" opacity="0.6"/>
+            <circle cx="126" cy="70"  r="2.5" fill="#FFB695" opacity="0.6"/>
+            <circle cx="110" cy="58"  r="2"   fill="#FFB695" opacity="0.45"/>
+            <!-- Connection lines -->
+            <line x1="110" y1="88" x2="84"  y2="108" stroke="#F26C22" stroke-width="1" opacity="0.35"/>
+            <line x1="110" y1="88" x2="136" y2="108" stroke="#F26C22" stroke-width="1" opacity="0.35"/>
+            <line x1="110" y1="88" x2="94"  y2="70"  stroke="#F26C22" stroke-width="1" opacity="0.35"/>
+            <line x1="110" y1="88" x2="126" y2="70"  stroke="#F26C22" stroke-width="1" opacity="0.35"/>
+            <line x1="94"  y1="70" x2="110" y2="58"  stroke="#FFB695" stroke-width="0.8" opacity="0.3"/>
+            <line x1="126" y1="70" x2="110" y2="58"  stroke="#FFB695" stroke-width="0.8" opacity="0.3"/>
+            <!-- Spark lines from bulb -->
+            <line x1="110" y1="48" x2="110" y2="38" stroke="#F26C22" stroke-width="1.5" opacity="0.5" stroke-linecap="round"/>
+            <line x1="148" y1="62" x2="156" y2="54" stroke="#F26C22" stroke-width="1.2" opacity="0.4" stroke-linecap="round"/>
+            <line x1="72"  y1="62" x2="64"  y2="54" stroke="#F26C22" stroke-width="1.2" opacity="0.4" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="hero-steps-list">
+          <div class="hero-step-item">
+            <div class="hsi-top">
+              <span class="hsi-num">1.</span>
+              <div>
+                <div class="hsi-title">Describe tu visión</div>
+                <div class="hsi-desc">La IA analiza tu concepto central y su potencial.</div>
+              </div>
+            </div>
+            <div class="hsi-bar"></div>
+          </div>
+          <div class="hero-step-item">
+            <div class="hsi-top">
+              <span class="hsi-num">2.</span>
+              <div>
+                <div class="hsi-title">Validación Estratégica</div>
+                <div class="hsi-desc">Comparamos tu idea con requisitos de subvenciones globales.</div>
+              </div>
+            </div>
+            <div class="hsi-bar"></div>
+          </div>
+          <div class="hero-step-item">
+            <div class="hsi-top">
+              <span class="hsi-num">3.</span>
+              <div>
+                <div class="hsi-title">Construcción de la Postulación</div>
+                <div class="hsi-desc">Generamos un borrador completo de tu aplicación.</div>
+              </div>
+            </div>
+            <div class="hsi-bar"></div>
+          </div>
         </div>
       </div>
     </div>
+    <!-- Ticker de fondos — decorativo -->
+    <div class="ticker-wrap" aria-hidden="true">
+        <div class="ticker-track" id="ticker-track">
+          <span class="ticker-logo"><span class="ticker-logo-icon" style="background:#003087">CO</span><span class="ticker-logo-name">CORFO</span></span>
+          <span class="ticker-sep">·</span>
+          <span class="ticker-logo"><span class="ticker-logo-icon" style="background:#F26C22">SC</span><span class="ticker-logo-name">Startup Chile</span></span>
+          <span class="ticker-sep">·</span>
+          <span class="ticker-logo"><span class="ticker-logo-icon" style="background:#C8102E">AN</span><span class="ticker-logo-name">ANID FONDEF</span></span>
+          <span class="ticker-sep">·</span>
+          <span class="ticker-logo"><span class="ticker-logo-icon" style="background:#FF6600">YC</span><span class="ticker-logo-name">Y Combinator</span></span>
+          <span class="ticker-sep">·</span>
+          <span class="ticker-logo"><span class="ticker-logo-icon" style="background:#003366">NSF</span><span class="ticker-logo-name">NSF SBIR</span></span>
+          <span class="ticker-sep">·</span>
+          <span class="ticker-logo"><span class="ticker-logo-icon" style="background:#003366">DOE</span><span class="ticker-logo-name">DOE SBIR</span></span>
+          <span class="ticker-sep">·</span>
+          <span class="ticker-logo"><span class="ticker-logo-icon" style="background:#003399">★</span><span class="ticker-logo-name">Horizon Europe</span></span>
+          <span class="ticker-sep">·</span>
+          <span class="ticker-logo"><span class="ticker-logo-icon" style="background:#003399">EIC</span><span class="ticker-logo-name">EIC Accelerator</span></span>
+          <span class="ticker-sep">·</span>
+          <span class="ticker-logo"><span class="ticker-logo-icon" style="background:#CF0A2C">UK</span><span class="ticker-logo-name">Innovate UK</span></span>
+          <span class="ticker-sep">·</span>
+          <span class="ticker-logo"><span class="ticker-logo-icon" style="background:#003399">ES</span><span class="ticker-logo-name">Eurostars</span></span>
+          <span class="ticker-sep">·</span>
+          <span class="ticker-logo"><span class="ticker-logo-icon" style="background:#D4222A">iN</span><span class="ticker-logo-name">iNNpulsa</span></span>
+          <span class="ticker-sep">·</span>
+          <span class="ticker-logo"><span class="ticker-logo-icon" style="background:#009C3B">FN</span><span class="ticker-logo-name">FINEP Brasil</span></span>
+          <span class="ticker-sep">·</span>
+          <span class="ticker-logo"><span class="ticker-logo-icon" style="background:#003087">AR</span><span class="ticker-logo-name">FONTAR Argentina</span></span>
+          <span class="ticker-sep">·</span>
+          <span class="ticker-item" style="color:rgba(255,255,255,.5);font-weight:700">+30 fondos →</span>
+          <!-- duplicado para loop sin salto -->
+          <span class="ticker-logo"><span class="ticker-logo-icon" style="background:#003087">CO</span><span class="ticker-logo-name">CORFO</span></span>
+          <span class="ticker-sep">·</span>
+          <span class="ticker-logo"><span class="ticker-logo-icon" style="background:#F26C22">SC</span><span class="ticker-logo-name">Startup Chile</span></span>
+          <span class="ticker-sep">·</span>
+          <span class="ticker-logo"><span class="ticker-logo-icon" style="background:#C8102E">AN</span><span class="ticker-logo-name">ANID FONDEF</span></span>
+          <span class="ticker-sep">·</span>
+          <span class="ticker-logo"><span class="ticker-logo-icon" style="background:#FF6600">YC</span><span class="ticker-logo-name">Y Combinator</span></span>
+          <span class="ticker-sep">·</span>
+          <span class="ticker-logo"><span class="ticker-logo-icon" style="background:#003366">NSF</span><span class="ticker-logo-name">NSF SBIR</span></span>
+          <span class="ticker-sep">·</span>
+          <span class="ticker-logo"><span class="ticker-logo-icon" style="background:#003366">DOE</span><span class="ticker-logo-name">DOE SBIR</span></span>
+          <span class="ticker-sep">·</span>
+          <span class="ticker-logo"><span class="ticker-logo-icon" style="background:#003399">★</span><span class="ticker-logo-name">Horizon Europe</span></span>
+          <span class="ticker-sep">·</span>
+          <span class="ticker-logo"><span class="ticker-logo-icon" style="background:#003399">EIC</span><span class="ticker-logo-name">EIC Accelerator</span></span>
+          <span class="ticker-sep">·</span>
+          <span class="ticker-logo"><span class="ticker-logo-icon" style="background:#CF0A2C">UK</span><span class="ticker-logo-name">Innovate UK</span></span>
+          <span class="ticker-sep">·</span>
+          <span class="ticker-logo"><span class="ticker-logo-icon" style="background:#003399">ES</span><span class="ticker-logo-name">Eurostars</span></span>
+          <span class="ticker-sep">·</span>
+          <span class="ticker-logo"><span class="ticker-logo-icon" style="background:#D4222A">iN</span><span class="ticker-logo-name">iNNpulsa</span></span>
+          <span class="ticker-sep">·</span>
+          <span class="ticker-logo"><span class="ticker-logo-icon" style="background:#009C3B">FN</span><span class="ticker-logo-name">FINEP Brasil</span></span>
+          <span class="ticker-sep">·</span>
+          <span class="ticker-logo"><span class="ticker-logo-icon" style="background:#003087">AR</span><span class="ticker-logo-name">FONTAR Argentina</span></span>
+          <span class="ticker-sep">·</span>
+          <span class="ticker-item" style="color:rgba(255,255,255,.5);font-weight:700">+30 fondos →</span>
+        </div>
+      </div>
   </section>
 
   <!-- STATS BAR -->
@@ -899,57 +1237,82 @@
     </div>
   </section>
 
-  <!-- INSTRUMENTS -->
+  <!-- COBERTURA MAP -->
   <section class="instruments" id="cobertura">
     <div class="instruments-inner">
       <div class="section-label">Cobertura global</div>
-      <h2 class="section-title">Fondos de innovación en 4 continentes</h2>
-      <p style="text-align:center;max-width:720px;margin:0 auto 8px;font-size:14px;color:var(--z-gray-500);line-height:1.65">
-        Los instrumentos del <strong>evaluador interactivo</strong> están activos hoy (menú desplegable: Chile, USA, Europa y Latam).
-        El listado completo refleja nuestra <strong>cobertura en expansión</strong> — nuevos fondos se agregan mensualmente.
+      <h2 class="section-title">+30 fondos en 4 regiones</h2>
+      <p style="text-align:center;max-width:620px;margin:0 auto;font-size:14px;color:var(--z-gray-500);line-height:1.65">
+        Selecciona tu región para ver los instrumentos disponibles y su estado actual.
       </p>
-      <div class="inst-grid">
-        <span class="inst-tag" style="border-color:var(--z-orange);color:var(--z-orange)">Chile</span>
-        <a class="inst-tag" href="https://www.corfo.cl/sites/cpp/crea-y-valida" target="_blank" rel="noopener">CORFO Crea y Valida</a>
-        <a class="inst-tag" href="https://www.corfo.cl/sites/cpp/innova-i-mas-d-empresas" target="_blank" rel="noopener">CORFO Innova Alta Tecnología</a>
-        <a class="inst-tag" href="https://www.corfo.cl/sites/cpp/semilla-inicia" target="_blank" rel="noopener">CORFO Semilla Inicia</a>
-        <a class="inst-tag" href="https://www.corfo.cl/sites/cpp/semilla-expande" target="_blank" rel="noopener">CORFO Semilla Expande</a>
-        <a class="inst-tag" href="https://www.corfo.cl/sites/cpp/escala" target="_blank" rel="noopener">CORFO Escalamiento</a>
-        <a class="inst-tag" href="https://www.startupchile.org/programs/build" target="_blank" rel="noopener">Startup Chile Build</a>
-        <a class="inst-tag" href="https://www.startupchile.org/programs/ignite" target="_blank" rel="noopener">Startup Chile Ignite</a>
-        <a class="inst-tag" href="https://www.corfo.cl/sites/cpp/innova-region" target="_blank" rel="noopener">Innova Región</a>
-        <a class="inst-tag" href="https://anid.cl/concursos/fondef/" target="_blank" rel="noopener">ANID FONDEF</a>
-        <a class="inst-tag" href="https://www.startupchile.org/programs/growth" target="_blank" rel="noopener">Startup Chile Growth</a>
+      <div class="cob-card">
+        <!-- MAP AREA -->
+        <div class="cob-body">
+          <div class="cob-map-area">
+            <svg class="cob-world-map" id="cob-world-svg" viewBox="0 0 640 340" xmlns="http://www.w3.org/2000/svg">
+              <!-- Countries rendered by D3 -->
+              <g id="cob-map-countries"></g>
+              <!-- Fund dots — positioned by cobMapInit() after projection is set -->
+              <g class="cob-fund-dot" id="cob-dot-usa" onclick="cobSelect('usa')">
+                <circle class="dot-outer" cx="148" cy="110" r="9"/>
+                <circle class="dot-inner" cx="148" cy="110" r="4"/>
+              </g>
+              <text class="cob-dot-count" x="148" y="94">6</text>
+              <text class="cob-dot-label" x="148" y="127">USA</text>
+              <g class="cob-fund-dot" id="cob-dot-latam" onclick="cobSelect('latam')">
+                <circle class="dot-outer" cx="195" cy="205" r="9"/>
+                <circle class="dot-inner" cx="195" cy="205" r="4"/>
+              </g>
+              <text class="cob-dot-count" x="195" y="189">8</text>
+              <text class="cob-dot-label" x="195" y="222">Latam</text>
+              <g class="cob-fund-dot" id="cob-dot-chile" onclick="cobSelect('chile')">
+                <circle class="dot-outer" cx="170" cy="252" r="9"/>
+                <circle class="dot-inner" cx="170" cy="252" r="4"/>
+              </g>
+              <text class="cob-dot-count" x="170" y="236">10</text>
+              <text class="cob-dot-label" x="170" y="269">Chile</text>
+              <g class="cob-fund-dot" id="cob-dot-eu" onclick="cobSelect('eu')">
+                <circle class="dot-outer" cx="335" cy="95" r="9"/>
+                <circle class="dot-inner" cx="335" cy="95" r="4"/>
+              </g>
+              <text class="cob-dot-count" x="335" y="79">5</text>
+              <text class="cob-dot-label" x="335" y="112">Europa</text>
+              <!-- "Coming soon" labels — positioned by cobMapInit -->
+              <text class="cob-soon" id="cob-soon-asia" x="495" y="90">Próximamente</text>
+              <text class="cob-soon" id="cob-soon-africa" x="360" y="210">Próximamente</text>
+            </svg>
+            <!-- Tabs -->
+            <div class="cob-tabs">
+              <button class="cob-tab active" data-r="all"   onclick="cobSelect('all')">🌎 Todos <span class="cnt">30+</span></button>
+              <button class="cob-tab"        data-r="chile" onclick="cobSelect('chile')">🇨🇱 Chile <span class="cnt">10</span></button>
+              <button class="cob-tab"        data-r="usa"   onclick="cobSelect('usa')">🇺🇸 USA <span class="cnt">6</span></button>
+              <button class="cob-tab"        data-r="eu"    onclick="cobSelect('eu')">🇪🇺 Europa <span class="cnt">5</span></button>
+              <button class="cob-tab"        data-r="latam" onclick="cobSelect('latam')">🌎 Latam <span class="cnt">8</span></button>
+            </div>
+            <div class="cob-theme-pills" id="cobThemePills">
+              <button class="cob-theme-pill active" onclick="cobTheme('todos')">Todos</button>
+              <button class="cob-theme-pill" onclick="cobTheme('i+d')">I+D</button>
+              <button class="cob-theme-pill" onclick="cobTheme('startup')">Startup</button>
+              <button class="cob-theme-pill" onclick="cobTheme('emprendimiento')">Emprendimiento</button>
+              <button class="cob-theme-pill" onclick="cobTheme('expansión')">Expansión</button>
+            </div>
+            <div class="cob-data-note">
+              <span class="cob-data-dot"></span>
+              Estado actualizado diariamente
+            </div>
+          </div>
+          <!-- FUND PANEL -->
+          <div class="cob-fund-panel">
+            <div class="cob-panel-hdr">
+              <h3 id="cob-panel-title">Todos los fondos</h3>
+              <p  id="cob-panel-desc">30+ instrumentos en 4 regiones</p>
+            </div>
+            <div class="cob-fund-list" id="cob-fund-list">
+              <div style="padding:32px 16px;text-align:center;color:var(--z-gray-400);font-size:13px">Cargando fondos…</div>
+            </div>
+          </div>
+        </div>
       </div>
-      <div class="inst-grid" style="margin-top:12px">
-        <span class="inst-tag" style="border-color:var(--z-orange);color:var(--z-orange)">USA &amp; Global</span>
-        <a class="inst-tag" href="https://www.sbir.gov/" target="_blank" rel="noopener">NSF SBIR/STTR</a>
-        <a class="inst-tag" href="https://science.osti.gov/sbir" target="_blank" rel="noopener">DOE SBIR/STTR</a>
-        <a class="inst-tag" href="https://sbir.nih.gov/" target="_blank" rel="noopener">NIH SBIR/STTR</a>
-        <a class="inst-tag" href="https://www.ycombinator.com/apply" target="_blank" rel="noopener">Y Combinator</a>
-        <a class="inst-tag" href="https://www.techstars.com/accelerators" target="_blank" rel="noopener">Techstars</a>
-        <a class="inst-tag" href="https://500.co/accelerator" target="_blank" rel="noopener">500 Global</a>
-      </div>
-      <div class="inst-grid" style="margin-top:12px">
-        <span class="inst-tag" style="border-color:var(--z-orange);color:var(--z-orange)">Europa</span>
-        <a class="inst-tag" href="https://research-and-innovation.ec.europa.eu/funding/funding-opportunities/funding-programmes-and-open-calls/horizon-europe_en" target="_blank" rel="noopener">Horizon Europe</a>
-        <a class="inst-tag" href="https://eic.ec.europa.eu/eic-funding/eic-accelerator_en" target="_blank" rel="noopener">EIC Accelerator</a>
-        <a class="inst-tag" href="https://www.eurostars-eureka.eu/" target="_blank" rel="noopener">Eurostars</a>
-        <a class="inst-tag" href="https://www.ukri.org/opportunity/innovate-uk-smart-grants/" target="_blank" rel="noopener">Innovate UK Smart Grants</a>
-        <a class="inst-tag" href="https://lanzadera.es/" target="_blank" rel="noopener">Lanzadera / Startup Valencia</a>
-      </div>
-      <div class="inst-grid" style="margin-top:12px">
-        <span class="inst-tag" style="border-color:var(--z-orange);color:var(--z-orange)">Latam</span>
-        <a class="inst-tag" href="https://www.innpulsacolombia.com/" target="_blank" rel="noopener">iNNpulsa ALDEA+ (Colombia)</a>
-        <a class="inst-tag" href="https://www.rutanmedellin.org/" target="_blank" rel="noopener">Ruta N Medellín Next (Colombia)</a>
-        <a class="inst-tag" href="https://startupperu.pe/" target="_blank" rel="noopener">Startup Perú (ProInnóvate)</a>
-        <a class="inst-tag" href="https://www.proinnovate.gob.pe/" target="_blank" rel="noopener">Validación de Innovación (Perú)</a>
-        <a class="inst-tag" href="https://www.agencia.mincyt.gob.ar/fontar" target="_blank" rel="noopener">FONTAR ANR I+D (Argentina)</a>
-        <a class="inst-tag" href="https://www.agencia.mincyt.gob.ar/fontar" target="_blank" rel="noopener">FONTAR Crédito Fiscal (Argentina)</a>
-        <a class="inst-tag" href="https://www.finep.gov.br/" target="_blank" rel="noopener">FINEP Mais Inovação (Brasil)</a>
-        <a class="inst-tag" href="https://www.finep.gov.br/" target="_blank" rel="noopener">FINEP Startup (Brasil)</a>
-      </div>
-      <p style="text-align:center;margin-top:20px;font-size:13px;color:var(--z-gray-400)">Nuevos instrumentos se agregan continuamente</p>
     </div>
   </section>
 
@@ -958,7 +1321,6 @@
     <div class="how-inner">
       <div class="section-label">Confianza</div>
       <h2 class="section-title">Lo que dicen quienes ya evaluaron</h2>
-      <p style="text-align:center;max-width:560px;margin:0 auto;font-size:13px;color:var(--z-gray-400)">Testimonios de la fase beta; resultados var&iacute;an seg&uacute;n instrumento y calidad de la postulaci&oacute;n.</p>
       <div class="quote-grid">
         <div class="quote-card">
           <p>&laquo;Me ayud&oacute; a ordenar las brechas antes de mandar a CORFO. En la segunda iteraci&oacute;n subimos la nota del comit&eacute; simulado.&raquo;</p>
@@ -973,6 +1335,7 @@
           <cite>Emprendedor &middot; agro &middot; regi&oacute;n</cite>
         </div>
       </div>
+      <p style="text-align:center;max-width:560px;margin:16px auto 0;font-size:13px;color:var(--z-gray-400)">Testimonios de la fase beta; resultados var&iacute;an seg&uacute;n instrumento y calidad de la postulaci&oacute;n.</p>
     </div>
   </section>
 
@@ -1000,7 +1363,7 @@
           </div>
           <a href="#evaluator" style="display:block;text-align:center;padding:12px 0;border:1px solid var(--z-border);border-radius:999px;color:var(--z-black);font-weight:700;font-size:14px;text-decoration:none;margin-top:24px">Empezar gratis</a>
         </div>
-        <div class="step" style="display:flex;flex-direction:column;justify-content:space-between;border-color:var(--z-orange);position:relative">
+        <div class="step" style="display:flex;flex-direction:column;justify-content:space-between;border-color:var(--z-orange);position:relative;box-shadow:0 20px 60px rgba(242,108,34,0.18);background:#FFFBF8;transform:translateY(-4px)">
           <div style="position:absolute;top:-11px;left:50%;transform:translateX(-50%);background:#F26C22;color:#fff;font-size:10px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;padding:4px 14px;border-radius:20px;white-space:nowrap">Más popular</div>
           <div>
             <div style="font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--z-orange);margin-bottom:12px">Premium</div>
@@ -1038,6 +1401,22 @@
         </div>
       </div>
       <p style="text-align:center;margin-top:24px;font-size:13px;color:var(--z-gray-400)">Paga con tarjeta internacional (USD) o d&eacute;bito/cr&eacute;dito Chile (CLP)</p>
+
+      <!-- Fondos soportados con links oficiales (G-07) -->
+      <div style="margin-top:40px;padding-top:32px;border-top:1px solid var(--z-border)">
+        <p style="text-align:center;font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--z-gray-400);margin-bottom:20px">Fondos soportados — criterios calibrados</p>
+        <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:10px;max-width:800px;margin:0 auto">
+          <a href="https://www.corfo.cl/sites/cpp/crea-y-valida" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border:1px solid var(--z-border);border-radius:20px;font-size:12px;color:var(--z-gray-500);text-decoration:none;transition:border-color .2s" onmouseover="this.style.borderColor='#003087'" onmouseout="this.style.borderColor='var(--z-border)'"><span style="font-weight:700;color:#003087">CORFO</span> Crea y Valida</a>
+          <a href="https://www.corfo.cl/sites/cpp/programa-semilla-de-asignacion-flexible-ssaf" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border:1px solid var(--z-border);border-radius:20px;font-size:12px;color:var(--z-gray-500);text-decoration:none;transition:border-color .2s" onmouseover="this.style.borderColor='#003087'" onmouseout="this.style.borderColor='var(--z-border)'"><span style="font-weight:700;color:#003087">CORFO</span> SSAF</a>
+          <a href="https://anid.cl/concursos/fondef-idea-id/" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border:1px solid var(--z-border);border-radius:20px;font-size:12px;color:var(--z-gray-500);text-decoration:none;transition:border-color .2s" onmouseover="this.style.borderColor='#C8102E'" onmouseout="this.style.borderColor='var(--z-border)'"><span style="font-weight:700;color:#C8102E">ANID</span> FONDEF IDeA I+D</a>
+          <a href="https://anid.cl/concursos/viu/" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border:1px solid var(--z-border);border-radius:20px;font-size:12px;color:var(--z-gray-500);text-decoration:none;transition:border-color .2s" onmouseover="this.style.borderColor='#C8102E'" onmouseout="this.style.borderColor='var(--z-border)'"><span style="font-weight:700;color:#C8102E">ANID</span> VIU</a>
+          <a href="https://www.startupchile.org/programs/build" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border:1px solid var(--z-border);border-radius:20px;font-size:12px;color:var(--z-gray-500);text-decoration:none;transition:border-color .2s" onmouseover="this.style.borderColor='#F26C22'" onmouseout="this.style.borderColor='var(--z-border)'"><span style="font-weight:700;color:#F26C22">Startup Chile</span> Build</a>
+          <a href="https://www.startupchile.org/programs/growth" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border:1px solid var(--z-border);border-radius:20px;font-size:12px;color:var(--z-gray-500);text-decoration:none;transition:border-color .2s" onmouseover="this.style.borderColor='#F26C22'" onmouseout="this.style.borderColor='var(--z-border)'"><span style="font-weight:700;color:#F26C22">Startup Chile</span> Growth</a>
+          <a href="https://eic.ec.europa.eu/eic-funding/eic-accelerator_en" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border:1px solid var(--z-border);border-radius:20px;font-size:12px;color:var(--z-gray-500);text-decoration:none;transition:border-color .2s" onmouseover="this.style.borderColor='#003399'" onmouseout="this.style.borderColor='var(--z-border)'"><span style="font-weight:700;color:#003399">Horizon EU</span> EIC Accelerator</a>
+          <a href="https://www.bidlab.org/es/call-for-proposals" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border:1px solid var(--z-border);border-radius:20px;font-size:12px;color:var(--z-gray-500);text-decoration:none;transition:border-color .2s" onmouseover="this.style.borderColor='#009FDA'" onmouseout="this.style.borderColor='var(--z-border)'"><span style="font-weight:700;color:#009FDA">BID Lab</span> Open Call</a>
+        </div>
+        <p style="text-align:center;margin-top:12px;font-size:11px;color:var(--z-gray-400)">+26 fondos adicionales soportados &mdash; criterios actualizados por convocatoria</p>
+      </div>
     </div>
   </section>
 
@@ -1100,7 +1479,7 @@
         <div class="start-success hidden" id="start-success">
           <h3>Solicitud recibida</h3>
           <p>Analizaremos tu idea y te enviaremos las recomendaciones de fondos a tu correo en los próximos minutos.</p>
-          <a href="https://cal.com/zenti" target="_blank" rel="noopener" style="display:inline-block;padding:12px 28px;background:#F26C22;color:#fff;border-radius:999px;font-weight:700;font-size:14px;text-decoration:none;box-shadow:0 6px 18px rgba(242,108,34,.25)">Agendar consultoría</a>
+          <a href="https://calendly.com/diego-zentigrants/consultoria-estrategica-zenti" target="_blank" rel="noopener" style="display:inline-block;padding:12px 28px;background:#F26C22;color:#fff;border-radius:999px;font-weight:700;font-size:14px;text-decoration:none;box-shadow:0 6px 18px rgba(242,108,34,.25)">Agendar consultoría</a>
           <br/>
           <button type="button" class="ghost" style="margin-top:12px" id="btn-start-reset">Nuevo match</button>
         </div>
@@ -1178,7 +1557,7 @@
         Agenda una sesión con el equipo ZENTI. Revisamos tu informe, trabajamos las brechas críticas y estructuramos una postulación competitiva.
       </p>
       <div style="text-align:center">
-        <a href="https://cal.com/zenti" target="_blank" rel="noopener" class="nav-cta" style="padding:14px 36px;font-size:15px;border-radius:999px;display:inline-block;box-shadow:0 8px 24px rgba(242,108,34,.25)">Agendar consultoría</a>
+        <a href="https://calendly.com/diego-zentigrants/consultoria-estrategica-zenti" target="_blank" rel="noopener" class="nav-cta" style="padding:14px 36px;font-size:15px;border-radius:999px;display:inline-block;box-shadow:0 8px 24px rgba(242,108,34,.25)">Agendar consultoría</a>
       </div>
     </div>
   </section>
@@ -1781,9 +2160,12 @@
       }, 1000);
     }
 
+    var ZENTI_CALENDLY_URL = 'https://calendly.com/diego-zentigrants/consultoria-estrategica-zenti';
+
     function showInlineReport(container, preview_url) {
       if (window._zentiLoadingTimer) { clearInterval(window._zentiLoadingTimer); window._zentiLoadingTimer = null; }
       container.innerHTML = '';
+      var chatShell = document.querySelector('.chat-shell');
       var chatBody = document.querySelector('.chat-body');
       if (chatBody) { chatBody.style.maxHeight = 'none'; chatBody.style.height = '85vh'; chatBody.style.paddingBottom = '0'; }
 
@@ -1794,14 +2176,61 @@
       header.className = 'report-header';
       header.innerHTML = '<span class="report-ready-badge">\u2713 Tu informe est\u00e1 listo</span>';
 
+      var toolbar = document.createElement('div');
+      toolbar.className = 'report-toolbar';
+      var hint = document.createElement('p');
+      hint.className = 'report-toolbar-hint';
+      hint.textContent = 'Tip: us\u00e1 \u201cpantalla completa\u201d para ver mejor. En el visor de Google, el men\u00fa \u22ee permite imprimir o descargar PDF.';
+      var fsBtn = document.createElement('button');
+      fsBtn.type = 'button';
+      fsBtn.className = 'report-fs-btn';
+      fsBtn.setAttribute('aria-expanded', 'false');
+      fsBtn.setAttribute('aria-label', 'Ampliar el informe a pantalla completa. Volv\u00e9 a pulsar o us\u00e1 Escape para salir.');
+      fsBtn.title = 'Expandir informe a pantalla completa (mejor lectura y acceso al men\u00fa PDF del visor)';
+      fsBtn.textContent = 'Pantalla completa';
+      toolbar.appendChild(hint);
+      toolbar.appendChild(fsBtn);
+
+      var wrap = document.createElement('div');
+      wrap.className = 'report-iframe-wrap';
       var iframe = document.createElement('iframe');
       iframe.src = preview_url;
       iframe.className = 'report-iframe';
       iframe.title = 'Informe ZENTI';
       iframe.setAttribute('allow', 'fullscreen');
+      wrap.appendChild(iframe);
+
+      fsBtn.onclick = function() {
+        var on = wrap.classList.toggle('report-iframe-fullscreen');
+        fsBtn.setAttribute('aria-expanded', on ? 'true' : 'false');
+        fsBtn.textContent = on ? 'Salir de pantalla completa' : 'Pantalla completa';
+        if (chatShell) chatShell.classList.toggle('report-shell-fs', on);
+      };
+      if (window._zentiEscFsHandler) document.removeEventListener('keydown', window._zentiEscFsHandler);
+      window._zentiEscFsHandler = function(ev) {
+        if (ev.key !== 'Escape' || !wrap.classList.contains('report-iframe-fullscreen')) return;
+        wrap.classList.remove('report-iframe-fullscreen');
+        fsBtn.setAttribute('aria-expanded', 'false');
+        fsBtn.textContent = 'Pantalla completa';
+        if (chatShell) chatShell.classList.remove('report-shell-fs');
+      };
+      document.addEventListener('keydown', window._zentiEscFsHandler);
+
+      var pdfRow = document.createElement('div');
+      pdfRow.className = 'report-pdf-row';
+      var dm = typeof preview_url === 'string' ? preview_url.match(/\/d\/([^/]+)/) : null;
+      if (dm && dm[1]) {
+        var pdfA = document.createElement('a');
+        pdfA.href = 'https://drive.google.com/file/d/' + dm[1] + '/view';
+        pdfA.target = '_blank';
+        pdfA.rel = 'noopener';
+        pdfA.className = 'report-pdf-btn';
+        pdfA.textContent = 'Abrir en Google Drive (ver / descargar PDF)';
+        pdfRow.appendChild(pdfA);
+      }
 
       var cta = document.createElement('a');
-      cta.href = 'https://calendly.com/diego-zentigrants/consultoria-estrategica-zenti';
+      cta.href = ZENTI_CALENDLY_URL;
       cta.target = '_blank';
       cta.rel = 'noopener';
       cta.className = 'report-cta-btn';
@@ -1815,7 +2244,9 @@
       again.onclick = resetForm;
 
       panel.appendChild(header);
-      panel.appendChild(iframe);
+      panel.appendChild(toolbar);
+      panel.appendChild(wrap);
+      panel.appendChild(pdfRow);
       panel.appendChild(cta);
       panel.appendChild(again);
       container.appendChild(panel);
@@ -1983,6 +2414,242 @@
         });
       });
     })();
+  </script>
+
+  <!-- COBERTURA MAP JS -->
+  <script>
+    (function() {
+      const COB_META = {
+        all:   { t: 'Todos los fondos',   d: '30+ instrumentos en 4 regiones' },
+        chile: { t: '🇨🇱 Chile',          d: 'CORFO · Startup Chile · ANID' },
+        usa:   { t: '🇺🇸 USA & Global',   d: 'NSF · DOE · NIH · Y Combinator' },
+        eu:    { t: '🇪🇺 Europa',         d: 'Horizon Europe · EIC · Eurostars · Innovate UK' },
+        latam: { t: '🌎 Latam',          d: 'Colombia · Perú · Argentina · Brasil' },
+      };
+      const COB_CONT = { chile: 'cob-cont-chile', usa: 'cob-cont-usa', eu: 'cob-cont-eu', latam: 'cob-cont-latam' };
+      const SL = { open: 'Abierto', coming: 'Próximo', closed: 'Cerrado' };
+
+      let FUNDS_DATA = null;
+      let COB_CURRENT_REGION = 'all';
+      let COB_CURRENT_THEME = 'todos';
+
+      // Theme mapping por nombre de fondo (fuzzy)
+      const FUND_THEMES = {
+        'crea y valida': 'i+d',
+        'innova i+d': 'i+d',
+        'innova alta': 'i+d',
+        'fondef': 'i+d',
+        'nsf sbir': 'i+d',
+        'nih sbir': 'i+d',
+        'doe sbir': 'i+d',
+        'eurostars': 'i+d',
+        'eic accelerator': 'i+d',
+        'horizon': 'i+d',
+        'fontar': 'i+d',
+        'finep': 'i+d',
+        'proinnovate': 'i+d',
+        'semilla expande': 'emprendimiento',
+        'semilla inicia': 'emprendimiento',
+        'innova región': 'emprendimiento',
+        'innpulsa': 'emprendimiento',
+        'ruta n': 'emprendimiento',
+        'startup perú': 'emprendimiento',
+        'startup chile build': 'startup',
+        'startup chile ignite': 'startup',
+        'startup chile growth': 'startup',
+        'y combinator': 'startup',
+        'techstars': 'startup',
+        'lanzadera': 'startup',
+        'escalamiento': 'expansión',
+        'consolida y expande': 'expansión',
+        'innovate uk': 'expansión',
+      };
+
+      function getFundTheme(name) {
+        const lower = name.toLowerCase();
+        for (const [key, theme] of Object.entries(FUND_THEMES)) {
+          if (lower.includes(key)) return theme;
+        }
+        return 'todos';
+      }
+
+      function cobRender(region) {
+        if (!FUNDS_DATA) return;
+        COB_CURRENT_REGION = region;
+        const m = COB_META[region] || COB_META.all;
+        const el = document.getElementById('cob-panel-title');
+        const de = document.getElementById('cob-panel-desc');
+        if (el) el.textContent = m.t;
+        if (de) de.textContent = m.d;
+        const all = ['chile','usa','eu','latam'];
+        const funds = region === 'all'
+          ? all.flatMap(r => FUNDS_DATA[r] || [])
+          : (FUNDS_DATA[region] || []);
+        const list = document.getElementById('cob-fund-list');
+        if (!list) return;
+        list.innerHTML = funds.map(f => {
+          const theme = f.theme || getFundTheme(f.name);
+          const hidden = COB_CURRENT_THEME !== 'todos' && theme !== COB_CURRENT_THEME ? ' style="display:none"' : '';
+          return `
+          <a class="cob-fund-item" href="#evaluator" data-scroll-eval data-theme="${theme}"${hidden}>
+            <div class="cob-fi-ico" style="background:${f.color}">${f.icon}</div>
+            <div class="cob-fi-body">
+              <div class="cob-fi-name">${f.name}</div>
+              <div class="cob-fi-row">
+                <span class="cob-fi-amt">${f.amount}</span>
+                <span class="cob-fdot cob-fdot-${f.status}"></span>
+                <span class="cob-fst cob-fst-${f.status}">${SL[f.status]}</span>
+              </div>
+            </div>
+            <span class="cob-fi-cta">Evaluar →</span>
+          </a>`;
+        }).join('');
+      }
+
+      window.cobTheme = function(theme) {
+        COB_CURRENT_THEME = theme;
+        document.querySelectorAll('.cob-theme-pill').forEach(p => {
+          p.classList.toggle('active', p.textContent.trim().toLowerCase() === theme || (theme === 'todos' && p.textContent.trim() === 'Todos'));
+        });
+        // Filtrar items existentes sin re-renderizar
+        document.querySelectorAll('.cob-fund-item').forEach(item => {
+          const itemTheme = item.dataset.theme || 'todos';
+          item.style.display = (theme === 'todos' || itemTheme === theme) ? '' : 'none';
+        });
+      };
+
+      window.cobSelect = function(region) {
+        document.querySelectorAll('.cob-tab').forEach(t => t.classList.toggle('active', t.dataset.r === region));
+        document.querySelectorAll('.cob-continent').forEach(c => c.classList.remove('active'));
+        document.querySelectorAll('.cob-fund-dot').forEach(d => d.classList.remove('inactive'));
+        if (region !== 'all') {
+          const contId = COB_CONT[region];
+          if (contId) document.getElementById(contId)?.classList.add('active');
+          ['chile','usa','eu','latam'].forEach(id => {
+            if (id !== region) document.getElementById('cob-dot-'+id)?.classList.add('inactive');
+          });
+        }
+        cobRender(region);
+      };
+
+      // Load from funds.json
+      fetch('/funds.json')
+        .then(r => r.json())
+        .then(data => { FUNDS_DATA = data; cobSelect('all'); })
+        .catch(() => {
+          // Fallback hardcoded if fetch fails (local dev without server)
+          FUNDS_DATA = {
+            chile: [
+              { name:'CORFO Crea y Valida', icon:'CO', color:'#003087', amount:'hasta $40M CLP', status:'open' },
+              { name:'CORFO Semilla Inicia', icon:'CO', color:'#003087', amount:'hasta $60M CLP', status:'open' },
+              { name:'ANID FONDEF', icon:'AN', color:'#C8102E', amount:'hasta $400M CLP', status:'open' },
+              { name:'Startup Chile Ignite', icon:'SC', color:'#F26C22', amount:'USD 100K', status:'open' },
+            ],
+            usa: [
+              { name:'Y Combinator', icon:'YC', color:'#FF6600', amount:'USD 500K + red', status:'open' },
+              { name:'NSF SBIR Phase I', icon:'NSF', color:'#003366', amount:'hasta USD 275K', status:'coming' },
+            ],
+            eu: [
+              { name:'Horizon Europe EIC', icon:'★', color:'#003399', amount:'hasta EUR 2.5M', status:'open' },
+              { name:'EIC Accelerator', icon:'EIC', color:'#003399', amount:'hasta EUR 2.5M', status:'open' },
+            ],
+            latam: [
+              { name:'iNNpulsa ALDEA+ (CO)', icon:'iN', color:'#D4222A', amount:'hasta COP 1.000M', status:'open' },
+              { name:'FINEP Brasil', icon:'FN', color:'#009C3B', amount:'hasta BRL 2M', status:'open' },
+            ],
+          };
+          cobSelect('all');
+        });
+    })();
+
+  // ── World Map (D3 + TopoJSON) ─────────────────────────────────────────────
+  (function cobMapInit() {
+    const W = 640, H = 340;
+
+    // ISO 3166-1 numeric codes per region
+    const REGION_IDS = {
+      usa:   new Set([840]),
+      chile: new Set([152]),
+      latam: new Set([32,84,68,76,152,170,188,192,214,218,222,300,308,320,328,332,340,388,
+                      484,558,591,600,604,630,659,662,670,740,780,796,858,862]),
+      eu:    new Set([8,40,56,70,100,191,203,208,233,246,250,276,300,372,380,
+                      428,440,442,470,498,499,528,578,616,620,642,688,703,705,
+                      724,726,752,756,807,826])
+    };
+
+    const DOT_GEO = {
+      usa:   { lon: -98,  lat: 38  },
+      latam: { lon: -55,  lat: -5  },
+      chile: { lon: -71,  lat: -33 },
+      eu:    { lon: 10,   lat: 51  }
+    };
+
+    const projection = d3.geoMercator()
+      .scale(82)
+      .translate([W * 0.465, H * 0.585])
+      .clipExtent([[0, 0], [W, H]]);
+
+    const pathGen = d3.geoPath().projection(projection);
+    const g = document.getElementById('cob-map-countries');
+    if (!g) return;
+
+    function getRegion(numId) {
+      for (const [r, ids] of Object.entries(REGION_IDS)) {
+        if (ids.has(numId)) return r;
+      }
+      return null;
+    }
+
+    function moveDot(dotId, lon, lat) {
+      const pt = projection([lon, lat]);
+      if (!pt) return;
+      const [px, py] = [Math.round(pt[0]), Math.round(pt[1])];
+      const dotG = document.getElementById('cob-dot-' + dotId);
+      if (!dotG) return;
+      dotG.querySelectorAll('circle').forEach(c => {
+        c.setAttribute('cx', px); c.setAttribute('cy', py);
+      });
+      const cntEl = dotG.nextElementSibling;
+      const lblEl = cntEl && cntEl.nextElementSibling;
+      if (cntEl) { cntEl.setAttribute('x', px); cntEl.setAttribute('y', py - 16); }
+      if (lblEl) { lblEl.setAttribute('x', px); lblEl.setAttribute('y', py + 17); }
+    }
+
+    fetch('https://unpkg.com/world-atlas@2/countries-110m.json')
+      .then(r => r.json())
+      .then(world => {
+        const countries = topojson.feature(world, world.objects.countries);
+        const fragment = document.createDocumentFragment();
+
+        countries.features.forEach(feature => {
+          const numId = parseInt(feature.id, 10);
+          const region = getRegion(numId);
+          const d = pathGen(feature);
+          if (!d) return;
+          const el = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+          el.setAttribute('d', d);
+          el.setAttribute('fill', region ? '#2A3A5C' : '#1A2030');
+          el.setAttribute('stroke', 'rgba(255,255,255,0.08)');
+          el.setAttribute('stroke-width', '0.6');
+          if (region) { el.classList.add('cob-continent'); el.dataset.region = region; }
+          fragment.appendChild(el);
+        });
+
+        g.appendChild(fragment);
+
+        // Reposition dots to true geographic coordinates
+        Object.entries(DOT_GEO).forEach(([id, { lon, lat }]) => moveDot(id, lon, lat));
+
+        // Reposition "Próximamente" labels
+        const asia = document.getElementById('cob-soon-asia');
+        const africa = document.getElementById('cob-soon-africa');
+        const ptAsia   = projection([105, 35]);
+        const ptAfrica = projection([20,  5]);
+        if (asia   && ptAsia)   { asia.setAttribute('x', Math.round(ptAsia[0]));   asia.setAttribute('y', Math.round(ptAsia[1]));   }
+        if (africa && ptAfrica) { africa.setAttribute('x', Math.round(ptAfrica[0])); africa.setAttribute('y', Math.round(ptAfrica[1])); }
+      })
+      .catch(err => console.warn('ZENTI map load failed:', err));
+  })();
   </script>
 </body>
 </html>
