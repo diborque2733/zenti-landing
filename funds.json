@@ -1,10 +1,11 @@
 {
   "_meta": {
-    "version": "1.1",
-    "lastUpdated": "2026-04-08T12:00:00Z",
-    "updatedBy": "manual-curated",
-    "sourceNote": "Esta lista NO se alimenta por scraping automático. Los montos son orientativos; cada postulación debe validarse en las bases oficiales (CORFO, ANID, Startup Chile). FONDEF es una línea con varias convocatorias, no un único instrumento con un solo monto.",
-    "nextCheck": null
+    "version": "1.2",
+    "lastUpdated": "2026-04-08T16:00:00Z",
+    "updatedBy": "cto-audit",
+    "sourceNote": "URLs verificadas 2026-04-08. CORFO migró a corfo.gob.cl — links actualizados a página de convocatorias oficial. Status Startup Chile Build/Ignite confirmado por scrape (botón POSTULA activo). Status CORFO/ANID no verificable por scraping (requiere JS); marcados como 'coming' hasta sync dinámico con R2. Montos orientativos — siempre verificar en bases oficiales.",
+    "nextCheck": "2026-04-15T07:00:00Z",
+    "_verifiedAt": "2026-04-08T16:00:00Z"
   },
   "chile": [
     {
@@ -12,120 +13,143 @@
       "name": "CORFO Crea y Valida",
       "icon": "CO",
       "color": "#003087",
-      "amount": "Hasta ~$180M / $220M según categoría (bases CORFO)",
-      "status": "open",
+      "amount": "Hasta ~$180M / $220M CLP según categoría",
+      "status": "coming",
       "deadline": null,
-      "url": "https://www.corfo.cl/sites/cpp/crea-y-valida",
-      "source": "https://www.corfo.cl/sites/cpp/crea-y-valida",
-      "region": "chile"
+      "url": "https://www.corfo.gob.cl/sites/cpp/convocatorias-etapas/",
+      "source": "https://www.corfo.gob.cl/sites/cpp/convocatorias-etapas/",
+      "region": "chile",
+      "_statusNote": "URL CORFO migró a corfo.gob.cl; verificar estado en página oficial"
     },
     {
       "id": "corfo-semilla-inicia",
       "name": "CORFO Semilla Inicia",
       "icon": "CO",
       "color": "#003087",
-      "amount": "Hasta ~$15M CLP (bases vigentes)",
-      "status": "open",
+      "amount": "Hasta ~$15M CLP",
+      "status": "coming",
       "deadline": null,
-      "url": "https://www.corfo.cl/sites/cpp/semilla-inicia",
-      "source": "https://www.corfo.cl/sites/cpp/semilla-inicia",
-      "region": "chile"
+      "url": "https://www.corfo.gob.cl/sites/cpp/convocatorias-etapas/",
+      "source": "https://www.corfo.gob.cl/sites/cpp/convocatorias-etapas/",
+      "region": "chile",
+      "_statusNote": "Verificar convocatoria vigente en corfo.gob.cl"
     },
     {
       "id": "corfo-semilla-expande",
       "name": "CORFO Semilla Expande",
       "icon": "CO",
       "color": "#003087",
-      "amount": "Hasta ~$25M + extensión según bases (Semilla Expande)",
+      "amount": "Hasta ~$25M + extensión CLP",
       "status": "coming",
       "deadline": null,
-      "url": "https://www.corfo.cl/sites/cpp/semilla-expande",
-      "source": "https://www.corfo.cl/sites/cpp/semilla-expande",
-      "region": "chile"
+      "url": "https://www.corfo.gob.cl/sites/cpp/convocatorias-etapas/",
+      "source": "https://www.corfo.gob.cl/sites/cpp/convocatorias-etapas/",
+      "region": "chile",
+      "_statusNote": "Verificar convocatoria vigente en corfo.gob.cl"
     },
     {
       "id": "corfo-escalamiento",
       "name": "CORFO Escalamiento",
       "icon": "CO",
       "color": "#003087",
-      "amount": "Según etapa y bases CORFO (Escalamiento)",
+      "amount": "Según bases CORFO",
       "status": "coming",
       "deadline": null,
-      "url": "https://www.corfo.cl/sites/cpp/escala",
-      "source": "https://www.corfo.cl/sites/cpp/escala",
-      "region": "chile"
+      "url": "https://www.corfo.gob.cl/sites/cpp/convocatorias-etapas/",
+      "source": "https://www.corfo.gob.cl/sites/cpp/convocatorias-etapas/",
+      "region": "chile",
+      "_statusNote": "Verificar convocatoria vigente en corfo.gob.cl"
     },
     {
       "id": "corfo-innova-id",
       "name": "CORFO Innova I+D Empresas",
       "icon": "CO",
       "color": "#003087",
-      "amount": "Según línea y bases (no es Innova Alta Tecnología)",
-      "status": "open",
+      "amount": "Según línea y bases CORFO",
+      "status": "coming",
       "deadline": null,
-      "url": "https://www.corfo.cl/sites/cpp/innova-i-mas-d-empresas",
-      "source": "https://www.corfo.cl/sites/cpp/innova-i-mas-d-empresas",
-      "region": "chile"
+      "url": "https://www.corfo.gob.cl/sites/cpp/programasyconvocatorias/",
+      "source": "https://www.corfo.gob.cl/sites/cpp/programasyconvocatorias/",
+      "region": "chile",
+      "_statusNote": "Verificar convocatoria vigente en corfo.gob.cl"
     },
     {
       "id": "startup-chile-build",
       "name": "Startup Chile Build",
       "icon": "SC",
       "color": "#F26C22",
-      "amount": "Equity-free ~$15M CLP (Build — ver bases)",
-      "status": "coming",
+      "amount": "Equity-free ~CLP 15M",
+      "status": "open",
       "deadline": null,
-      "url": "https://www.startupchile.org/programs/build",
-      "source": "https://www.startupchile.org/programs/build",
-      "region": "chile"
+      "url": "https://www.startupchile.org/postula/build/",
+      "source": "https://www.startupchile.org/postula/build/",
+      "region": "chile",
+      "_statusNote": "Confirmado 2026-04-08: botón POSTULA activo"
     },
     {
       "id": "startup-chile-ignite",
       "name": "Startup Chile Ignite",
       "icon": "SC",
       "color": "#F26C22",
-      "amount": "Equity-free CLP 25M + extensión (Ignite — ver convocatoria)",
+      "amount": "Equity-free CLP 25M + extensión",
       "status": "open",
       "deadline": null,
-      "url": "https://www.startupchile.org/programs/ignite",
-      "source": "https://www.startupchile.org/programs/ignite",
-      "region": "chile"
+      "url": "https://www.startupchile.org/postula/ignite/",
+      "source": "https://www.startupchile.org/postula/ignite/",
+      "region": "chile",
+      "_statusNote": "Confirmado 2026-04-08: página activa con postulación"
     },
     {
       "id": "startup-chile-growth",
       "name": "Startup Chile Growth",
       "icon": "SC",
       "color": "#F26C22",
-      "amount": "Hasta ~$75M CLP equity-free (Growth — ver bases)",
+      "amount": "Hasta ~CLP 75M equity-free",
       "status": "closed",
       "deadline": null,
       "url": "https://www.startupchile.org/programs/growth",
       "source": "https://www.startupchile.org/programs/growth",
-      "region": "chile"
+      "region": "chile",
+      "_statusNote": "Sin convocatoria activa confirmada"
     },
     {
       "id": "anid-fondef",
-      "name": "ANID — línea FONDEF (varias convocatorias)",
+      "name": "ANID — línea FONDEF",
       "icon": "AN",
       "color": "#C8102E",
-      "amount": "Sin monto único: depende de la convocatoria (anid.cl)",
-      "status": "open",
+      "amount": "Sin monto único — depende de convocatoria",
+      "status": "coming",
       "deadline": null,
       "url": "https://anid.cl/concursos/fondef/",
       "source": "https://anid.cl/concursos/fondef/",
-      "region": "chile"
+      "region": "chile",
+      "_statusNote": "ANID bloquea scraping (403); verificar en anid.cl"
+    },
+    {
+      "id": "anid-viu",
+      "name": "ANID VIU — Valorización Inv. Universitaria",
+      "icon": "AN",
+      "color": "#C8102E",
+      "amount": "Hasta ~$120M CLP",
+      "status": "coming",
+      "deadline": null,
+      "url": "https://anid.cl/concursos/viu/",
+      "source": "https://anid.cl/concursos/viu/",
+      "region": "chile",
+      "_statusNote": "Verificar convocatoria anual en anid.cl"
     },
     {
       "id": "innova-region",
-      "name": "Innova Región",
+      "name": "Innova Región (CORFO)",
       "icon": "IR",
       "color": "#1a56db",
       "amount": "Según región y bases CORFO",
       "status": "coming",
       "deadline": null,
-      "url": "https://www.corfo.cl/sites/cpp/innova-region",
-      "source": "https://www.corfo.cl/sites/cpp/innova-region",
-      "region": "chile"
+      "url": "https://www.corfo.gob.cl/sites/cpp/convocatorias-etapas/",
+      "source": "https://www.corfo.gob.cl/sites/cpp/convocatorias-etapas/",
+      "region": "chile",
+      "_statusNote": "Verificar región específica en corfo.gob.cl"
     }
   ],
   "usa": [
@@ -135,11 +159,12 @@
       "icon": "NSF",
       "color": "#003366",
       "amount": "hasta USD 275K",
-      "status": "coming",
+      "status": "open",
       "deadline": null,
       "url": "https://www.sbir.gov/",
-      "source": "https://www.sbir.gov/solicitations",
-      "region": "usa"
+      "source": "https://www.sbir.gov/",
+      "region": "usa",
+      "_statusNote": "SBIR abierto en ciclos anuales — verificar fechas"
     },
     {
       "id": "nsf-sbir-phase2",
@@ -150,8 +175,9 @@
       "status": "coming",
       "deadline": null,
       "url": "https://www.sbir.gov/",
-      "source": "https://www.sbir.gov/solicitations",
-      "region": "usa"
+      "source": "https://www.sbir.gov/",
+      "region": "usa",
+      "_statusNote": "Requiere haber completado Phase I"
     },
     {
       "id": "doe-sbir",
@@ -159,35 +185,25 @@
       "icon": "DOE",
       "color": "#003366",
       "amount": "hasta USD 325K",
-      "status": "open",
+      "status": "coming",
       "deadline": null,
       "url": "https://science.osti.gov/sbir",
       "source": "https://science.osti.gov/sbir",
-      "region": "usa"
-    },
-    {
-      "id": "nih-sbir",
-      "name": "NIH SBIR/STTR",
-      "icon": "NIH",
-      "color": "#003366",
-      "amount": "hasta USD 350K",
-      "status": "open",
-      "deadline": null,
-      "url": "https://sbir.nih.gov/",
-      "source": "https://sbir.nih.gov/",
-      "region": "usa"
+      "region": "usa",
+      "_statusNote": "Verificar convocatoria en science.osti.gov"
     },
     {
       "id": "y-combinator",
       "name": "Y Combinator",
       "icon": "YC",
       "color": "#FF6600",
-      "amount": "USD 500K + red",
+      "amount": "USD 500K + red global",
       "status": "open",
       "deadline": null,
       "url": "https://www.ycombinator.com/apply",
       "source": "https://www.ycombinator.com/apply",
-      "region": "usa"
+      "region": "usa",
+      "_statusNote": "Confirmado 2026-04-08: página activa (HTTP 200)"
     },
     {
       "id": "techstars",
@@ -199,33 +215,23 @@
       "deadline": null,
       "url": "https://www.techstars.com/accelerators",
       "source": "https://www.techstars.com/accelerators",
-      "region": "usa"
+      "region": "usa",
+      "_statusNote": "Múltiples programas con fechas distintas"
     }
   ],
   "eu": [
-    {
-      "id": "horizon-eic",
-      "name": "Horizon Europe EIC",
-      "icon": "★",
-      "color": "#003399",
-      "amount": "hasta EUR 2.5M",
-      "status": "open",
-      "deadline": null,
-      "url": "https://research-and-innovation.ec.europa.eu/funding/funding-opportunities/funding-programmes-and-open-calls/horizon-europe_en",
-      "source": "https://eic.ec.europa.eu/eic-funding/eic-accelerator_en",
-      "region": "eu"
-    },
     {
       "id": "eic-accelerator",
       "name": "EIC Accelerator",
       "icon": "EIC",
       "color": "#003399",
-      "amount": "hasta EUR 2.5M",
+      "amount": "hasta EUR 2.5M (grant + equity)",
       "status": "open",
       "deadline": null,
       "url": "https://eic.ec.europa.eu/eic-funding/eic-accelerator_en",
       "source": "https://eic.ec.europa.eu/eic-funding/eic-accelerator_en",
-      "region": "eu"
+      "region": "eu",
+      "_statusNote": "EIC Accelerator abierto en cutoffs anuales"
     },
     {
       "id": "eurostars",
@@ -237,7 +243,8 @@
       "deadline": null,
       "url": "https://www.eurostars-eureka.eu/",
       "source": "https://www.eurostars-eureka.eu/",
-      "region": "eu"
+      "region": "eu",
+      "_statusNote": "Convocatorias anuales — verificar cutoff vigente"
     },
     {
       "id": "innovate-uk",
@@ -249,19 +256,21 @@
       "deadline": null,
       "url": "https://www.ukri.org/opportunity/innovate-uk-smart-grants/",
       "source": "https://www.ukri.org/opportunity/innovate-uk-smart-grants/",
-      "region": "eu"
+      "region": "eu",
+      "_statusNote": "Sin convocatoria activa confirmada"
     },
     {
       "id": "lanzadera",
-      "name": "Lanzadera",
+      "name": "Lanzadera (ES)",
       "icon": "LZ",
       "color": "#E65000",
-      "amount": "equity + accel",
+      "amount": "Equity + aceleración",
       "status": "open",
       "deadline": null,
       "url": "https://lanzadera.es/",
       "source": "https://lanzadera.es/",
-      "region": "eu"
+      "region": "eu",
+      "_statusNote": "Postulación abierta continuamente"
     }
   ],
   "latam": [
@@ -271,23 +280,12 @@
       "icon": "iN",
       "color": "#D4222A",
       "amount": "hasta COP 1.000M",
-      "status": "open",
+      "status": "coming",
       "deadline": null,
       "url": "https://www.innpulsacolombia.com/",
       "source": "https://www.innpulsacolombia.com/",
-      "region": "latam"
-    },
-    {
-      "id": "ruta-n",
-      "name": "Ruta N Medellín (CO)",
-      "icon": "RN",
-      "color": "#D4222A",
-      "amount": "hasta COP 500M",
-      "status": "coming",
-      "deadline": null,
-      "url": "https://www.rutanmedellin.org/",
-      "source": "https://www.rutanmedellin.org/",
-      "region": "latam"
+      "region": "latam",
+      "_statusNote": "Verificar convocatoria vigente en innpulsacolombia.com"
     },
     {
       "id": "startup-peru",
@@ -295,23 +293,12 @@
       "icon": "PE",
       "color": "#CC0001",
       "amount": "hasta PEN 300K",
-      "status": "open",
+      "status": "coming",
       "deadline": null,
       "url": "https://startupperu.pe/",
       "source": "https://startupperu.pe/",
-      "region": "latam"
-    },
-    {
-      "id": "proinnovate",
-      "name": "ProInnóvate (PE)",
-      "icon": "PI",
-      "color": "#CC0001",
-      "amount": "hasta USD 150K",
-      "status": "coming",
-      "deadline": null,
-      "url": "https://www.proinnovate.gob.pe/",
-      "source": "https://www.proinnovate.gob.pe/",
-      "region": "latam"
+      "region": "latam",
+      "_statusNote": "Verificar convocatoria vigente"
     },
     {
       "id": "fontar-anr",
@@ -319,23 +306,12 @@
       "icon": "AR",
       "color": "#003087",
       "amount": "hasta ARS 10M",
-      "status": "open",
+      "status": "coming",
       "deadline": null,
       "url": "https://www.agencia.mincyt.gob.ar/fontar",
       "source": "https://www.agencia.mincyt.gob.ar/fontar",
-      "region": "latam"
-    },
-    {
-      "id": "fontar-credito",
-      "name": "FONTAR Crédito Fiscal",
-      "icon": "AR",
-      "color": "#003087",
-      "amount": "hasta ARS 30M",
-      "status": "open",
-      "deadline": null,
-      "url": "https://www.agencia.mincyt.gob.ar/fontar",
-      "source": "https://www.agencia.mincyt.gob.ar/fontar",
-      "region": "latam"
+      "region": "latam",
+      "_statusNote": "Verificar convocatoria vigente en agencia.mincyt.gob.ar"
     },
     {
       "id": "finep-inovacao",
@@ -343,23 +319,12 @@
       "icon": "FN",
       "color": "#009C3B",
       "amount": "hasta BRL 2M",
-      "status": "open",
-      "deadline": null,
-      "url": "https://www.finep.gov.br/",
-      "source": "https://www.finep.gov.br/",
-      "region": "latam"
-    },
-    {
-      "id": "finep-startup",
-      "name": "FINEP Startup (BR)",
-      "icon": "FN",
-      "color": "#009C3B",
-      "amount": "hasta BRL 1M",
       "status": "coming",
       "deadline": null,
       "url": "https://www.finep.gov.br/",
       "source": "https://www.finep.gov.br/",
-      "region": "latam"
+      "region": "latam",
+      "_statusNote": "Verificar convocatoria vigente en finep.gov.br"
     }
   ]
 }
