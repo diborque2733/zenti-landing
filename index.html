@@ -9,12 +9,19 @@
   <meta property="og:description" content="Simula el comité de CORFO, NSF, Horizon Europe y +30 fondos. Informe ejecutivo en minutos." />
   <meta property="og:url" content="https://zentigrants.com" />
   <meta property="og:type" content="website" />
+  <meta property="og:image" content="https://zentigrants.com/og-image.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="ZENTI — Evalúa tu postulación a CORFO, NSF y +30 fondos" />
+  <meta name="twitter:description" content="Simula el comité evaluador en minutos. Informe ejecutivo con brechas y plan de acción." />
+  <meta name="twitter:image" content="https://zentigrants.com/og-image.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@600;700;800&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
-  <!-- D3 + TopoJSON for world map -->
-  <script src="https://cdn.jsdelivr.net/npm/d3@7/dist/d3.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/topojson-client@3/dist/topojson-client.min.js"></script>
+  <!-- Leaflet map — defer para no bloquear FCP -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin=""/>
+  <script defer src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
   <!-- Google Analytics GA4 -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-SSW9F84YTR"></script>
   <script>
@@ -452,20 +459,66 @@
       .cob-body { grid-template-columns: 1fr; }
       .cob-fund-panel { border-left: none !important; border-top: 1px solid var(--z-ghost-border); max-height: 320px; }
     }
-    /* Map area — dark mode */
+    /* Map area — Leaflet dark */
     .cob-map-area {
       background: #0F1117;
-      padding: 24px 20px 16px;
+      padding: 0 0 12px;
       display: flex; flex-direction: column; gap: 12px;
     }
-    .cob-world-map { width: 100%; height: auto; display: block; }
-    .cob-continent {
-      fill: #2A3A5C;
-      stroke: rgba(255,255,255,0.08);
-      stroke-width: 1.2;
-      transition: fill .25s;
+    #zenti-map {
+      width: 100%; height: 320px; z-index: 0;
     }
-    .cob-continent.active { fill: rgba(242,108,34,0.35); stroke: rgba(242,108,34,0.5); }
+    .leaflet-container { background: #0F1117 !important; }
+    .leaflet-control-zoom a {
+      background: #242424 !important; color: #E5E2E1 !important;
+      border-color: rgba(229,226,225,0.12) !important;
+    }
+    .leaflet-control-zoom a:hover { background: #2A2A2A !important; }
+    .leaflet-control-attribution {
+      background: rgba(15,17,23,0.8) !important;
+      color: rgba(229,226,225,0.3) !important; font-size: 9px !important;
+    }
+    .leaflet-control-attribution a { color: rgba(242,108,34,0.5) !important; }
+    /* Pin marker */
+    .zenti-pin-wrap {
+      position: relative; width: 28px; height: 28px; cursor: pointer;
+    }
+    .zenti-pin-outer {
+      width: 28px; height: 28px; border-radius: 50%;
+      background: rgba(242,108,34,0.18);
+      border: 2px solid #F26C22;
+      display: flex; align-items: center; justify-content: center;
+      animation: cobPulse 2.5s ease-out infinite;
+      transition: transform .2s cubic-bezier(.22,1,.36,1);
+    }
+    .zenti-pin-outer:hover { transform: scale(1.3); }
+    .zenti-pin-inner {
+      width: 10px; height: 10px; border-radius: 50%;
+      background: #F26C22;
+      box-shadow: 0 0 10px rgba(242,108,34,0.8);
+    }
+    .zenti-pin-label {
+      position: absolute; bottom: 34px; left: 50%; transform: translateX(-50%);
+      background: rgba(10,10,10,0.92);
+      border: 1px solid rgba(242,108,34,0.3);
+      color: #E5E2E1; font-size: 11px; font-weight: 700;
+      padding: 3px 9px; border-radius: 6px; white-space: nowrap;
+      backdrop-filter: blur(8px); pointer-events: none;
+    }
+    .zenti-pin-count {
+      position: absolute; top: -6px; right: -6px;
+      background: #F26C22; color: #fff;
+      font-size: 9px; font-weight: 900;
+      width: 15px; height: 15px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      pointer-events: none;
+    }
+    .zenti-soon-label {
+      background: rgba(15,17,23,0.75);
+      color: rgba(229,226,225,0.35); font-size: 10px; font-weight: 600;
+      padding: 3px 8px; border-radius: 4px;
+      border: 1px solid rgba(229,226,225,0.08); letter-spacing: .05em;
+    }
     .cob-fund-dot { cursor: pointer; }
     .cob-fund-dot .dot-outer {
       fill: rgba(242,108,34,.25);
@@ -1249,38 +1302,7 @@
         <!-- MAP AREA -->
         <div class="cob-body">
           <div class="cob-map-area">
-            <svg class="cob-world-map" id="cob-world-svg" viewBox="0 0 640 340" xmlns="http://www.w3.org/2000/svg">
-              <!-- Countries rendered by D3 -->
-              <g id="cob-map-countries"></g>
-              <!-- Fund dots — positioned by cobMapInit() after projection is set -->
-              <g class="cob-fund-dot" id="cob-dot-usa" onclick="cobSelect('usa')">
-                <circle class="dot-outer" cx="148" cy="110" r="9"/>
-                <circle class="dot-inner" cx="148" cy="110" r="4"/>
-              </g>
-              <text class="cob-dot-count" x="148" y="94">6</text>
-              <text class="cob-dot-label" x="148" y="127">USA</text>
-              <g class="cob-fund-dot" id="cob-dot-latam" onclick="cobSelect('latam')">
-                <circle class="dot-outer" cx="195" cy="205" r="9"/>
-                <circle class="dot-inner" cx="195" cy="205" r="4"/>
-              </g>
-              <text class="cob-dot-count" x="195" y="189">8</text>
-              <text class="cob-dot-label" x="195" y="222">Latam</text>
-              <g class="cob-fund-dot" id="cob-dot-chile" onclick="cobSelect('chile')">
-                <circle class="dot-outer" cx="170" cy="252" r="9"/>
-                <circle class="dot-inner" cx="170" cy="252" r="4"/>
-              </g>
-              <text class="cob-dot-count" x="170" y="236">10</text>
-              <text class="cob-dot-label" x="170" y="269">Chile</text>
-              <g class="cob-fund-dot" id="cob-dot-eu" onclick="cobSelect('eu')">
-                <circle class="dot-outer" cx="335" cy="95" r="9"/>
-                <circle class="dot-inner" cx="335" cy="95" r="4"/>
-              </g>
-              <text class="cob-dot-count" x="335" y="79">5</text>
-              <text class="cob-dot-label" x="335" y="112">Europa</text>
-              <!-- "Coming soon" labels — positioned by cobMapInit -->
-              <text class="cob-soon" id="cob-soon-asia" x="495" y="90">Próximamente</text>
-              <text class="cob-soon" id="cob-soon-africa" x="360" y="210">Próximamente</text>
-            </svg>
+            <div id="zenti-map"></div>
             <!-- Tabs -->
             <div class="cob-tabs">
               <button class="cob-tab active" data-r="all"   onclick="cobSelect('all')">🌎 Todos <span class="cnt">30+</span></button>
@@ -2523,15 +2545,8 @@
 
       window.cobSelect = function(region) {
         document.querySelectorAll('.cob-tab').forEach(t => t.classList.toggle('active', t.dataset.r === region));
-        document.querySelectorAll('.cob-continent').forEach(c => c.classList.remove('active'));
-        document.querySelectorAll('.cob-fund-dot').forEach(d => d.classList.remove('inactive'));
-        if (region !== 'all') {
-          const contId = COB_CONT[region];
-          if (contId) document.getElementById(contId)?.classList.add('active');
-          ['chile','usa','eu','latam'].forEach(id => {
-            if (id !== region) document.getElementById('cob-dot-'+id)?.classList.add('inactive');
-          });
-        }
+        // Highlight map pins
+        if (window.cobMapHighlight) window.cobMapHighlight(region);
         cobRender(region);
       };
 
@@ -2565,93 +2580,87 @@
         });
     })();
 
-  // ── World Map (D3 + TopoJSON) ─────────────────────────────────────────────
+  // ── World Map (Leaflet + CartoDB Dark tiles) ──────────────────────────────
   (function cobMapInit() {
-    const W = 640, H = 340;
+    if (typeof L === 'undefined') return;
+    const mapEl = document.getElementById('zenti-map');
+    if (!mapEl) return;
 
-    // ISO 3166-1 numeric codes per region
-    const REGION_IDS = {
-      usa:   new Set([840]),
-      chile: new Set([152]),
-      latam: new Set([32,84,68,76,152,170,188,192,214,218,222,300,308,320,328,332,340,388,
-                      484,558,591,600,604,630,659,662,670,740,780,796,858,862]),
-      eu:    new Set([8,40,56,70,100,191,203,208,233,246,250,276,300,372,380,
-                      428,440,442,470,498,499,528,578,616,620,642,688,703,705,
-                      724,726,752,756,807,826])
-    };
+    const map = L.map('zenti-map', {
+      center: [20, 5],
+      zoom: 2,
+      zoomControl: true,
+      scrollWheelZoom: false,
+      attributionControl: true,
+      minZoom: 1, maxZoom: 6
+    });
 
-    const DOT_GEO = {
-      usa:   { lon: -98,  lat: 38  },
-      latam: { lon: -55,  lat: -5  },
-      chile: { lon: -71,  lat: -33 },
-      eu:    { lon: 10,   lat: 51  }
-    };
+    // CartoDB Dark tiles — no API key needed
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}{r}.png', {
+      attribution: '© <a href="https://carto.com/">CARTO</a>',
+      subdomains: 'abcd',
+      maxZoom: 19
+    }).addTo(map);
 
-    const projection = d3.geoMercator()
-      .scale(82)
-      .translate([W * 0.465, H * 0.585])
-      .clipExtent([[0, 0], [W, H]]);
+    // Region pins
+    const PINS = [
+      { id: 'usa',   lat: 38,   lng: -98,  label: 'USA',    count: 6,  region: 'usa' },
+      { id: 'latam', lat: -5,   lng: -55,  label: 'Latam',  count: 8,  region: 'latam' },
+      { id: 'chile', lat: -33,  lng: -71,  label: 'Chile',  count: 10, region: 'chile' },
+      { id: 'eu',    lat: 51,   lng: 10,   label: 'Europa', count: 5,  region: 'eu' },
+    ];
 
-    const pathGen = d3.geoPath().projection(projection);
-    const g = document.getElementById('cob-map-countries');
-    if (!g) return;
+    const SOON = [
+      { lat: 20,  lng: 105, label: 'Próximamente' },
+      { lat: 5,   lng: 20,  label: 'Próximamente' },
+    ];
 
-    function getRegion(numId) {
-      for (const [r, ids] of Object.entries(REGION_IDS)) {
-        if (ids.has(numId)) return r;
-      }
-      return null;
-    }
+    const pinMarkers = {};
 
-    function moveDot(dotId, lon, lat) {
-      const pt = projection([lon, lat]);
-      if (!pt) return;
-      const [px, py] = [Math.round(pt[0]), Math.round(pt[1])];
-      const dotG = document.getElementById('cob-dot-' + dotId);
-      if (!dotG) return;
-      dotG.querySelectorAll('circle').forEach(c => {
-        c.setAttribute('cx', px); c.setAttribute('cy', py);
+    function makePinIcon(label, count, active) {
+      const outerColor = active ? 'rgba(242,108,34,0.5)' : 'rgba(242,108,34,0.18)';
+      const outerBorder = active ? '#FFB695' : '#F26C22';
+      return L.divIcon({
+        className: '',
+        iconSize: [28, 28],
+        iconAnchor: [14, 14],
+        html: `
+          <div class="zenti-pin-wrap" style="position:relative;width:28px;height:28px;">
+            <div class="zenti-pin-outer" style="background:${outerColor};border-color:${outerBorder};">
+              <div class="zenti-pin-inner"></div>
+            </div>
+            <div class="zenti-pin-label">${label}</div>
+            <div class="zenti-pin-count">${count}</div>
+          </div>`
       });
-      const cntEl = dotG.nextElementSibling;
-      const lblEl = cntEl && cntEl.nextElementSibling;
-      if (cntEl) { cntEl.setAttribute('x', px); cntEl.setAttribute('y', py - 16); }
-      if (lblEl) { lblEl.setAttribute('x', px); lblEl.setAttribute('y', py + 17); }
     }
 
-    fetch('https://unpkg.com/world-atlas@2/countries-110m.json')
-      .then(r => r.json())
-      .then(world => {
-        const countries = topojson.feature(world, world.objects.countries);
-        const fragment = document.createDocumentFragment();
+    function makeSoonIcon(label) {
+      return L.divIcon({
+        className: '',
+        iconSize: [100, 20],
+        iconAnchor: [50, 10],
+        html: `<div class="zenti-soon-label">${label}</div>`
+      });
+    }
 
-        countries.features.forEach(feature => {
-          const numId = parseInt(feature.id, 10);
-          const region = getRegion(numId);
-          const d = pathGen(feature);
-          if (!d) return;
-          const el = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-          el.setAttribute('d', d);
-          el.setAttribute('fill', region ? '#2A3A5C' : '#1A2030');
-          el.setAttribute('stroke', 'rgba(255,255,255,0.08)');
-          el.setAttribute('stroke-width', '0.6');
-          if (region) { el.classList.add('cob-continent'); el.dataset.region = region; }
-          fragment.appendChild(el);
-        });
+    PINS.forEach(p => {
+      const m = L.marker([p.lat, p.lng], { icon: makePinIcon(p.label, p.count, false) }).addTo(map);
+      m.on('click', () => { window.cobSelect && window.cobSelect(p.region); });
+      pinMarkers[p.id] = m;
+    });
 
-        g.appendChild(fragment);
+    SOON.forEach(s => {
+      L.marker([s.lat, s.lng], { icon: makeSoonIcon(s.label), interactive: false }).addTo(map);
+    });
 
-        // Reposition dots to true geographic coordinates
-        Object.entries(DOT_GEO).forEach(([id, { lon, lat }]) => moveDot(id, lon, lat));
-
-        // Reposition "Próximamente" labels
-        const asia = document.getElementById('cob-soon-asia');
-        const africa = document.getElementById('cob-soon-africa');
-        const ptAsia   = projection([105, 35]);
-        const ptAfrica = projection([20,  5]);
-        if (asia   && ptAsia)   { asia.setAttribute('x', Math.round(ptAsia[0]));   asia.setAttribute('y', Math.round(ptAsia[1]));   }
-        if (africa && ptAfrica) { africa.setAttribute('x', Math.round(ptAfrica[0])); africa.setAttribute('y', Math.round(ptAfrica[1])); }
-      })
-      .catch(err => console.warn('ZENTI map load failed:', err));
+    // Expose function to highlight active region marker
+    window.cobMapHighlight = function(region) {
+      PINS.forEach(p => {
+        const active = region === 'all' || p.region === region;
+        pinMarkers[p.id].setIcon(makePinIcon(p.label, p.count, region !== 'all' && p.region === region));
+      });
+    };
   })();
   </script>
 </body>
