@@ -814,7 +814,34 @@
       background: #ecfdf3; color: #057a55; border-radius: 999px;
       font-size: 13px; font-weight: 700;
     }
+    .report-toolbar {
+      width: 100%; max-width: 720px; margin: 0 auto 10px; padding: 10px 12px;
+      display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 10px 14px;
+      background: var(--z-gray-50); border: 1px solid var(--z-border); border-radius: 10px;
+    }
+    .report-toolbar-hint {
+      flex: 1 1 220px; margin: 0; font-size: 12px; color: var(--z-gray-500); line-height: 1.5; text-align: center;
+    }
+    .report-fs-btn {
+      flex: 0 0 auto; padding: 8px 14px; font-size: 13px; font-weight: 700;
+      border: 1px solid var(--z-border); border-radius: 999px; background: #fff; color: var(--z-black);
+      cursor: pointer;
+    }
+    .report-fs-btn:focus-visible { outline: 2px solid var(--z-orange); outline-offset: 2px; }
+    .report-iframe-wrap { width: 100%; position: relative; border-radius: 8px; overflow: hidden; }
+    .report-iframe-wrap.report-iframe-fullscreen {
+      position: fixed; inset: 0; z-index: 9999; border-radius: 0; background: #fff;
+    }
+    .report-iframe-wrap.report-iframe-fullscreen .report-iframe { height: calc(100vh - 0px) !important; border-radius: 0; }
+    .chat-shell.report-shell-fs .chat-body { height: 100vh !important; max-height: none !important; }
     .report-iframe { width: 100%; height: 70vh; border: none; border-radius: 8px; }
+    .report-pdf-row { width: 100%; text-align: center; margin-top: 12px; }
+    .report-pdf-btn {
+      display: inline-block; padding: 14px 28px; font-size: 15px; font-weight: 800;
+      background: #fff; color: var(--z-black); border: 2px solid var(--z-orange); border-radius: 999px;
+      text-decoration: none; box-shadow: 0 4px 16px rgba(242,108,34,.2);
+    }
+    .report-pdf-btn:hover { background: #fff7ed; }
     .report-cta-btn {
       display: inline-block; margin-top: 16px; padding: 12px 28px;
       background: var(--z-orange); color: #fff; border-radius: 999px;
@@ -1089,7 +1116,7 @@
           <span class="ticker-sep">·</span>
           <span class="ticker-logo"><span class="ticker-logo-icon" style="background:#F26C22">SC</span><span class="ticker-logo-name">Startup Chile</span></span>
           <span class="ticker-sep">·</span>
-          <span class="ticker-logo"><span class="ticker-logo-icon" style="background:#C8102E">AN</span><span class="ticker-logo-name">ANID FONDEF</span></span>
+          <span class="ticker-logo"><span class="ticker-logo-icon" style="background:#C8102E">AN</span><span class="ticker-logo-name">ANID · FONDEF</span></span>
           <span class="ticker-sep">·</span>
           <span class="ticker-logo"><span class="ticker-logo-icon" style="background:#FF6600">YC</span><span class="ticker-logo-name">Y Combinator</span></span>
           <span class="ticker-sep">·</span>
@@ -1117,7 +1144,7 @@
           <span class="ticker-sep">·</span>
           <span class="ticker-logo"><span class="ticker-logo-icon" style="background:#F26C22">SC</span><span class="ticker-logo-name">Startup Chile</span></span>
           <span class="ticker-sep">·</span>
-          <span class="ticker-logo"><span class="ticker-logo-icon" style="background:#C8102E">AN</span><span class="ticker-logo-name">ANID FONDEF</span></span>
+          <span class="ticker-logo"><span class="ticker-logo-icon" style="background:#C8102E">AN</span><span class="ticker-logo-name">ANID · FONDEF</span></span>
           <span class="ticker-sep">·</span>
           <span class="ticker-logo"><span class="ticker-logo-icon" style="background:#FF6600">YC</span><span class="ticker-logo-name">Y Combinator</span></span>
           <span class="ticker-sep">·</span>
@@ -1271,8 +1298,11 @@
             </div>
             <div class="cob-data-note">
               <span class="cob-data-dot"></span>
-              Estado actualizado diariamente
+              Estado sincronizado con fuentes públicas (actualización diaria cuando el pipeline está activo)
             </div>
+            <p style="margin-top:10px;font-size:10px;line-height:1.45;color:var(--z-text-faint);max-width:520px">
+              Los montos y plazos mostrados son orientativos y no sustituyen las bases oficiales. Si un instrumento aparece como &laquo;revisión pendiente&raquo; en nuestro backend, contrastá siempre con la URL del organismo. ZENTI no garantiza adjudicación.
+            </p>
           </div>
           <!-- FUND PANEL -->
           <div class="cob-fund-panel">
@@ -1452,7 +1482,7 @@
         <div class="start-success hidden" id="start-success">
           <h3>Solicitud recibida</h3>
           <p>Analizaremos tu idea y te enviaremos las recomendaciones de fondos a tu correo en los próximos minutos.</p>
-          <a href="https://cal.com/zenti" target="_blank" rel="noopener" style="display:inline-block;padding:12px 28px;background:#F26C22;color:#fff;border-radius:999px;font-weight:700;font-size:14px;text-decoration:none;box-shadow:0 6px 18px rgba(242,108,34,.25)">Agendar consultoría</a>
+          <a href="https://calendly.com/diego-zentigrants/consultoria-estrategica-zenti" target="_blank" rel="noopener" style="display:inline-block;padding:12px 28px;background:#F26C22;color:#fff;border-radius:999px;font-weight:700;font-size:14px;text-decoration:none;box-shadow:0 6px 18px rgba(242,108,34,.25)">Agendar consultoría</a>
           <br/>
           <button type="button" class="ghost" style="margin-top:12px" id="btn-start-reset">Nuevo match</button>
         </div>
@@ -1530,7 +1560,7 @@
         Agenda una sesión con el equipo ZENTI. Revisamos tu informe, trabajamos las brechas críticas y estructuramos una postulación competitiva.
       </p>
       <div style="text-align:center">
-        <a href="https://cal.com/zenti" target="_blank" rel="noopener" class="nav-cta" style="padding:14px 36px;font-size:15px;border-radius:999px;display:inline-block;box-shadow:0 8px 24px rgba(242,108,34,.25)">Agendar consultoría</a>
+        <a href="https://calendly.com/diego-zentigrants/consultoria-estrategica-zenti" target="_blank" rel="noopener" class="nav-cta" style="padding:14px 36px;font-size:15px;border-radius:999px;display:inline-block;box-shadow:0 8px 24px rgba(242,108,34,.25)">Agendar consultoría</a>
       </div>
     </div>
   </section>
@@ -1680,7 +1710,7 @@
       'Startup Chile GROWTH',
       'CORFO Semilla Expande',
       'Innova Región',
-      'ANID FONDEF',
+      'ANID — convocatorias FONDEF',
       '── USA ──',
       'DOE SBIR/STTR',
       'NIH SBIR/STTR',
@@ -1751,10 +1781,10 @@
         propuestaBot: 'Texto **opcional** o PDF: incluye **qué cambia en la región**, **metodología** y **equipo**.',
         propuestaPh: 'Impacto regional, metodología, escalabilidad, equipo…',
       },
-      'ANID FONDEF': {
-        header: 'ANID FONDEF',
-        contexto: '**FONDEF** evalúa **mérito científico-técnico, relevancia, equipo, vinculación y plan**. Escala **1–7**. Aquí el informe apunta a **I+D riguroso**.',
-        trlBot: '¿Cuál es el **TRL** del desarrollo? En FONDEF debe ser **consistente** con el **plan** y el **mérito** que planteas.',
+      'ANID — convocatorias FONDEF': {
+        header: 'ANID — línea FONDEF',
+        contexto: '**FONDEF** no es un solo instrumento: hay **varias convocatorias** (p. ej. IDeA I+D, Iniciación) con montos y plazos distintos. En conjunto suelen mirar **mérito científico-técnico, relevancia, equipo, vinculación y plan**. Escala típica **1–7**. Elige la **convocatoria vigente** en anid.cl antes de postular.',
+        trlBot: '¿Cuál es el **TRL** del desarrollo? Debe ser **consistente** con el **plan** y el **mérito** de la convocatoria que elijas.',
         propuestaBot: 'Pega **texto** si puedes: **mérito, relevancia, plan, vinculación y equipo** son centrales. **Opcional** si el PDF ya lo trae.',
         propuestaPh: 'Mérito científico, relevancia, plan, vinculación, equipo…',
       },
@@ -2133,9 +2163,12 @@
       }, 1000);
     }
 
+    var ZENTI_CALENDLY_URL = 'https://calendly.com/diego-zentigrants/consultoria-estrategica-zenti';
+
     function showInlineReport(container, preview_url) {
       if (window._zentiLoadingTimer) { clearInterval(window._zentiLoadingTimer); window._zentiLoadingTimer = null; }
       container.innerHTML = '';
+      var chatShell = document.querySelector('.chat-shell');
       var chatBody = document.querySelector('.chat-body');
       if (chatBody) { chatBody.style.maxHeight = 'none'; chatBody.style.height = '85vh'; chatBody.style.paddingBottom = '0'; }
 
@@ -2146,14 +2179,61 @@
       header.className = 'report-header';
       header.innerHTML = '<span class="report-ready-badge">\u2713 Tu informe est\u00e1 listo</span>';
 
+      var toolbar = document.createElement('div');
+      toolbar.className = 'report-toolbar';
+      var hint = document.createElement('p');
+      hint.className = 'report-toolbar-hint';
+      hint.textContent = 'Tip: us\u00e1 \u201cpantalla completa\u201d para ver mejor. En el visor de Google, el men\u00fa \u22ee permite imprimir o descargar PDF.';
+      var fsBtn = document.createElement('button');
+      fsBtn.type = 'button';
+      fsBtn.className = 'report-fs-btn';
+      fsBtn.setAttribute('aria-expanded', 'false');
+      fsBtn.setAttribute('aria-label', 'Ampliar el informe a pantalla completa. Volv\u00e9 a pulsar o us\u00e1 Escape para salir.');
+      fsBtn.title = 'Expandir informe a pantalla completa (mejor lectura y acceso al men\u00fa PDF del visor)';
+      fsBtn.textContent = 'Pantalla completa';
+      toolbar.appendChild(hint);
+      toolbar.appendChild(fsBtn);
+
+      var wrap = document.createElement('div');
+      wrap.className = 'report-iframe-wrap';
       var iframe = document.createElement('iframe');
       iframe.src = preview_url;
       iframe.className = 'report-iframe';
       iframe.title = 'Informe ZENTI';
       iframe.setAttribute('allow', 'fullscreen');
+      wrap.appendChild(iframe);
+
+      fsBtn.onclick = function() {
+        var on = wrap.classList.toggle('report-iframe-fullscreen');
+        fsBtn.setAttribute('aria-expanded', on ? 'true' : 'false');
+        fsBtn.textContent = on ? 'Salir de pantalla completa' : 'Pantalla completa';
+        if (chatShell) chatShell.classList.toggle('report-shell-fs', on);
+      };
+      if (window._zentiEscFsHandler) document.removeEventListener('keydown', window._zentiEscFsHandler);
+      window._zentiEscFsHandler = function(ev) {
+        if (ev.key !== 'Escape' || !wrap.classList.contains('report-iframe-fullscreen')) return;
+        wrap.classList.remove('report-iframe-fullscreen');
+        fsBtn.setAttribute('aria-expanded', 'false');
+        fsBtn.textContent = 'Pantalla completa';
+        if (chatShell) chatShell.classList.remove('report-shell-fs');
+      };
+      document.addEventListener('keydown', window._zentiEscFsHandler);
+
+      var pdfRow = document.createElement('div');
+      pdfRow.className = 'report-pdf-row';
+      var dm = typeof preview_url === 'string' ? preview_url.match(/\/d\/([^/]+)/) : null;
+      if (dm && dm[1]) {
+        var pdfA = document.createElement('a');
+        pdfA.href = 'https://drive.google.com/file/d/' + dm[1] + '/view';
+        pdfA.target = '_blank';
+        pdfA.rel = 'noopener';
+        pdfA.className = 'report-pdf-btn';
+        pdfA.textContent = 'Abrir en Google Drive (ver / descargar PDF)';
+        pdfRow.appendChild(pdfA);
+      }
 
       var cta = document.createElement('a');
-      cta.href = 'https://calendly.com/diego-zentigrants/consultoria-estrategica-zenti';
+      cta.href = ZENTI_CALENDLY_URL;
       cta.target = '_blank';
       cta.rel = 'noopener';
       cta.className = 'report-cta-btn';
@@ -2167,7 +2247,9 @@
       again.onclick = resetForm;
 
       panel.appendChild(header);
-      panel.appendChild(iframe);
+      panel.appendChild(toolbar);
+      panel.appendChild(wrap);
+      panel.appendChild(pdfRow);
       panel.appendChild(cta);
       panel.appendChild(again);
       container.appendChild(panel);
@@ -2461,10 +2543,10 @@
           // Fallback hardcoded if fetch fails (local dev without server)
           FUNDS_DATA = {
             chile: [
-              { name:'CORFO Crea y Valida', icon:'CO', color:'#003087', amount:'hasta $40M CLP', status:'open' },
-              { name:'CORFO Semilla Inicia', icon:'CO', color:'#003087', amount:'hasta $60M CLP', status:'open' },
-              { name:'ANID FONDEF', icon:'AN', color:'#C8102E', amount:'hasta $400M CLP', status:'open' },
-              { name:'Startup Chile Ignite', icon:'SC', color:'#F26C22', amount:'USD 100K', status:'open' },
+              { name:'CORFO Crea y Valida', icon:'CO', color:'#003087', amount:'Hasta ~$180M / $220M (bases CORFO)', status:'open' },
+              { name:'CORFO Semilla Inicia', icon:'CO', color:'#003087', amount:'Hasta ~$15M CLP', status:'open' },
+              { name:'ANID — línea FONDEF (varias convocatorias)', icon:'AN', color:'#C8102E', amount:'Ver convocatoria en anid.cl', status:'open' },
+              { name:'Startup Chile Ignite', icon:'SC', color:'#F26C22', amount:'CLP 25M + ext. equity-free (ver bases)', status:'open' },
             ],
             usa: [
               { name:'Y Combinator', icon:'YC', color:'#FF6600', amount:'USD 500K + red', status:'open' },
