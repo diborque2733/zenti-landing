@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+  <title>ZENTI — Cobertura before/after</title>
+  <style>
+    :root {
+      --z-orange: #F26C22;
+      --z-black: #111111;
+      --z-gray-100: #F3F4F6;
+      --z-gray-200: #E5E7EB;
+      --z-gray-400: #9CA3AF;
+      --z-gray-500: #6B7280;
+      --z-font: 'Inter', ui-sans-serif, system-ui, sans-serif;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: var(--z-font); background: #f0f2f5; color: var(--z-black); -webkit-font-smoothing: antialiased; }
+    .doc { max-width: 960px; margin: 0 auto; padding: 32px 20px 80px; }
+    .doc-header { background: var(--z-black); color: #fff; border-radius: 12px; padding: 24px 28px; margin-bottom: 28px; }
+    .doc-header h1 { font-size: 18px; font-weight: 800; margin-bottom: 4px; }
+    .doc-header p { font-size: 12px; color: rgba(255,255,255,.4); }
+
+    .section { background: #fff; border: 1px solid var(--z-gray-200); border-radius: 12px; margin-bottom: 24px; overflow: hidden; }
+    .section-hdr { padding: 16px 22px; border-bottom: 1px solid var(--z-gray-200); display: flex; align-items: center; gap: 10px; }
+    .section-hdr h2 { font-size: 14px; font-weight: 800; }
+    .lbl { font-size: 10px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; padding: 3px 8px; border-radius: 4px; }
+    .lbl-before { background: #FEF2F2; color: #dc2626; }
+    .lbl-after  { background: #F0FDF4; color: #057a55; }
+    .section-body { padding: 0; }
+
+    /* ══════════════════════════
+       ANTES — pills actuales
+    ══════════════════════════ */
+    .before-wrap {
+      padding: 40px 32px;
+      background: #fff;
+    }
+    .before-title {
+      text-align: center;
+      font-size: 22px; font-weight: 800; margin-bottom: 8px;
+    }
+    .before-sub {
+      text-align: center;
+      font-size: 14px; color: var(--z-gray-500); margin-bottom: 28px;
+    }
+    .inst-grid {
+      display: flex; flex-wrap: wrap; gap: 8px;
+      justify-content: center;
+      margin-bottom: 12px;
+    }
+    .inst-tag {
+      padding: 8px 16px;
+      border-radius: 999px;
+      background: #fff;
+      border: 1px solid var(--z-gray-200);
+      font-size: 13px; font-weight: 600;
+      color: var(--z-gray-500);
+      text-decoration: none;
+    }
+    .inst-tag.region {
+      border-color: var(--z-orange);
+      color: var(--z-orange);
+    }
+
+    /* ══════════════════════════
+       DESPUÉS — fund cards
+    ══════════════════════════ */
+    .after-wrap {
+      padding: 40px 32px;
+      background: #FAFAFA;
+    }
+    .after-title {
+      text-align: center;
+      font-size: 22px; font-weight: 800; margin-bottom: 8px;
+    }
+    .after-sub {
+      text-align: center;
+      font-size: 14px; color: var(--z-gray-500); margin-bottom: 8px;
+    }
+
+    /* Region tabs */
+    .region-tabs {
+      display: flex; justify-content: center; gap: 6px;
+      margin-bottom: 24px;
+    }
+    .rtab {
+      padding: 6px 16px; border-radius: 999px;
+      font-size: 12px; font-weight: 700;
+      border: 1px solid var(--z-gray-200);
+      background: #fff; color: var(--z-gray-500);
+      cursor: pointer; transition: all .15s;
+    }
+    .rtab.active {
+      background: var(--z-black); color: #fff; border-color: var(--z-black);
+    }
+
+    /* Fund card grid */
+    .fund-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 10px;
+    }
+    .fund-card {
+      background: #fff;
+      border: 1px solid var(--z-gray-200);
+      border-radius: 10px;
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      transition: border-color .15s, box-shadow .15s;
+      cursor: pointer;
+      text-decoration: none;
+      color: inherit;
+    }
+    .fund-card:hover {
+      border-color: var(--z-orange);
+      box-shadow: 0 2px 12px rgba(242,108,34,.12);
+    }
+    .fund-card-top {
+      display: flex; align-items: center; gap: 8px;
+    }
+    .fund-icon {
+      width: 28px; height: 28px; border-radius: 7px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 9px; font-weight: 900; color: #fff;
+      flex-shrink: 0;
+    }
+    .fund-name {
+      font-size: 13px; font-weight: 700; line-height: 1.2;
+      color: var(--z-black);
+    }
+    .fund-meta {
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .fund-amount {
+      font-size: 11px; color: var(--z-gray-500); font-weight: 500;
+    }
+    .fund-status {
+      display: flex; align-items: center; gap: 4px;
+      font-size: 10px; font-weight: 700;
+    }
+    .status-dot {
+      width: 6px; height: 6px; border-radius: 50%;
+    }
+    .status-open   .status-dot { background: #10b981; }
+    .status-open              { color: #059669; }
+    .status-coming .status-dot { background: #f59e0b; }
+    .status-coming            { color: #d97706; }
+    .status-closed .status-dot { background: #9ca3af; }
+    .status-closed            { color: #9ca3af; }
+
+    .fund-cta {
+      font-size: 11px; font-weight: 700; color: var(--z-orange);
+      margin-top: 2px;
+    }
+
+    /* Note */
+    .note {
+      font-size: 11px; padding: 8px 14px; border-radius: 6px;
+      margin-top: 16px; display: flex; gap: 6px;
+    }
+    .note.bad  { background: #FEF2F2; color: #dc2626; }
+    .note.good { background: #F0FDF4; color: #057a55; }
+  </style>
+</head>
+<body>
+<div class="doc">
+
+  <div class="doc-header">
+    <h1>Sección Cobertura — Before / After</h1>
+    <p>Pills actuales vs. fund cards con estado y monto</p>
+  </div>
+
+  <!-- BEFORE -->
+  <div class="section">
+    <div class="section-hdr">
+      <h2>Estado actual</h2>
+      <span class="lbl lbl-before">ANTES</span>
+    </div>
+    <div class="section-body">
+      <div class="before-wrap">
+        <div class="before-title">Fondos y programas que evaluamos</div>
+        <div class="before-sub">El listado completo refleja nuestra <strong>cobertura en expansión</strong> — nuevos fondos se agregan mensualmente.</div>
+        <div class="inst-grid">
+          <span class="inst-tag region">Chile</span>
+          <a class="inst-tag" href="#">CORFO Crea y Valida</a>
+          <a class="inst-tag" href="#">CORFO Innova Alta Tecnología</a>
+          <a class="inst-tag" href="#">CORFO Semilla Inicia</a>
+          <a class="inst-tag" href="#">CORFO Semilla Expande</a>
+          <a class="inst-tag" href="#">CORFO Escalamiento</a>
+          <a class="inst-tag" href="#">Startup Chile Build</a>
+          <a class="inst-tag" href="#">Startup Chile Ignite</a>
+          <a class="inst-tag" href="#">Innova Región</a>
+          <a class="inst-tag" href="#">ANID FONDEF</a>
+          <a class="inst-tag" href="#">Startup Chile Growth</a>
+        </div>
+        <div class="inst-grid">
+          <span class="inst-tag region">USA &amp; Global</span>
+          <a class="inst-tag" href="#">NSF SBIR/STTR</a>
+          <a class="inst-tag" href="#">DOE SBIR/STTR</a>
+          <a class="inst-tag" href="#">NIH SBIR/STTR</a>
+          <a class="inst-tag" href="#">Y Combinator</a>
+          <a class="inst-tag" href="#">Techstars</a>
+          <a class="inst-tag" href="#">500 Global</a>
+        </div>
+        <div class="inst-grid">
+          <span class="inst-tag region">Europa</span>
+          <a class="inst-tag" href="#">Horizon Europe</a>
+          <a class="inst-tag" href="#">EIC Accelerator</a>
+          <a class="inst-tag" href="#">Eurostars</a>
+          <a class="inst-tag" href="#">Innovate UK Smart Grants</a>
+          <a class="inst-tag" href="#">Lanzadera / Startup Valencia</a>
+        </div>
+        <div class="inst-grid">
+          <span class="inst-tag region">Latam</span>
+          <a class="inst-tag" href="#">iNNpulsa ALDEA+ (Colombia)</a>
+          <a class="inst-tag" href="#">Ruta N Medellín</a>
+          <a class="inst-tag" href="#">Startup Perú</a>
+          <a class="inst-tag" href="#">FONTAR Argentina</a>
+          <a class="inst-tag" href="#">FINEP Brasil</a>
+        </div>
+      </div>
+    </div>
+    <div class="note bad" style="margin:0 16px 16px">
+      <span>✗</span>
+      <span>No dice si el fondo está abierto. No dice el monto. No hay acción clara. El usuario no sabe qué relevante para él.</span>
+    </div>
+  </div>
+
+  <!-- AFTER -->
+  <div class="section">
+    <div class="section-hdr">
+      <h2>Propuesta mejorada</h2>
+      <span class="lbl lbl-after">DESPUÉS</span>
+    </div>
+    <div class="section-body">
+      <div class="after-wrap">
+        <div class="after-title">Fondos y programas que evaluamos</div>
+        <div class="after-sub">+30 instrumentos activos · nuevos fondos cada mes</div>
+
+        <div class="region-tabs">
+          <button class="rtab active">Todos</button>
+          <button class="rtab">🇨🇱 Chile</button>
+          <button class="rtab">🇺🇸 USA</button>
+          <button class="rtab">🇪🇺 Europa</button>
+          <button class="rtab">🌎 Latam</button>
+        </div>
+
+        <div class="fund-grid">
+
+          <a class="fund-card" href="#">
+            <div class="fund-card-top">
+              <div class="fund-icon" style="background:#003087">CO</div>
+              <div class="fund-name">CORFO Crea y Valida</div>
+            </div>
+            <div class="fund-meta">
+              <span class="fund-amount">hasta $40M CLP</span>
+              <span class="fund-status status-open"><span class="status-dot"></span>Abierto</span>
+            </div>
+            <div class="fund-cta">Evaluar este fondo →</div>
+          </a>
+
+          <a class="fund-card" href="#">
+            <div class="fund-card-top">
+              <div class="fund-icon" style="background:#003087">CO</div>
+              <div class="fund-name">CORFO Semilla Inicia</div>
+            </div>
+            <div class="fund-meta">
+              <span class="fund-amount">hasta $60M CLP</span>
+              <span class="fund-status status-open"><span class="status-dot"></span>Abierto</span>
+            </div>
+            <div class="fund-cta">Evaluar este fondo →</div>
+          </a>
+
+          <a class="fund-card" href="#">
+            <div class="fund-card-top">
+              <div class="fund-icon" style="background:#F26C22">SC</div>
+              <div class="fund-name">Startup Chile Build</div>
+            </div>
+            <div class="fund-meta">
+              <span class="fund-amount">USD 20K + equity</span>
+              <span class="fund-status status-coming"><span class="status-dot"></span>Próximo</span>
+            </div>
+            <div class="fund-cta">Evaluar este fondo →</div>
+          </a>
+
+          <a class="fund-card" href="#">
+            <div class="fund-card-top">
+              <div class="fund-icon" style="background:#C8102E">AN</div>
+              <div class="fund-name">ANID FONDEF</div>
+            </div>
+            <div class="fund-meta">
+              <span class="fund-amount">hasta $400M CLP</span>
+              <span class="fund-status status-open"><span class="status-dot"></span>Abierto</span>
+            </div>
+            <div class="fund-cta">Evaluar este fondo →</div>
+          </a>
+
+          <a class="fund-card" href="#">
+            <div class="fund-card-top">
+              <div class="fund-icon" style="background:#FF6600">YC</div>
+              <div class="fund-name">Y Combinator</div>
+            </div>
+            <div class="fund-meta">
+              <span class="fund-amount">USD 500K + red</span>
+              <span class="fund-status status-open"><span class="status-dot"></span>Abierto</span>
+            </div>
+            <div class="fund-cta">Evaluar este fondo →</div>
+          </a>
+
+          <a class="fund-card" href="#">
+            <div class="fund-card-top">
+              <div class="fund-icon" style="background:#003366">NSF</div>
+              <div class="fund-name">NSF SBIR Phase I</div>
+            </div>
+            <div class="fund-meta">
+              <span class="fund-amount">hasta USD 275K</span>
+              <span class="fund-status status-coming"><span class="status-dot"></span>Próximo</span>
+            </div>
+            <div class="fund-cta">Evaluar este fondo →</div>
+          </a>
+
+          <a class="fund-card" href="#">
+            <div class="fund-card-top">
+              <div class="fund-icon" style="background:#003399">★</div>
+              <div class="fund-name">Horizon Europe EIC</div>
+            </div>
+            <div class="fund-meta">
+              <span class="fund-amount">hasta EUR 2.5M</span>
+              <span class="fund-status status-open"><span class="status-dot"></span>Abierto</span>
+            </div>
+            <div class="fund-cta">Evaluar este fondo →</div>
+          </a>
+
+          <a class="fund-card" href="#">
+            <div class="fund-card-top">
+              <div class="fund-icon" style="background:#CF0A2C">UK</div>
+              <div class="fund-name">Innovate UK Smart</div>
+            </div>
+            <div class="fund-meta">
+              <span class="fund-amount">hasta GBP 500K</span>
+              <span class="fund-status status-closed"><span class="status-dot"></span>Cerrado</span>
+            </div>
+            <div class="fund-cta">Evaluar este fondo →</div>
+          </a>
+
+          <a class="fund-card" href="#">
+            <div class="fund-card-top">
+              <div class="fund-icon" style="background:#D4222A">iN</div>
+              <div class="fund-name">iNNpulsa Colombia</div>
+            </div>
+            <div class="fund-meta">
+              <span class="fund-amount">hasta COP 1.000M</span>
+              <span class="fund-status status-open"><span class="status-dot"></span>Abierto</span>
+            </div>
+            <div class="fund-cta">Evaluar este fondo →</div>
+          </a>
+
+          <a class="fund-card" href="#">
+            <div class="fund-card-top">
+              <div class="fund-icon" style="background:#009C3B">FN</div>
+              <div class="fund-name">FINEP Brasil</div>
+            </div>
+            <div class="fund-meta">
+              <span class="fund-amount">hasta BRL 2M</span>
+              <span class="fund-status status-coming"><span class="status-dot"></span>Próximo</span>
+            </div>
+            <div class="fund-cta">Evaluar este fondo →</div>
+          </a>
+
+          <!-- +más card -->
+          <a class="fund-card" href="#" style="align-items:center;justify-content:center;background:#F9FAFB;border-style:dashed;text-align:center;gap:6px;padding:24px 14px">
+            <div style="font-size:22px;color:var(--z-gray-400)">+20</div>
+            <div style="font-size:12px;font-weight:700;color:var(--z-gray-500)">más fondos disponibles</div>
+            <div style="font-size:11px;color:var(--z-orange);font-weight:700;margin-top:4px">Ver todos →</div>
+          </a>
+
+        </div>
+      </div>
+    </div>
+    <div class="note good" style="margin:0 16px 16px">
+      <span>✓</span>
+      <span>El usuario ve estado (abierto/próximo/cerrado), monto, y tiene un CTA directo para evaluar ese fondo específico. Los tabs filtran por región sin recargar.</span>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

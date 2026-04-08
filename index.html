@@ -11,7 +11,10 @@
   <meta property="og:type" content="website" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@600;700;800&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <!-- D3 + TopoJSON for world map -->
+  <script src="https://cdn.jsdelivr.net/npm/d3@7/dist/d3.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/topojson-client@3/dist/topojson-client.min.js"></script>
   <!-- Google Analytics GA4 -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-SSW9F84YTR"></script>
   <script>
@@ -22,18 +25,30 @@
   </script>
   <style>
     :root {
-      --z-black: #111111;
-      --z-orange: #F26C22;
-      --z-orange-soft: #FEF3EC;
-      --z-gray-700: #444444;
-      --z-gray-500: #6b6b6b;
-      --z-gray-400: #9CA3AF;
-      --z-gray-100: #F3F4F6;
-      --z-border: #E5E7EB;
-      --z-white: #FFFFFF;
-      --z-font: 'Inter', ui-sans-serif, system-ui, -apple-system, sans-serif;
-      --z-max-w: 1080px;
-      --z-radius: 16px;
+      --z-surface:    #131313;
+      --z-surface-2:  #1C1B1B;
+      --z-surface-3:  #242424;
+      --z-surface-4:  #2A2A2A;
+      --z-surface-5:  #353534;
+      --z-black:      #0A0A0A;
+      --z-orange:     #F26C22;
+      --z-orange-glow: rgba(242,108,34,0.18);
+      --z-orange-soft: rgba(242,108,34,0.08);
+      --z-text:       #E5E2E1;
+      --z-text-muted: rgba(229,226,225,0.55);
+      --z-text-faint: rgba(229,226,225,0.30);
+      --z-ghost:      rgba(229,226,225,0.08);
+      --z-ghost-border: rgba(229,226,225,0.10);
+      --z-white:      #E5E2E1;
+      --z-gray-700:   rgba(229,226,225,0.80);
+      --z-gray-500:   rgba(229,226,225,0.55);
+      --z-gray-400:   rgba(229,226,225,0.35);
+      --z-gray-100:   #1C1B1B;
+      --z-border:     rgba(229,226,225,0.10);
+      --z-font:       'Inter', ui-sans-serif, system-ui, sans-serif;
+      --z-headline:   'Space Grotesk', 'Inter', ui-sans-serif, sans-serif;
+      --z-max-w:      1080px;
+      --z-radius:     14px;
     }
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { font-size: 16px; scroll-behavior: smooth; overflow-x: hidden; scrollbar-gutter: stable; }
@@ -42,8 +57,8 @@
     }
     body {
       font-family: var(--z-font);
-      color: var(--z-black);
-      background: var(--z-white);
+      color: var(--z-text);
+      background: var(--z-surface);
       line-height: 1.6;
       -webkit-font-smoothing: antialiased;
     }
@@ -51,9 +66,9 @@
     /* ── NAV ── */
     .nav {
       position: fixed; top: 0; left: 0; right: 0; z-index: 50;
-      background: rgba(17,17,17,.97);
+      background: rgba(10,10,10,0.95);
       backdrop-filter: blur(12px);
-      border-bottom: 1px solid rgba(255,255,255,.06);
+      border-bottom: 1px solid rgba(229,226,225,0.06);
     }
     .nav-inner {
       max-width: var(--z-max-w);
@@ -91,54 +106,177 @@
       flex-wrap: wrap; justify-content: flex-end;
     }
     .nav-links a {
-      color: rgba(255,255,255,.72); text-decoration: none;
+      color: var(--z-text-muted); text-decoration: none;
       font-size: 12px; font-weight: 600; letter-spacing: .04em;
     }
-    .nav-links a:hover { color: #fff; }
+    .nav-links a:hover { color: var(--z-text); }
     @media (max-width: 900px) {
       .nav-links { display: none; }
     }
 
     /* ── HERO ── */
     .hero {
-      padding: 140px 24px 80px;
-      background: linear-gradient(180deg, #0b0b0b 0%, #1a1a1a 60%, var(--z-black) 100%);
-      color: #fff;
-      text-align: center;
+      padding: 100px 24px 0;
+      background: linear-gradient(160deg, #0A0A0A 0%, #1a1208 50%, #131313 100%);
+      color: var(--z-text);
       position: relative;
       overflow: hidden;
     }
-    .hero::after {
+    .hero::before {
       content: '';
-      position: absolute; bottom: 0; left: 0; right: 0;
-      height: 120px;
-      background: linear-gradient(180deg, transparent, var(--z-white));
+      position: absolute;
+      top: -120px; left: 50%; transform: translateX(-50%);
+      width: 700px; height: 700px;
+      background: radial-gradient(circle, rgba(242,108,34,0.07) 0%, transparent 65%);
+      pointer-events: none;
     }
-    .hero-inner {
-      max-width: 720px; margin: 0 auto;
-      position: relative; z-index: 1;
-    }
-    .hero-eyebrow {
-      display: inline-flex;
+    .hero::after { display: none; }
+    .hero-split {
+      max-width: var(--z-max-w);
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
       align-items: center;
-      gap: 8px;
-      background: rgba(242, 108, 34, 0.10);
-      border: 1px solid rgba(242, 108, 34, 0.25);
+      padding-bottom: 64px;
+    }
+    .hero-left { text-align: left; }
+    .hero-eyebrow {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--z-orange-soft);
+      border: 1px solid rgba(242,108,34,0.22);
       border-radius: 24px;
       padding: 6px 16px;
-      font-size: 12px;
-      font-weight: 700;
-      color: #F26C22;
-      margin-bottom: 20px;
+      font-size: 12px; font-weight: 700; letter-spacing: .04em;
+      color: #FFB695;
+      margin-bottom: 28px;
     }
+    .hero-h1 {
+      font-family: var(--z-headline);
+      font-size: clamp(36px, 4.5vw, 58px);
+      font-weight: 800;
+      line-height: 1.06;
+      letter-spacing: -0.03em;
+      margin-bottom: 22px;
+      color: var(--z-text);
+    }
+    .hero-h1 .accent {
+      background: linear-gradient(135deg, #FFB695, #F26C22);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .hero-sub {
+      font-size: 17px;
+      color: var(--z-text-muted);
+      line-height: 1.65;
+      max-width: 460px;
+      margin-bottom: 36px;
+    }
+    .hero-ctas {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+    .hero-btn {
+      display: inline-block;
+      padding: 14px 28px;
+      border-radius: 999px;
+      text-decoration: none;
+      font-size: 14px; font-weight: 700;
+      transition: transform .2s cubic-bezier(.22,1,.36,1), box-shadow .2s cubic-bezier(.22,1,.36,1);
+    }
+    .hero-btn:hover { transform: translateY(-2px); }
+    .hero-btn--primary {
+      background: var(--z-orange); color: #fff;
+      box-shadow: 0 12px 36px rgba(242,108,34,0.35);
+    }
+    .hero-btn--primary:hover { box-shadow: 0 16px 48px rgba(242,108,34,0.45); }
+    .hero-btn--glass {
+      background: rgba(229,226,225,0.06);
+      color: var(--z-text);
+      border: 1px solid var(--z-ghost-border);
+      backdrop-filter: blur(12px);
+    }
+    .hero-btn--glass:hover { background: rgba(229,226,225,0.10); }
+    /* Hero right: AI graphic + steps */
+    .hero-right {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 32px;
+    }
+    .hero-ai-graphic { width: 200px; }
+    .ai-bulb-svg { width: 100%; height: auto; }
+    @keyframes aiPulse {
+      0%, 100% { opacity: 0.4; transform: scale(0.95); }
+      50%       { opacity: 1;   transform: scale(1.08); }
+    }
+    .ai-pulse { animation: aiPulse 3s ease-in-out infinite; }
+    .hero-steps-list {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+    .hero-step-item { padding: 16px 0; }
+    .hsi-top {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      margin-bottom: 10px;
+    }
+    .hsi-num {
+      font-family: var(--z-headline);
+      font-size: 1.8rem;
+      font-weight: 800;
+      color: var(--z-orange);
+      line-height: 1;
+      flex-shrink: 0;
+      min-width: 40px;
+    }
+    .hsi-title {
+      font-size: 15px; font-weight: 700;
+      color: var(--z-text);
+      margin-bottom: 4px;
+    }
+    .hsi-desc {
+      font-size: 13px;
+      color: var(--z-text-muted);
+      line-height: 1.55;
+    }
+    .hsi-bar {
+      height: 1.5px;
+      background: linear-gradient(90deg, #F26C22 0%, rgba(242,108,34,0.08) 100%);
+      border-radius: 2px;
+    }
+    /* Responsive hero */
+    @media (max-width: 820px) {
+      .hero-split { grid-template-columns: 1fr; gap: 48px; }
+      .hero-left { text-align: center; }
+      .hero-sub { margin: 0 auto 36px; }
+      .hero-ctas { justify-content: center; }
+      .hero-right { order: -1; }
+      .hero-ai-graphic { width: 150px; }
+    }
+    /* Keep legacy classes available for any existing references */
+    .hero-inner { max-width: var(--z-max-w); margin: 0 auto; position: relative; z-index: 1; }
+    .hero-badge { display: none; }
+    .hero h1 .accent { color: var(--z-orange); }
+    .hero-sep { display: none; }
+    .hero-trust { display: none; }
+    /* Stats bar */
     .stats-bar-section {
-      border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+      background: var(--z-surface-2);
+      border-bottom: 1px solid var(--z-ghost-border);
       padding: 0;
     }
     .stats-bar {
       display: flex;
       align-items: stretch;
-      border: 1px solid rgba(255, 255, 255, 0.07);
+      border: 1px solid var(--z-ghost-border);
+      background: var(--z-surface-3);
       border-radius: 12px;
       overflow: hidden;
       margin: 0 0 56px;
@@ -147,22 +285,25 @@
       flex: 1;
       padding: 20px 16px;
       text-align: center;
-      border-right: 1px solid rgba(255, 255, 255, 0.07);
+      border-right: 1px solid var(--z-ghost-border);
       display: flex;
       flex-direction: column;
       gap: 4px;
     }
     .stat-item:last-child { border-right: none; }
     .stat-num {
-      font-size: 24px;
+      font-size: 2.5rem;
       font-weight: 800;
-      color: #FFFFFF;
+      color: var(--z-text);
       line-height: 1;
     }
     .stat-label {
-      font-size: 11px;
-      color: rgba(255, 255, 255, 0.35);
-      font-weight: 500;
+      font-size: 0.75rem;
+      color: var(--z-text-faint);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: .05em;
+      margin-top: 4px;
     }
     .price-anchor {
       text-align: center;
@@ -174,66 +315,9 @@
     .price-anchor strong { color: var(--z-gray-700); }
     @media (max-width: 640px) {
       .stats-bar { flex-direction: column; border-radius: 12px; }
-      .stat-item { border-right: none; border-bottom: 1px solid rgba(255,255,255,0.07); }
+      .stat-item { border-right: none; border-bottom: 1px solid var(--z-ghost-border); }
       .stat-item:last-child { border-bottom: none; }
     }
-    .hero-badge {
-      display: inline-block;
-      padding: 6px 16px; border-radius: 999px;
-      background: rgba(242,108,34,.12);
-      border: 1px solid rgba(242,108,34,.25);
-      font-size: 12px; font-weight: 600;
-      letter-spacing: .04em;
-      color: var(--z-orange);
-      margin-bottom: 28px;
-    }
-    .hero h1 {
-      font-size: clamp(32px, 5vw, 52px);
-      font-weight: 900;
-      line-height: 1.08;
-      letter-spacing: -0.03em;
-      margin-bottom: 20px;
-    }
-    .hero h1 .accent { color: var(--z-orange); }
-    .hero-sub {
-      font-size: clamp(16px, 2vw, 19px);
-      color: rgba(255,255,255,.6);
-      line-height: 1.6;
-      max-width: 560px;
-      margin: 0 auto 40px;
-    }
-    .hero-ctas {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 16px;
-      flex-wrap: wrap;
-    }
-    .hero-btn {
-      display: inline-block;
-      padding: 14px 32px;
-      border-radius: 999px;
-      text-decoration: none;
-      font-size: 15px;
-      font-weight: 700;
-      transition: transform .15s, box-shadow .15s, opacity .15s;
-    }
-    .hero-btn:hover { transform: translateY(-1px); }
-    .hero-btn--primary {
-      background: var(--z-orange); color: #fff;
-      box-shadow: 0 10px 28px rgba(242,108,34,.3);
-    }
-    .hero-btn--primary:hover { box-shadow: 0 14px 36px rgba(242,108,34,.4); }
-    .hero-btn--secondary {
-      background: transparent; color: rgba(255,255,255,.85);
-      border: 1px solid rgba(255,255,255,.2);
-    }
-    .hero-btn--secondary:hover { background: rgba(255,255,255,.06); color: #fff; }
-    .hero-sep {
-      color: rgba(255,255,255,.25);
-      font-size: 13px;
-    }
-    .hero-trust { display: none; }
     .ticker-wrap {
       margin-top: 48px;
       overflow: hidden;
@@ -284,7 +368,7 @@
     /* ── HOW IT WORKS ── */
     .how {
       padding: 80px 24px;
-      background: var(--z-white);
+      background: var(--z-surface-2);
     }
     .how-inner {
       max-width: var(--z-max-w);
@@ -298,11 +382,13 @@
       margin-bottom: 12px;
     }
     .section-title {
+      font-family: var(--z-headline);
       font-size: clamp(24px, 3.5vw, 36px);
       font-weight: 800;
       text-align: center;
       letter-spacing: -0.02em;
       margin-bottom: 56px;
+      color: var(--z-text);
     }
     .steps {
       display: grid;
@@ -310,17 +396,21 @@
       gap: 32px;
     }
     .step {
-      padding: 32px 28px;
-      border: 1px solid var(--z-border);
+      padding: 28px 24px;
+      background: var(--z-surface-4);
+      border: 1px solid var(--z-ghost-border);
       border-radius: var(--z-radius);
-      transition: box-shadow .2s;
+      transition: background .2s;
     }
-    .step:hover {
-      box-shadow: 0 8px 32px rgba(0,0,0,.06);
+    .step:hover { background: var(--z-surface-5); box-shadow: none; }
+    .step[style*="border-color:var(--z-orange)"]:hover,
+    .step[style*="border-color: var(--z-orange)"]:hover {
+      box-shadow: 0 28px 70px rgba(242,108,34,0.25);
+      transform: translateY(-6px);
     }
     .step-num {
       width: 36px; height: 36px; border-radius: 10px;
-      background: var(--z-gray-100); color: var(--z-orange);
+      background: rgba(242,108,34,0.12); color: var(--z-orange);
       font-size: 14px; font-weight: 800;
       display: grid; place-items: center;
       margin-bottom: 20px;
@@ -328,60 +418,62 @@
     .step h3 {
       font-size: 17px; font-weight: 700;
       margin-bottom: 8px;
+      color: var(--z-text);
     }
     .step p {
-      font-size: 14px; color: var(--z-gray-500);
+      font-size: 14px; color: var(--z-text-muted);
       line-height: 1.6;
     }
 
     /* ── COBERTURA MAP ── */
     .instruments {
       padding: 64px 24px 80px;
-      background: var(--z-gray-100);
+      background: var(--z-surface);
     }
     .instruments-inner {
       max-width: var(--z-max-w);
       margin: 0 auto;
     }
     .cob-card {
-      background: #fff;
-      border: 1px solid var(--z-border);
-      border-radius: 16px;
+      background: var(--z-surface-3);
+      border: 1px solid var(--z-ghost-border);
+      border-radius: 20px;
       overflow: hidden;
       margin-top: 32px;
+      box-shadow: 0 0 60px rgba(0,0,0,0.4), 0 -5px 60px rgba(0,0,0,0.2);
     }
     .cob-body {
       display: grid;
       grid-template-columns: 1fr 300px;
-      min-height: 400px;
-      border-top: 1px solid var(--z-border);
+      min-height: 420px;
+      border-top: 1px solid var(--z-ghost-border);
     }
     @media (max-width: 720px) {
       .cob-body { grid-template-columns: 1fr; }
-      .cob-fund-panel { border-left: none !important; border-top: 1px solid var(--z-border); max-height: 320px; }
+      .cob-fund-panel { border-left: none !important; border-top: 1px solid var(--z-ghost-border); max-height: 320px; }
     }
-    /* Map area */
+    /* Map area — dark mode */
     .cob-map-area {
-      background: #0D1117;
-      padding: 20px 20px 16px;
-      display: flex; flex-direction: column; gap: 14px;
+      background: #0F1117;
+      padding: 24px 20px 16px;
+      display: flex; flex-direction: column; gap: 12px;
     }
     .cob-world-map { width: 100%; height: auto; display: block; }
     .cob-continent {
-      fill: rgba(255,255,255,.07);
-      stroke: rgba(255,255,255,.11);
-      stroke-width: .8;
-      transition: fill .2s;
+      fill: #2A3A5C;
+      stroke: rgba(255,255,255,0.08);
+      stroke-width: 1.2;
+      transition: fill .25s;
     }
-    .cob-continent.active { fill: rgba(242,108,34,.2); stroke: rgba(242,108,34,.45); }
+    .cob-continent.active { fill: rgba(242,108,34,0.35); stroke: rgba(242,108,34,0.5); }
     .cob-fund-dot { cursor: pointer; }
     .cob-fund-dot .dot-outer {
-      fill: rgba(242,108,34,.2);
+      fill: rgba(242,108,34,.25);
       animation: cobPulse 2.5s ease-out infinite;
     }
     .cob-fund-dot .dot-inner { fill: #F26C22; }
-    .cob-fund-dot.inactive .dot-outer { fill: rgba(255,255,255,.06); animation: none; }
-    .cob-fund-dot.inactive .dot-inner { fill: rgba(255,255,255,.22); }
+    .cob-fund-dot.inactive .dot-outer { fill: rgba(0,0,0,.06); animation: none; }
+    .cob-fund-dot.inactive .dot-inner { fill: #C5CDD8; }
     @keyframes cobPulse {
       0%   { r: 9;  opacity: .8; }
       70%  { r: 16; opacity: 0; }
@@ -389,45 +481,59 @@
     }
     .cob-dot-label {
       font-size: 8.5px; font-weight: 700;
-      fill: rgba(255,255,255,.5); pointer-events: none;
+      fill: rgba(229,226,225,0.55); pointer-events: none;
       text-anchor: middle; letter-spacing: .03em;
     }
     .cob-dot-count {
       font-size: 7.5px; font-weight: 900;
       fill: var(--z-orange); pointer-events: none; text-anchor: middle;
     }
-    .cob-soon { font-size: 7px; font-weight: 600; fill: rgba(255,255,255,.16); pointer-events: none; text-anchor: middle; letter-spacing: .06em; }
+    .cob-soon { font-size: 7px; font-weight: 600; fill: rgba(229,226,225,0.25); pointer-events: none; text-anchor: middle; letter-spacing: .06em; }
     /* Region tabs */
     .cob-tabs { display: flex; gap: 5px; flex-wrap: wrap; }
     .cob-tab {
       padding: 5px 12px; border-radius: 999px;
       font-size: 11px; font-weight: 700;
-      border: 1px solid rgba(255,255,255,.12);
-      background: rgba(255,255,255,.05);
-      color: rgba(255,255,255,.55);
+      border: 1px solid var(--z-ghost-border);
+      background: transparent;
+      color: var(--z-text-muted);
       cursor: pointer; transition: all .15s;
       display: flex; align-items: center; gap: 5px;
+      font-family: var(--z-font);
     }
-    .cob-tab:hover { background: rgba(255,255,255,.1); color: #fff; }
+    .cob-tab:hover { border-color: var(--z-orange); color: var(--z-orange); }
     .cob-tab.active { background: var(--z-orange); color: #fff; border-color: var(--z-orange); }
-    .cob-tab .cnt { background: rgba(0,0,0,.15); border-radius: 999px; padding: 0 5px; font-size: 9px; font-weight: 900; }
+    .cob-tab .cnt { background: rgba(229,226,225,0.08); border-radius: 999px; padding: 0 5px; font-size: 9px; font-weight: 900; }
     .cob-data-note {
-      font-size: 10px; color: rgba(255,255,255,.2);
+      font-size: 10px; color: #aaa;
       display: flex; align-items: center; justify-content: center; gap: 5px;
     }
     .cob-data-dot { width: 5px; height: 5px; border-radius: 50%; background: #10b981; flex-shrink: 0; animation: cobBlink 2s ease-in-out infinite; }
     @keyframes cobBlink { 0%,100%{opacity:1} 50%{opacity:.3} }
+    /* Theme pills */
+    .cob-theme-pills {
+      display: flex; flex-wrap: wrap; gap: 6px;
+      padding: 4px 0 2px;
+    }
+    .cob-theme-pill {
+      padding: 4px 12px; border-radius: 20px; font-size: 11px; font-weight: 600;
+      border: 1px solid var(--z-ghost-border); background: transparent;
+      color: var(--z-text-muted); cursor: pointer; transition: all .2s;
+      font-family: var(--z-font);
+    }
+    .cob-theme-pill:hover { border-color: var(--z-orange); color: var(--z-orange); }
+    .cob-theme-pill.active { background: var(--z-orange); border-color: var(--z-orange); color: #fff; }
     /* Fund panel */
     .cob-fund-panel {
-      border-left: 1px solid var(--z-border);
+      border-left: 1px solid var(--z-ghost-border);
       display: flex; flex-direction: column; overflow: hidden;
     }
     .cob-panel-hdr {
-      padding: 14px 16px; border-bottom: 1px solid var(--z-border);
-      background: #fff; position: sticky; top: 0; z-index: 1;
+      padding: 14px 16px; border-bottom: 1px solid var(--z-ghost-border);
+      background: var(--z-surface-3); position: sticky; top: 0; z-index: 1;
     }
-    .cob-panel-hdr h3 { font-size: 13px; font-weight: 800; }
-    .cob-panel-hdr p  { font-size: 11px; color: var(--z-gray-500); margin-top: 2px; }
+    .cob-panel-hdr h3 { font-size: 13px; font-weight: 800; color: var(--z-text); }
+    .cob-panel-hdr p  { font-size: 11px; color: var(--z-text-muted); margin-top: 2px; }
     .cob-fund-list { overflow-y: auto; flex: 1; max-height: 400px; padding: 6px; }
     .cob-fund-item {
       display: flex; align-items: flex-start; gap: 9px;
@@ -435,16 +541,16 @@
       cursor: pointer; transition: background .12s;
       text-decoration: none; color: inherit;
     }
-    .cob-fund-item:hover { background: #F9FAFB; }
+    .cob-fund-item:hover { background: rgba(229,226,225,0.04); }
     .cob-fi-ico {
       width: 28px; height: 28px; border-radius: 7px;
       display: flex; align-items: center; justify-content: center;
       font-size: 8px; font-weight: 900; color: #fff; flex-shrink: 0;
     }
     .cob-fi-body { flex: 1; min-width: 0; }
-    .cob-fi-name { font-size: 12px; font-weight: 700; line-height: 1.25; }
+    .cob-fi-name { font-size: 12px; font-weight: 700; line-height: 1.25; color: var(--z-text); }
     .cob-fi-row  { display: flex; align-items: center; gap: 5px; margin-top: 3px; }
-    .cob-fi-amt  { font-size: 10px; color: var(--z-gray-500); }
+    .cob-fi-amt  { font-size: 10px; color: var(--z-text-muted); }
     .cob-fdot    { width: 5px; height: 5px; border-radius: 50%; flex-shrink: 0; }
     .cob-fdot-open   { background: #10b981; }
     .cob-fdot-coming { background: #f59e0b; }
@@ -455,10 +561,13 @@
     .cob-fst-closed { color: #9CA3AF; }
     .cob-fi-cta  { font-size: 10px; font-weight: 700; color: var(--z-orange); white-space: nowrap; align-self: center; flex-shrink: 0; }
 
+    /* ── COBERTURA THEME PILLS (duplicate block) ── */
+    /* handled above — keeping selector for specificity */
+
     /* ── EVALUATOR (CHAT) ── */
     .evaluator {
       padding: 80px 24px 100px;
-      background: linear-gradient(180deg, var(--z-white) 0%, var(--z-orange-soft) 50%, var(--z-white) 100%);
+      background: var(--z-surface-2);
     }
     .evaluator-inner {
       max-width: var(--z-max-w);
@@ -469,10 +578,10 @@
       margin: 0 auto;
       border-radius: var(--z-radius);
       overflow: hidden;
-      border: 1px solid var(--z-border);
-      box-shadow: 0 16px 64px rgba(0,0,0,.08);
-      background: rgba(255,255,255,.85);
-      backdrop-filter: blur(8px);
+      background: rgba(36,36,36,0.75);
+      backdrop-filter: blur(24px);
+      border: 1px solid var(--z-ghost-border);
+      box-shadow: 0 40px 80px rgba(0,0,0,0.5);
     }
     .chat-header {
       padding: 14px 18px;
@@ -560,32 +669,36 @@
       font-size: 14px; line-height: 1.55;
     }
     .row.bot .bubble {
-      background: #fff;
-      border: 1px solid var(--z-border);
-      box-shadow: 0 4px 14px rgba(0,0,0,.04);
+      background: var(--z-surface-4);
+      border: 1px solid var(--z-ghost-border);
+      color: var(--z-text);
     }
     .row.user .bubble {
-      background: var(--z-orange-soft);
-      border: 1px solid #ffd8bf;
-      color: #1a1a1a;
+      background: rgba(242,108,34,0.12);
+      border: 1px solid rgba(242,108,34,0.25);
+      color: var(--z-text);
     }
     .bubble small { color: var(--z-gray-500); font-size: 12px; display: block; margin-top: 8px; }
     .composer {
       padding: 14px 16px 16px;
-      background: #fff;
-      border-top: 1px solid #E5E7EB;
+      background: var(--z-surface-3);
+      border-top: 1px solid var(--z-ghost-border);
     }
     .input-wrap { display: flex; flex-direction: column; gap: 10px; }
     input[type="text"], input[type="email"], textarea, select {
       width: 100%; padding: 12px 14px; border-radius: 12px;
-      border: 1px solid var(--z-border);
-      font: inherit; font-size: 15px; background: #fff;
+      border: 1px solid var(--z-ghost-border);
+      font: inherit; font-size: 15px;
+      background: var(--z-surface-2);
+      color: var(--z-text);
     }
     textarea { min-height: 88px; resize: vertical; }
     select { cursor: pointer; }
+    input::placeholder, textarea::placeholder { color: var(--z-text-faint); }
     input:focus, textarea:focus, select:focus {
-      outline: 2px solid rgba(242,108,34,.35);
-      border-color: var(--z-orange);
+      outline: none;
+      border-color: rgba(242,108,34,0.5);
+      box-shadow: 0 0 0 3px rgba(242,108,34,0.12);
     }
     .file-row {
       display: flex; flex-wrap: wrap; align-items: center;
@@ -662,7 +775,11 @@
       box-shadow: 0 8px 20px rgba(242,108,34,.25);
     }
     button.primary:disabled { opacity: .55; cursor: not-allowed; box-shadow: none; }
-    button.ghost { background: #fff; border: 1px solid var(--z-border); color: #333; }
+    button.ghost {
+      background: transparent;
+      border: 1px solid var(--z-ghost-border);
+      color: var(--z-text);
+    }
     .hidden { display: none !important; }
     .error { color: #b42318; font-size: 13px; margin-top: 6px; }
     .success-panel { text-align: center; padding: 28px 16px; }
@@ -708,7 +825,7 @@
     /* ── ZENTI.START FORM ── */
     .start-section {
       padding: 80px 24px 100px;
-      background: var(--z-white);
+      background: var(--z-surface);
     }
     .start-inner {
       max-width: var(--z-max-w);
@@ -718,9 +835,9 @@
       max-width: 560px;
       margin: 0 auto;
       border-radius: var(--z-radius);
-      border: 1px solid var(--z-border);
-      background: var(--z-white);
-      box-shadow: 0 16px 64px rgba(0,0,0,.06);
+      border: 1px solid var(--z-ghost-border);
+      background: var(--z-surface-3);
+      box-shadow: 0 16px 64px rgba(0,0,0,.3);
       overflow: hidden;
     }
     .start-card-header {
@@ -774,8 +891,8 @@
     .path-tab {
       padding: 10px 24px; border-radius: 999px;
       font-size: 14px; font-weight: 600;
-      border: 1px solid var(--z-border);
-      background: var(--z-white); color: var(--z-gray-500);
+      border: 1px solid var(--z-ghost-border);
+      background: transparent; color: var(--z-text-muted);
       cursor: pointer; transition: all .15s;
     }
     .path-tab:hover { border-color: var(--z-orange); color: var(--z-orange); }
@@ -819,20 +936,26 @@
       margin-top: 32px;
     }
     .quote-card {
-      border: 1px solid var(--z-border);
+      border: 1px solid var(--z-ghost-border);
       border-radius: var(--z-radius);
       padding: 22px;
-      background: var(--z-white);
+      background: var(--z-surface-4);
+      box-shadow: 0 4px 16px rgba(0,0,0,.25);
+      transition: transform .2s, box-shadow .2s;
     }
-    .quote-card p { font-size: 14px; color: var(--z-gray-700); line-height: 1.65; font-style: italic; margin-bottom: 12px; }
+    .quote-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(0,0,0,.35);
+    }
+    .quote-card p { font-size: 14px; color: var(--z-text-muted); line-height: 1.65; font-style: italic; margin-bottom: 12px; }
     .quote-card cite { font-size: 12px; font-weight: 700; color: var(--z-orange); font-style: normal; }
     .faq-list { max-width: 720px; margin: 32px auto 0; text-align: left; }
     .faq-item {
-      border-bottom: 1px solid var(--z-border);
+      border-bottom: 1px solid var(--z-ghost-border);
       padding: 18px 0;
     }
-    .faq-item h3 { font-size: 15px; font-weight: 700; margin-bottom: 8px; color: var(--z-black); }
-    .faq-item p { font-size: 14px; color: var(--z-gray-500); line-height: 1.65; }
+    .faq-item h3 { font-size: 15px; font-weight: 700; margin-bottom: 8px; color: var(--z-text); }
+    .faq-item p { font-size: 14px; color: var(--z-text-muted); line-height: 1.65; }
 
     /* ── RESPONSIVE ── */
     @media (max-width: 640px) {
@@ -871,19 +994,96 @@
 
   <!-- HERO -->
   <section class="hero">
-    <div class="hero-inner">
-      <div class="hero-eyebrow">⚠ El 78% de las propuestas CORFO se rechazan por errores corregibles</div>
-      <div class="hero-badge">Evaluación técnico-estratégica con IA</div>
-      <h1>Conoce tus probabilidades <span class="accent">antes de postular</span></h1>
-      <p class="hero-sub">
-        Evalúa tu postulación a CORFO, NSF SBIR, Horizon Europe, Y Combinator y +30 fondos — con los criterios reales de cada comité. Informe ejecutivo en minutos.
-      </p>
-      <div class="hero-ctas">
-        <a href="#evaluator" class="hero-btn hero-btn--primary" data-scroll-eval>Evaluar mi propuesta gratis</a>
-        <span class="hero-sep">o</span>
-        <a href="#start" class="hero-btn hero-btn--secondary" data-scroll-start>Explorar con mi idea</a>
+    <div class="hero-split">
+      <!-- LEFT: Text + CTA -->
+      <div class="hero-left">
+        <div class="hero-eyebrow">⚡ IA estratégica para fondos de innovación</div>
+        <h1 class="hero-h1">De la <span class="accent">Idea</span> a la<br><span class="accent">Subvención</span> con IA</h1>
+        <p class="hero-sub">Zenti valida tu idea de startup y construye una postulación ganadora automáticamente, impulsado por IA estratégica.</p>
+        <div class="hero-ctas">
+          <a href="#evaluator" class="hero-btn hero-btn--primary" data-scroll-eval>Validar mi idea ahora</a>
+          <a href="#cobertura" class="hero-btn hero-btn--glass">Ver fondos disponibles →</a>
+        </div>
       </div>
-      <div class="ticker-wrap">
+      <!-- RIGHT: AI Graphic + Steps -->
+      <div class="hero-right">
+        <div class="hero-ai-graphic">
+          <svg viewBox="0 0 220 260" xmlns="http://www.w3.org/2000/svg" class="ai-bulb-svg">
+            <defs>
+              <radialGradient id="glowGrad" cx="50%" cy="50%" r="50%">
+                <stop offset="0%" stop-color="#F26C22" stop-opacity="0.25"/>
+                <stop offset="100%" stop-color="#F26C22" stop-opacity="0"/>
+              </radialGradient>
+              <filter id="glow"><feGaussianBlur stdDeviation="3" result="coloredBlur"/><feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+            </defs>
+            <!-- Outer glow -->
+            <circle cx="110" cy="108" r="85" fill="url(#glowGrad)" class="ai-pulse"/>
+            <!-- Outer ring -->
+            <circle cx="110" cy="108" r="72" fill="none" stroke="rgba(242,108,34,0.15)" stroke-width="1" stroke-dasharray="4 6"/>
+            <!-- Mid ring -->
+            <circle cx="110" cy="108" r="52" fill="none" stroke="rgba(242,108,34,0.22)" stroke-width="0.8"/>
+            <!-- Bulb dome -->
+            <path d="M 82,138 Q 58,122 58,100 A 52,52 0 0,1 162,100 Q 162,122 138,138 Z" fill="none" stroke="#F26C22" stroke-width="1.8" filter="url(#glow)" opacity="0.9"/>
+            <!-- Bulb base -->
+            <rect x="88" y="136" width="44" height="7" rx="3.5" fill="rgba(242,108,34,0.35)"/>
+            <rect x="92" y="145" width="36" height="6" rx="3" fill="rgba(242,108,34,0.25)"/>
+            <rect x="96" y="153" width="28" height="5" rx="2.5" fill="rgba(242,108,34,0.15)"/>
+            <!-- Neural network nodes -->
+            <circle cx="110" cy="88" r="4" fill="#F26C22" filter="url(#glow)"/>
+            <circle cx="84"  cy="108" r="3" fill="#F26C22" opacity="0.75"/>
+            <circle cx="136" cy="108" r="3" fill="#F26C22" opacity="0.75"/>
+            <circle cx="94"  cy="70"  r="2.5" fill="#FFB695" opacity="0.6"/>
+            <circle cx="126" cy="70"  r="2.5" fill="#FFB695" opacity="0.6"/>
+            <circle cx="110" cy="58"  r="2"   fill="#FFB695" opacity="0.45"/>
+            <!-- Connection lines -->
+            <line x1="110" y1="88" x2="84"  y2="108" stroke="#F26C22" stroke-width="1" opacity="0.35"/>
+            <line x1="110" y1="88" x2="136" y2="108" stroke="#F26C22" stroke-width="1" opacity="0.35"/>
+            <line x1="110" y1="88" x2="94"  y2="70"  stroke="#F26C22" stroke-width="1" opacity="0.35"/>
+            <line x1="110" y1="88" x2="126" y2="70"  stroke="#F26C22" stroke-width="1" opacity="0.35"/>
+            <line x1="94"  y1="70" x2="110" y2="58"  stroke="#FFB695" stroke-width="0.8" opacity="0.3"/>
+            <line x1="126" y1="70" x2="110" y2="58"  stroke="#FFB695" stroke-width="0.8" opacity="0.3"/>
+            <!-- Spark lines from bulb -->
+            <line x1="110" y1="48" x2="110" y2="38" stroke="#F26C22" stroke-width="1.5" opacity="0.5" stroke-linecap="round"/>
+            <line x1="148" y1="62" x2="156" y2="54" stroke="#F26C22" stroke-width="1.2" opacity="0.4" stroke-linecap="round"/>
+            <line x1="72"  y1="62" x2="64"  y2="54" stroke="#F26C22" stroke-width="1.2" opacity="0.4" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="hero-steps-list">
+          <div class="hero-step-item">
+            <div class="hsi-top">
+              <span class="hsi-num">1.</span>
+              <div>
+                <div class="hsi-title">Describe tu visión</div>
+                <div class="hsi-desc">La IA analiza tu concepto central y su potencial.</div>
+              </div>
+            </div>
+            <div class="hsi-bar"></div>
+          </div>
+          <div class="hero-step-item">
+            <div class="hsi-top">
+              <span class="hsi-num">2.</span>
+              <div>
+                <div class="hsi-title">Validación Estratégica</div>
+                <div class="hsi-desc">Comparamos tu idea con requisitos de subvenciones globales.</div>
+              </div>
+            </div>
+            <div class="hsi-bar"></div>
+          </div>
+          <div class="hero-step-item">
+            <div class="hsi-top">
+              <span class="hsi-num">3.</span>
+              <div>
+                <div class="hsi-title">Construcción de la Postulación</div>
+                <div class="hsi-desc">Generamos un borrador completo de tu aplicación.</div>
+              </div>
+            </div>
+            <div class="hsi-bar"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Ticker de fondos — decorativo -->
+    <div class="ticker-wrap" aria-hidden="true">
         <div class="ticker-track" id="ticker-track">
           <span class="ticker-logo"><span class="ticker-logo-icon" style="background:#003087">CO</span><span class="ticker-logo-name">CORFO</span></span>
           <span class="ticker-sep">·</span>
@@ -942,7 +1142,6 @@
           <span class="ticker-item" style="color:rgba(255,255,255,.5);font-weight:700">+30 fondos →</span>
         </div>
       </div>
-    </div>
   </section>
 
   <!-- STATS BAR -->
@@ -1023,62 +1222,37 @@
         <!-- MAP AREA -->
         <div class="cob-body">
           <div class="cob-map-area">
-            <svg class="cob-world-map" viewBox="0 0 640 300" xmlns="http://www.w3.org/2000/svg">
-              <!-- North America -->
-              <path class="cob-continent" id="cob-cont-usa" d="M 55,28 L 80,22 L 120,18 L 155,20 L 178,30 L 192,48 L 198,68 L 188,92 L 170,108 L 148,118 L 122,122 L 98,118 L 75,108 L 58,92 L 48,72 L 48,50 Z"/>
-              <path class="cob-continent" d="M 30,40 L 52,35 L 55,48 L 42,58 L 28,55 Z"/>
-              <path class="cob-continent" d="M 110,122 L 148,118 L 155,138 L 145,152 L 128,158 L 112,150 L 108,135 Z"/>
-              <!-- South America -->
-              <path class="cob-continent" id="cob-cont-latam" d="M 128,160 L 175,155 L 200,168 L 212,190 L 215,220 L 208,252 L 195,278 L 175,292 L 155,292 L 138,278 L 126,252 L 120,220 L 118,192 Z"/>
-              <!-- Chile strip -->
-              <path class="cob-continent" id="cob-cont-chile" d="M 118,205 L 130,202 L 132,220 L 130,250 L 126,272 L 118,282 L 112,275 L 113,252 L 115,228 Z"/>
-              <!-- Greenland -->
-              <path class="cob-continent" d="M 195,8 L 228,5 L 240,18 L 235,32 L 215,38 L 198,28 Z" style="fill:rgba(255,255,255,.04)"/>
-              <!-- Europe -->
-              <path class="cob-continent" id="cob-cont-eu" d="M 285,22 L 310,18 L 345,16 L 370,20 L 388,32 L 392,50 L 385,68 L 365,78 L 342,82 L 318,80 L 298,72 L 282,58 L 280,40 Z"/>
-              <path class="cob-continent" d="M 272,25 L 282,22 L 286,35 L 278,42 L 270,38 Z"/>
-              <path class="cob-continent" d="M 318,8 L 335,5 L 348,12 L 342,28 L 325,30 L 314,22 Z" style="fill:rgba(255,255,255,.04)"/>
-              <path class="cob-continent" d="M 268,55 L 285,52 L 290,65 L 282,75 L 268,72 L 262,62 Z"/>
-              <!-- Africa -->
-              <path class="cob-continent" d="M 282,88 L 320,85 L 355,90 L 375,108 L 378,140 L 370,175 L 350,205 L 320,215 L 295,210 L 275,188 L 268,155 L 270,118 L 278,100 Z" style="fill:rgba(255,255,255,.04);stroke:rgba(255,255,255,.07)"/>
-              <!-- Middle East -->
-              <path class="cob-continent" d="M 388,68 L 420,65 L 435,80 L 430,100 L 408,108 L 390,100 L 382,85 Z" style="fill:rgba(255,255,255,.04)"/>
-              <!-- Asia -->
-              <path class="cob-continent" d="M 395,18 L 450,12 L 510,10 L 565,15 L 598,30 L 610,55 L 598,80 L 568,98 L 528,108 L 488,112 L 450,108 L 418,98 L 395,78 L 390,50 Z" style="fill:rgba(255,255,255,.04);stroke:rgba(255,255,255,.07)"/>
-              <path class="cob-continent" d="M 462,112 L 490,110 L 498,128 L 490,148 L 475,152 L 462,140 L 458,122 Z" style="fill:rgba(255,255,255,.04)"/>
-              <path class="cob-continent" d="M 526,112 L 565,108 L 578,125 L 568,140 L 545,145 L 528,135 Z" style="fill:rgba(255,255,255,.04)"/>
-              <!-- Oceania -->
-              <path class="cob-continent" d="M 530,185 L 578,180 L 598,196 L 592,218 L 565,225 L 532,220 L 518,205 Z" style="fill:rgba(255,255,255,.04)"/>
-              <!-- Fund dots -->
-              <g class="cob-fund-dot" id="cob-dot-chile" onclick="cobSelect('chile')">
-                <circle class="dot-outer" cx="122" cy="238" r="9"/>
-                <circle class="dot-inner" cx="122" cy="238" r="4"/>
-              </g>
-              <text class="cob-dot-count" x="122" y="222">10</text>
-              <text class="cob-dot-label" x="122" y="256">Chile</text>
-              <g class="cob-fund-dot" id="cob-dot-latam" onclick="cobSelect('latam')">
-                <circle class="dot-outer" cx="170" cy="198" r="9"/>
-                <circle class="dot-inner" cx="170" cy="198" r="4"/>
-              </g>
-              <text class="cob-dot-count" x="170" y="182">8</text>
-              <text class="cob-dot-label" x="170" y="216">Latam</text>
+            <svg class="cob-world-map" id="cob-world-svg" viewBox="0 0 640 340" xmlns="http://www.w3.org/2000/svg">
+              <!-- Countries rendered by D3 -->
+              <g id="cob-map-countries"></g>
+              <!-- Fund dots — positioned by cobMapInit() after projection is set -->
               <g class="cob-fund-dot" id="cob-dot-usa" onclick="cobSelect('usa')">
-                <circle class="dot-outer" cx="122" cy="70" r="9"/>
-                <circle class="dot-inner" cx="122" cy="70" r="4"/>
+                <circle class="dot-outer" cx="148" cy="110" r="9"/>
+                <circle class="dot-inner" cx="148" cy="110" r="4"/>
               </g>
-              <text class="cob-dot-count" x="122" y="54">6</text>
-              <text class="cob-dot-label" x="122" y="88">USA</text>
+              <text class="cob-dot-count" x="148" y="94">6</text>
+              <text class="cob-dot-label" x="148" y="127">USA</text>
+              <g class="cob-fund-dot" id="cob-dot-latam" onclick="cobSelect('latam')">
+                <circle class="dot-outer" cx="195" cy="205" r="9"/>
+                <circle class="dot-inner" cx="195" cy="205" r="4"/>
+              </g>
+              <text class="cob-dot-count" x="195" y="189">8</text>
+              <text class="cob-dot-label" x="195" y="222">Latam</text>
+              <g class="cob-fund-dot" id="cob-dot-chile" onclick="cobSelect('chile')">
+                <circle class="dot-outer" cx="170" cy="252" r="9"/>
+                <circle class="dot-inner" cx="170" cy="252" r="4"/>
+              </g>
+              <text class="cob-dot-count" x="170" y="236">10</text>
+              <text class="cob-dot-label" x="170" y="269">Chile</text>
               <g class="cob-fund-dot" id="cob-dot-eu" onclick="cobSelect('eu')">
-                <circle class="dot-outer" cx="332" cy="46" r="9"/>
-                <circle class="dot-inner" cx="332" cy="46" r="4"/>
+                <circle class="dot-outer" cx="335" cy="95" r="9"/>
+                <circle class="dot-inner" cx="335" cy="95" r="4"/>
               </g>
-              <text class="cob-dot-count" x="332" y="30">5</text>
-              <text class="cob-dot-label" x="332" y="64">Europa</text>
-              <!-- Coming soon -->
-              <circle cx="490" cy="58" r="3" fill="rgba(255,255,255,.1)"/>
-              <text class="cob-soon" x="490" y="74">Próximamente</text>
-              <circle cx="325" cy="145" r="3" fill="rgba(255,255,255,.1)"/>
-              <text class="cob-soon" x="325" y="160">Próximamente</text>
+              <text class="cob-dot-count" x="335" y="79">5</text>
+              <text class="cob-dot-label" x="335" y="112">Europa</text>
+              <!-- "Coming soon" labels — positioned by cobMapInit -->
+              <text class="cob-soon" id="cob-soon-asia" x="495" y="90">Próximamente</text>
+              <text class="cob-soon" id="cob-soon-africa" x="360" y="210">Próximamente</text>
             </svg>
             <!-- Tabs -->
             <div class="cob-tabs">
@@ -1087,6 +1261,13 @@
               <button class="cob-tab"        data-r="usa"   onclick="cobSelect('usa')">🇺🇸 USA <span class="cnt">6</span></button>
               <button class="cob-tab"        data-r="eu"    onclick="cobSelect('eu')">🇪🇺 Europa <span class="cnt">5</span></button>
               <button class="cob-tab"        data-r="latam" onclick="cobSelect('latam')">🌎 Latam <span class="cnt">8</span></button>
+            </div>
+            <div class="cob-theme-pills" id="cobThemePills">
+              <button class="cob-theme-pill active" onclick="cobTheme('todos')">Todos</button>
+              <button class="cob-theme-pill" onclick="cobTheme('i+d')">I+D</button>
+              <button class="cob-theme-pill" onclick="cobTheme('startup')">Startup</button>
+              <button class="cob-theme-pill" onclick="cobTheme('emprendimiento')">Emprendimiento</button>
+              <button class="cob-theme-pill" onclick="cobTheme('expansión')">Expansión</button>
             </div>
             <div class="cob-data-note">
               <span class="cob-data-dot"></span>
@@ -1113,7 +1294,6 @@
     <div class="how-inner">
       <div class="section-label">Confianza</div>
       <h2 class="section-title">Lo que dicen quienes ya evaluaron</h2>
-      <p style="text-align:center;max-width:560px;margin:0 auto;font-size:13px;color:var(--z-gray-400)">Testimonios de la fase beta; resultados var&iacute;an seg&uacute;n instrumento y calidad de la postulaci&oacute;n.</p>
       <div class="quote-grid">
         <div class="quote-card">
           <p>&laquo;Me ayud&oacute; a ordenar las brechas antes de mandar a CORFO. En la segunda iteraci&oacute;n subimos la nota del comit&eacute; simulado.&raquo;</p>
@@ -1128,6 +1308,7 @@
           <cite>Emprendedor &middot; agro &middot; regi&oacute;n</cite>
         </div>
       </div>
+      <p style="text-align:center;max-width:560px;margin:16px auto 0;font-size:13px;color:var(--z-gray-400)">Testimonios de la fase beta; resultados var&iacute;an seg&uacute;n instrumento y calidad de la postulaci&oacute;n.</p>
     </div>
   </section>
 
@@ -1155,7 +1336,7 @@
           </div>
           <a href="#evaluator" style="display:block;text-align:center;padding:12px 0;border:1px solid var(--z-border);border-radius:999px;color:var(--z-black);font-weight:700;font-size:14px;text-decoration:none;margin-top:24px">Empezar gratis</a>
         </div>
-        <div class="step" style="display:flex;flex-direction:column;justify-content:space-between;border-color:var(--z-orange);position:relative">
+        <div class="step" style="display:flex;flex-direction:column;justify-content:space-between;border-color:var(--z-orange);position:relative;box-shadow:0 20px 60px rgba(242,108,34,0.18);background:#FFFBF8;transform:translateY(-4px)">
           <div style="position:absolute;top:-11px;left:50%;transform:translateX(-50%);background:#F26C22;color:#fff;font-size:10px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;padding:4px 14px;border-radius:20px;white-space:nowrap">Más popular</div>
           <div>
             <div style="font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--z-orange);margin-bottom:12px">Premium</div>
@@ -2170,9 +2351,52 @@
       const SL = { open: 'Abierto', coming: 'Próximo', closed: 'Cerrado' };
 
       let FUNDS_DATA = null;
+      let COB_CURRENT_REGION = 'all';
+      let COB_CURRENT_THEME = 'todos';
+
+      // Theme mapping por nombre de fondo (fuzzy)
+      const FUND_THEMES = {
+        'crea y valida': 'i+d',
+        'innova i+d': 'i+d',
+        'innova alta': 'i+d',
+        'fondef': 'i+d',
+        'nsf sbir': 'i+d',
+        'nih sbir': 'i+d',
+        'doe sbir': 'i+d',
+        'eurostars': 'i+d',
+        'eic accelerator': 'i+d',
+        'horizon': 'i+d',
+        'fontar': 'i+d',
+        'finep': 'i+d',
+        'proinnovate': 'i+d',
+        'semilla expande': 'emprendimiento',
+        'semilla inicia': 'emprendimiento',
+        'innova región': 'emprendimiento',
+        'innpulsa': 'emprendimiento',
+        'ruta n': 'emprendimiento',
+        'startup perú': 'emprendimiento',
+        'startup chile build': 'startup',
+        'startup chile ignite': 'startup',
+        'startup chile growth': 'startup',
+        'y combinator': 'startup',
+        'techstars': 'startup',
+        'lanzadera': 'startup',
+        'escalamiento': 'expansión',
+        'consolida y expande': 'expansión',
+        'innovate uk': 'expansión',
+      };
+
+      function getFundTheme(name) {
+        const lower = name.toLowerCase();
+        for (const [key, theme] of Object.entries(FUND_THEMES)) {
+          if (lower.includes(key)) return theme;
+        }
+        return 'todos';
+      }
 
       function cobRender(region) {
         if (!FUNDS_DATA) return;
+        COB_CURRENT_REGION = region;
         const m = COB_META[region] || COB_META.all;
         const el = document.getElementById('cob-panel-title');
         const de = document.getElementById('cob-panel-desc');
@@ -2184,8 +2408,11 @@
           : (FUNDS_DATA[region] || []);
         const list = document.getElementById('cob-fund-list');
         if (!list) return;
-        list.innerHTML = funds.map(f => `
-          <a class="cob-fund-item" href="#evaluator" data-scroll-eval>
+        list.innerHTML = funds.map(f => {
+          const theme = f.theme || getFundTheme(f.name);
+          const hidden = COB_CURRENT_THEME !== 'todos' && theme !== COB_CURRENT_THEME ? ' style="display:none"' : '';
+          return `
+          <a class="cob-fund-item" href="#evaluator" data-scroll-eval data-theme="${theme}"${hidden}>
             <div class="cob-fi-ico" style="background:${f.color}">${f.icon}</div>
             <div class="cob-fi-body">
               <div class="cob-fi-name">${f.name}</div>
@@ -2196,8 +2423,21 @@
               </div>
             </div>
             <span class="cob-fi-cta">Evaluar →</span>
-          </a>`).join('');
+          </a>`;
+        }).join('');
       }
+
+      window.cobTheme = function(theme) {
+        COB_CURRENT_THEME = theme;
+        document.querySelectorAll('.cob-theme-pill').forEach(p => {
+          p.classList.toggle('active', p.textContent.trim().toLowerCase() === theme || (theme === 'todos' && p.textContent.trim() === 'Todos'));
+        });
+        // Filtrar items existentes sin re-renderizar
+        document.querySelectorAll('.cob-fund-item').forEach(item => {
+          const itemTheme = item.dataset.theme || 'todos';
+          item.style.display = (theme === 'todos' || itemTheme === theme) ? '' : 'none';
+        });
+      };
 
       window.cobSelect = function(region) {
         document.querySelectorAll('.cob-tab').forEach(t => t.classList.toggle('active', t.dataset.r === region));
@@ -2242,6 +2482,95 @@
           cobSelect('all');
         });
     })();
+
+  // ── World Map (D3 + TopoJSON) ─────────────────────────────────────────────
+  (function cobMapInit() {
+    const W = 640, H = 340;
+
+    // ISO 3166-1 numeric codes per region
+    const REGION_IDS = {
+      usa:   new Set([840]),
+      chile: new Set([152]),
+      latam: new Set([32,84,68,76,152,170,188,192,214,218,222,300,308,320,328,332,340,388,
+                      484,558,591,600,604,630,659,662,670,740,780,796,858,862]),
+      eu:    new Set([8,40,56,70,100,191,203,208,233,246,250,276,300,372,380,
+                      428,440,442,470,498,499,528,578,616,620,642,688,703,705,
+                      724,726,752,756,807,826])
+    };
+
+    const DOT_GEO = {
+      usa:   { lon: -98,  lat: 38  },
+      latam: { lon: -55,  lat: -5  },
+      chile: { lon: -71,  lat: -33 },
+      eu:    { lon: 10,   lat: 51  }
+    };
+
+    const projection = d3.geoMercator()
+      .scale(82)
+      .translate([W * 0.465, H * 0.585])
+      .clipExtent([[0, 0], [W, H]]);
+
+    const pathGen = d3.geoPath().projection(projection);
+    const g = document.getElementById('cob-map-countries');
+    if (!g) return;
+
+    function getRegion(numId) {
+      for (const [r, ids] of Object.entries(REGION_IDS)) {
+        if (ids.has(numId)) return r;
+      }
+      return null;
+    }
+
+    function moveDot(dotId, lon, lat) {
+      const pt = projection([lon, lat]);
+      if (!pt) return;
+      const [px, py] = [Math.round(pt[0]), Math.round(pt[1])];
+      const dotG = document.getElementById('cob-dot-' + dotId);
+      if (!dotG) return;
+      dotG.querySelectorAll('circle').forEach(c => {
+        c.setAttribute('cx', px); c.setAttribute('cy', py);
+      });
+      const cntEl = dotG.nextElementSibling;
+      const lblEl = cntEl && cntEl.nextElementSibling;
+      if (cntEl) { cntEl.setAttribute('x', px); cntEl.setAttribute('y', py - 16); }
+      if (lblEl) { lblEl.setAttribute('x', px); lblEl.setAttribute('y', py + 17); }
+    }
+
+    fetch('https://unpkg.com/world-atlas@2/countries-110m.json')
+      .then(r => r.json())
+      .then(world => {
+        const countries = topojson.feature(world, world.objects.countries);
+        const fragment = document.createDocumentFragment();
+
+        countries.features.forEach(feature => {
+          const numId = parseInt(feature.id, 10);
+          const region = getRegion(numId);
+          const d = pathGen(feature);
+          if (!d) return;
+          const el = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+          el.setAttribute('d', d);
+          el.setAttribute('fill', region ? '#2A3A5C' : '#1A2030');
+          el.setAttribute('stroke', 'rgba(255,255,255,0.08)');
+          el.setAttribute('stroke-width', '0.6');
+          if (region) { el.classList.add('cob-continent'); el.dataset.region = region; }
+          fragment.appendChild(el);
+        });
+
+        g.appendChild(fragment);
+
+        // Reposition dots to true geographic coordinates
+        Object.entries(DOT_GEO).forEach(([id, { lon, lat }]) => moveDot(id, lon, lat));
+
+        // Reposition "Próximamente" labels
+        const asia = document.getElementById('cob-soon-asia');
+        const africa = document.getElementById('cob-soon-africa');
+        const ptAsia   = projection([105, 35]);
+        const ptAfrica = projection([20,  5]);
+        if (asia   && ptAsia)   { asia.setAttribute('x', Math.round(ptAsia[0]));   asia.setAttribute('y', Math.round(ptAsia[1]));   }
+        if (africa && ptAfrica) { africa.setAttribute('x', Math.round(ptAfrica[0])); africa.setAttribute('y', Math.round(ptAfrica[1])); }
+      })
+      .catch(err => console.warn('ZENTI map load failed:', err));
+  })();
   </script>
 </body>
 </html>

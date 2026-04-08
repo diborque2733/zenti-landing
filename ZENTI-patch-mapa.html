@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+  <title>ZENTI — Cobertura con mapa</title>
+  <style>
+    :root {
+      --z-orange: #F26C22;
+      --z-black: #111111;
+      --z-gray-200: #E5E7EB;
+      --z-gray-400: #9CA3AF;
+      --z-gray-500: #6B7280;
+      --z-font: 'Inter', ui-sans-serif, system-ui, sans-serif;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: var(--z-font); background: #F9FAFB; color: var(--z-black); -webkit-font-smoothing: antialiased; }
+
+    .page { max-width: 980px; margin: 0 auto; padding: 40px 20px 80px; }
+    .page-hdr { background: var(--z-black); color: #fff; border-radius: 12px; padding: 20px 24px; margin-bottom: 32px; }
+    .page-hdr h1 { font-size: 16px; font-weight: 800; }
+    .page-hdr p  { font-size: 12px; color: rgba(255,255,255,.4); margin-top: 2px; }
+
+    /* ── Main card ── */
+    .cobertura {
+      background: #fff;
+      border: 1px solid var(--z-gray-200);
+      border-radius: 16px;
+      overflow: hidden;
+    }
+    .cob-head {
+      text-align: center;
+      padding: 40px 32px 28px;
+    }
+    .cob-label {
+      display: inline-block;
+      font-size: 10px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase;
+      color: var(--z-orange);
+      border: 1px solid rgba(242,108,34,.3);
+      border-radius: 999px; padding: 4px 14px;
+      margin-bottom: 12px;
+    }
+    .cob-title { font-size: clamp(20px, 3vw, 28px); font-weight: 800; margin-bottom: 6px; }
+    .cob-sub   { font-size: 13px; color: var(--z-gray-500); }
+
+    /* ── Body: map + panel ── */
+    .cob-body {
+      display: grid;
+      grid-template-columns: 1fr 300px;
+      border-top: 1px solid var(--z-gray-200);
+      min-height: 420px;
+    }
+    @media (max-width: 700px) {
+      .cob-body { grid-template-columns: 1fr; }
+      .fund-panel { border-left: none !important; border-top: 1px solid var(--z-gray-200); }
+    }
+
+    /* ── Map area ── */
+    .map-area {
+      background: #0D1117;
+      padding: 24px 24px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      position: relative;
+    }
+
+    /* ── SVG map ── */
+    .world-map { width: 100%; height: auto; display: block; }
+
+    /* Continents */
+    .continent {
+      fill: rgba(255,255,255,.07);
+      stroke: rgba(255,255,255,.12);
+      stroke-width: .8;
+      transition: fill .2s;
+    }
+    /* Active region fill */
+    .continent.active { fill: rgba(242,108,34,.2); stroke: rgba(242,108,34,.5); }
+
+    /* Fund location dots */
+    .fund-dot {
+      cursor: pointer;
+      transition: r .2s, opacity .2s;
+    }
+    .fund-dot circle.outer {
+      fill: rgba(242,108,34,.2);
+      animation: pulse 2.5s ease-out infinite;
+    }
+    .fund-dot circle.inner {
+      fill: #F26C22;
+    }
+    .fund-dot.inactive circle.outer { fill: rgba(255,255,255,.06); animation: none; }
+    .fund-dot.inactive circle.inner { fill: rgba(255,255,255,.25); }
+    .fund-dot.active circle.outer { fill: rgba(242,108,34,.35); r: 12; }
+    .fund-dot.active circle.inner { r: 6; }
+    @keyframes pulse {
+      0%   { r: 8;  opacity: .8; }
+      70%  { r: 14; opacity: 0; }
+      100% { r: 8;  opacity: 0; }
+    }
+
+    /* Dot labels */
+    .dot-label {
+      font-family: var(--z-font);
+      font-size: 8.5px; font-weight: 700;
+      fill: rgba(255,255,255,.55);
+      pointer-events: none;
+      text-anchor: middle;
+      letter-spacing: .03em;
+    }
+    .dot-count {
+      font-family: var(--z-font);
+      font-size: 7px; font-weight: 900;
+      fill: var(--z-orange);
+      pointer-events: none;
+      text-anchor: middle;
+    }
+    .dot-label.active, .dot-count.active { fill: #fff; }
+    .soon-label {
+      font-family: var(--z-font);
+      font-size: 7.5px; font-weight: 600;
+      fill: rgba(255,255,255,.18);
+      pointer-events: none;
+      text-anchor: middle;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+    }
+
+    /* ── Region tabs ── */
+    .region-tabs {
+      display: flex; gap: 5px; flex-wrap: wrap;
+    }
+    .rtab {
+      padding: 5px 12px;
+      border-radius: 999px;
+      font-size: 11px; font-weight: 700;
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.05);
+      color: rgba(255,255,255,.55);
+      cursor: pointer; transition: all .15s;
+      display: flex; align-items: center; gap: 5px;
+    }
+    .rtab:hover { background: rgba(255,255,255,.1); color: #fff; }
+    .rtab.active { background: var(--z-orange); color: #fff; border-color: var(--z-orange); }
+    .rtab .cnt {
+      background: rgba(0,0,0,.15);
+      border-radius: 999px; padding: 0 5px;
+      font-size: 9px; font-weight: 900;
+    }
+    .map-hint { font-size: 10px; color: rgba(255,255,255,.2); text-align: center; }
+
+    /* ── Fund panel ── */
+    .fund-panel {
+      border-left: 1px solid var(--z-gray-200);
+      display: flex; flex-direction: column;
+      overflow: hidden;
+    }
+    .panel-hdr {
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--z-gray-200);
+      background: #fff;
+      position: sticky; top: 0; z-index: 1;
+    }
+    .panel-hdr h3 { font-size: 13px; font-weight: 800; }
+    .panel-hdr p  { font-size: 11px; color: var(--z-gray-500); margin-top: 2px; }
+    .fund-list { overflow-y: auto; flex: 1; max-height: 420px; padding: 6px; }
+
+    .fund-item {
+      display: flex; align-items: flex-start; gap: 9px;
+      padding: 10px 9px; border-radius: 8px;
+      cursor: pointer; transition: background .12s;
+      text-decoration: none; color: inherit;
+    }
+    .fund-item:hover { background: #F9FAFB; }
+    .fi-ico {
+      width: 28px; height: 28px; border-radius: 7px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 8px; font-weight: 900; color: #fff; flex-shrink: 0;
+    }
+    .fi-body { flex: 1; min-width: 0; }
+    .fi-name { font-size: 12px; font-weight: 700; line-height: 1.25; }
+    .fi-row  { display: flex; align-items: center; gap: 5px; margin-top: 3px; }
+    .fi-amt  { font-size: 10px; color: var(--z-gray-500); }
+    .fdot    { width: 5px; height: 5px; border-radius: 50%; flex-shrink: 0; }
+    .fdot-open   { background: #10b981; }
+    .fdot-coming { background: #f59e0b; }
+    .fdot-closed { background: #D1D5DB; }
+    .fst     { font-size: 10px; font-weight: 700; }
+    .fst-open   { color: #059669; }
+    .fst-coming { color: #d97706; }
+    .fst-closed { color: #9CA3AF; }
+    .fi-cta  { font-size: 10px; font-weight: 700; color: var(--z-orange); white-space: nowrap; align-self: center; flex-shrink: 0; }
+
+    /* Data note */
+    .data-note {
+      font-size: 10px; color: rgba(255,255,255,.22);
+      text-align: center; padding: 4px 0 2px;
+      display: flex; align-items: center; justify-content: center; gap: 4px;
+    }
+    .data-dot { width: 5px; height: 5px; border-radius: 50%; background: #10b981; flex-shrink: 0; animation: blink 2s ease-in-out infinite; }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:.3} }
+  </style>
+</head>
+<body>
+<div class="page">
+
+  <div class="page-hdr">
+    <h1>Cobertura — Mapa interactivo v2</h1>
+    <p>Mapa con geografía real · dots por región · panel filtrado</p>
+  </div>
+
+  <div class="cobertura">
+    <div class="cob-head">
+      <div class="cob-label">Cobertura global</div>
+      <h2 class="cob-title">+30 fondos en 4 regiones</h2>
+      <p class="cob-sub">Selecciona tu región para ver los instrumentos disponibles</p>
+    </div>
+
+    <div class="cob-body">
+      <!-- MAP -->
+      <div class="map-area">
+        <svg class="world-map" viewBox="0 0 640 340" xmlns="http://www.w3.org/2000/svg">
+
+          <!-- ── Continentes simplificados (Mercator) ── -->
+
+          <!-- North America -->
+          <path class="continent" id="cont-usa"
+            d="M 55,28 L 80,22 L 120,18 L 155,20 L 178,30 L 192,48 L 198,68 L 188,92 L 170,108 L 148,118 L 122,122 L 98,118 L 75,108 L 58,92 L 48,72 L 48,50 Z"/>
+          <!-- Alaska lobe -->
+          <path class="continent" d="M 30,40 L 52,35 L 55,48 L 42,58 L 28,55 Z"/>
+          <!-- Mexico/Central Am -->
+          <path class="continent" d="M 110,122 L 148,118 L 155,138 L 145,152 L 128,158 L 112,150 L 108,135 Z"/>
+
+          <!-- South America -->
+          <path class="continent" id="cont-latam"
+            d="M 128,160 L 175,155 L 200,168 L 212,190 L 215,220 L 208,252 L 195,278 L 175,295 L 155,295 L 138,278 L 126,252 L 120,220 L 118,192 Z"/>
+          <!-- Chile strip — visible on west coast -->
+          <path class="continent" id="cont-chile" style="fill:rgba(255,255,255,.04)"
+            d="M 118,205 L 130,202 L 132,220 L 130,250 L 126,275 L 118,288 L 112,278 L 113,252 L 115,228 Z"/>
+
+          <!-- Greenland -->
+          <path class="continent" d="M 195,8 L 228,5 L 240,18 L 235,35 L 215,40 L 198,30 Z" style="fill:rgba(255,255,255,.04)"/>
+
+          <!-- Europe -->
+          <path class="continent" id="cont-eu"
+            d="M 285,22 L 310,18 L 345,16 L 370,20 L 388,32 L 392,50 L 385,68 L 365,78 L 342,82 L 318,80 L 298,72 L 282,58 L 280,40 Z"/>
+          <!-- UK -->
+          <path class="continent" d="M 272,25 L 282,22 L 286,35 L 278,42 L 270,38 Z" style="fill:rgba(255,255,255,.09)"/>
+          <!-- Scandinavia -->
+          <path class="continent" d="M 318,8 L 335,5 L 348,12 L 342,28 L 325,30 L 314,22 Z" style="fill:rgba(255,255,255,.05)"/>
+          <!-- Iberian peninsula -->
+          <path class="continent" d="M 268,55 L 285,52 L 290,65 L 282,75 L 268,72 L 262,62 Z" style="fill:rgba(255,255,255,.07)"/>
+
+          <!-- Africa -->
+          <path class="continent"
+            d="M 282,88 L 320,85 L 355,90 L 375,108 L 378,140 L 370,175 L 350,205 L 320,215 L 295,210 L 275,188 L 268,155 L 270,118 L 278,100 Z"
+            style="fill:rgba(255,255,255,.04);stroke:rgba(255,255,255,.08)"/>
+
+          <!-- Middle East -->
+          <path class="continent"
+            d="M 388,68 L 420,65 L 435,80 L 430,100 L 408,108 L 390,100 L 382,85 Z"
+            style="fill:rgba(255,255,255,.04)"/>
+
+          <!-- Asia (simplified) -->
+          <path class="continent"
+            d="M 395,18 L 450,12 L 510,10 L 565,15 L 598,30 L 610,55 L 598,80 L 568,98 L 528,108 L 488,112 L 450,108 L 418,98 L 395,78 L 390,50 Z"
+            style="fill:rgba(255,255,255,.04);stroke:rgba(255,255,255,.07)"/>
+          <!-- India -->
+          <path class="continent"
+            d="M 462,112 L 490,110 L 498,128 L 490,148 L 475,152 L 462,140 L 458,122 Z"
+            style="fill:rgba(255,255,255,.04)"/>
+          <!-- SE Asia -->
+          <path class="continent"
+            d="M 526,112 L 565,108 L 578,125 L 568,140 L 545,145 L 528,135 Z"
+            style="fill:rgba(255,255,255,.04)"/>
+
+          <!-- Oceania -->
+          <path class="continent"
+            d="M 530,188 L 578,182 L 600,198 L 595,220 L 568,228 L 535,222 L 520,208 Z"
+            style="fill:rgba(255,255,255,.04)"/>
+          <path class="continent"
+            d="M 595,185 L 612,182 L 618,195 L 608,205 L 595,200 Z"
+            style="fill:rgba(255,255,255,.04)"/>
+
+          <!-- ── Fund region dots ── -->
+
+          <!-- Chile dot -->
+          <g class="fund-dot" id="dot-chile" onclick="selectRegion('chile')" style="cursor:pointer">
+            <circle class="outer" cx="122" cy="240" r="10"/>
+            <circle class="inner" cx="122" cy="240" r="4"/>
+          </g>
+          <text class="dot-count" id="lbl-chile-count" x="122" y="222">10</text>
+          <text class="dot-label" id="lbl-chile" x="122" y="262">Chile</text>
+
+          <!-- Latam dot (Colombia/Brazil area) -->
+          <g class="fund-dot" id="dot-latam" onclick="selectRegion('latam')" style="cursor:pointer">
+            <circle class="outer" cx="168" cy="200" r="10"/>
+            <circle class="inner" cx="168" cy="200" r="4"/>
+          </g>
+          <text class="dot-count" id="lbl-latam-count" x="168" y="182">8</text>
+          <text class="dot-label" id="lbl-latam" x="168" y="220">Latam</text>
+
+          <!-- USA dot -->
+          <g class="fund-dot" id="dot-usa" onclick="selectRegion('usa')" style="cursor:pointer">
+            <circle class="outer" cx="120" cy="72" r="10"/>
+            <circle class="inner" cx="120" cy="72" r="4"/>
+          </g>
+          <text class="dot-count" id="lbl-usa-count" x="120" y="54">6</text>
+          <text class="dot-label" id="lbl-usa" x="120" y="92">USA</text>
+
+          <!-- Europe dot -->
+          <g class="fund-dot" id="dot-eu" onclick="selectRegion('eu')" style="cursor:pointer">
+            <circle class="outer" cx="330" cy="48" r="10"/>
+            <circle class="inner" cx="330" cy="48" r="4"/>
+          </g>
+          <text class="dot-count" id="lbl-eu-count" x="330" y="30">5</text>
+          <text class="dot-label" id="lbl-eu" x="330" y="70">Europa</text>
+
+          <!-- Coming soon dots (Asia, Africa) -->
+          <g style="cursor:default">
+            <circle cx="490" cy="60" r="3.5" fill="rgba(255,255,255,.12)"/>
+            <text class="soon-label" x="490" y="78">Próximamente</text>
+          </g>
+          <g style="cursor:default">
+            <circle cx="325" cy="148" r="3.5" fill="rgba(255,255,255,.12)"/>
+            <text class="soon-label" x="325" y="165">Próximamente</text>
+          </g>
+
+        </svg>
+
+        <!-- Tabs -->
+        <div class="region-tabs">
+          <button class="rtab active" data-r="all"   onclick="selectRegion('all')">🌎 Todos <span class="cnt">30+</span></button>
+          <button class="rtab"        data-r="chile" onclick="selectRegion('chile')">🇨🇱 Chile <span class="cnt">10</span></button>
+          <button class="rtab"        data-r="usa"   onclick="selectRegion('usa')">🇺🇸 USA <span class="cnt">6</span></button>
+          <button class="rtab"        data-r="eu"    onclick="selectRegion('eu')">🇪🇺 Europa <span class="cnt">5</span></button>
+          <button class="rtab"        data-r="latam" onclick="selectRegion('latam')">🌎 Latam <span class="cnt">8</span></button>
+        </div>
+
+        <div class="data-note">
+          <span class="data-dot"></span>
+          Estado sincronizado · actualización mensual
+        </div>
+      </div>
+
+      <!-- FUND PANEL -->
+      <div class="fund-panel">
+        <div class="panel-hdr">
+          <h3 id="panel-title">Todos los fondos</h3>
+          <p  id="panel-desc">30+ instrumentos en 4 regiones</p>
+        </div>
+        <div class="fund-list" id="fund-list"></div>
+      </div>
+    </div>
+  </div>
+
+</div>
+<script>
+const FUNDS = {
+  chile: [
+    { n:'CORFO Crea y Valida',   i:'CO', c:'#003087', a:'hasta $40M CLP',  s:'open'   },
+    { n:'CORFO Semilla Inicia',  i:'CO', c:'#003087', a:'hasta $60M CLP',  s:'open'   },
+    { n:'CORFO Semilla Expande', i:'CO', c:'#003087', a:'hasta $90M CLP',  s:'coming' },
+    { n:'CORFO Escalamiento',    i:'CO', c:'#003087', a:'hasta $200M CLP', s:'coming' },
+    { n:'CORFO Innova I+D',      i:'CO', c:'#003087', a:'hasta $400M CLP', s:'open'   },
+    { n:'Startup Chile Build',   i:'SC', c:'#F26C22', a:'USD 20K + equity',s:'coming' },
+    { n:'Startup Chile Ignite',  i:'SC', c:'#F26C22', a:'USD 100K',        s:'open'   },
+    { n:'Startup Chile Growth',  i:'SC', c:'#F26C22', a:'USD 150K',        s:'closed' },
+    { n:'ANID FONDEF',           i:'AN', c:'#C8102E', a:'hasta $400M CLP', s:'open'   },
+    { n:'Innova Región',         i:'IR', c:'#1a56db', a:'hasta $80M CLP',  s:'coming' },
+  ],
+  usa: [
+    { n:'NSF SBIR Phase I',  i:'NSF', c:'#003366', a:'hasta USD 275K', s:'coming' },
+    { n:'NSF SBIR Phase II', i:'NSF', c:'#003366', a:'hasta USD 1.8M', s:'coming' },
+    { n:'DOE SBIR/STTR',     i:'DOE', c:'#003366', a:'hasta USD 325K', s:'open'   },
+    { n:'NIH SBIR/STTR',     i:'NIH', c:'#003366', a:'hasta USD 350K', s:'open'   },
+    { n:'Y Combinator',      i:'YC',  c:'#FF6600', a:'USD 500K + red', s:'open'   },
+    { n:'Techstars',         i:'TS',  c:'#1a56db', a:'USD 120K + red', s:'coming' },
+  ],
+  eu: [
+    { n:'Horizon Europe EIC', i:'★',  c:'#003399', a:'hasta EUR 2.5M', s:'open'   },
+    { n:'EIC Accelerator',    i:'EIC', c:'#003399', a:'hasta EUR 2.5M', s:'open'   },
+    { n:'Eurostars',          i:'ES',  c:'#003399', a:'EUR 500K–3M',   s:'open'   },
+    { n:'Innovate UK Smart',  i:'UK',  c:'#CF0A2C', a:'hasta GBP 500K',s:'closed' },
+    { n:'Lanzadera',          i:'LZ',  c:'#E65000', a:'equity + accel', s:'open'   },
+  ],
+  latam: [
+    { n:'iNNpulsa ALDEA+ (CO)',    i:'iN', c:'#D4222A', a:'hasta COP 1.000M', s:'open'   },
+    { n:'Ruta N Medellín (CO)',    i:'RN', c:'#D4222A', a:'hasta COP 500M',   s:'coming' },
+    { n:'Startup Perú',           i:'PE', c:'#CC0001', a:'hasta PEN 300K',   s:'open'   },
+    { n:'ProInnóvate (PE)',        i:'PI', c:'#CC0001', a:'hasta USD 150K',   s:'coming' },
+    { n:'FONTAR ANR I+D (AR)',     i:'AR', c:'#003087', a:'hasta ARS 10M',    s:'open'   },
+    { n:'FONTAR Crédito Fiscal',   i:'AR', c:'#003087', a:'hasta ARS 30M',    s:'open'   },
+    { n:'FINEP Mais Inovação (BR)',i:'FN', c:'#009C3B', a:'hasta BRL 2M',     s:'open'   },
+    { n:'FINEP Startup (BR)',      i:'FN', c:'#009C3B', a:'hasta BRL 1M',     s:'coming' },
+  ],
+};
+const SL = { open:'Abierto', coming:'Próximo', closed:'Cerrado' };
+const SC = { open:'open',    coming:'coming',  closed:'closed'  };
+const META = {
+  all:   { t:'Todos los fondos',    d:'30+ instrumentos en 4 regiones' },
+  chile: { t:'🇨🇱 Chile',           d:'CORFO · Startup Chile · ANID' },
+  usa:   { t:'🇺🇸 USA & Global',    d:'NSF · DOE · NIH · Y Combinator' },
+  eu:    { t:'🇪🇺 Europa',          d:'Horizon Europe · EIC · Eurostars · Innovate UK' },
+  latam: { t:'🌎 Latam',           d:'Colombia · Perú · Argentina · Brasil' },
+};
+
+function selectRegion(r) {
+  // tabs
+  document.querySelectorAll('.rtab').forEach(t => t.classList.toggle('active', t.dataset.r === r));
+  // dots
+  ['chile','usa','eu','latam'].forEach(id => {
+    const active = (r === id || r === 'all');
+    document.getElementById('dot-'+id)?.classList.toggle('inactive', !active);
+    document.getElementById('lbl-'+id)?.classList.toggle('active', r === id);
+    document.getElementById('lbl-'+id+'-count')?.classList.toggle('active', r === id);
+  });
+  // continent fill
+  document.querySelectorAll('.continent').forEach(c => c.classList.remove('active'));
+  if (r !== 'all') {
+    const map = { chile:'cont-chile', usa:'cont-usa', eu:'cont-eu', latam:'cont-latam' };
+    document.getElementById(map[r])?.classList.add('active');
+  }
+  // panel
+  const m = META[r] || META.all;
+  document.getElementById('panel-title').textContent = m.t;
+  document.getElementById('panel-desc').textContent  = m.d;
+  const funds = r === 'all'
+    ? [...FUNDS.chile, ...FUNDS.usa, ...FUNDS.eu, ...FUNDS.latam]
+    : (FUNDS[r] || []);
+  document.getElementById('fund-list').innerHTML = funds.map(f => `
+    <a class="fund-item" href="#evaluator">
+      <div class="fi-ico" style="background:${f.c}">${f.i}</div>
+      <div class="fi-body">
+        <div class="fi-name">${f.n}</div>
+        <div class="fi-row">
+          <span class="fi-amt">${f.a}</span>
+          <span class="fdot fdot-${SC[f.s]}"></span>
+          <span class="fst fst-${SC[f.s]}">${SL[f.s]}</span>
+        </div>
+      </div>
+      <span class="fi-cta">Evaluar →</span>
+    </a>`).join('');
+}
+selectRegion('all');
+</script>
+</body>
+</html>
