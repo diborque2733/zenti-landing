@@ -3011,6 +3011,8 @@
     })();
 
   // ── World Map (Leaflet + CartoDB Dark tiles) ──────────────────────────────
+  // Leaflet va con defer en <head>; este bloque inline corre antes → L aún no existe.
+  document.addEventListener('DOMContentLoaded', function () {
   (function cobMapInit() {
     if (typeof L === 'undefined') return;
     const mapEl = document.getElementById('zenti-map');
@@ -3092,6 +3094,7 @@
       });
     };
   })();
+  });
   </script>
 </body>
 </html>
