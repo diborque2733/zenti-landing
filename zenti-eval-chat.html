@@ -84,8 +84,26 @@
       font-size: 12px; font-weight: 600; letter-spacing: .04em;
     }
     .nav-links a:hover { color: #fff; }
+    .promo-strip {
+      position: absolute;
+      top: 56px;
+      left: 0;
+      right: 0;
+      z-index: 2;
+      padding: 11px 20px;
+      text-align: center;
+      font-size: 13px;
+      line-height: 1.45;
+      color: rgba(255,255,255,.65);
+      background: linear-gradient(90deg, rgba(242,108,34,.14) 0%, rgba(242,108,34,.05) 100%);
+      border-bottom: 1px solid rgba(242,108,34,.22);
+    }
+    .promo-strip strong { color: var(--z-orange); font-weight: 700; }
+    .promo-strip a { color: var(--z-orange); font-weight: 600; text-decoration: none; border-bottom: 1px solid rgba(242,108,34,.35); }
+    .promo-strip a:hover { opacity: .9; }
     @media (max-width: 900px) {
       .nav-links { display: none; }
+      .promo-strip { font-size: 12px; padding: 10px 14px; }
     }
 
     /* ── HERO ── */
@@ -570,6 +588,179 @@
     .faq-item h3 { font-size: 15px; font-weight: 700; margin-bottom: 8px; color: var(--z-black); }
     .faq-item p { font-size: 14px; color: var(--z-gray-500); line-height: 1.65; }
 
+    /* ── SOPORTE (widget) ── */
+    .zenti-support-root {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      z-index: 100;
+      font-family: var(--z-font);
+    }
+    .zenti-support-fab {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      border: none;
+      background: var(--z-orange);
+      color: #fff;
+      cursor: pointer;
+      box-shadow: 0 8px 28px rgba(242, 108, 34, 0.45);
+      display: grid;
+      place-items: center;
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+    .zenti-support-fab:hover { transform: scale(1.04); box-shadow: 0 10px 32px rgba(242, 108, 34, 0.5); }
+    .zenti-support-fab svg { width: 26px; height: 26px; display: block; }
+    .zenti-support-fab .zenti-support-fab-label {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      border: 0;
+    }
+    .zenti-support-panel {
+      position: absolute;
+      bottom: 68px;
+      right: 0;
+      width: min(100vw - 40px, 380px);
+      max-height: min(72vh, 520px);
+      background: var(--z-white);
+      border-radius: var(--z-radius);
+      border: 1px solid var(--z-border);
+      box-shadow: 0 16px 48px rgba(17, 17, 17, 0.12);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    .zenti-support-panel[hidden] { display: none !important; }
+    .zenti-support-head {
+      padding: 14px 16px;
+      background: var(--z-black);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    .zenti-support-head strong { font-size: 15px; font-weight: 800; letter-spacing: 0.02em; }
+    .zenti-support-head span { font-size: 12px; opacity: 0.75; display: block; margin-top: 2px; }
+    .zenti-support-close {
+      background: transparent;
+      border: none;
+      color: rgba(255, 255, 255, 0.85);
+      cursor: pointer;
+      padding: 6px;
+      border-radius: 8px;
+      line-height: 0;
+    }
+    .zenti-support-close:hover { background: rgba(255, 255, 255, 0.1); }
+    .zenti-support-messages {
+      flex: 1;
+      overflow-y: auto;
+      padding: 12px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      min-height: 120px;
+      max-height: 220px;
+      background: var(--z-gray-100);
+    }
+    .zenti-support-msg {
+      max-width: 95%;
+      padding: 10px 12px;
+      border-radius: 12px;
+      font-size: 13px;
+      line-height: 1.55;
+      white-space: pre-wrap;
+    }
+    .zenti-support-msg.bot {
+      align-self: flex-start;
+      background: var(--z-white);
+      border: 1px solid var(--z-border);
+      color: var(--z-gray-700);
+    }
+    .zenti-support-msg.user {
+      align-self: flex-end;
+      background: var(--z-orange-soft);
+      border: 1px solid rgba(242, 108, 34, 0.25);
+      color: var(--z-black);
+    }
+    .zenti-support-chips {
+      padding: 8px 10px 4px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      border-top: 1px solid var(--z-border);
+      background: var(--z-white);
+    }
+    .zenti-support-chip {
+      font-size: 11px;
+      font-weight: 600;
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid var(--z-border);
+      background: var(--z-white);
+      color: var(--z-gray-700);
+      cursor: pointer;
+      font-family: inherit;
+    }
+    .zenti-support-chip:hover { border-color: var(--z-orange); color: var(--z-orange); }
+    .zenti-support-form {
+      padding: 10px 12px 14px;
+      border-top: 1px solid var(--z-border);
+      background: var(--z-white);
+    }
+    .zenti-support-form label {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--z-gray-500);
+      display: block;
+      margin-bottom: 4px;
+    }
+    .zenti-support-form input,
+    .zenti-support-form textarea {
+      width: 100%;
+      padding: 8px 10px;
+      border: 1px solid var(--z-border);
+      border-radius: 10px;
+      font-size: 13px;
+      font-family: inherit;
+      margin-bottom: 8px;
+    }
+    .zenti-support-form textarea { min-height: 72px; resize: vertical; }
+    .zenti-support-submit {
+      width: 100%;
+      padding: 10px;
+      border: none;
+      border-radius: 999px;
+      background: var(--z-orange);
+      color: #fff;
+      font-weight: 700;
+      font-size: 13px;
+      cursor: pointer;
+      font-family: inherit;
+    }
+    .zenti-support-submit:disabled { opacity: 0.55; cursor: not-allowed; }
+    .zenti-support-footnote {
+      font-size: 10px;
+      color: var(--z-gray-400);
+      margin-top: 8px;
+      line-height: 1.4;
+    }
+    .zenti-support-toast {
+      font-size: 12px;
+      padding: 8px 10px;
+      border-radius: 8px;
+      margin-bottom: 8px;
+      display: none;
+    }
+    .zenti-support-toast.show { display: block; }
+    .zenti-support-toast.ok { background: #ecfdf5; color: #065f46; border: 1px solid #a7f3d0; }
+    .zenti-support-toast.err { background: #fef2f2; color: #991b1b; border: 1px solid #fecaca; }
+
     /* ── RESPONSIVE ── */
     @media (max-width: 640px) {
       .hero { padding: 120px 18px 60px; }
@@ -582,6 +773,8 @@
       .chat-body { max-height: none; }
       .start-card-body { padding: 20px; }
       .path-tabs { flex-wrap: wrap; }
+      .zenti-support-root { bottom: 16px; right: 14px; }
+      .zenti-support-panel { right: 0; left: auto; }
     }
   </style>
 </head>
@@ -607,11 +800,14 @@
 
   <!-- HERO -->
   <section class="hero">
+    <div class="promo-strip" role="region" aria-label="Promoción informe premium">
+      <strong>Promo activa:</strong> cup&oacute;n <strong>ZENTIMVP</strong> &mdash; en el <strong>formulario</strong> (campo opcional) o en <strong>checkout</strong>; <strong>complet&aacute; y pag&aacute; en Flow</strong>. <a href="mailto:hola@zentigrants.com?subject=Cup%C3%B3n%20ZENTI">Dudas</a>
+    </div>
     <div class="hero-inner">
       <div class="hero-badge">Evaluación técnico-estratégica con IA</div>
       <h1>Conoce tus probabilidades <span class="accent">antes de postular</span></h1>
       <p class="hero-sub">
-        ZENTI simula un comité evaluador calibrado por instrumento. Recibe un informe ejecutivo con nota, veredicto, brechas y recomendaciones — en minutos.
+        Con <strong>propuesta o borrador</strong>, ZENTI calibra la evaluaci&oacute;n como un comit&eacute; por instrumento (nota, brechas, ruta). Con <strong>solo una idea</strong>, el camino Match foco en fondos y ruta &mdash; sin simulaci&oacute;n completa de comit&eacute; hasta que tengas propuesta sustancial.
       </p>
       <div class="hero-ctas">
         <a href="#evaluator" class="hero-btn hero-btn--primary" data-scroll-eval>Evaluar mi propuesta</a>
@@ -730,25 +926,28 @@
       <div class="step" style="max-width:720px;margin:0 auto 32px;padding:20px 24px;background:var(--z-gray-100);border:1px solid var(--z-border);border-radius:var(--z-radius);text-align:left">
         <div style="font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--z-orange);margin-bottom:10px">¿Cuándo pagás?</div>
         <ol style="margin:0;padding-left:20px;font-size:14px;color:var(--z-gray-700);line-height:1.75">
-          <li><strong>Evaluación inicial:</strong> siempre empezás <strong>gratis</strong> desde este sitio (botones &laquo;Empezar&raquo; llevan al evaluador).</li>
-          <li><strong>Después del informe:</strong> recibís el resultado en tu <strong>correo</strong>. Ahí te explicamos cómo acceder al <strong>informe ampliado (Premium)</strong> si lo querés.</li>
-          <li><strong>Pago:</strong> el checkout (tarjeta internacional en USD o Chile en CLP) se abre desde los <strong>enlaces del correo o de la landing de precios</strong> de ZENTI &mdash; no hay cargo oculto al enviar el formulario.</li>
+          <li><strong>Gratis:</strong> <strong>ad&oacute;nde postular</strong>, <strong>roadmap de fondos</strong> posibles con <strong>an&aacute;lisis</strong> y <strong>en qu&eacute; hacer &eacute;nfasis</strong> &mdash; informe b&aacute;sico por correo; comit&eacute; completo / premium con pago.</li>
+          <li><strong>Despu&eacute;s del correo:</strong> ves <strong>una parte</strong> del resultado (vista previa). Si quer&eacute;s el <strong>informe ampliado</strong> completo, el <strong>pago lo desbloquea</strong> con el enlace del correo.</li>
+          <li><strong>Pago:</strong> checkout (USD o CLP) desde el <strong>correo</strong> o la landing &mdash; sin cargo solo por enviar el formulario.</li>
         </ol>
-        <p style="margin:12px 0 0;font-size:13px;color:var(--z-gray-500)">Consultor&iacute;a $197: incluye sesi&oacute;n 1:1; coordin&aacute;s el pago al agendar en Cal.com.</p>
+        <p style="margin:12px 0 0;font-size:13px;color:var(--z-gray-500)"><strong>Sesi&oacute;n 1:1 (pago):</strong> primero pag&aacute;s en checkout; <strong>Calendly te lo enviamos por correo</strong> cuando el cobro est&eacute; confirmado. Eso no reemplaza la orientaci&oacute;n gratuita &laquo;a qu&eacute; fondo ir&raquo; del camino idea.</p>
       </div>
       <div class="steps" style="align-items:stretch">
         <div class="step" style="display:flex;flex-direction:column;justify-content:space-between">
           <div>
             <div style="font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--z-gray-400);margin-bottom:12px">Free</div>
             <div style="font-size:36px;font-weight:800;color:var(--z-black);margin-bottom:4px">$0</div>
-            <div style="font-size:13px;color:var(--z-gray-400);margin-bottom:20px">Sin costo</div>
+            <div style="font-size:13px;color:var(--z-gray-400);margin-bottom:20px">Sin tarjeta</div>
             <ul style="list-style:none;padding:0;font-size:14px;color:var(--z-gray-500);line-height:2">
-              <li>Match de instrumento</li>
-              <li>Nota y veredicto</li>
-              <li>Brechas cr&iacute;ticas</li>
-              <li>Ruta de fortalecimiento</li>
-              <li>Informe PDF b&aacute;sico</li>
+              <li><strong>Ad&oacute;nde postular</strong> y roadmap de <strong>fondos posibles</strong> con an&aacute;lisis</li>
+              <li><strong>En qu&eacute; hacer &eacute;nfasis</strong> antes de la postulaci&oacute;n formal</li>
+              <li>Informe b&aacute;sico (correo); comit&eacute; completo / premium con pago</li>
             </ul>
+            <p style="margin:12px 0 0;font-size:12px;line-height:1.5;color:var(--z-gray-500)">
+              <a href="demo-informe-gratis.html" target="_blank" rel="noopener" style="color:var(--z-orange);font-weight:600">Ejemplo informe gratis</a>
+              &middot;
+              <a href="demo-informe-premium.html" target="_blank" rel="noopener" style="color:var(--z-orange);font-weight:600">Ejemplo premium</a>
+            </p>
           </div>
           <a href="#evaluator" style="display:block;text-align:center;padding:12px 0;border:1px solid var(--z-border);border-radius:999px;color:var(--z-black);font-weight:700;font-size:14px;text-decoration:none;margin-top:24px">Empezar gratis</a>
         </div>
@@ -769,13 +968,13 @@
           </div>
           <a id="pricing-cta-premium-usd" href="https://www.flow.cl/uri/JSbQZ7S1H" target="_blank" rel="noopener" style="display:block;text-align:center;padding:12px 0;background:var(--z-orange);border-radius:999px;color:#fff;font-weight:700;font-size:14px;text-decoration:none;margin-top:24px;box-shadow:0 6px 18px rgba(242,108,34,.25)">Pagar Premium USD</a>
           <a id="pricing-cta-premium-clp" href="https://www.flow.cl/uri/JSbQZ7S1H" target="_blank" rel="noopener" style="display:block;text-align:center;padding:11px 0;margin-top:10px;border:1px solid var(--z-orange);border-radius:999px;color:var(--z-orange);font-weight:700;font-size:14px;text-decoration:none">Pagar Premium CLP</a>
-          <div style="text-align:center;margin-top:8px;font-size:12px;color:var(--z-gray-400)">El upgrade se ofrece con tu resultado</div>
+          <div style="text-align:center;margin-top:8px;font-size:12px;color:var(--z-gray-400)">Primero una parte en el correo; el pago desbloquea el informe completo</div>
         </div>
         <div class="step" style="display:flex;flex-direction:column;justify-content:space-between">
           <div>
             <div style="font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--z-gray-400);margin-bottom:12px">Consultor&iacute;a</div>
-            <div style="font-size:36px;font-weight:800;color:var(--z-black);margin-bottom:4px">$197 <span style="font-size:16px;font-weight:400;color:var(--z-gray-400)">USD</span></div>
-            <div style="font-size:13px;color:var(--z-gray-400);margin-bottom:20px">$179.000 CLP</div>
+            <div style="font-size:36px;font-weight:800;color:var(--z-black);margin-bottom:4px">$233 <span style="font-size:16px;font-weight:400;color:var(--z-gray-400)">USD</span></div>
+            <div style="font-size:13px;color:var(--z-gray-400);margin-bottom:20px">$230.000 CLP</div>
             <ul style="list-style:none;padding:0;font-size:14px;color:var(--z-gray-500);line-height:2">
               <li><strong style="color:var(--z-black)">Todo lo premium</strong> m&aacute;s:</li>
               <li>Sesi&oacute;n 1:1 con experto ZENTI</li>
@@ -784,7 +983,9 @@
               <li>Seguimiento post-sesi&oacute;n</li>
             </ul>
           </div>
-          <a id="consult-cta-pricing" href="https://calendly.com/diego-zentigrants/consultoria-estrategica-zenti" target="_blank" rel="noopener" style="display:block;text-align:center;padding:12px 0;border:1px solid var(--z-border);border-radius:999px;color:var(--z-black);font-weight:700;font-size:14px;text-decoration:none;margin-top:24px">Agendar consultor&iacute;a</a>
+          <a id="consult-pay-pricing" href="https://zentigrants.com/checkout-consultoria.html" target="_blank" rel="noopener" style="display:block;text-align:center;padding:12px 0;background:var(--z-orange);border-radius:999px;color:#fff;font-weight:700;font-size:14px;text-decoration:none;margin-top:24px;box-shadow:0 6px 18px rgba(242,108,34,.25)">Pagar sesi&oacute;n 1:1 (Flow)</a>
+          <p style="text-align:center;margin-top:10px;font-size:12px;color:var(--z-gray-500)"><a id="consult-mailto-pricing" href="mailto:hola@zentigrants.com?subject=Pago%20consultor%C3%ADa%20ZENTI%20%E2%80%94%20sesi%C3%B3n%201%3A1&body=Hola%20equipo%20ZENTI%2C%0A%0AQuiero%20coordinar%20el%20pago%20de%20la%20sesi%C3%B3n%201%3A1%20%28referencia%20aprox.%20%24%20230.000%20CLP%29.%0A%0A" target="_blank" rel="noopener" style="color:var(--z-gray-500);font-weight:600">Coordinar por correo</a></p>
+          <p id="consult-cta-pricing" style="display:block;text-align:center;padding:12px 14px;margin-top:10px;border:1px dashed var(--z-gray-300);border-radius:12px;color:var(--z-gray-600);font-size:13px;line-height:1.5">Agenda: te enviamos el enlace a Calendly <strong>por correo</strong> cuando el pago est&eacute; acreditado.</p>
           <div style="text-align:center;margin-top:8px;font-size:12px;color:var(--z-gray-400)">Incluye sesi&oacute;n 1:1 post-informe</div>
         </div>
       </div>
@@ -874,7 +1075,9 @@
         <div class="start-success hidden" id="start-success">
           <h3>Solicitud recibida</h3>
           <p>Analizaremos tu idea y te enviaremos las recomendaciones de fondos a tu correo en los próximos minutos.</p>
-          <a href="https://calendly.com/diego-zentigrants/consultoria-estrategica-zenti" id="consult-cta-start-success" target="_blank" rel="noopener" style="display:inline-block;padding:12px 28px;background:#F26C22;color:#fff;border-radius:999px;font-weight:700;font-size:14px;text-decoration:none;box-shadow:0 6px 18px rgba(242,108,34,.25)">Agendar consultoría</a>
+          <a href="https://zentigrants.com/checkout-consultoria.html" id="consult-pay-start-success" target="_blank" rel="noopener" style="display:inline-block;padding:12px 28px;background:#F26C22;color:#fff;border-radius:999px;font-weight:700;font-size:14px;text-decoration:none;box-shadow:0 6px 18px rgba(242,108,34,.25)">Pagar sesi&oacute;n 1:1 (Flow)</a>
+          <p style="margin-top:10px;font-size:12px;color:#6b7280"><a id="consult-mailto-start" href="mailto:hola@zentigrants.com?subject=Pago%20consultor%C3%ADa%20ZENTI%20%E2%80%94%20sesi%C3%B3n%201%3A1&body=Hola%20equipo%20ZENTI%2C%0A%0AQuiero%20coordinar%20el%20pago%20de%20la%20sesi%C3%B3n%201%3A1%20%28referencia%20aprox.%20%24%20230.000%20CLP%29.%0A%0A" target="_blank" rel="noopener" style="color:#6b7280;font-weight:600">Coordinar por correo</a></p>
+          <p id="consult-cta-start-success" style="display:block;margin-top:12px;padding:12px 18px;border:1px dashed #d1d5db;border-radius:12px;color:#6b7280;font-size:13px;line-height:1.5">Agenda: enlace a Calendly <strong>por correo</strong> tras confirmar el pago.</p>
           <br/>
           <button type="button" class="ghost" style="margin-top:12px" id="btn-start-reset">Nuevo match</button>
         </div>
@@ -924,6 +1127,10 @@
           <p>Tratamos la informaci&oacute;n seg&uacute;n nuestra <a href="privacidad.html" style="color:var(--z-orange);font-weight:600">pol&iacute;tica de privacidad</a>. El procesamiento del texto lo realiza un modelo de lenguaje (Anthropic/Claude) bajo contratos de proveedor; no publicamos tu propuesta.</p>
         </div>
         <div class="faq-item">
+          <h3>&iquest;Puedo ver un informe de ejemplo antes de pagar?</h3>
+          <p>S&iacute;: <a href="demo-informe-gratis.html" target="_blank" rel="noopener" style="color:var(--z-orange);font-weight:600">demo informe gratuito</a> y <a href="demo-informe-premium.html" target="_blank" rel="noopener" style="color:var(--z-orange);font-weight:600">demo informe premium</a> (muestras est&aacute;ticas; el tuyo se genera con tu propuesta).</p>
+        </div>
+        <div class="faq-item">
           <h3>&iquest;Qu&eacute; tan &laquo;precisa&raquo; es la evaluaci&oacute;n?</h3>
           <p>Es una <strong>simulaci&oacute;n orientativa</strong> calibrada a criterios t&iacute;picos de cada instrumento, no un veredicto oficial del organismo. Sirve para priorizar brechas antes de la postulaci&oacute;n formal.</p>
         </div>
@@ -949,10 +1156,12 @@
       <div class="section-label">Consultoría estratégica</div>
       <h2 class="section-title">¿Necesitas apoyo para fortalecer tu postulación?</h2>
       <p style="text-align:center;max-width:560px;margin:0 auto 32px;font-size:15px;color:var(--z-gray-500);line-height:1.7">
-        Agenda una sesión con el equipo ZENTI. Revisamos tu informe, trabajamos las brechas críticas y estructuramos una postulación competitiva.
+        Primero coordinás el pago de la sesión; te enviamos el enlace para agendar por correo cuando esté acreditado. Revisamos tu informe, las brechas críticas y una postulación competitiva.
       </p>
       <div style="text-align:center">
-        <a href="https://calendly.com/diego-zentigrants/consultoria-estrategica-zenti" id="consult-cta-main" target="_blank" rel="noopener" class="nav-cta" style="padding:14px 36px;font-size:15px;border-radius:999px;display:inline-block;box-shadow:0 8px 24px rgba(242,108,34,.25)">Agendar consultoría</a>
+          <a href="https://zentigrants.com/checkout-consultoria.html" id="consult-pay-main" target="_blank" rel="noopener" class="nav-cta" style="padding:14px 36px;font-size:15px;border-radius:999px;display:inline-block;box-shadow:0 8px 24px rgba(242,108,34,.25)">Pagar sesi&oacute;n 1:1 (Flow)</a>
+        <p style="margin-top:12px;font-size:13px;color:var(--z-gray-500)"><a id="consult-mailto-main" href="mailto:hola@zentigrants.com?subject=Pago%20consultor%C3%ADa%20ZENTI%20%E2%80%94%20sesi%C3%B3n%201%3A1&body=Hola%20equipo%20ZENTI%2C%0A%0AQuiero%20coordinar%20el%20pago%20de%20la%20sesi%C3%B3n%201%3A1%20%28referencia%20aprox.%20%24%20230.000%20CLP%29.%0A%0A" target="_blank" rel="noopener" style="color:var(--z-gray-500);font-weight:600">Coordinar por correo</a></p>
+        <p id="consult-cta-main" style="display:inline-block;margin-top:14px;padding:14px 24px;font-size:14px;border-radius:12px;border:1px dashed var(--z-gray-300);color:var(--z-gray-600);font-weight:600;max-width:420px">Agenda: Calendly <strong>solo por email</strong> cuando el pago est&eacute; confirmado.</p>
       </div>
     </div>
   </section>
@@ -970,6 +1179,36 @@
       </p>
     </div>
   </footer>
+
+  <!-- Soporte: asistente (guía) + envío de preguntas (webhook opcional o correo) -->
+  <div id="zenti-support-root" class="zenti-support-root">
+    <button type="button" class="zenti-support-fab" id="zenti-support-fab" aria-expanded="false" aria-controls="zenti-support-panel" title="Ayuda y soporte ZENTI">
+      <span class="zenti-support-fab-label">Abrir ayuda y soporte</span>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+    </button>
+    <div class="zenti-support-panel" id="zenti-support-panel" hidden role="dialog" aria-modal="true" aria-labelledby="zenti-support-title">
+      <div class="zenti-support-head">
+        <div>
+          <strong id="zenti-support-title">Soporte ZENTI</strong>
+          <span>Guía rápida y contacto</span>
+        </div>
+        <button type="button" class="zenti-support-close" id="zenti-support-close" aria-label="Cerrar">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+        </button>
+      </div>
+      <div id="zenti-support-toast" class="zenti-support-toast" role="status"></div>
+      <div id="zenti-support-messages" class="zenti-support-messages"></div>
+      <div class="zenti-support-chips" id="zenti-support-chips"></div>
+      <form class="zenti-support-form" id="zenti-support-form" autocomplete="on">
+        <label for="zenti-support-email">Correo (opcional, si querés respuesta)</label>
+        <input type="email" id="zenti-support-email" name="email" placeholder="tu@empresa.com" />
+        <label for="zenti-support-text">Tu pregunta o problema al llenar el formulario</label>
+        <textarea id="zenti-support-text" name="message" required placeholder="Ej.: no me deja adjuntar PDF en el paso 6…" minlength="8"></textarea>
+        <button type="submit" class="zenti-support-submit" id="zenti-support-submit">Enviar pregunta</button>
+        <p class="zenti-support-footnote">Si no configuramos webhook, se abre tu correo con el mensaje listo. No guardamos chats en el servidor salvo que envíes el formulario.</p>
+      </form>
+    </div>
+  </div>
 
   <script>
     const FORM_POST_URL = 'https://zenti.app.n8n.cloud/form/7c2e685a-2439-4afa-889d-35168e65d856';
@@ -999,20 +1238,183 @@
     const ZENTI_PAY_LINKS = {
       premiumUsd: 'https://www.flow.cl/uri/JSbQZ7S1H',
       premiumClp: 'https://www.flow.cl/uri/JSbQZ7S1H',
-      consultCal: 'https://calendly.com/diego-zentigrants/consultoria-estrategica-zenti',
+      consultCal: '',
+      consultCheckoutUrl: 'https://zentigrants.com/checkout-consultoria.html',
+      consultPayUrl: 'mailto:hola@zentigrants.com?subject=Pago%20consultor%C3%ADa%20ZENTI%20%E2%80%94%20sesi%C3%B3n%201%3A1&body=Hola%20equipo%20ZENTI%2C%0A%0AQuiero%20coordinar%20el%20pago%20de%20la%20sesi%C3%B3n%201%3A1%20%28referencia%20aprox.%20%24%20230.000%20CLP%29.%0A%0A',
+      supportWebhookUrl: '',
     };
     document.addEventListener('DOMContentLoaded', function() {
       var premiumUsd = document.getElementById('pricing-cta-premium-usd');
       var premiumClp = document.getElementById('pricing-cta-premium-clp');
+      var consultPayPricing = document.getElementById('consult-pay-pricing');
       var consultPricing = document.getElementById('consult-cta-pricing');
+      var consultPayMain = document.getElementById('consult-pay-main');
       var consultMain = document.getElementById('consult-cta-main');
+      var consultPayStart = document.getElementById('consult-pay-start-success');
       var consultStartSuccess = document.getElementById('consult-cta-start-success');
+      var consultMailtoPricing = document.getElementById('consult-mailto-pricing');
+      var consultMailtoMain = document.getElementById('consult-mailto-main');
+      var consultMailtoStart = document.getElementById('consult-mailto-start');
+      var consultPrimary = (ZENTI_PAY_LINKS.consultCheckoutUrl && String(ZENTI_PAY_LINKS.consultCheckoutUrl).trim())
+        ? ZENTI_PAY_LINKS.consultCheckoutUrl
+        : ZENTI_PAY_LINKS.consultPayUrl;
       if (premiumUsd && ZENTI_PAY_LINKS.premiumUsd) premiumUsd.href = ZENTI_PAY_LINKS.premiumUsd;
       if (premiumClp && ZENTI_PAY_LINKS.premiumClp) premiumClp.href = ZENTI_PAY_LINKS.premiumClp;
-      if (consultPricing && ZENTI_PAY_LINKS.consultCal) consultPricing.href = ZENTI_PAY_LINKS.consultCal;
-      if (consultMain && ZENTI_PAY_LINKS.consultCal) consultMain.href = ZENTI_PAY_LINKS.consultCal;
-      if (consultStartSuccess && ZENTI_PAY_LINKS.consultCal) consultStartSuccess.href = ZENTI_PAY_LINKS.consultCal;
+      if (consultPayPricing && consultPrimary) consultPayPricing.href = consultPrimary;
+      if (consultPayMain && consultPrimary) consultPayMain.href = consultPrimary;
+      if (consultPayStart && consultPrimary) consultPayStart.href = consultPrimary;
+      if (consultMailtoPricing && ZENTI_PAY_LINKS.consultPayUrl) consultMailtoPricing.href = ZENTI_PAY_LINKS.consultPayUrl;
+      if (consultMailtoMain && ZENTI_PAY_LINKS.consultPayUrl) consultMailtoMain.href = ZENTI_PAY_LINKS.consultPayUrl;
+      if (consultMailtoStart && ZENTI_PAY_LINKS.consultPayUrl) consultMailtoStart.href = ZENTI_PAY_LINKS.consultPayUrl;
     });
+
+    /* ── Soporte: asistente + recolección de preguntas ── */
+    (function initZentiSupportBot() {
+      var KB = {
+        eval: 'Evaluador (propuesta o borrador):\n1) Bajá hasta «Inicia tu evaluación».\n2) Elegí instrumento (CORFO, Startup Chile, etc.).\n3) Completá nombre, empresa y email.\n4) Pegá tu propuesta o subí PDF (recomendado).\n5) Enviá: recibirás el informe por correo en minutos.\n\nSi solo tenés una idea temprana, usá el camino «Match de fondos» arriba.',
+        start: 'Match de fondos (idea temprana):\n1) Sección «Encuentra el fondo ideal».\n2) Describí la idea, sector, etapa y email.\n3) Te enviamos instrumentos alineados y una ruta (no es el comité completo del evaluador con propuesta).',
+        premium: 'Premium y pago:\nLa evaluación inicial desde la web es gratis. Si querés el informe ampliado, el enlace de pago llega por correo después del resultado (Flow.cl). Consultoría 1:1: botón «Pagar sesión 1:1» o checkout en la web.',
+        pdf: 'Archivo / PDF:\nEn el paso de propuesta podés pegar texto o adjuntar PDF. Tamaño razonable; si falla, probá otro navegador (Chrome o Safari) o comprimí el PDF. El informe de salida puede llegar en HTML o PDF según la conversión.',
+        tiempo: 'Tiempos:\nSuele ser en minutos; puede demorar más si hay mucha demanda. Revisá spam. Si pasaron varias horas, escribinos con el correo que usaste.',
+        human: 'Equipo humano:\nEscribinos a hola@zentigrants.com con tu correo de la evaluación y captura del problema. Para consultoría pagada también podés usar «Coordinar por correo» en la sección de consultoría.',
+        welcome: 'Hola. Soy la guía rápida de ZENTI: te oriento con el evaluador, el match de fondos y el pago. Elegí un tema abajo o escribí tu duda y enviála: la recibimos para soporte.'
+      };
+      var CHIPS = [
+        { id: 'eval', label: 'Evaluador paso a paso' },
+        { id: 'start', label: 'Match de fondos' },
+        { id: '_goto_eval', label: 'Ir al evaluador' },
+        { id: '_goto_start', label: 'Ir a match de fondos' },
+        { id: 'pdf', label: 'Adjuntar PDF' },
+        { id: 'premium', label: 'Premium / pago' },
+        { id: 'tiempo', label: '¿Cuánto demora?' },
+        { id: 'human', label: 'Hablar con el equipo' }
+      ];
+
+      var root = document.getElementById('zenti-support-root');
+      var fab = document.getElementById('zenti-support-fab');
+      var panel = document.getElementById('zenti-support-panel');
+      var closeBtn = document.getElementById('zenti-support-close');
+      var msgEl = document.getElementById('zenti-support-messages');
+      var chipsEl = document.getElementById('zenti-support-chips');
+      var form = document.getElementById('zenti-support-form');
+      var emailIn = document.getElementById('zenti-support-email');
+      var textIn = document.getElementById('zenti-support-text');
+      var toast = document.getElementById('zenti-support-toast');
+      var submitBtn = document.getElementById('zenti-support-submit');
+      if (!fab || !panel || !msgEl) return;
+
+      function addMsg(role, text) {
+        var d = document.createElement('div');
+        d.className = 'zenti-support-msg ' + (role === 'user' ? 'user' : 'bot');
+        d.textContent = text;
+        msgEl.appendChild(d);
+        msgEl.scrollTop = msgEl.scrollHeight;
+      }
+
+      function showToast(kind, t) {
+        toast.className = 'zenti-support-toast show ' + (kind || '');
+        toast.textContent = t || '';
+      }
+
+      function openPanel(open) {
+        panel.hidden = !open;
+        fab.setAttribute('aria-expanded', open ? 'true' : 'false');
+        if (open) {
+          zentiTrack('support_open', { location: window.location.pathname });
+          try { textIn && textIn.focus(); } catch (e1) {}
+        }
+      }
+
+      function replyFor(id) {
+        return KB[id] || KB.welcome;
+      }
+
+      addMsg('bot', KB.welcome);
+      CHIPS.forEach(function (c) {
+        var b = document.createElement('button');
+        b.type = 'button';
+        b.className = 'zenti-support-chip';
+        b.textContent = c.label;
+        b.addEventListener('click', function () {
+          addMsg('user', c.label);
+          if (c.id === '_goto_eval') {
+            addMsg('bot', 'Ahí está el formulario del evaluador. Completá instrumento, datos y propuesta o PDF.');
+            var el = document.getElementById('evaluator');
+            if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            zentiTrack('support_goto', { target: 'evaluator' });
+            return;
+          }
+          if (c.id === '_goto_start') {
+            addMsg('bot', 'En esta sección cargás tu idea para el match de fondos (sin comité completo).');
+            var st = document.getElementById('start');
+            if (st) st.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            zentiTrack('support_goto', { target: 'start' });
+            return;
+          }
+          addMsg('bot', replyFor(c.id));
+          zentiTrack('support_quick_reply', { topic: c.id });
+        });
+        chipsEl.appendChild(b);
+      });
+
+      fab.addEventListener('click', function () { openPanel(panel.hidden); });
+      closeBtn.addEventListener('click', function () { openPanel(false); });
+      document.addEventListener('keydown', function (ev) {
+        if (ev.key === 'Escape' && !panel.hidden) openPanel(false);
+      });
+
+      form.addEventListener('submit', function (ev) {
+        ev.preventDefault();
+        var email = (emailIn && emailIn.value) ? emailIn.value.trim() : '';
+        var body = (textIn && textIn.value) ? textIn.value.trim() : '';
+        if (body.length < 8) {
+          showToast('err', 'Escribí al menos 8 caracteres.');
+          return;
+        }
+        submitBtn.disabled = true;
+        var wh =
+          (typeof ZENTI_PAY_LINKS !== 'undefined' && ZENTI_PAY_LINKS.supportWebhookUrl)
+            ? String(ZENTI_PAY_LINKS.supportWebhookUrl).trim()
+            : '';
+        var payload = {
+          source: 'zenti-landing-support',
+          page: window.location.href,
+          email: email || null,
+          message: body,
+          ts: new Date().toISOString()
+        };
+        function doneMail() {
+          var subj = encodeURIComponent('Soporte ZENTI — formulario / web');
+          var line1 = email ? 'Correo: ' + email + '\n\n' : '';
+          var bod = encodeURIComponent(line1 + body);
+          window.open('mailto:hola@zentigrants.com?subject=' + subj + '&body=' + bod, '_blank', 'noopener');
+          showToast('ok', 'Se abrió tu cliente de correo. Si no ves la ventana, copiá el texto y escribinos a hola@zentigrants.com');
+          zentiTrack('support_submit', { channel: 'mailto' });
+          submitBtn.disabled = false;
+        }
+        if (!wh) {
+          doneMail();
+          return;
+        }
+        fetch(wh, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+          body: JSON.stringify(payload)
+        })
+          .then(function (res) {
+            if (!res.ok) throw new Error('HTTP ' + res.status);
+            showToast('ok', 'Listo. Recibimos tu mensaje.');
+            zentiTrack('support_submit', { channel: 'webhook' });
+            textIn.value = '';
+          })
+          .catch(function () {
+            doneMail();
+          })
+          .finally(function () {
+            submitBtn.disabled = false;
+          });
+      });
+    })();
 
     /* ── Path switcher (How it works) ── */
     function switchPath(path) {
@@ -1257,10 +1659,11 @@
       { key: 'propuesta', bot: 'Si tienes **texto** de la propuesta, pégalo aquí. Es **opcional** si adjuntas PDF.', input: { type: 'textarea', placeholder: 'Opcional: problema, solución, mercado, equipo…', field: 'field-4' } },
       { key: 'email', bot: '¿A qué **correo** enviamos el informe ejecutivo?', input: { type: 'email', placeholder: 'tu@email.com', field: 'field-5' } },
       { key: 'pdf', bot: '¿Quieres **adjuntar un PDF**? Recomendado si la propuesta está en archivo.', input: { type: 'file', field: 'field-6', accept: '.pdf,application/pdf' } },
+      { key: 'coupon', bot: '**Cupón** informe premium (opcional). C&oacute;digo **ej. ZENTIMVP**; luego **complet&aacute; y pag&aacute; en Flow** con el enlace del correo.', input: { type: 'text', placeholder: 'Vacío si no aplica', field: 'field-7', optional: true } },
       { key: 'review', bot: '**Revisá los datos** antes de enviar. Si algo está mal, usá **Atrás**.', input: { type: 'submit' } },
     ];
 
-    const CHAT_TOTAL_STEPS = 8;
+    const CHAT_TOTAL_STEPS = 9;
     const LS_DRAFT_KEY = 'zenti-eval-draft-v2';
 
     function setHeaderSubtitle(fondoKey) {
@@ -1304,6 +1707,7 @@
             'field-3': values['field-3'] || '',
             'field-4': values['field-4'] || '',
             'field-5': values['field-5'] || '',
+            'field-7': values['field-7'] || '',
           },
         }));
       } catch (e) {}
@@ -1329,6 +1733,9 @@
         '<dt>Correo</dt><dd>' + esc(values['field-5'] || '—') + '</dd>' +
         '<dt>Propuesta (extracto)</dt><dd>' + (prop ? esc(prop) : '<em>Sin texto — PDF u opcional</em>') + '</dd>' +
         '<dt>PDF</dt><dd>' + pdfLabel + '</dd>' +
+        ((values['field-7'] || '').trim()
+          ? '<dt>Cupón</dt><dd>' + esc((values['field-7'] || '').trim()) + '</dd>'
+          : '') +
         '</dl>'
       );
     }
@@ -1488,7 +1895,7 @@
         const el = document.getElementById('dyn-input');
         const v = el.value.trim();
         if (step.input.type === 'select' && !v) { showError('Selecciona una opción.'); return; }
-        if (step.input.type !== 'select' && step.input.type !== 'textarea' && !v) { showError('Este dato es obligatorio.'); return; }
+        if (!step.input.optional && step.input.type !== 'select' && step.input.type !== 'textarea' && !v) { showError('Este dato es obligatorio.'); return; }
         if (step.input.type === 'email' && v && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)) { showError('Correo no válido.'); return; }
         values[step.input.field] = v;
         addBubble('user', esc(v) || '(vacío)');
@@ -1517,6 +1924,7 @@
       fd.append('field-5', values['field-5'] || '');
       const f = values.files['field-6'];
       if (f && f.size > 0) fd.append('field-6', f, f.name);
+      fd.append('field-7', (values['field-7'] || '').trim());
 
       try {
         const res = await fetch(FORM_POST_URL, { method: 'POST', body: fd });
@@ -1541,13 +1949,21 @@
         panel.appendChild(h2);
         panel.appendChild(p);
 
-        const cta = document.createElement('a');
-        cta.href = (typeof ZENTI_PAY_LINKS !== 'undefined' && ZENTI_PAY_LINKS.consultCal) ? ZENTI_PAY_LINKS.consultCal : 'https://calendly.com/diego-zentigrants/consultoria-estrategica-zenti';
-        cta.target = '_blank';
-        cta.rel = 'noopener';
-        cta.style.cssText = 'display:inline-block;margin-top:24px;padding:12px 28px;background:#F26C22;color:#fff;border-radius:999px;font-weight:700;font-size:14px;text-decoration:none;box-shadow:0 6px 18px rgba(242,108,34,.25)';
-        cta.textContent = 'Agendar consultoría estratégica';
-        panel.appendChild(cta);
+        const payA = document.createElement('a');
+        var zpl = (typeof ZENTI_PAY_LINKS !== 'undefined') ? ZENTI_PAY_LINKS : {};
+        var consultHrefEval = (zpl.consultCheckoutUrl && String(zpl.consultCheckoutUrl).trim())
+          ? zpl.consultCheckoutUrl
+          : (zpl.consultPayUrl || 'mailto:hola@zentigrants.com?subject=Consultor%C3%ADa%20ZENTI');
+        payA.href = consultHrefEval;
+        payA.target = '_blank';
+        payA.rel = 'noopener';
+        payA.style.cssText = 'display:inline-block;margin-top:24px;padding:12px 28px;background:#F26C22;color:#fff;border-radius:999px;font-weight:700;font-size:14px;text-decoration:none;box-shadow:0 6px 18px rgba(242,108,34,.25)';
+        payA.textContent = 'Pagar sesión 1:1 (Flow)';
+        panel.appendChild(payA);
+        const calHint = document.createElement('p');
+        calHint.style.cssText = 'margin-top:12px;padding:12px 18px;border:1px dashed #d1d5db;border-radius:12px;color:#6b7280;font-size:13px;line-height:1.5;max-width:380px';
+        calHint.innerHTML = 'Agenda: te enviamos el enlace a Calendly <strong>por correo</strong> cuando el pago est&eacute; confirmado.';
+        panel.appendChild(calHint);
 
         const again = document.createElement('button');
         again.type = 'button';
@@ -1632,17 +2048,5 @@
     })();
   </script>
 
-  <!-- Crisp Chat Widget — replace 5a1b0c16-c671-4a90-a4dc-b293b9488f0f with your Crisp Website ID -->
-  <script type="text/javascript">
-    window.$crisp=[];
-    window.CRISP_WEBSITE_ID="5a1b0c16-c671-4a90-a4dc-b293b9488f0f";
-    (function(){
-      var d=document;
-      var s=d.createElement("script");
-      s.src="https://client.crisp.chat/l.js";
-      s.async=1;
-      d.getElementsByTagName("head")[0].appendChild(s);
-    })();
-  </script>
 </body>
 </html>

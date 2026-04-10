@@ -1,0 +1,496 @@
+<!-- ZENTI demo estático: regenerar con scripts/copy-zenti-demos-to-landing.mjs -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@600;700;800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <title>ZENTI — Informe ejecutivo de competitividad</title>
+  <style>
+:root{
+  --z-bg:#131313;--z-surface:#1c1b1b;--z-surface-2:#242424;
+  --z-blue:#3b82f6;--z-green:#34d399;--z-orange:#F26C22;
+  --z-amber:#fbbf24;--z-red:#f87171;
+  --z-text:#E5E2E1;--z-muted:rgba(229,226,225,.55);--z-faint:rgba(229,226,225,.35);
+  --z-border:rgba(229,226,225,.12);--z-white:#E5E2E1;
+  --z-font:'Inter',ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+  --z-headline:'Space Grotesk','Inter',ui-sans-serif,sans-serif;
+  --z-max-w:800px;--z-radius:12px
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{font-size:15px}
+body{font-family:var(--z-font);color:var(--z-text);background:var(--z-bg);line-height:1.7;-webkit-font-smoothing:antialiased}
+
+/* ── Cover ── */
+.cover{margin-bottom:56px;padding-bottom:40px;border-bottom:1px solid var(--z-border)}
+.cover-brand{display:flex;align-items:center;gap:10px;margin-bottom:32px}
+.cover-wordmark{font-family:var(--z-headline);font-size:18px;font-weight:800;letter-spacing:.04em;color:var(--z-text)}
+.cover-wordmark span{color:var(--z-orange)}
+.cover-badge{font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#0a0a0a;background:var(--z-orange);padding:3px 10px;border-radius:20px}
+.cover h1{font-family:var(--z-headline);font-size:26px;font-weight:800;line-height:1.15;letter-spacing:-0.02em;color:var(--z-text);margin-bottom:8px}
+.cover-sub{font-size:14px;color:var(--z-muted);margin-bottom:28px}
+.cover-meta-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:24px}
+.meta-card{background:var(--z-surface);border:1px solid var(--z-border);border-radius:8px;padding:14px 16px}
+.meta-card-label{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--z-faint);margin-bottom:4px}
+.meta-card-value{font-size:14px;font-weight:600;color:var(--z-text)}
+
+/* ── Sections ── */
+.section{margin-bottom:52px}
+.section-title{font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--z-faint);margin-bottom:20px;padding-bottom:10px;border-bottom:2px solid var(--z-border)}
+
+/* ── KPI Cards ── */
+.kpi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.kpi-card{border:1px solid var(--z-border);border-radius:var(--z-radius);padding:24px 20px;position:relative;overflow:hidden;display:flex;flex-direction:column;min-height:150px;background:var(--z-surface)}
+.kpi-card::before{content:'';position:absolute;top:0;left:0;right:0;height:4px}
+.kpi-card.kpi-nota::before{background:var(--z-orange)}
+.kpi-card.kpi-verd::before{background:var(--z-orange)}
+.kpi-card.kpi-prob::before{background:var(--z-green)}
+.kpi-label{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--z-faint);margin-bottom:10px}
+.kpi-value{font-size:24px;font-weight:800;line-height:1.1;color:var(--z-text)}
+.kpi-value.blue{color:var(--z-orange)}.kpi-value.orange{color:var(--z-orange)}.kpi-value.green{color:var(--z-green)}
+.kpi-sub{font-size:12px;color:var(--z-muted);margin-top:6px;line-height:1.4}
+.gauge-wrap{margin-top:12px;text-align:center}
+.gauge-wrap canvas{max-width:140px;height:70px!important}
+
+/* ── Judgment ── */
+.judgment{border:1px solid var(--z-border);border-left:4px solid var(--z-orange);border-radius:var(--z-radius);padding:28px 32px;font-size:15px;color:var(--z-muted);line-height:1.8;background:var(--z-surface-2)}
+.judgment strong{color:var(--z-text)}
+.judgment-cta-strip{margin-top:20px;padding:16px 20px;background:rgba(242,108,34,.08);border:1px solid rgba(242,108,34,.35);border-radius:8px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
+.judgment-cta-strip span{font-size:13px;color:var(--z-text);font-weight:500}
+.judgment-cta-strip a{display:inline-block;padding:9px 20px;background:var(--z-orange);color:#0a0a0a;border-radius:6px;font-weight:700;font-size:13px;text-decoration:none;white-space:nowrap}
+.completeness-banner{margin:20px 0 0;padding:14px 18px;background:rgba(251,191,36,.1);border:1px solid rgba(251,191,36,.35);border-radius:8px;font-size:13px;color:var(--z-muted);line-height:1.55}
+.completeness-banner strong{color:var(--z-orange)}
+.qa-expert-banner{margin:20px 0 0;padding:14px 18px;border-radius:10px;border:1px solid var(--z-border);background:var(--z-surface)}
+.qa-expert-banner.qa-approved{border-color:rgba(52,211,153,.4)}
+.qa-expert-banner.qa-conditional{border-color:rgba(251,191,36,.45)}
+.qa-expert-banner.qa-failed{border-color:rgba(248,113,113,.5)}
+.qa-expert-badge{font-size:11px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--z-orange);margin-bottom:8px}
+.qa-expert-line{font-size:13px;color:var(--z-muted);line-height:1.55;margin:0}
+.qa-expert-score{font-size:12px;color:var(--z-faint);margin-top:8px}
+
+/* ── Bar chart scorecard ── */
+.bar-chart-block{display:flex;flex-direction:column;gap:20px}
+.chart-canvas-wrap{background:var(--z-surface);border:1px solid var(--z-border);border-radius:var(--z-radius);padding:20px 24px;margin-bottom:8px}
+.chart-canvas-wrap canvas{max-height:220px}
+.bar-row{padding:12px 0;border-bottom:1px solid var(--z-border)}
+.bar-row:last-child{border-bottom:none}
+.bar-meta{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px}
+.bar-name{font-size:13px;font-weight:600;color:var(--z-text)}
+.bar-score{font-size:15px;font-weight:700}
+.bar-max{font-size:11px;font-weight:400;color:var(--z-faint)}
+.bar-track{height:7px;background:rgba(229,226,225,.12);border-radius:4px;overflow:hidden;margin-bottom:4px}
+.bar-fill{height:100%;border-radius:4px;transition:width .3s}
+.bar-tag{font-size:10px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;margin-bottom:4px}
+.bar-read{font-size:13px;color:var(--z-muted);line-height:1.55;margin-top:4px}
+
+/* ── Finding cards ── */
+.finding-cards{display:flex;flex-direction:column;gap:10px}
+.finding-card{display:flex;align-items:flex-start;gap:14px;padding:16px 18px;border:1px solid var(--z-border);border-radius:10px;background:var(--z-surface)}
+.finding-num{flex-shrink:0;width:28px;height:28px;border-radius:50%;background:var(--z-orange);color:#0a0a0a;font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:center;margin-top:1px}
+.finding-text{font-size:14px;color:var(--z-muted);line-height:1.65}
+.finding-text strong{color:var(--z-text)}
+
+/* ── Recomendaciones ── */
+.reco-tier{margin-bottom:24px}
+.reco-tier:last-child{margin-bottom:0}
+.reco-tier-label{font-size:11px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;margin-bottom:10px;padding:5px 12px;border-radius:6px;display:inline-block}
+.tier-alta .reco-tier-label{background:rgba(242,108,34,.18);color:var(--z-orange)}
+.tier-media .reco-tier-label{background:rgba(52,211,153,.15);color:var(--z-green)}
+.tier-comp .reco-tier-label{background:var(--z-surface-2);color:var(--z-faint)}
+.reco-tier-list{padding:0;list-style:none}
+.reco-tier-list li{position:relative;padding:10px 0 10px 20px;font-size:14px;color:var(--z-muted);line-height:1.65;border-bottom:1px solid var(--z-border)}
+.reco-tier-list li:last-child{border-bottom:none}
+.reco-tier-list li::before{content:'';position:absolute;left:0;top:18px;width:8px;height:8px;border-radius:50%}
+.tier-alta .reco-tier-list li::before{background:var(--z-orange)}
+.tier-media .reco-tier-list li::before{background:var(--z-green)}
+.tier-comp .reco-tier-list li::before{background:var(--z-faint)}
+.reco-tier-list li strong{color:var(--z-text)}
+
+/* ── Upsell premium (marca ZENTI, no azul corporativo) ── */
+.upsell-card{background:linear-gradient(145deg,#2a1810 0%,#1a1208 48%,#131313 100%);border:1px solid rgba(242,108,34,.35);border-radius:var(--z-radius);padding:36px 32px;color:var(--z-text);text-align:center}
+.upsell-icon{font-size:28px;margin-bottom:12px}
+.upsell-title{font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:rgba(229,226,225,.45);margin-bottom:8px}
+.upsell-heading{font-family:var(--z-headline);font-size:18px;font-weight:800;color:var(--z-text);margin-bottom:8px}
+.upsell-sub{font-size:13px;color:var(--z-muted);line-height:1.6;max-width:480px;margin:0 auto 20px}
+.upsell-features{list-style:none;padding:0;margin:0 auto 24px;max-width:340px;text-align:left}
+.upsell-features li{font-size:13px;color:rgba(229,226,225,.88);padding:7px 0;border-bottom:1px solid rgba(229,226,225,.08);display:flex;align-items:center;gap:8px}
+.upsell-features li:last-child{border-bottom:none}
+.upsell-features li::before{content:'✓';color:var(--z-orange);font-weight:700;font-size:14px}
+.upsell-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.btn-usd{padding:13px 28px;background:var(--z-orange);color:#0a0a0a;border-radius:8px;font-weight:700;font-size:14px;text-decoration:none;letter-spacing:.02em}
+.btn-clp{padding:13px 28px;background:transparent;border:1px solid rgba(242,108,34,.55);color:var(--z-text);border-radius:8px;font-weight:600;font-size:14px;text-decoration:none}
+
+/* ── Resolución del comité ── */
+.resolution{border:1px solid var(--z-border);border-radius:var(--z-radius);overflow:hidden}
+.resolution-header{background:#0a0a0a;color:var(--z-text);padding:18px 32px;font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;display:flex;align-items:center;gap:10px}
+.res-dot{width:10px;height:10px;border-radius:50%}
+.resolution-body{padding:32px;background:var(--z-surface)}
+.resolution-row{margin-bottom:22px}
+.resolution-row:last-child{margin-bottom:0}
+.resolution-label{font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--z-faint);margin-bottom:6px}
+.resolution-value{font-size:14px;color:var(--z-muted);line-height:1.7}
+.resolution-value strong{color:var(--z-text)}
+.resolution-decision{font-size:16px;font-weight:700;line-height:1.3}
+.decision-badge{display:inline-block;padding:6px 14px;border-radius:20px;font-size:13px;font-weight:700;margin-top:6px}
+
+/* ── Report accent + trust bar ── */
+.report{max-width:var(--z-max-w);margin:0 auto;background:var(--z-surface);box-shadow:0 8px 40px rgba(0,0,0,.45);padding:0 0 80px;overflow:hidden;border-radius:8px}
+.report-accent{height:5px;background:linear-gradient(90deg,#F26C22 0%,#c2410c 100%)}
+.report-inner{padding:48px 48px 0}
+.trust-bar{display:flex;align-items:center;justify-content:center;gap:24px;padding:14px 0;border-bottom:1px solid var(--z-border);margin-bottom:40px;flex-wrap:wrap}
+.trust-item{display:flex;align-items:center;gap:6px;font-size:12px;font-weight:600;color:var(--z-muted)}
+.trust-item strong{color:var(--z-text)}
+
+/* ── Consultoría CTA ── */
+.consultoria-cta{border:2px solid rgba(242,108,34,.45);border-radius:12px;padding:36px 32px;text-align:left;background:linear-gradient(135deg,rgba(242,108,34,.08) 0%,var(--z-surface) 100%)}
+.consultoria-cta-title{font-family:var(--z-headline);font-size:17px;font-weight:800;color:var(--z-text);margin-bottom:10px;text-align:center}
+.consultoria-cta-sub{font-size:14px;color:var(--z-muted);line-height:1.7;max-width:520px;margin:0 auto 16px;text-align:center}
+.consultoria-steps{list-style:decimal;margin:0 auto 20px;padding-left:22px;max-width:520px;color:var(--z-muted);font-size:13px;line-height:1.65}
+.consultoria-steps li{margin-bottom:10px}
+.consultoria-steps strong{color:var(--z-text)}
+.consultoria-cta .consultoria-btn-wrap{text-align:center;margin-bottom:12px}
+.consultoria-cta a.consultoria-btn{display:inline-block;padding:14px 36px;background:var(--z-orange);color:#0a0a0a;border-radius:8px;font-weight:700;font-size:15px;text-decoration:none;box-shadow:0 4px 16px rgba(242,108,34,.25)}
+.consultoria-calendly-note{font-size:11px;color:var(--z-faint);line-height:1.55;margin-top:8px;text-align:center;max-width:520px;margin-left:auto;margin-right:auto}
+.consult-cal-after-pay{display:block;font-size:13px;color:var(--z-faint);line-height:1.55;margin:12px auto 0;max-width:440px;text-align:center}
+.judgment-cta-strip .consult-cal-after-pay{text-align:right;margin:0;max-width:340px}
+
+/* ── Upsell guarantee ── */
+.upsell-coupon-hint{margin-top:16px;font-size:12px;color:rgba(229,226,225,.55);line-height:1.5;max-width:420px;margin-left:auto;margin-right:auto}
+.upsell-coupon-hint strong{color:var(--z-orange)}
+.upsell-guarantee{margin-top:18px;font-size:12px;color:rgba(229,226,225,.4)}
+
+/* ── Body content ── */
+.body-content h3{font-size:16px;font-weight:700;color:var(--z-text);margin:36px 0 14px;padding-left:16px;border-left:3px solid var(--z-orange)}
+.body-content h4{font-size:14px;font-weight:700;color:var(--z-text);margin:28px 0 10px}
+.body-content p{font-size:14px;color:var(--z-muted);line-height:1.8;margin:0 0 16px}
+.body-content ul,.body-content ol{padding-left:22px;margin:10px 0 18px}
+.body-content li{font-size:14px;color:var(--z-muted);line-height:1.7;margin-bottom:6px}
+.body-content strong{color:var(--z-text)}
+.quiet{font-size:14px;color:var(--z-faint)}
+
+/* ── Footer ── */
+.report-footer{margin-top:64px;padding-top:24px;border-top:1px solid var(--z-border);font-size:12px;color:var(--z-faint);line-height:1.7}
+.footer-brand{font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--z-text)}
+.footer-brand span{color:var(--z-orange)}
+
+/* ── Toolbar ── */
+.toolbar{display:none}
+.btn-pdf,.btn-sim-a4{padding:10px 18px;border:1px solid var(--z-border);border-radius:6px;background:var(--z-surface-2);color:var(--z-text);font-family:var(--z-font);font-size:13px;font-weight:600;cursor:pointer}
+.btn-sim-a4{margin-top:8px;width:100%}
+.sim-a4-banner{display:none;font-size:11px;color:#F26C22;margin:0 0 6px;line-height:1.4;max-width:280px;margin-left:auto}
+body.sim-a4 .sim-a4-banner{display:block}
+body.sim-a4 .report{max-width:210mm;margin-left:auto;margin-right:auto;box-shadow:0 0 0 2px rgba(242,108,34,.45)}
+
+/* ── Print (PDF legible en claro) ── */
+@page{size:A4;margin:16mm 14mm 18mm 14mm}
+@media screen{body{padding:24px 0}.report{margin:0 auto}.toolbar{display:block;position:fixed;top:20px;right:20px;z-index:100;max-width:min(360px,92vw);text-align:right}}
+@media print{
+  html{font-size:13px}body{background:#fff;padding:0;color:#111}
+  .report{max-width:100%;padding:0;box-shadow:none;background:#fff}
+  .report-inner{padding:32px 32px 0}
+  .toolbar,.print-help,.sim-a4-banner{display:none!important}
+  /* Portada: nueva página después para separar del resto */
+  .cover{page-break-after:always;break-after:page}
+  /* Título de bloque siempre pegado al contenido que sigue */
+  .section-title{break-after:avoid;page-break-after:avoid}
+  /* Secciones largas: permitir partir entre páginas (evita cajas enormes “atascadas”) */
+  .section{break-inside:auto;page-break-inside:auto}
+  /* Tarjetas y bloques cortos: no partir si cabe en lo razonable */
+  .kpi-card,.judgment,.resolution,.upsell-card,.finding-card,.chart-canvas-wrap{break-inside:avoid;page-break-inside:avoid}
+  .kpi-grid{display:grid;break-inside:avoid;page-break-inside:avoid}
+  .bar-row{break-inside:avoid;page-break-inside:avoid}
+  .reco-tier{break-inside:avoid;page-break-inside:avoid}
+  /* Capítulos del markdown (###): nuevo página salvo el primero del bloque → menos cortes a mitad de “capítulo” */
+  .body-content h3{break-after:avoid;page-break-after:avoid;break-inside:avoid;page-break-inside:avoid}
+  .body-content h3:not(:first-of-type){page-break-before:always;break-before:page}
+  .body-content h4{break-after:avoid;page-break-after:avoid}
+  .body-content p,.body-content li,.body-content ul,.body-content ol{break-inside:auto;page-break-inside:auto}
+  p{orphans:3;widows:3}
+  body{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+
+/* ── Responsive ── */
+@media(max-width:640px){
+  .report-inner{padding:20px 20px 0}
+  .cover h1{font-size:22px}
+  .kpi-grid{grid-template-columns:1fr}
+  .cover-meta-grid{grid-template-columns:repeat(2,1fr)}
+  .resolution-body{padding:20px}
+  .upsell-btns{flex-direction:column;align-items:center}
+}
+</style>
+</head>
+<body>
+
+  <div class="toolbar">
+    <p class="sim-a4-banner" id="simA4Banner">Ancho ≈ hoja A4. Para ver <strong>saltos de página</strong> reales abrí el diálogo <strong>Imprimir</strong> y mirá la vista previa (Chrome/Edge/Safari).</p>
+    <button type="button" class="btn-pdf" onclick="window.print()" title="Abre el cuadro de impresión del navegador">Imprimir / PDF</button>
+    <button type="button" class="btn-sim-a4" id="btnSimA4">Vista ancho A4 (antes de imprimir)</button>
+    <p class="print-help" style="margin:10px 0 0;font-size:11px;color:#a3a3a3;line-height:1.45;max-width:280px;margin-left:auto">
+      HTML generado en n8n (<code style="font-size:10px">Render HTML premium</code>). PDF: <kbd>Ctrl+P</kbd> / <kbd>⌘P</kbd> → <strong>Guardar como PDF</strong>. Límite opcional por bloque <code>##</code>: campo <code>body_max_chars_per_section</code> en el item (Consolidar / Set).
+    </p>
+  </div>
+
+  <div class="report">
+    <div class="report-accent"></div>
+    <div class="report-inner">
+
+    <!-- COVER -->
+    <header class="cover">
+      <div class="cover-brand">
+        <div class="cover-wordmark">ZENTI<span>.</span></div>
+        <span class="cover-badge">Informe de Competitividad</span>
+      </div>
+      <h1>Diagnóstico estratégico de postulación</h1>
+      <p class="cover-sub">Evaluación técnica y ruta de fortalecimiento para fondos de innovación públicos</p>
+      <div class="cover-meta-grid">
+        <div class="meta-card"><div class="meta-card-label">Proyecto</div><div class="meta-card-value">GeoSentinel</div></div>
+        <div class="meta-card"><div class="meta-card-label">Empresa</div><div class="meta-card-value">Mineral AI SpA</div></div>
+        <div class="meta-card"><div class="meta-card-label">Instrumento</div><div class="meta-card-value">CORFO Crea y Valida</div></div>
+        <div class="meta-card"><div class="meta-card-label">TRL</div><div class="meta-card-value">TRL 4 - Validado en laboratorio</div></div>
+        <div class="meta-card"><div class="meta-card-label">Fecha</div><div class="meta-card-value">2026-03-27</div></div>
+        <div class="meta-card" style="border-color:rgba(251,191,36,.45);background:rgba(251,191,36,.12)">
+          <div class="meta-card-label">Score final</div>
+          <div class="meta-card-value" style="color:#fbbf24">3.7 / 5 — Riesgo medio</div>
+        </div>
+      </div>
+    </header>
+    
+    <aside class="qa-expert-banner qa-approved" role="status">
+    <div class="qa-expert-badge">Revisión técnica: aprobada</div>
+    <p class="qa-expert-line">Revisión técnica ZENTI: criterios de completitud y consistencia cumplidos; el informe está listo para entrega.</p>
+    <div class="qa-expert-score">Puntuación automática de calidad: <strong>10/10</strong> (reglas ZENTI, no sustituye criterio humano).</div>
+  </aside>
+
+    <!-- TRUST BAR -->
+    <div class="trust-bar">
+      <div class="trust-item">📋 <span><strong>1.200+</strong> propuestas evaluadas</span></div>
+      <div class="trust-item">🌎 <span>Chile · LATAM · USA · Europa</span></div>
+      <div class="trust-item">⚡ <span>Calibrado con bases <strong>CORFO 2026</strong></span></div>
+    </div>
+
+    <!-- KPI CARDS -->
+    <section class="section">
+      <div class="section-title">Resultado consolidado</div>
+      <div class="kpi-grid">
+        <div class="kpi-card kpi-nota">
+          <div class="kpi-label">Nota final</div>
+          <div class="kpi-value blue">3.9/5.0</div>
+          <div class="kpi-sub">Favorable con observaciones</div>
+        </div>
+        <div class="kpi-card kpi-verd">
+          <div class="kpi-label">Estimación adjudicación</div>
+          <div class="kpi-value orange">64%</div>
+          <div class="kpi-sub">Favorable</div>
+        </div>
+        <div class="kpi-card kpi-prob">
+          <div class="kpi-label">Probabilidad</div>
+          <div class="kpi-value green">Alta</div>
+          <div class="kpi-sub">Favorable con observaciones</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- JUICIO EXPERTO -->
+    <section class="section">
+      <div class="section-title">Juicio experto ZENTI</div>
+      <div class="judgment">GeoSentinel presenta una base tecnica promisoria y una tesis de valor clara para operaciones mineras, aunque todavia necesita una formulacion mas solida en metodologia, indicadores y priorizacion comercial para competir al nivel de los mejores proyectos del fondo.</div>
+      <div class="judgment-cta-strip">
+        <span>¿Querés fortalecer esta postulación con apoyo experto?</span>
+        <span style="display:flex;flex-wrap:wrap;gap:12px;justify-content:flex-end;align-items:center">
+          <a href="mailto:hola@zentigrants.com?subject=Pago%20consultor%C3%ADa%20ZENTI%20%E2%80%94%20sesi%C3%B3n%201%3A1&body=Hola%20equipo%20ZENTI%2C%0A%0AQuiero%20coordinar%20el%20pago%20de%20la%20sesi%C3%B3n%201%3A1%20%28referencia%20aprox.%20%24%20230.000%20CLP%29.%0A%0A" style="font-weight:700">Pagar o coordinar pago de la sesión →</a>
+          <span class="consult-cal-after-pay">Agenda: el enlace a Calendly te lo enviamos <strong>por correo</strong> cuando el pago esté acreditado o confirmado.</span>
+        </span>
+      </div>
+    </section>
+
+    <!-- DIAGNÓSTICO + GRÁFICO -->
+    <section class="section">
+      <div class="section-title">Diagnóstico de competitividad</div>
+      <div class="chart-canvas-wrap"><canvas id="bar-criterios"></canvas></div>
+      <div class="bar-chart-block"><div class="bar-row">
+      <div class="bar-meta">
+        <span class="bar-name">Diagnóstico</span>
+        <span class="bar-score" style="color:#057a55">4.2<span class="bar-max">/5</span></span>
+      </div>
+      <div class="bar-track"><div class="bar-fill" style="width:80%;background:#057a55"></div></div>
+      <div class="bar-tag" style="color:#057a55">Bueno</div>
+      <div class="bar-read">El problema operacional esta bien definido y conectado a una necesidad de la industria minera.</div>
+    </div><div class="bar-row">
+      <div class="bar-meta">
+        <span class="bar-name">Mercado Objetivo</span>
+        <span class="bar-score" style="color:#d97706">3.4<span class="bar-max">/5</span></span>
+      </div>
+      <div class="bar-track"><div class="bar-fill" style="width:60%;background:#d97706"></div></div>
+      <div class="bar-tag" style="color:#d97706">Medio</div>
+      <div class="bar-read">Existe una hipotesis de cliente plausible, pero falta mayor segmentacion y evidencia de disposicion a pago.</div>
+    </div><div class="bar-row">
+      <div class="bar-meta">
+        <span class="bar-name">Metodología</span>
+        <span class="bar-score" style="color:#d97706">3.2<span class="bar-max">/5</span></span>
+      </div>
+      <div class="bar-track"><div class="bar-fill" style="width:60%;background:#d97706"></div></div>
+      <div class="bar-tag" style="color:#d97706">Medio</div>
+      <div class="bar-read">La secuencia de validacion requiere hitos, indicadores y criterios de exito mas precisos.</div>
+    </div><div class="bar-row">
+      <div class="bar-meta">
+        <span class="bar-name">Novedad e I+D</span>
+        <span class="bar-score" style="color:#057a55">4<span class="bar-max">/5</span></span>
+      </div>
+      <div class="bar-track"><div class="bar-fill" style="width:80%;background:#057a55"></div></div>
+      <div class="bar-tag" style="color:#057a55">Bueno</div>
+      <div class="bar-read">La combinacion de sensorizacion, modelos fisicos y analitica aporta diferenciacion relevante.</div>
+    </div><div class="bar-row">
+      <div class="bar-meta">
+        <span class="bar-name">Capacidades</span>
+        <span class="bar-score" style="color:#057a55">3.7<span class="bar-max">/5</span></span>
+      </div>
+      <div class="bar-track"><div class="bar-fill" style="width:80%;background:#057a55"></div></div>
+      <div class="bar-tag" style="color:#057a55">Bueno</div>
+      <div class="bar-read">El equipo tiene base tecnica, pero necesita reforzar perfil comercial y validacion en terreno.</div>
+    </div></div>
+    </section>
+
+    <section class="section"><div class="section-title">Brechas críticas de postulación</div><div class="finding-cards"><div class="finding-card"><span class="finding-num">1</span><span class="finding-text">La propuesta no explicita con suficiente detalle el plan de validacion en entorno relevante ni los criterios de exito por etapa.</span></div><div class="finding-card"><span class="finding-num">2</span><span class="finding-text">La evidencia comercial es todavia incipiente y no diferencia claramente entre early adopters y mercado expandido.</span></div><div class="finding-card"><span class="finding-num">3</span><span class="finding-text">El presupuesto requiere una logica mas explicita entre actividades criticas, horas del equipo y subcontratacion.</span></div></div></section>
+
+    <section class="section"><div class="section-title">Ruta de fortalecimiento recomendada</div><div class="reco-tier tier-alta"><div class="reco-tier-label">Prioridad alta</div><ul class="reco-tier-list"><li>Definir 3 hitos de validacion con entregables verificables, indicadores cuantitativos y responsable por etapa.</li><li>Agregar evidencia de conversaciones con faenas o cartas de interes que sustenten urgencia y disposicion a adopcion.</li><li>Explicitar la proporcion de I+D y justificar por que la arquitectura tecnica requiere desarrollo y no solo integracion.</li></ul></div><div class="reco-tier tier-media"><div class="reco-tier-label">Prioridad media</div><ul class="reco-tier-list"><li>Incorporar un responsable comercial o advisor con acceso a operaciones mineras.</li><li>Separar presupuesto en actividades nucleares, validacion en terreno, analitica y overhead para facilitar evaluacion.</li></ul></div></section>
+
+    <section class="section"><div class="section-title">Fundamentación detallada</div><div class="body-content"><h3>Fundamentación</h3>
+<p>
+La propuesta tiene coherencia estrategica, pero para elevar su competitividad debe mostrar con mayor nitidez la ruta entre problema operacional, tesis tecnologica, validacion y adopcion comercial. El comite evaluador esperaria evidencia mas dura de metodologia y un puente mas claro entre el componente I+D y el impacto economico esperado.
+</p></div></section>
+
+    <!-- UPSELL PREMIUM -->
+    <section class="section">
+      <div class="upsell-card">
+        <div class="upsell-icon">🔒</div>
+        <div class="upsell-title">Informe Premium — Análisis completo</div>
+        <div class="upsell-heading">Convierte este diagnóstico en una propuesta que gana</div>
+        <div class="upsell-sub">El informe gratuito te muestra qué falta. El Premium te muestra exactamente cómo resolverlo.</div>
+        <ul class="upsell-features">
+          <li>Análisis de mercado, competencia e I+D</li>
+          <li>Evaluación de equipo, capacidades y metodología</li>
+          <li>Presupuesto recomendado con % por partida</li>
+          <li>Checklist de requisitos vs bases oficiales</li>
+          <li>Comparativa, IP y continuidad estratégica</li>
+        </ul>
+        <div class="upsell-btns">
+          <a href="https://www.flow.cl/uri/JSbQZ7S1H" class="btn-usd">Obtener informe completo — $89 USD</a>
+          <a href="https://www.flow.cl/uri/JSbQZ7S1H" class="btn-clp">Pagar en Chile — $80.000 CLP</a>
+        </div>
+        <p class="upsell-coupon-hint">Cupón de campaña <strong>ZENTIMVP</strong>: respondé el correo con tu código antes de pagar o escribí a <strong>hola@zentigrants.com</strong>.</p>
+        <div class="upsell-guarantee">🔒 Pago seguro · Si el informe no entrega valor accionable, te devolvemos el pago.</div>
+      </div>
+    </section>
+
+    <!-- RESOLUCIÓN -->
+    <section class="section">
+      <div class="section-title">Resolución del comité evaluador</div>
+      <div class="resolution">
+        <div class="resolution-header">
+          <span class="res-dot" style="background:#16a34a"></span>
+          Dictamen técnico
+        </div>
+        <div class="resolution-body">
+          <div class="resolution-row">
+            <div class="resolution-label">Decisión</div>
+            <div class="resolution-value resolution-decision" style="color:#16a34a">Favorable con observaciones</div>
+          </div>
+          <div class="resolution-row">
+            <div class="resolution-label">Fundamento</div>
+            <div class="resolution-value">La propuesta aborda un problema industrial real con componente tecnico claro, pero requiere fortalecer evidencia de mercado, plan de validacion y consistencia presupuestaria.</div>
+          </div>
+          <div class="resolution-row">
+            <div class="resolution-label">Condiciones para reconsideración</div>
+            <div class="resolution-value">El proyecto presenta bases sólidas. Abordar las brechas identificadas para consolidar la posición competitiva antes de la postulación formal.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONSULTORÍA CTA -->
+    <section class="section">
+      <div class="section-title">Consultoría estratégica ZENTI</div>
+      <div class="consultoria-cta">
+        <div class="consultoria-cta-title">¿Pasamos de este diagnóstico a una propuesta adjudicable?</div>
+        <p class="consultoria-cta-sub">En 60 minutos revisamos brechas en vivo y definimos una hoja de ruta. <strong>Primero pagás o coordinás el pago de la sesión</strong> (Flow o correo). <strong>El enlace para elegir hora en Calendly no se publica en la web</strong>: te lo enviamos por correo cuando el cobro esté confirmado, así la agenda queda alineada al pago.</p>
+        <ol class="consultoria-steps">
+          <li><strong>Paso 1 — Pago:</strong> completá el pago o escribinos para recibir el link de cobro (referencia ~$230.000 CLP / USD 233 según campaña).</li>
+          <li><strong>Paso 2 — Agenda:</strong> con el pago acreditado, <strong>te enviamos por correo el enlace a Calendly</strong> para reservar. El evento se llama <strong>ZENTI · Consultoría estratégica</strong>.</li>
+        </ol>
+        <div class="consultoria-btn-wrap">
+          <a href="mailto:hola@zentigrants.com?subject=Pago%20consultor%C3%ADa%20ZENTI%20%E2%80%94%20sesi%C3%B3n%201%3A1&body=Hola%20equipo%20ZENTI%2C%0A%0AQuiero%20coordinar%20el%20pago%20de%20la%20sesi%C3%B3n%201%3A1%20%28referencia%20aprox.%20%24%20230.000%20CLP%29.%0A%0A" class="consultoria-btn" style="margin-bottom:10px">Pagar o coordinar pago de la sesión →</a>
+          <p class="consult-cal-after-pay" style="margin-top:14px">No hay enlace público a la agenda: lo recibís <strong>solo por email</strong> tras confirmar el pago.</p>
+        </div>
+        <p class="consultoria-calendly-note">Referencia sesión: desde USD 233 según campaña · Cupos limitados. En Calendly el anfitrión puede mostrar nombre personal; el tipo de evento debe reflejar marca ZENTI (Settings → evento o perfil).</p>
+      </div>
+    </section>
+
+    </div><!-- /.report-inner -->
+    <footer class="report-footer" style="padding:24px 48px;">
+      <span class="footer-brand">ZENTI<span>.</span></span> &middot; Evaluación técnico-estratégica de postulaciones a fondos de innovación, I+D+i y emprendimiento.<br/>
+      <span style="color:var(--z-gray-400);font-size:11px">Generado el 2026-03-27. Simulación orientativa. No constituye evaluación oficial del organismo otorgante.</span>
+    </footer>
+
+  </div>
+
+  
+<script>
+(function(){
+  // Gauge — probabilidad
+  const gCtx = document.getElementById('gauge-prob');
+  if(gCtx){
+    new Chart(gCtx,{
+      type:'doughnut',
+      data:{
+        datasets:[{
+          data:[64,36],
+          backgroundColor:['#34d399','#3f3f3f'],
+          borderWidth:0,circumference:180,rotation:270
+        }]
+      },
+      options:{responsive:true,maintainAspectRatio:false,cutout:'70%',plugins:{legend:{display:false},tooltip:{enabled:false}}}
+    });
+  }
+  
+  // Horizontal bars — criterios
+  const bCtx = document.getElementById('bar-criterios');
+  if(bCtx){
+    new Chart(bCtx,{
+      type:'bar',
+      data:{
+        labels:["Diagnóstico","Mercado Objetivo","Metodología","Novedad e I+D","Capacidades"],
+        datasets:[{
+          data:[84,68,64,80,74],
+          backgroundColor:['#F26C22','#34d399','#34d399','#F26C22','#F26C22'],
+          borderRadius:5,borderSkipped:false
+        }]
+      },
+      options:{
+        indexAxis:'y',responsive:true,maintainAspectRatio:false,
+        scales:{
+          x:{min:0,max:100,grid:{color:'rgba(229,226,225,.08)'},ticks:{callback:v=>v+'%',font:{size:11},color:'#a3a3a3'}},
+          y:{grid:{display:false},ticks:{font:{size:12},color:'#a3a3a3'}}
+        },
+        plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>ctx.raw+'%'}}}
+      }
+    });
+  }
+})();
+</script>
+  
+<script>
+(function(){
+  var b=document.getElementById('btnSimA4');
+  if(!b)return;
+  b.addEventListener('click',function(){
+    document.body.classList.toggle('sim-a4');
+    b.textContent=document.body.classList.contains('sim-a4')?'Quitar vista ancho A4':'Vista ancho A4 (antes de imprimir)';
+  });
+})();
+</script>
+</body>
+</html>
