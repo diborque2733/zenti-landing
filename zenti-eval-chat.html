@@ -1,0 +1,2052 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="ZENTI — Evaluación técnico-estratégica de postulaciones a fondos de innovación, I+D+i y emprendimiento. Diagnóstico calibrado por instrumento." />
+  <title>ZENTI — Evaluación técnico-estratégica de postulaciones</title>
+  <link rel="canonical" href="https://zentigrants.com/" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --z-black: #111111;
+      --z-orange: #F26C22;
+      --z-orange-soft: #FEF3EC;
+      --z-gray-700: #444444;
+      --z-gray-500: #6b6b6b;
+      --z-gray-400: #9CA3AF;
+      --z-gray-100: #F3F4F6;
+      --z-border: #E5E7EB;
+      --z-white: #FFFFFF;
+      --z-font: 'Inter', ui-sans-serif, system-ui, -apple-system, sans-serif;
+      --z-max-w: 1080px;
+      --z-radius: 16px;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { font-size: 16px; scroll-behavior: smooth; overflow-x: hidden; scrollbar-gutter: stable; }
+    #how, #evaluator, #start, #pricing, #faq, #consultoria {
+      scroll-margin-top: 72px;
+    }
+    body {
+      font-family: var(--z-font);
+      color: var(--z-black);
+      background: var(--z-white);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── NAV ── */
+    .nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 50;
+      background: rgba(17,17,17,.97);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(255,255,255,.06);
+    }
+    .nav-inner {
+      max-width: var(--z-max-w);
+      margin: 0 auto;
+      padding: 0 24px;
+      height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .nav-brand {
+      display: flex; align-items: center; gap: 10px;
+      text-decoration: none; color: #fff;
+    }
+    .nav-mark {
+      width: 32px; height: 32px; border-radius: 8px;
+      background: var(--z-orange);
+      display: grid; place-items: center;
+      font-weight: 900; font-size: 15px; color: var(--z-black);
+    }
+    .nav-wordmark {
+      font-size: 14px; font-weight: 800;
+      letter-spacing: .14em; color: #fff;
+    }
+    .nav-cta {
+      padding: 8px 20px; border-radius: 999px;
+      background: var(--z-orange); color: #fff;
+      font-size: 13px; font-weight: 700;
+      text-decoration: none;
+      transition: opacity .15s;
+    }
+    .nav-cta:hover { opacity: .88; }
+    .nav-links {
+      display: flex; align-items: center; gap: 6px 16px;
+      flex-wrap: wrap; justify-content: flex-end;
+    }
+    .nav-links a {
+      color: rgba(255,255,255,.72); text-decoration: none;
+      font-size: 12px; font-weight: 600; letter-spacing: .04em;
+    }
+    .nav-links a:hover { color: #fff; }
+    .promo-strip {
+      position: absolute;
+      top: 56px;
+      left: 0;
+      right: 0;
+      z-index: 2;
+      padding: 11px 20px;
+      text-align: center;
+      font-size: 13px;
+      line-height: 1.45;
+      color: rgba(255,255,255,.65);
+      background: linear-gradient(90deg, rgba(242,108,34,.14) 0%, rgba(242,108,34,.05) 100%);
+      border-bottom: 1px solid rgba(242,108,34,.22);
+    }
+    .promo-strip strong { color: var(--z-orange); font-weight: 700; }
+    .promo-strip a { color: var(--z-orange); font-weight: 600; text-decoration: none; border-bottom: 1px solid rgba(242,108,34,.35); }
+    .promo-strip a:hover { opacity: .9; }
+    @media (max-width: 900px) {
+      .nav-links { display: none; }
+      .promo-strip { font-size: 12px; padding: 10px 14px; }
+    }
+
+    /* ── HERO ── */
+    .hero {
+      padding: 140px 24px 80px;
+      background: linear-gradient(180deg, #0b0b0b 0%, #1a1a1a 60%, var(--z-black) 100%);
+      color: #fff;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::after {
+      content: '';
+      position: absolute; bottom: 0; left: 0; right: 0;
+      height: 120px;
+      background: linear-gradient(180deg, transparent, var(--z-white));
+    }
+    .hero-inner {
+      max-width: 720px; margin: 0 auto;
+      position: relative; z-index: 1;
+    }
+    .hero-badge {
+      display: inline-block;
+      padding: 6px 16px; border-radius: 999px;
+      background: rgba(242,108,34,.12);
+      border: 1px solid rgba(242,108,34,.25);
+      font-size: 12px; font-weight: 600;
+      letter-spacing: .04em;
+      color: var(--z-orange);
+      margin-bottom: 28px;
+    }
+    .hero h1 {
+      font-size: clamp(32px, 5vw, 52px);
+      font-weight: 900;
+      line-height: 1.08;
+      letter-spacing: -0.03em;
+      margin-bottom: 20px;
+    }
+    .hero h1 .accent { color: var(--z-orange); }
+    .hero-sub {
+      font-size: clamp(16px, 2vw, 19px);
+      color: rgba(255,255,255,.6);
+      line-height: 1.6;
+      max-width: 560px;
+      margin: 0 auto 40px;
+    }
+    .hero-ctas {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .hero-btn {
+      display: inline-block;
+      padding: 14px 32px;
+      border-radius: 999px;
+      text-decoration: none;
+      font-size: 15px;
+      font-weight: 700;
+      transition: transform .15s, box-shadow .15s, opacity .15s;
+    }
+    .hero-btn:hover { transform: translateY(-1px); }
+    .hero-btn--primary {
+      background: var(--z-orange); color: #fff;
+      box-shadow: 0 10px 28px rgba(242,108,34,.3);
+    }
+    .hero-btn--primary:hover { box-shadow: 0 14px 36px rgba(242,108,34,.4); }
+    .hero-btn--secondary {
+      background: transparent; color: rgba(255,255,255,.85);
+      border: 1px solid rgba(255,255,255,.2);
+    }
+    .hero-btn--secondary:hover { background: rgba(255,255,255,.06); color: #fff; }
+    .hero-sep {
+      color: rgba(255,255,255,.25);
+      font-size: 13px;
+    }
+    .hero-trust {
+      margin-top: 48px;
+      font-size: 13px;
+      color: rgba(255,255,255,.35);
+      letter-spacing: .02em;
+    }
+
+    /* ── HOW IT WORKS ── */
+    .how {
+      padding: 80px 24px;
+      background: var(--z-white);
+    }
+    .how-inner {
+      max-width: var(--z-max-w);
+      margin: 0 auto;
+    }
+    .section-label {
+      font-size: 11px; font-weight: 700;
+      letter-spacing: .14em; text-transform: uppercase;
+      color: var(--z-orange);
+      text-align: center;
+      margin-bottom: 12px;
+    }
+    .section-title {
+      font-size: clamp(24px, 3.5vw, 36px);
+      font-weight: 800;
+      text-align: center;
+      letter-spacing: -0.02em;
+      margin-bottom: 56px;
+    }
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 32px;
+    }
+    .step {
+      padding: 32px 28px;
+      border: 1px solid var(--z-border);
+      border-radius: var(--z-radius);
+      transition: box-shadow .2s;
+    }
+    .step:hover {
+      box-shadow: 0 8px 32px rgba(0,0,0,.06);
+    }
+    .step-num {
+      width: 36px; height: 36px; border-radius: 10px;
+      background: var(--z-gray-100); color: var(--z-orange);
+      font-size: 14px; font-weight: 800;
+      display: grid; place-items: center;
+      margin-bottom: 20px;
+    }
+    .step h3 {
+      font-size: 17px; font-weight: 700;
+      margin-bottom: 8px;
+    }
+    .step p {
+      font-size: 14px; color: var(--z-gray-500);
+      line-height: 1.6;
+    }
+
+    /* ── INSTRUMENTS ── */
+    .instruments {
+      padding: 64px 24px 80px;
+      background: var(--z-gray-100);
+    }
+    .instruments-inner {
+      max-width: var(--z-max-w);
+      margin: 0 auto;
+    }
+    .inst-grid {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 12px;
+      margin-top: 36px;
+    }
+    .inst-tag {
+      padding: 10px 20px;
+      border-radius: 999px;
+      background: var(--z-white);
+      border: 1px solid var(--z-border);
+      font-size: 14px; font-weight: 600;
+      color: var(--z-gray-700);
+      transition: border-color .15s, color .15s;
+    }
+    .inst-tag:hover {
+      border-color: var(--z-orange);
+      color: var(--z-orange);
+    }
+
+    /* ── EVALUATOR (CHAT) ── */
+    .evaluator {
+      padding: 80px 24px 100px;
+      background: linear-gradient(180deg, var(--z-white) 0%, var(--z-orange-soft) 50%, var(--z-white) 100%);
+    }
+    .evaluator-inner {
+      max-width: var(--z-max-w);
+      margin: 0 auto;
+    }
+    .chat-shell {
+      max-width: 720px;
+      margin: 0 auto;
+      border-radius: var(--z-radius);
+      overflow: hidden;
+      border: 1px solid var(--z-border);
+      box-shadow: 0 16px 64px rgba(0,0,0,.08);
+      background: rgba(255,255,255,.85);
+      backdrop-filter: blur(8px);
+    }
+    .chat-header {
+      padding: 14px 18px;
+      background: var(--z-black);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .chat-mark {
+      width: 40px; height: 40px; border-radius: 12px;
+      background: var(--z-orange);
+      display: grid; place-items: center;
+      font-weight: 900; font-size: 18px; color: var(--z-black);
+    }
+    .chat-brand { line-height: 1.2; flex: 1; min-width: 0; }
+    .chat-brand strong { font-size: 15px; letter-spacing: .06em; }
+    .chat-brand span { font-size: 12px; opacity: .78; display: block; margin-top: 2px; }
+    .chat-progress {
+      font-size: 11px; font-weight: 700;
+      letter-spacing: .08em; text-transform: uppercase;
+      color: var(--z-orange);
+      white-space: nowrap;
+    }
+    .review-summary {
+      font-size: 13px; line-height: 1.55; color: var(--z-gray-700);
+      background: var(--z-gray-100);
+      border: 1px solid var(--z-border);
+      border-radius: 12px;
+      padding: 14px 16px;
+      margin-bottom: 12px;
+      text-align: left;
+    }
+    .review-summary dt {
+      font-size: 10px; font-weight: 700; letter-spacing: .08em;
+      text-transform: uppercase; color: var(--z-gray-400);
+      margin-top: 10px;
+    }
+    .review-summary dt:first-child { margin-top: 0; }
+    .review-summary dd { margin: 4px 0 0; font-weight: 600; color: var(--z-black); }
+    .draft-banner {
+      font-size: 12px; color: var(--z-gray-700);
+      background: #FFF8F3;
+      border: 1px solid #ffd8bf;
+      border-radius: 12px;
+      padding: 10px 14px;
+      margin-bottom: 10px;
+      display: flex; flex-wrap: wrap; align-items: center; gap: 10px;
+      justify-content: space-between;
+    }
+    .draft-banner button { font-size: 12px; padding: 8px 14px; }
+    .chat-body {
+      min-height: 420px;
+      max-height: 520px;
+      overflow-y: auto;
+      padding: 20px 16px 120px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .row { display: flex; gap: 10px; align-items: flex-end; max-width: 100%; }
+    .row.user { flex-direction: row-reverse; }
+    .avatar {
+      width: 32px; height: 32px; border-radius: 10px;
+      flex-shrink: 0; font-size: 12px; font-weight: 800;
+      display: grid; place-items: center; color: #fff;
+    }
+    .row.bot .avatar { background: var(--z-black); }
+    .row.user .avatar { background: var(--z-orange); }
+    .bubble {
+      max-width: min(100%, 520px);
+      padding: 12px 14px;
+      border-radius: var(--z-radius);
+      font-size: 14px; line-height: 1.55;
+    }
+    .row.bot .bubble {
+      background: #fff;
+      border: 1px solid var(--z-border);
+      box-shadow: 0 4px 14px rgba(0,0,0,.04);
+    }
+    .row.user .bubble {
+      background: var(--z-orange-soft);
+      border: 1px solid #ffd8bf;
+      color: #1a1a1a;
+    }
+    .bubble small { color: var(--z-gray-500); font-size: 12px; display: block; margin-top: 8px; }
+    .composer {
+      padding: 12px 14px 18px;
+      background: linear-gradient(180deg, transparent, #fff 28%);
+      border-top: 1px solid var(--z-border);
+    }
+    .input-wrap { display: flex; flex-direction: column; gap: 10px; }
+    input[type="text"], input[type="email"], textarea, select {
+      width: 100%; padding: 12px 14px; border-radius: 12px;
+      border: 1px solid var(--z-border);
+      font: inherit; font-size: 15px; background: #fff;
+    }
+    textarea { min-height: 88px; resize: vertical; }
+    select { cursor: pointer; }
+    input:focus, textarea:focus, select:focus {
+      outline: 2px solid rgba(242,108,34,.35);
+      border-color: var(--z-orange);
+    }
+    .file-row {
+      display: flex; flex-wrap: wrap; align-items: center;
+      gap: 10px; font-size: 13px; color: var(--z-gray-500);
+    }
+    .file-row input[type="file"] { font-size: 13px; }
+    .upload-zone {
+      border: 2px dashed var(--z-border);
+      border-radius: 14px;
+      padding: 28px 20px;
+      text-align: center;
+      cursor: pointer;
+      transition: border-color .2s, background .2s;
+      background: #FAFAFA;
+    }
+    .upload-zone:hover, .upload-zone.dragover {
+      border-color: var(--z-orange);
+      background: #FEF3EC;
+    }
+    .upload-zone.has-file {
+      border-color: var(--z-orange);
+      border-style: solid;
+      background: #FEF3EC;
+    }
+    .upload-icon {
+      font-size: 32px;
+      margin-bottom: 8px;
+      color: var(--z-gray-400);
+    }
+    .upload-zone.has-file .upload-icon { color: var(--z-orange); }
+    .upload-label {
+      font-size: 14px;
+      color: var(--z-gray-700);
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+    .upload-hint {
+      font-size: 12px;
+      color: var(--z-gray-400);
+    }
+    .upload-filename {
+      font-size: 13px;
+      color: var(--z-orange);
+      font-weight: 600;
+      margin-top: 8px;
+    }
+    .upload-zone input[type="file"] {
+      position: absolute;
+      width: 0; height: 0;
+      opacity: 0;
+    }
+    .actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 4px; }
+    button {
+      font: inherit; font-weight: 700; font-size: 14px;
+      padding: 12px 20px; border-radius: 999px; border: none; cursor: pointer;
+    }
+    button.primary {
+      background: var(--z-orange); color: #fff;
+      box-shadow: 0 8px 20px rgba(242,108,34,.25);
+    }
+    button.primary:disabled { opacity: .55; cursor: not-allowed; box-shadow: none; }
+    button.ghost { background: #fff; border: 1px solid var(--z-border); color: #333; }
+    .hidden { display: none !important; }
+    .error { color: #b42318; font-size: 13px; margin-top: 6px; }
+    .success-panel { text-align: center; padding: 28px 16px; }
+    .success-panel h2 { margin: 0 0 10px; font-size: 20px; }
+    .success-panel p { color: var(--z-gray-500); margin: 0; line-height: 1.6; }
+
+    /* ── ZENTI.START FORM ── */
+    .start-section {
+      padding: 80px 24px 100px;
+      background: var(--z-white);
+    }
+    .start-inner {
+      max-width: var(--z-max-w);
+      margin: 0 auto;
+    }
+    .start-card {
+      max-width: 560px;
+      margin: 0 auto;
+      border-radius: var(--z-radius);
+      border: 1px solid var(--z-border);
+      background: var(--z-white);
+      box-shadow: 0 16px 64px rgba(0,0,0,.06);
+      overflow: hidden;
+    }
+    .start-card-header {
+      padding: 20px 28px;
+      background: var(--z-black);
+      color: #fff;
+      display: flex; align-items: center; gap: 12px;
+    }
+    .start-card-header .chat-mark {
+      width: 36px; height: 36px; border-radius: 10px;
+      font-size: 16px;
+    }
+    .start-card-header strong {
+      font-size: 14px; letter-spacing: .06em;
+    }
+    .start-card-header span {
+      font-size: 12px; opacity: .7; display: block; margin-top: 2px;
+    }
+    .start-card-body {
+      padding: 28px;
+      display: flex; flex-direction: column; gap: 20px;
+    }
+    .form-group { display: flex; flex-direction: column; gap: 6px; }
+    .form-group label {
+      font-size: 13px; font-weight: 600; color: var(--z-gray-700);
+    }
+    .form-group label .req { color: var(--z-orange); }
+    .start-card-body textarea { min-height: 100px; }
+    .start-submit-wrap {
+      display: flex; flex-wrap: wrap; gap: 10px;
+      align-items: center; margin-top: 4px;
+    }
+    .start-success {
+      text-align: center;
+      padding: 40px 28px;
+    }
+    .start-success h3 {
+      font-size: 20px; font-weight: 800;
+      margin-bottom: 10px;
+    }
+    .start-success p {
+      color: var(--z-gray-500); font-size: 14px;
+      line-height: 1.7; margin-bottom: 24px;
+    }
+
+    /* ── HOW-IT-WORKS PATH TABS ── */
+    .path-tabs {
+      display: flex; justify-content: center;
+      gap: 8px; margin-bottom: 40px;
+    }
+    .path-tab {
+      padding: 10px 24px; border-radius: 999px;
+      font-size: 14px; font-weight: 600;
+      border: 1px solid var(--z-border);
+      background: var(--z-white); color: var(--z-gray-500);
+      cursor: pointer; transition: all .15s;
+    }
+    .path-tab:hover { border-color: var(--z-orange); color: var(--z-orange); }
+    .path-tab.active {
+      background: var(--z-orange); color: #fff;
+      border-color: var(--z-orange);
+    }
+    .path-steps { display: none; }
+    .path-steps.active { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 32px; }
+
+    /* ── FOOTER ── */
+    .footer {
+      padding: 48px 24px;
+      background: var(--z-black);
+      color: rgba(255,255,255,.5);
+      text-align: center;
+    }
+    .footer-inner {
+      max-width: var(--z-max-w);
+      margin: 0 auto;
+    }
+    .footer-brand {
+      font-size: 13px; font-weight: 800;
+      letter-spacing: .14em;
+      color: rgba(255,255,255,.7);
+      margin-bottom: 12px;
+    }
+    .footer p {
+      font-size: 13px;
+      line-height: 1.7;
+    }
+    .footer a { color: var(--z-orange); text-decoration: none; }
+    .footer a:hover { text-decoration: underline; }
+    .footer-attribution { font-size: 11px; opacity: .45; margin-top: 16px; }
+
+    /* ── SOCIAL / FAQ ── */
+    .quote-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 20px;
+      margin-top: 32px;
+    }
+    .quote-card {
+      border: 1px solid var(--z-border);
+      border-radius: var(--z-radius);
+      padding: 22px;
+      background: var(--z-white);
+    }
+    .quote-card p { font-size: 14px; color: var(--z-gray-700); line-height: 1.65; font-style: italic; margin-bottom: 12px; }
+    .quote-card cite { font-size: 12px; font-weight: 700; color: var(--z-orange); font-style: normal; }
+    .faq-list { max-width: 720px; margin: 32px auto 0; text-align: left; }
+    .faq-item {
+      border-bottom: 1px solid var(--z-border);
+      padding: 18px 0;
+    }
+    .faq-item h3 { font-size: 15px; font-weight: 700; margin-bottom: 8px; color: var(--z-black); }
+    .faq-item p { font-size: 14px; color: var(--z-gray-500); line-height: 1.65; }
+
+    /* ── SOPORTE (widget) ── */
+    .zenti-support-root {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      z-index: 100;
+      font-family: var(--z-font);
+    }
+    .zenti-support-fab {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      border: none;
+      background: var(--z-orange);
+      color: #fff;
+      cursor: pointer;
+      box-shadow: 0 8px 28px rgba(242, 108, 34, 0.45);
+      display: grid;
+      place-items: center;
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+    .zenti-support-fab:hover { transform: scale(1.04); box-shadow: 0 10px 32px rgba(242, 108, 34, 0.5); }
+    .zenti-support-fab svg { width: 26px; height: 26px; display: block; }
+    .zenti-support-fab .zenti-support-fab-label {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      border: 0;
+    }
+    .zenti-support-panel {
+      position: absolute;
+      bottom: 68px;
+      right: 0;
+      width: min(100vw - 40px, 380px);
+      max-height: min(72vh, 520px);
+      background: var(--z-white);
+      border-radius: var(--z-radius);
+      border: 1px solid var(--z-border);
+      box-shadow: 0 16px 48px rgba(17, 17, 17, 0.12);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    .zenti-support-panel[hidden] { display: none !important; }
+    .zenti-support-head {
+      padding: 14px 16px;
+      background: var(--z-black);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    .zenti-support-head strong { font-size: 15px; font-weight: 800; letter-spacing: 0.02em; }
+    .zenti-support-head span { font-size: 12px; opacity: 0.75; display: block; margin-top: 2px; }
+    .zenti-support-close {
+      background: transparent;
+      border: none;
+      color: rgba(255, 255, 255, 0.85);
+      cursor: pointer;
+      padding: 6px;
+      border-radius: 8px;
+      line-height: 0;
+    }
+    .zenti-support-close:hover { background: rgba(255, 255, 255, 0.1); }
+    .zenti-support-messages {
+      flex: 1;
+      overflow-y: auto;
+      padding: 12px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      min-height: 120px;
+      max-height: 220px;
+      background: var(--z-gray-100);
+    }
+    .zenti-support-msg {
+      max-width: 95%;
+      padding: 10px 12px;
+      border-radius: 12px;
+      font-size: 13px;
+      line-height: 1.55;
+      white-space: pre-wrap;
+    }
+    .zenti-support-msg.bot {
+      align-self: flex-start;
+      background: var(--z-white);
+      border: 1px solid var(--z-border);
+      color: var(--z-gray-700);
+    }
+    .zenti-support-msg.user {
+      align-self: flex-end;
+      background: var(--z-orange-soft);
+      border: 1px solid rgba(242, 108, 34, 0.25);
+      color: var(--z-black);
+    }
+    .zenti-support-chips {
+      padding: 8px 10px 4px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      border-top: 1px solid var(--z-border);
+      background: var(--z-white);
+    }
+    .zenti-support-chip {
+      font-size: 11px;
+      font-weight: 600;
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid var(--z-border);
+      background: var(--z-white);
+      color: var(--z-gray-700);
+      cursor: pointer;
+      font-family: inherit;
+    }
+    .zenti-support-chip:hover { border-color: var(--z-orange); color: var(--z-orange); }
+    .zenti-support-form {
+      padding: 10px 12px 14px;
+      border-top: 1px solid var(--z-border);
+      background: var(--z-white);
+    }
+    .zenti-support-form label {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--z-gray-500);
+      display: block;
+      margin-bottom: 4px;
+    }
+    .zenti-support-form input,
+    .zenti-support-form textarea {
+      width: 100%;
+      padding: 8px 10px;
+      border: 1px solid var(--z-border);
+      border-radius: 10px;
+      font-size: 13px;
+      font-family: inherit;
+      margin-bottom: 8px;
+    }
+    .zenti-support-form textarea { min-height: 72px; resize: vertical; }
+    .zenti-support-submit {
+      width: 100%;
+      padding: 10px;
+      border: none;
+      border-radius: 999px;
+      background: var(--z-orange);
+      color: #fff;
+      font-weight: 700;
+      font-size: 13px;
+      cursor: pointer;
+      font-family: inherit;
+    }
+    .zenti-support-submit:disabled { opacity: 0.55; cursor: not-allowed; }
+    .zenti-support-footnote {
+      font-size: 10px;
+      color: var(--z-gray-400);
+      margin-top: 8px;
+      line-height: 1.4;
+    }
+    .zenti-support-toast {
+      font-size: 12px;
+      padding: 8px 10px;
+      border-radius: 8px;
+      margin-bottom: 8px;
+      display: none;
+    }
+    .zenti-support-toast.show { display: block; }
+    .zenti-support-toast.ok { background: #ecfdf5; color: #065f46; border: 1px solid #a7f3d0; }
+    .zenti-support-toast.err { background: #fef2f2; color: #991b1b; border: 1px solid #fecaca; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 640px) {
+      .hero { padding: 120px 18px 60px; }
+      .hero h1 { font-size: 28px; }
+      .hero-sub { font-size: 15px; }
+      .hero-ctas { flex-direction: column; align-items: center; gap: 12px; }
+      .hero-sep { display: none; }
+      .how, .instruments, .evaluator, .start-section { padding-left: 18px; padding-right: 18px; }
+      .steps, .path-steps.active { grid-template-columns: 1fr; gap: 20px; }
+      .chat-body { max-height: none; }
+      .start-card-body { padding: 20px; }
+      .path-tabs { flex-wrap: wrap; }
+      .zenti-support-root { bottom: 16px; right: 14px; }
+      .zenti-support-panel { right: 0; left: auto; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="nav">
+    <div class="nav-inner">
+      <a href="#" class="nav-brand" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;">
+        <div class="nav-mark">Z</div>
+        <span class="nav-wordmark">ZENTI</span>
+      </a>
+      <div class="nav-links" aria-label="Secciones">
+        <a href="#how">Cómo funciona</a>
+        <a href="#cobertura">Cobertura</a>
+        <a href="#pricing">Precios</a>
+        <a href="#faq">FAQ</a>
+        <a href="#start">Match idea</a>
+      </div>
+      <a href="#evaluator" class="nav-cta" data-scroll-eval>Evaluar propuesta</a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="promo-strip" role="region" aria-label="Promoción informe premium">
+      <strong>Promo activa:</strong> cupón <strong>ZENTIMVP</strong> (10% en checkout Flow) — ingresalo en el <strong>formulario de evaluación</strong> si tu formulario incluye el campo opcional de cupón, o respondé el correo antes de pagar / <a href="mailto:hola@zentigrants.com?subject=Cup%C3%B3n%20ZENTI">escribinos</a>. <a href="#pricing">Precios</a>
+    </div>
+    <div class="hero-inner">
+      <div class="hero-badge">Evaluación técnico-estratégica con IA</div>
+      <h1>Conoce tus probabilidades <span class="accent">antes de postular</span></h1>
+      <p class="hero-sub">
+        Con <strong>propuesta o borrador</strong>, ZENTI calibra la evaluaci&oacute;n como un comit&eacute; por instrumento (nota, brechas, ruta). Con <strong>solo una idea</strong>, el camino Match foco en fondos y ruta &mdash; sin simulaci&oacute;n completa de comit&eacute; hasta que tengas propuesta sustancial.
+      </p>
+      <div class="hero-ctas">
+        <a href="#evaluator" class="hero-btn hero-btn--primary" data-scroll-eval>Evaluar mi propuesta</a>
+        <span class="hero-sep">o</span>
+        <a href="#start" class="hero-btn hero-btn--secondary" data-scroll-start>Explorar con mi idea</a>
+      </div>
+      <p class="hero-trust">Chile · Latam · USA · Europa — fondos de innovación, I+D y emprendimiento</p>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section class="how" id="how">
+    <div class="how-inner">
+      <div class="section-label">Cómo funciona</div>
+      <h2 class="section-title">Dos caminos, un objetivo</h2>
+      <div class="path-tabs">
+        <button class="path-tab active" data-path="eval" onclick="switchPath('eval')">Ya tengo propuesta</button>
+        <button class="path-tab" data-path="start" onclick="switchPath('start')">Tengo una idea</button>
+      </div>
+      <div class="path-steps active" id="path-eval">
+        <div class="step">
+          <div class="step-num">1</div>
+          <h3>Completa los datos</h3>
+          <p>Selecciona el instrumento, describe tu proyecto y adjunta el PDF de la propuesta si lo tienes. El formulario se adapta al fondo que elijas.</p>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <h3>Evaluación con IA</h3>
+          <p>ZENTI analiza tu postulación con criterios calibrados por instrumento: escala, énfasis en I+D, equipo, mercado y metodología. Tarda 1-2 minutos.</p>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <h3>Informe en tu correo</h3>
+          <p>Recibes un informe PDF ejecutivo con nota final, veredicto, diagnóstico por criterio, brechas críticas y ruta de fortalecimiento.</p>
+        </div>
+      </div>
+      <div class="path-steps" id="path-start">
+        <div class="step">
+          <div class="step-num">1</div>
+          <h3>Describe tu idea</h3>
+          <p>Cuéntanos qué problema quieres resolver, en qué sector, en qué etapa estás y quién es tu equipo. No necesitas propuesta formal.</p>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <h3>Match de instrumento</h3>
+          <p>ZENTI cruza tu perfil con los fondos disponibles y encuentra las convocatorias donde tu idea tiene mejor calce y probabilidad.</p>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <h3>Recomendación en tu correo</h3>
+          <p>Recibes un reporte con los fondos recomendados, requisitos clave y próximos pasos para avanzar tu postulación.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- INSTRUMENTS -->
+  <section class="instruments" id="cobertura">
+    <div class="instruments-inner">
+      <div class="section-label">Cobertura global</div>
+      <h2 class="section-title">Fondos de innovación en 4 continentes</h2>
+      <p style="text-align:center;max-width:720px;margin:0 auto 8px;font-size:14px;color:var(--z-gray-500);line-height:1.65">
+        El <strong>evaluador interactivo</strong> de esta página incluye hoy los instrumentos del menú desplegable (Chile, USA, Europa y Latam seleccionados).
+        El listado ampliado de fondos refleja nuestra <strong>hoja de ruta</strong>; iremos sumando calibraciones según demanda.
+      </p>
+      <div class="inst-grid">
+        <span class="inst-tag" style="border-color:var(--z-orange);color:var(--z-orange)">Chile</span>
+        <span class="inst-tag">CORFO Crea y Valida</span>
+        <span class="inst-tag">CORFO Innova Alta Tecnología</span>
+        <span class="inst-tag">CORFO Semilla Inicia</span>
+        <span class="inst-tag">CORFO Semilla Expande</span>
+        <span class="inst-tag">CORFO Escalamiento</span>
+        <span class="inst-tag">Startup Chile Build</span>
+        <span class="inst-tag">Startup Chile Ignite</span>
+        <span class="inst-tag">Innova Región</span>
+        <span class="inst-tag">ANID — convocatorias FONDEF</span>
+        <span class="inst-tag">Startup Chile Growth</span>
+      </div>
+      <div class="inst-grid" style="margin-top:12px">
+        <span class="inst-tag" style="border-color:var(--z-orange);color:var(--z-orange)">USA &amp; Global</span>
+        <span class="inst-tag">NSF SBIR/STTR</span>
+        <span class="inst-tag">DOE SBIR/STTR</span>
+        <span class="inst-tag">NIH SBIR/STTR</span>
+        <span class="inst-tag">Y Combinator</span>
+        <span class="inst-tag">Techstars</span>
+        <span class="inst-tag">500 Global</span>
+      </div>
+      <div class="inst-grid" style="margin-top:12px">
+        <span class="inst-tag" style="border-color:var(--z-orange);color:var(--z-orange)">Europa</span>
+        <span class="inst-tag">Horizon Europe</span>
+        <span class="inst-tag">EIC Accelerator</span>
+        <span class="inst-tag">Eurostars</span>
+        <span class="inst-tag">Innovate UK Smart Grants</span>
+        <span class="inst-tag">Lanzadera / Startup Valencia</span>
+      </div>
+      <div class="inst-grid" style="margin-top:12px">
+        <span class="inst-tag" style="border-color:var(--z-orange);color:var(--z-orange)">Latam</span>
+        <span class="inst-tag">iNNpulsa ALDEA+ (Colombia)</span>
+        <span class="inst-tag">Ruta N Medellín Next (Colombia)</span>
+        <span class="inst-tag">Startup Perú (ProInnóvate)</span>
+        <span class="inst-tag">Validación de Innovación (Perú)</span>
+        <span class="inst-tag">FONTAR ANR I+D (Argentina)</span>
+        <span class="inst-tag">FONTAR Crédito Fiscal (Argentina)</span>
+        <span class="inst-tag">FINEP Mais Inovação (Brasil)</span>
+        <span class="inst-tag">FINEP Startup (Brasil)</span>
+      </div>
+      <p style="text-align:center;margin-top:20px;font-size:13px;color:var(--z-gray-400)">Nuevos instrumentos se agregan continuamente</p>
+    </div>
+  </section>
+
+  <!-- PRICING -->
+  <section class="how" id="pricing">
+    <div class="how-inner">
+      <div class="section-label">Planes</div>
+      <h2 class="section-title">Elige tu nivel de profundidad</h2>
+      <div class="step" style="max-width:720px;margin:0 auto 32px;padding:20px 24px;background:var(--z-gray-100);border:1px solid var(--z-border);border-radius:var(--z-radius);text-align:left">
+        <div style="font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--z-orange);margin-bottom:10px">¿Cuándo pagás?</div>
+        <ol style="margin:0;padding-left:20px;font-size:14px;color:var(--z-gray-700);line-height:1.75">
+          <li><strong>Evaluación inicial:</strong> siempre empezás <strong>gratis</strong> desde este sitio (botones &laquo;Empezar&raquo; llevan al evaluador).</li>
+          <li><strong>Después del informe:</strong> recibís el resultado en tu <strong>correo</strong>. Ahí te explicamos cómo acceder al <strong>informe ampliado (Premium)</strong> si lo querés.</li>
+          <li><strong>Pago:</strong> el checkout (tarjeta internacional en USD o Chile en CLP) se abre desde los <strong>enlaces del correo o de la landing de precios</strong> de ZENTI &mdash; no hay cargo oculto al enviar el formulario.</li>
+        </ol>
+        <p style="margin:12px 0 0;font-size:13px;color:var(--z-gray-500)">Consultor&iacute;a: <strong>primero</strong> pag&aacute;s o coordin&aacute;s el pago; <strong>el enlace a Calendly te lo enviamos por correo</strong> cuando el cobro est&eacute; confirmado (sin agenda p&uacute;blica sin pago).</p>
+      </div>
+      <div class="steps" style="align-items:stretch">
+        <div class="step" style="display:flex;flex-direction:column;justify-content:space-between">
+          <div>
+            <div style="font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--z-gray-400);margin-bottom:12px">Free</div>
+            <div style="font-size:36px;font-weight:800;color:var(--z-black);margin-bottom:4px">$0</div>
+            <div style="font-size:13px;color:var(--z-gray-400);margin-bottom:20px">Sin tarjeta</div>
+            <ul style="list-style:none;padding:0;font-size:14px;color:var(--z-gray-500);line-height:2">
+              <li><strong>Con propuesta:</strong> nota, veredicto, brechas y ruta (estilo comit&eacute;)</li>
+              <li><strong>Solo idea:</strong> match de fondos y ruta (sin comit&eacute; completo)</li>
+              <li>Informe b&aacute;sico (correo / HTML)</li>
+            </ul>
+            <p style="margin:12px 0 0;font-size:12px;line-height:1.5;color:var(--z-gray-500)">
+              <a href="demo-informe-gratis.html" target="_blank" rel="noopener" style="color:var(--z-orange);font-weight:600">Ejemplo informe gratis</a>
+              &middot;
+              <a href="demo-informe-premium.html" target="_blank" rel="noopener" style="color:var(--z-orange);font-weight:600">Ejemplo premium</a>
+            </p>
+          </div>
+          <a href="#evaluator" style="display:block;text-align:center;padding:12px 0;border:1px solid var(--z-border);border-radius:999px;color:var(--z-black);font-weight:700;font-size:14px;text-decoration:none;margin-top:24px">Empezar gratis</a>
+        </div>
+        <div class="step" style="display:flex;flex-direction:column;justify-content:space-between;border-color:var(--z-orange);position:relative">
+          <div style="position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:var(--z-orange);color:#fff;font-size:11px;font-weight:700;letter-spacing:.06em;padding:4px 14px;border-radius:999px">RECOMENDADO</div>
+          <div>
+            <div style="font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--z-orange);margin-bottom:12px">Premium</div>
+            <div style="font-size:36px;font-weight:800;color:var(--z-black);margin-bottom:4px">$89 <span style="font-size:16px;font-weight:400;color:var(--z-gray-400)">USD</span></div>
+            <div style="font-size:13px;color:var(--z-gray-400);margin-bottom:20px">$80.000 CLP</div>
+            <ul style="list-style:none;padding:0;font-size:14px;color:var(--z-gray-500);line-height:2">
+              <li><strong style="color:var(--z-black)">Todo lo free</strong> m&aacute;s:</li>
+              <li>An&aacute;lisis detallado por cap&iacute;tulo</li>
+              <li>Checklist de requisitos vs bases</li>
+              <li>Citas a bases oficiales</li>
+              <li>Estructura de presupuesto sugerida</li>
+              <li>Comparativa con proyectos similares</li>
+            </ul>
+          </div>
+          <a id="pricing-cta-premium-usd" href="https://www.flow.cl/uri/JSbQZ7S1H" target="_blank" rel="noopener" style="display:block;text-align:center;padding:12px 0;background:var(--z-orange);border-radius:999px;color:#fff;font-weight:700;font-size:14px;text-decoration:none;margin-top:24px;box-shadow:0 6px 18px rgba(242,108,34,.25)">Pagar Premium USD</a>
+          <a id="pricing-cta-premium-clp" href="https://www.flow.cl/uri/JSbQZ7S1H" target="_blank" rel="noopener" style="display:block;text-align:center;padding:11px 0;margin-top:10px;border:1px solid var(--z-orange);border-radius:999px;color:var(--z-orange);font-weight:700;font-size:14px;text-decoration:none">Pagar Premium CLP</a>
+          <div style="text-align:center;margin-top:8px;font-size:12px;color:var(--z-gray-400)">El upgrade se ofrece con tu resultado</div>
+        </div>
+        <div class="step" style="display:flex;flex-direction:column;justify-content:space-between">
+          <div>
+            <div style="font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--z-gray-400);margin-bottom:12px">Consultor&iacute;a</div>
+            <div style="font-size:36px;font-weight:800;color:var(--z-black);margin-bottom:4px">$233 <span style="font-size:16px;font-weight:400;color:var(--z-gray-400)">USD</span></div>
+            <div style="font-size:13px;color:var(--z-gray-400);margin-bottom:20px">$230.000 CLP</div>
+            <ul style="list-style:none;padding:0;font-size:14px;color:var(--z-gray-500);line-height:2">
+              <li><strong style="color:var(--z-black)">Todo lo premium</strong> m&aacute;s:</li>
+              <li>Sesi&oacute;n 1:1 con experto ZENTI</li>
+              <li>Revisi&oacute;n de postulaci&oacute;n en vivo</li>
+              <li>Plan de acci&oacute;n personalizado</li>
+              <li>Seguimiento post-sesi&oacute;n</li>
+            </ul>
+          </div>
+          <a id="consult-pay-pricing" href="https://zentigrants.com/checkout-consultoria.html" target="_blank" rel="noopener" style="display:block;text-align:center;padding:12px 0;background:var(--z-orange);border-radius:999px;color:#fff;font-weight:700;font-size:14px;text-decoration:none;margin-top:24px;box-shadow:0 6px 18px rgba(242,108,34,.25)">Pagar sesi&oacute;n 1:1 (Flow)</a>
+          <p style="text-align:center;margin-top:10px;font-size:12px;color:var(--z-gray-500)"><a id="consult-mailto-pricing" href="mailto:hola@zentigrants.com?subject=Pago%20consultor%C3%ADa%20ZENTI%20%E2%80%94%20sesi%C3%B3n%201%3A1&body=Hola%20equipo%20ZENTI%2C%0A%0AQuiero%20coordinar%20el%20pago%20de%20la%20sesi%C3%B3n%201%3A1%20%28referencia%20aprox.%20%24%20230.000%20CLP%29.%0A%0A" target="_blank" rel="noopener" style="color:var(--z-gray-500);font-weight:600">Coordinar por correo</a></p>
+          <p id="consult-cta-pricing" style="display:block;text-align:center;padding:12px 14px;margin-top:10px;border:1px dashed var(--z-gray-300);border-radius:12px;color:var(--z-gray-600);font-size:13px;line-height:1.5">Agenda: te enviamos el enlace a Calendly <strong>por correo</strong> cuando el pago est&eacute; acreditado.</p>
+          <div style="text-align:center;margin-top:8px;font-size:12px;color:var(--z-gray-400)">Incluye sesi&oacute;n 1:1 post-informe</div>
+        </div>
+      </div>
+      <p style="text-align:center;margin-top:24px;font-size:13px;color:var(--z-gray-400)">Paga con tarjeta internacional (USD) o d&eacute;bito/cr&eacute;dito Chile (CLP)</p>
+    </div>
+  </section>
+
+  <!-- SOCIAL PROOF -->
+  <section class="how">
+    <div class="how-inner">
+      <div class="section-label">Confianza</div>
+      <h2 class="section-title">Lo que dicen quienes ya evaluaron</h2>
+      <p style="text-align:center;max-width:560px;margin:0 auto;font-size:13px;color:var(--z-gray-400)">Testimonios de la fase beta; resultados var&iacute;an seg&uacute;n instrumento y calidad de la postulaci&oacute;n.</p>
+      <div class="quote-grid">
+        <div class="quote-card">
+          <p>&laquo;Me ayud&oacute; a ordenar las brechas antes de mandar a CORFO. En la segunda iteraci&oacute;n subimos la nota del comit&eacute; simulado.&raquo;</p>
+          <cite>Fundadora &middot; healthtech &middot; Chile</cite>
+        </div>
+        <div class="quote-card">
+          <p>&laquo;El informe lleg&oacute; r&aacute;pido y con lenguaje claro. Usamos la ruta de fortalecimiento como checklist real.&raquo;</p>
+          <cite>CTO &middot; deep tech &middot; Latam</cite>
+        </div>
+        <div class="quote-card">
+          <p>&laquo;El match de instrumento me ahorr&oacute; leer tres bases enteras que no aplicaban a mi etapa.&raquo;</p>
+          <cite>Emprendedor &middot; agro &middot; regi&oacute;n</cite>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ZENTI.START (CARD FORM) -->
+  <section class="start-section" id="start">
+    <div class="start-inner">
+      <div class="section-label">Match de instrumento</div>
+      <h2 class="section-title">Encuentra el fondo ideal para tu idea</h2>
+      <div class="start-card">
+        <div class="start-card-header">
+          <div class="chat-mark">Z</div>
+          <div>
+            <strong>ZENTI</strong>
+            <span>Match de instrumento</span>
+          </div>
+        </div>
+        <div class="start-card-body" id="start-form-body">
+          <div class="form-group">
+            <label>Describe tu idea <span class="req">*</span></label>
+            <textarea id="start-idea" placeholder="¿Qué problema resuelve tu idea? ¿Cuál es la solución que propones?" required></textarea>
+          </div>
+          <div class="form-group">
+            <label>Sector</label>
+            <select id="start-sector">
+              <option value="">Selecciona un sector...</option>
+              <option value="Tecnología">Tecnología</option>
+              <option value="Salud">Salud</option>
+              <option value="Energía">Energía</option>
+              <option value="Agro">Agro</option>
+              <option value="Minería">Minería</option>
+              <option value="Manufactura">Manufactura</option>
+              <option value="Servicios">Servicios</option>
+              <option value="Educación">Educación</option>
+              <option value="Otro">Otro</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Etapa</label>
+            <select id="start-etapa">
+              <option value="">Selecciona la etapa...</option>
+              <option value="Solo idea">Solo idea</option>
+              <option value="Prototipo inicial">Prototipo inicial</option>
+              <option value="Con tracción temprana">Con tracción temprana</option>
+              <option value="Con clientes pagando">Con clientes pagando</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Equipo</label>
+            <input type="text" id="start-equipo" placeholder="Breve descripción del equipo (roles, experiencia)" />
+          </div>
+          <div class="form-group">
+            <label>Email <span class="req">*</span></label>
+            <input type="email" id="start-email" placeholder="tu@email.com" required />
+          </div>
+          <p class="error hidden" id="start-err"></p>
+          <div class="start-submit-wrap">
+            <button type="button" class="primary" id="btn-start-submit">Encontrar mi fondo</button>
+          </div>
+        </div>
+        <div class="start-success hidden" id="start-success">
+          <h3>Solicitud recibida</h3>
+          <p>Analizaremos tu idea y te enviaremos las recomendaciones de fondos a tu correo en los próximos minutos.</p>
+          <a href="https://zentigrants.com/checkout-consultoria.html" id="consult-pay-start-success" target="_blank" rel="noopener" style="display:inline-block;padding:12px 28px;background:#F26C22;color:#fff;border-radius:999px;font-weight:700;font-size:14px;text-decoration:none;box-shadow:0 6px 18px rgba(242,108,34,.25)">Pagar sesi&oacute;n 1:1 (Flow)</a>
+          <p style="margin-top:10px;font-size:12px;color:#6b7280"><a id="consult-mailto-start" href="mailto:hola@zentigrants.com?subject=Pago%20consultor%C3%ADa%20ZENTI%20%E2%80%94%20sesi%C3%B3n%201%3A1&body=Hola%20equipo%20ZENTI%2C%0A%0AQuiero%20coordinar%20el%20pago%20de%20la%20sesi%C3%B3n%201%3A1%20%28referencia%20aprox.%20%24%20230.000%20CLP%29.%0A%0A" target="_blank" rel="noopener" style="color:#6b7280;font-weight:600">Coordinar por correo</a></p>
+          <p id="consult-cta-start-success" style="display:block;margin-top:12px;padding:12px 18px;border:1px dashed #d1d5db;border-radius:12px;color:#6b7280;font-size:13px;line-height:1.5">Agenda: enlace a Calendly <strong>por correo</strong> tras confirmar el pago.</p>
+          <br/>
+          <button type="button" class="ghost" style="margin-top:12px" id="btn-start-reset">Nuevo match</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EVALUATOR (CHAT FORM) -->
+  <section class="evaluator" id="evaluator">
+    <div class="evaluator-inner">
+      <div class="section-label">Evaluador</div>
+      <h2 class="section-title">Inicia tu evaluación</h2>
+
+      <div class="chat-shell">
+        <div class="chat-header">
+          <div class="chat-mark">Z</div>
+          <div class="chat-brand">
+            <strong>ZENTI</strong>
+            <span id="header-subtitle">Evaluación técnico-estratégica · selecciona el instrumento</span>
+          </div>
+          <div class="chat-progress" id="chat-progress" aria-live="polite">Paso 1 de 8</div>
+        </div>
+        <div class="chat-body" id="chat"></div>
+        <div class="composer" id="composer">
+          <div id="draft-banner" class="draft-banner hidden" role="region" aria-label="Borrador guardado">
+            <span id="draft-banner-msg"></span>
+            <div style="display:flex;gap:8px;flex-wrap:wrap">
+              <button type="button" class="primary" id="draft-continue">Continuar borrador</button>
+              <button type="button" class="ghost" id="draft-discard">Empezar de cero</button>
+            </div>
+          </div>
+          <div class="input-wrap" id="step-ui"></div>
+          <p class="error hidden" id="err"></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="how" id="faq">
+    <div class="how-inner">
+      <div class="section-label">FAQ</div>
+      <h2 class="section-title">Preguntas frecuentes</h2>
+      <div class="faq-list">
+        <div class="faq-item">
+          <h3>&iquest;Mis datos y mi propuesta son confidenciales?</h3>
+          <p>Tratamos la informaci&oacute;n seg&uacute;n nuestra <a href="privacidad.html" style="color:var(--z-orange);font-weight:600">pol&iacute;tica de privacidad</a>. El procesamiento del texto lo realiza un modelo de lenguaje (Anthropic/Claude) bajo contratos de proveedor; no publicamos tu propuesta.</p>
+        </div>
+        <div class="faq-item">
+          <h3>&iquest;Puedo ver un informe de ejemplo antes de pagar?</h3>
+          <p>S&iacute;: <a href="demo-informe-gratis.html" target="_blank" rel="noopener" style="color:var(--z-orange);font-weight:600">demo informe gratuito</a> y <a href="demo-informe-premium.html" target="_blank" rel="noopener" style="color:var(--z-orange);font-weight:600">demo informe premium</a> (muestras est&aacute;ticas; el tuyo se genera con tu propuesta).</p>
+        </div>
+        <div class="faq-item">
+          <h3>&iquest;Qu&eacute; tan &laquo;precisa&raquo; es la evaluaci&oacute;n?</h3>
+          <p>Es una <strong>simulaci&oacute;n orientativa</strong> calibrada a criterios t&iacute;picos de cada instrumento, no un veredicto oficial del organismo. Sirve para priorizar brechas antes de la postulaci&oacute;n formal.</p>
+        </div>
+        <div class="faq-item">
+          <h3>&iquest;Qui&eacute;n calibr&oacute; los instrumentos?</h3>
+          <p>Equipo ZENTI a partir de bases p&uacute;blicas y marcos de evaluaci&oacute;n conocidos. Los instrumentos reales pueden cambiar convocatoria a convocatoria: revis&aacute; siempre la base oficial vigente.</p>
+        </div>
+        <div class="faq-item">
+          <h3>&iquest;Cu&aacute;ndo se cobra el Premium?</h3>
+          <p>La evaluaci&oacute;n inicial desde esta web es <strong>gratis</strong>. Si quer&eacute;s el informe ampliado, el pago se gestiona despu&eacute;s, con el enlace que recib&iacute;s en el correo (sin cargo al enviar el formulario).</p>
+        </div>
+        <div class="faq-item">
+          <h3>&iquest;Por qu&eacute; el informe llega en PDF o HTML?</h3>
+          <p>Seg&uacute;n la conversi&oacute;n autom&aacute;tica. Si recib&iacute;s HTML, descargalo y abrilo con <strong>Chrome, Safari o Edge</strong> para ver el dise&ntilde;o completo.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONSULTATION CTA -->
+  <section class="instruments" id="consultoria">
+    <div class="instruments-inner">
+      <div class="section-label">Consultoría estratégica</div>
+      <h2 class="section-title">¿Necesitas apoyo para fortalecer tu postulación?</h2>
+      <p style="text-align:center;max-width:560px;margin:0 auto 32px;font-size:15px;color:var(--z-gray-500);line-height:1.7">
+        Primero coordinás el pago de la sesión; te enviamos el enlace para agendar por correo cuando esté acreditado. Revisamos tu informe, las brechas críticas y una postulación competitiva.
+      </p>
+      <div style="text-align:center">
+          <a href="https://zentigrants.com/checkout-consultoria.html" id="consult-pay-main" target="_blank" rel="noopener" class="nav-cta" style="padding:14px 36px;font-size:15px;border-radius:999px;display:inline-block;box-shadow:0 8px 24px rgba(242,108,34,.25)">Pagar sesi&oacute;n 1:1 (Flow)</a>
+        <p style="margin-top:12px;font-size:13px;color:var(--z-gray-500)"><a id="consult-mailto-main" href="mailto:hola@zentigrants.com?subject=Pago%20consultor%C3%ADa%20ZENTI%20%E2%80%94%20sesi%C3%B3n%201%3A1&body=Hola%20equipo%20ZENTI%2C%0A%0AQuiero%20coordinar%20el%20pago%20de%20la%20sesi%C3%B3n%201%3A1%20%28referencia%20aprox.%20%24%20230.000%20CLP%29.%0A%0A" target="_blank" rel="noopener" style="color:var(--z-gray-500);font-weight:600">Coordinar por correo</a></p>
+        <p id="consult-cta-main" style="display:inline-block;margin-top:14px;padding:14px 24px;font-size:14px;border-radius:12px;border:1px dashed var(--z-gray-300);color:var(--z-gray-600);font-weight:600;max-width:420px">Agenda: Calendly <strong>solo por email</strong> cuando el pago est&eacute; confirmado.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-brand">ZENTI</div>
+      <p>
+        Evaluación técnico-estratégica de postulaciones a fondos de innovación, I+D+i y emprendimiento.<br/>
+        <a href="privacidad.html" style="color:var(--z-gray-400);text-decoration:none">Pol&iacute;tica de privacidad</a>
+      </p>
+      <p class="footer-attribution">
+        Partner de dise&ntilde;o y asesor&iacute;a: <a href="https://www.aiadvisors.pl/en" target="_blank" rel="noopener">AI Advisors</a>
+      </p>
+    </div>
+  </footer>
+
+  <!-- Soporte: asistente (guía) + envío de preguntas (webhook opcional o correo) -->
+  <div id="zenti-support-root" class="zenti-support-root">
+    <button type="button" class="zenti-support-fab" id="zenti-support-fab" aria-expanded="false" aria-controls="zenti-support-panel" title="Ayuda y soporte ZENTI">
+      <span class="zenti-support-fab-label">Abrir ayuda y soporte</span>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+    </button>
+    <div class="zenti-support-panel" id="zenti-support-panel" hidden role="dialog" aria-modal="true" aria-labelledby="zenti-support-title">
+      <div class="zenti-support-head">
+        <div>
+          <strong id="zenti-support-title">Soporte ZENTI</strong>
+          <span>Guía rápida y contacto</span>
+        </div>
+        <button type="button" class="zenti-support-close" id="zenti-support-close" aria-label="Cerrar">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+        </button>
+      </div>
+      <div id="zenti-support-toast" class="zenti-support-toast" role="status"></div>
+      <div id="zenti-support-messages" class="zenti-support-messages"></div>
+      <div class="zenti-support-chips" id="zenti-support-chips"></div>
+      <form class="zenti-support-form" id="zenti-support-form" autocomplete="on">
+        <label for="zenti-support-email">Correo (opcional, si querés respuesta)</label>
+        <input type="email" id="zenti-support-email" name="email" placeholder="tu@empresa.com" />
+        <label for="zenti-support-text">Tu pregunta o problema al llenar el formulario</label>
+        <textarea id="zenti-support-text" name="message" required placeholder="Ej.: no me deja adjuntar PDF en el paso 6…" minlength="8"></textarea>
+        <button type="submit" class="zenti-support-submit" id="zenti-support-submit">Enviar pregunta</button>
+        <p class="zenti-support-footnote">Si no configuramos webhook, se abre tu correo con el mensaje listo. No guardamos chats en el servidor salvo que envíes el formulario.</p>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    const FORM_POST_URL = 'https://zenti.app.n8n.cloud/form/7c2e685a-2439-4afa-889d-35168e65d856';
+    const START_FORM_URL = 'https://zenti.app.n8n.cloud/form/cff65159-a00b-423f-a02d-3ebac9ce30bd';
+
+    /** GA4: rellenar G-XXXXXXXX o `python3 scripts/sync-payment-links.py` con ga4MeasurementId en payment-links.json */
+    const ZENTI_GA4_MEASUREMENT_ID = 'G-SSW9F84YTR';
+    function zentiInitGa4() {
+      var id = ZENTI_GA4_MEASUREMENT_ID;
+      if (!id || !/^G-[A-Z0-9]+$/i.test(id)) return;
+      window.dataLayer = window.dataLayer || [];
+      window.gtag = function () { window.dataLayer.push(arguments); };
+      window.gtag('js', new Date());
+      window.gtag('config', id, { anonymize_ip: true });
+      var s = document.createElement('script');
+      s.async = true;
+      s.src = 'https://www.googletagmanager.com/gtag/js?id=' + encodeURIComponent(id);
+      document.head.appendChild(s);
+    }
+    function zentiTrack(name, params) {
+      if (typeof window.gtag !== 'function') return;
+      window.gtag('event', name, params || {});
+    }
+    zentiInitGa4();
+
+    /** Sincronizar con scripts/payment-links.json (sync-payment-links.py) — Flow (CLP/USD) + Cal.com consultoría */
+    const ZENTI_PAY_LINKS = {
+      premiumUsd: 'https://www.flow.cl/uri/JSbQZ7S1H',
+      premiumClp: 'https://www.flow.cl/uri/JSbQZ7S1H',
+      consultCal: '',
+      consultCheckoutUrl: 'https://zentigrants.com/checkout-consultoria.html',
+      consultPayUrl: 'mailto:hola@zentigrants.com?subject=Pago%20consultor%C3%ADa%20ZENTI%20%E2%80%94%20sesi%C3%B3n%201%3A1&body=Hola%20equipo%20ZENTI%2C%0A%0AQuiero%20coordinar%20el%20pago%20de%20la%20sesi%C3%B3n%201%3A1%20%28referencia%20aprox.%20%24%20230.000%20CLP%29.%0A%0A',
+      supportWebhookUrl: '',
+    };
+    document.addEventListener('DOMContentLoaded', function() {
+      var premiumUsd = document.getElementById('pricing-cta-premium-usd');
+      var premiumClp = document.getElementById('pricing-cta-premium-clp');
+      var consultPayPricing = document.getElementById('consult-pay-pricing');
+      var consultPricing = document.getElementById('consult-cta-pricing');
+      var consultPayMain = document.getElementById('consult-pay-main');
+      var consultMain = document.getElementById('consult-cta-main');
+      var consultPayStart = document.getElementById('consult-pay-start-success');
+      var consultStartSuccess = document.getElementById('consult-cta-start-success');
+      var consultMailtoPricing = document.getElementById('consult-mailto-pricing');
+      var consultMailtoMain = document.getElementById('consult-mailto-main');
+      var consultMailtoStart = document.getElementById('consult-mailto-start');
+      var consultPrimary = (ZENTI_PAY_LINKS.consultCheckoutUrl && String(ZENTI_PAY_LINKS.consultCheckoutUrl).trim())
+        ? ZENTI_PAY_LINKS.consultCheckoutUrl
+        : ZENTI_PAY_LINKS.consultPayUrl;
+      if (premiumUsd && ZENTI_PAY_LINKS.premiumUsd) premiumUsd.href = ZENTI_PAY_LINKS.premiumUsd;
+      if (premiumClp && ZENTI_PAY_LINKS.premiumClp) premiumClp.href = ZENTI_PAY_LINKS.premiumClp;
+      if (consultPayPricing && consultPrimary) consultPayPricing.href = consultPrimary;
+      if (consultPayMain && consultPrimary) consultPayMain.href = consultPrimary;
+      if (consultPayStart && consultPrimary) consultPayStart.href = consultPrimary;
+      if (consultMailtoPricing && ZENTI_PAY_LINKS.consultPayUrl) consultMailtoPricing.href = ZENTI_PAY_LINKS.consultPayUrl;
+      if (consultMailtoMain && ZENTI_PAY_LINKS.consultPayUrl) consultMailtoMain.href = ZENTI_PAY_LINKS.consultPayUrl;
+      if (consultMailtoStart && ZENTI_PAY_LINKS.consultPayUrl) consultMailtoStart.href = ZENTI_PAY_LINKS.consultPayUrl;
+    });
+
+    /* ── Soporte: asistente + recolección de preguntas ── */
+    (function initZentiSupportBot() {
+      var KB = {
+        eval: 'Evaluador (propuesta o borrador):\n1) Bajá hasta «Inicia tu evaluación».\n2) Elegí instrumento (CORFO, Startup Chile, etc.).\n3) Completá nombre, empresa y email.\n4) Pegá tu propuesta o subí PDF (recomendado).\n5) Enviá: recibirás el informe por correo en minutos.\n\nSi solo tenés una idea temprana, usá el camino «Match de fondos» arriba.',
+        start: 'Match de fondos (idea temprana):\n1) Sección «Encuentra el fondo ideal».\n2) Describí la idea, sector, etapa y email.\n3) Te enviamos instrumentos alineados y una ruta (no es el comité completo del evaluador con propuesta).',
+        premium: 'Premium y pago:\nLa evaluación inicial desde la web es gratis. Si querés el informe ampliado, el enlace de pago llega por correo después del resultado (Flow.cl). Consultoría 1:1: botón «Pagar sesión 1:1» o checkout en la web.',
+        pdf: 'Archivo / PDF:\nEn el paso de propuesta podés pegar texto o adjuntar PDF. Tamaño razonable; si falla, probá otro navegador (Chrome o Safari) o comprimí el PDF. El informe de salida puede llegar en HTML o PDF según la conversión.',
+        tiempo: 'Tiempos:\nSuele ser en minutos; puede demorar más si hay mucha demanda. Revisá spam. Si pasaron varias horas, escribinos con el correo que usaste.',
+        human: 'Equipo humano:\nEscribinos a hola@zentigrants.com con tu correo de la evaluación y captura del problema. Para consultoría pagada también podés usar «Coordinar por correo» en la sección de consultoría.',
+        welcome: 'Hola. Soy la guía rápida de ZENTI: te oriento con el evaluador, el match de fondos y el pago. Elegí un tema abajo o escribí tu duda y enviála: la recibimos para soporte.'
+      };
+      var CHIPS = [
+        { id: 'eval', label: 'Evaluador paso a paso' },
+        { id: 'start', label: 'Match de fondos' },
+        { id: '_goto_eval', label: 'Ir al evaluador' },
+        { id: '_goto_start', label: 'Ir a match de fondos' },
+        { id: 'pdf', label: 'Adjuntar PDF' },
+        { id: 'premium', label: 'Premium / pago' },
+        { id: 'tiempo', label: '¿Cuánto demora?' },
+        { id: 'human', label: 'Hablar con el equipo' }
+      ];
+
+      var root = document.getElementById('zenti-support-root');
+      var fab = document.getElementById('zenti-support-fab');
+      var panel = document.getElementById('zenti-support-panel');
+      var closeBtn = document.getElementById('zenti-support-close');
+      var msgEl = document.getElementById('zenti-support-messages');
+      var chipsEl = document.getElementById('zenti-support-chips');
+      var form = document.getElementById('zenti-support-form');
+      var emailIn = document.getElementById('zenti-support-email');
+      var textIn = document.getElementById('zenti-support-text');
+      var toast = document.getElementById('zenti-support-toast');
+      var submitBtn = document.getElementById('zenti-support-submit');
+      if (!fab || !panel || !msgEl) return;
+
+      function addMsg(role, text) {
+        var d = document.createElement('div');
+        d.className = 'zenti-support-msg ' + (role === 'user' ? 'user' : 'bot');
+        d.textContent = text;
+        msgEl.appendChild(d);
+        msgEl.scrollTop = msgEl.scrollHeight;
+      }
+
+      function showToast(kind, t) {
+        toast.className = 'zenti-support-toast show ' + (kind || '');
+        toast.textContent = t || '';
+      }
+
+      function openPanel(open) {
+        panel.hidden = !open;
+        fab.setAttribute('aria-expanded', open ? 'true' : 'false');
+        if (open) {
+          zentiTrack('support_open', { location: window.location.pathname });
+          try { textIn && textIn.focus(); } catch (e1) {}
+        }
+      }
+
+      function replyFor(id) {
+        return KB[id] || KB.welcome;
+      }
+
+      addMsg('bot', KB.welcome);
+      CHIPS.forEach(function (c) {
+        var b = document.createElement('button');
+        b.type = 'button';
+        b.className = 'zenti-support-chip';
+        b.textContent = c.label;
+        b.addEventListener('click', function () {
+          addMsg('user', c.label);
+          if (c.id === '_goto_eval') {
+            addMsg('bot', 'Ahí está el formulario del evaluador. Completá instrumento, datos y propuesta o PDF.');
+            var el = document.getElementById('evaluator');
+            if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            zentiTrack('support_goto', { target: 'evaluator' });
+            return;
+          }
+          if (c.id === '_goto_start') {
+            addMsg('bot', 'En esta sección cargás tu idea para el match de fondos (sin comité completo).');
+            var st = document.getElementById('start');
+            if (st) st.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            zentiTrack('support_goto', { target: 'start' });
+            return;
+          }
+          addMsg('bot', replyFor(c.id));
+          zentiTrack('support_quick_reply', { topic: c.id });
+        });
+        chipsEl.appendChild(b);
+      });
+
+      fab.addEventListener('click', function () { openPanel(panel.hidden); });
+      closeBtn.addEventListener('click', function () { openPanel(false); });
+      document.addEventListener('keydown', function (ev) {
+        if (ev.key === 'Escape' && !panel.hidden) openPanel(false);
+      });
+
+      form.addEventListener('submit', function (ev) {
+        ev.preventDefault();
+        var email = (emailIn && emailIn.value) ? emailIn.value.trim() : '';
+        var body = (textIn && textIn.value) ? textIn.value.trim() : '';
+        if (body.length < 8) {
+          showToast('err', 'Escribí al menos 8 caracteres.');
+          return;
+        }
+        submitBtn.disabled = true;
+        var wh =
+          (typeof ZENTI_PAY_LINKS !== 'undefined' && ZENTI_PAY_LINKS.supportWebhookUrl)
+            ? String(ZENTI_PAY_LINKS.supportWebhookUrl).trim()
+            : '';
+        var payload = {
+          source: 'zenti-landing-support',
+          page: window.location.href,
+          email: email || null,
+          message: body,
+          ts: new Date().toISOString()
+        };
+        function doneMail() {
+          var subj = encodeURIComponent('Soporte ZENTI — formulario / web');
+          var line1 = email ? 'Correo: ' + email + '\n\n' : '';
+          var bod = encodeURIComponent(line1 + body);
+          window.open('mailto:hola@zentigrants.com?subject=' + subj + '&body=' + bod, '_blank', 'noopener');
+          showToast('ok', 'Se abrió tu cliente de correo. Si no ves la ventana, copiá el texto y escribinos a hola@zentigrants.com');
+          zentiTrack('support_submit', { channel: 'mailto' });
+          submitBtn.disabled = false;
+        }
+        if (!wh) {
+          doneMail();
+          return;
+        }
+        fetch(wh, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+          body: JSON.stringify(payload)
+        })
+          .then(function (res) {
+            if (!res.ok) throw new Error('HTTP ' + res.status);
+            showToast('ok', 'Listo. Recibimos tu mensaje.');
+            zentiTrack('support_submit', { channel: 'webhook' });
+            textIn.value = '';
+          })
+          .catch(function () {
+            doneMail();
+          })
+          .finally(function () {
+            submitBtn.disabled = false;
+          });
+      });
+    })();
+
+    /* ── Path switcher (How it works) ── */
+    function switchPath(path) {
+      document.querySelectorAll('.path-tab').forEach(t => t.classList.toggle('active', t.dataset.path === path));
+      document.getElementById('path-eval').classList.toggle('active', path === 'eval');
+      document.getElementById('path-start').classList.toggle('active', path === 'start');
+    }
+
+    /* ── ZENTI.start form ── */
+    (function initStartForm() {
+      const btn = document.getElementById('btn-start-submit');
+      const errEl = document.getElementById('start-err');
+      const formBody = document.getElementById('start-form-body');
+      const successPanel = document.getElementById('start-success');
+
+      function showStartError(msg) {
+        errEl.textContent = msg || '';
+        errEl.classList.toggle('hidden', !msg);
+      }
+
+      btn.addEventListener('click', async function () {
+        showStartError('');
+        const idea = document.getElementById('start-idea').value.trim();
+        const sector = document.getElementById('start-sector').value;
+        const etapa = document.getElementById('start-etapa').value;
+        const equipo = document.getElementById('start-equipo').value.trim();
+        const email = document.getElementById('start-email').value.trim();
+
+        if (!idea) { showStartError('Describe tu idea para continuar.'); return; }
+        if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { showStartError('Ingresa un correo válido.'); return; }
+
+        btn.disabled = true;
+        btn.textContent = 'Enviando...';
+
+        const fd = new FormData();
+        fd.append('field-0', idea);
+        fd.append('field-1', sector);
+        fd.append('field-2', etapa);
+        fd.append('field-3', equipo);
+        fd.append('field-4', email);
+
+        try {
+          fetch(START_FORM_URL, { method: 'POST', body: fd }).catch(function(){});
+          formBody.classList.add('hidden');
+          successPanel.classList.remove('hidden');
+        } catch (e) {
+          showStartError('No se pudo enviar. Verifica tu conexión e intenta nuevamente.');
+          btn.disabled = false;
+          btn.textContent = 'Encontrar mi fondo';
+        }
+      });
+
+      document.getElementById('btn-start-reset').addEventListener('click', function () {
+        formBody.classList.remove('hidden');
+        successPanel.classList.add('hidden');
+        document.getElementById('start-idea').value = '';
+        document.getElementById('start-sector').value = '';
+        document.getElementById('start-etapa').value = '';
+        document.getElementById('start-equipo').value = '';
+        document.getElementById('start-email').value = '';
+        btn.disabled = false;
+        btn.textContent = 'Encontrar mi fondo';
+        showStartError('');
+      });
+    })();
+
+    const FONDOS = [
+      '── Chile ──',
+      'CORFO Crea y Valida',
+      'CORFO Innova Alta Tecnología',
+      'Startup Chile BUILD',
+      'Startup Chile IGNITE',
+      'Startup Chile GROWTH',
+      'CORFO Semilla Expande',
+      'Innova Región',
+      'ANID — convocatorias FONDEF',
+      '── USA ──',
+      'NSF SBIR/STTR',
+      'DOE SBIR/STTR',
+      'NIH SBIR/STTR',
+      '── Europa ──',
+      'Horizon Europe',
+      'EIC Accelerator',
+      'Eurostars',
+      'Innovate UK',
+      '── Latam ──',
+      'Ruta N (Colombia)',
+      'iNNpulsa (Colombia)',
+      'FONTAR (Argentina)',
+      'FINEP (Brasil)',
+    ];
+    const TRLS = [
+      'TRL 1-2 - Idea / Concepto',
+      'TRL 3 - Prueba de concepto',
+      'TRL 4 - Validado en laboratorio',
+      'TRL 5 - Validado en entorno relevante',
+      'TRL 6-7 - Prototipo demostrado',
+    ];
+
+    const FONDO_INFO = {
+      'CORFO Crea y Valida': {
+        header: 'Crea y Valida · CORFO',
+        contexto: 'Para **Crea y Valida** el informe simula un comité que mira **diagnóstico, mercado, metodología, novedad, I+D, impacto, escalabilidad y capacidades**. Escala típica **1–5**; el contenido **I+D+i** pesa fuerte.',
+        trlBot: '¿Cuál es el **TRL** que mejor califica tu desarrollo? (En Crea y Valida importa alinear **madurez técnica** con lo que declaras en metodología e I+D.)',
+        propuestaBot: 'Pega **texto** de la propuesta si lo tienes (problema, solución, mercado, metodología, **I+D**, equipo, números). **Opcional** si vas solo con PDF.',
+        propuestaPh: 'Ej.: diagnóstico, mercado, metodología, I+D, impacto, escalabilidad…',
+      },
+      'CORFO Innova Alta Tecnología': {
+        header: 'Innova Alta Tecnología · CORFO',
+        contexto: 'Para **Innova Alta Tecnología** el foco es **problema, tecnología, novedad, viabilidad y equipo**, con exigencia de **I+D** (~30% en criterios). Escala **1–5**.',
+        trlBot: '¿Cuál es el **TRL actual**? Aquí la **viabilidad técnica** y la **novedad** deben ser consistentes con el nivel de madurez que declaras.',
+        propuestaBot: 'Texto **opcional** (o PDF): en Innova conviene dejar claro **qué tan alta es la tecnología**, evidencia y **equipo**.',
+        propuestaPh: 'Tecnología, novedad, viabilidad, equipo, I+D…',
+      },
+      'Startup Chile BUILD': {
+        header: 'Build · Startup Chile',
+        contexto: '**BUILD** es pre-aceleración: de idea validada a prototipo. Equity-free CLP 15M. Pondera **equipo (~40%), producto, mercado y escalabilidad**. Escala **1–7**. Hasta 50 startups por generación.',
+        trlBot: '¿En qué **etapa** está tu producto? BUILD es para ideas validadas que necesitan construir prototipo.',
+        propuestaBot: 'Describe tu idea, equipo y qué has validado hasta ahora. **Opcional** si adjuntas PDF.',
+        propuestaPh: 'Idea, equipo, validación inicial, mercado…',
+      },
+      'Startup Chile IGNITE': {
+        header: 'Ignite · Startup Chile',
+        contexto: '**IGNITE** es aceleración: producto funcional buscando **product-market fit**. Equity-free CLP 25M + CLP 20M extensión. **Equipo** es determinante (~40%). Escala **1–7**. Hasta 30 startups por generación.',
+        trlBot: '¿Cuál es el **TRL** o nivel de avance? IGNITE requiere **producto funcional** ya en uso.',
+        propuestaBot: 'Describe tu producto, tracción y qué métricas de product-market fit tienes. **Opcional** si adjuntas PDF.',
+        propuestaPh: 'Producto, tracción, métricas PMF, equipo…',
+      },
+      'Startup Chile GROWTH': {
+        header: 'Growth · Startup Chile',
+        contexto: '**GROWTH** es escalamiento: startups con **revenue y tracción probada**. Equity-free hasta CLP 75M. El programa más avanzado de SUC. Foco en **escalamiento global, revenue y equipo ejecutivo**.',
+        trlBot: '¿Cuál es tu nivel de **revenue** y tracción actual? GROWTH es para startups listas para escalar.',
+        propuestaBot: 'Describe tu revenue, tracción, plan de escalamiento global y equipo. **Opcional** si adjuntas PDF.',
+        propuestaPh: 'Revenue, tracción, plan global, equipo…',
+      },
+      'CORFO Semilla Expande': {
+        header: 'Semilla Expande · CORFO',
+        contexto: '**Semilla Expande** enfatiza **innovación, escalabilidad, equipo y redes**; el **equipo** debe tener al menos 2 personas con roles claros. Escala **1–5**.',
+        trlBot: '¿Qué **TRL** representa mejor tu solución? Debe ser coherente con la **escalabilidad** del emprendimiento.',
+        propuestaBot: 'Texto **opcional** o PDF: para Semilla Expande refuerza **equipo, redes y escalamiento** además del problema.',
+        propuestaPh: 'Innovación, equipo, redes, escalabilidad…',
+      },
+      'Innova Región': {
+        header: 'Innova Región',
+        contexto: '**Innova Región** prioriza **metodología, impacto regional, escalabilidad y equipo**. Foco en **beneficio territorial** y articulación local. Escala **1–5**.',
+        trlBot: 'Indica el **TRL** aproximado; debe alinear con el **impacto regional** y la **metodología** que describas.',
+        propuestaBot: 'Texto **opcional** o PDF: incluye **qué cambia en la región**, **metodología** y **equipo**.',
+        propuestaPh: 'Impacto regional, metodología, escalabilidad, equipo…',
+      },
+      'ANID — convocatorias FONDEF': {
+        header: 'ANID — línea FONDEF',
+        contexto: '**FONDEF** no es un solo instrumento: hay **varias convocatorias** (p. ej. IDeA I+D, Iniciación) con montos y plazos distintos. En conjunto suelen mirar **mérito científico-técnico, relevancia, equipo, vinculación y plan**. Escala típica **1–7**. Elige la **convocatoria vigente** en anid.cl antes de postular.',
+        trlBot: '¿Cuál es el **TRL** del desarrollo? Debe ser **consistente** con el **plan** y el **mérito** de la convocatoria que elijas.',
+        propuestaBot: 'Pega **texto** si puedes: **mérito, relevancia, plan, vinculación y equipo** son centrales. **Opcional** si el PDF ya lo trae.',
+        propuestaPh: 'Mérito científico, relevancia, plan, vinculación, equipo…',
+      },
+      'NSF SBIR/STTR': {
+        header: 'NSF SBIR/STTR · USA',
+        contexto: '**NSF SBIR/STTR** evaluates **Intellectual Merit, Broader Impacts, and Commercialization Potential**. Merit review by expert panels. Phase I up to **USD 275K** for 12 months. The product must demonstrate **durable competitive advantage**.',
+        trlBot: 'What is the approximate **TRL** of your technology? NSF expects the TRL to align with the **technical risk** and **innovation** you describe.',
+        propuestaBot: 'Paste your **proposal text** if available: focus on **technical innovation, broader impacts, and commercialization**. Optional if you attach the PDF.',
+        propuestaPh: 'Technical innovation, broader impacts, commercialization plan, team…',
+      },
+      'DOE SBIR/STTR': {
+        header: 'DOE SBIR/STTR · USA',
+        contexto: '**DOE SBIR/STTR** focuses on **Technical Merit, Qualifications, Commercialization, and Relevance to DOE mission** (energy, clean tech, grid, nuclear). Phase I up to **USD 250K**.',
+        trlBot: 'What is the approximate **TRL**? DOE values alignment between **technical maturity** and the **energy mission** relevance.',
+        propuestaBot: 'Paste **proposal text** if available: highlight **energy innovation, technical approach, and DOE mission alignment**. Optional with PDF.',
+        propuestaPh: 'Energy innovation, technical approach, DOE mission alignment…',
+      },
+      'NIH SBIR/STTR': {
+        header: 'NIH SBIR/STTR · USA',
+        contexto: '**NIH SBIR/STTR** reviews **Significance, Investigators, Innovation, Approach, and Environment**. Focus on **biomedical and health** innovation. Phase I up to **USD 275K**.',
+        trlBot: 'What is the approximate **TRL**? NIH expects consistency between **technical maturity** and the **research approach**.',
+        propuestaBot: 'Paste **proposal text** if available: emphasize **health significance, innovation, and research approach**. Optional with PDF.',
+        propuestaPh: 'Health significance, innovation, research approach, team…',
+      },
+      'Horizon Europe': {
+        header: 'Horizon Europe · EU',
+        contexto: '**Horizon Europe** evaluates **Excellence, Impact, and Quality of Implementation**. Requires a **consortium of ≥3 entities from ≥3 EU countries**. Scale **0–5**. Collaborative R&D with strong impact pathway.',
+        trlBot: 'What is the approximate **TRL**? Horizon Europe requires consistency between **TRL, work plan, and expected impact**.',
+        propuestaBot: 'Paste **proposal text** if available: focus on **excellence, impact pathway, consortium quality, and implementation plan**. Optional with PDF.',
+        propuestaPh: 'Excellence, impact, consortium, implementation plan…',
+      },
+      'EIC Accelerator': {
+        header: 'EIC Accelerator · EU',
+        contexto: '**EIC Accelerator** uses a **Go/No-Go** evaluation for **deep tech** with high risk and high impact. Up to **EUR 2.5M grant + EUR 15M equity**. Single company (no consortium). TRL 5–8 expected.',
+        trlBot: 'What is the approximate **TRL**? EIC Accelerator targets **TRL 5–8** with a clear path to market.',
+        propuestaBot: 'Paste **proposal text** if available: highlight **disruptive innovation, market potential, and scale-up plan**. Optional with PDF.',
+        propuestaPh: 'Disruptive innovation, market potential, scale-up plan, team…',
+      },
+      'Eurostars': {
+        header: 'Eurostars · EU',
+        contexto: '**Eurostars** reviews **Market, Technology, Consortium, and Management**. International R&D collaboration for SMEs. Consortium of **≥2 countries**. EUR 500K–3M.',
+        trlBot: 'What is the approximate **TRL**? Eurostars values alignment between **technology maturity** and **market readiness**.',
+        propuestaBot: 'Paste **proposal text** if available: focus on **market opportunity, technology, and international consortium**. Optional with PDF.',
+        propuestaPh: 'Market opportunity, technology, consortium, management…',
+      },
+      'Innovate UK': {
+        header: 'Innovate UK',
+        contexto: '**Innovate UK** scores **Innovation, Team, Funding/value, Impact, and Deliverability** on a **1–10** scale (minimum **7** to pass). Strong business case and co-funding required.',
+        trlBot: 'What is the approximate **TRL**? Innovate UK expects the TRL to match the **deliverability** and **route to market** you describe.',
+        propuestaBot: 'Paste **proposal text** if available: emphasize **innovation, business case, impact, and deliverability**. Optional with PDF.',
+        propuestaPh: 'Innovation, business case, impact, deliverability, team…',
+      },
+      'Ruta N (Colombia)': {
+        header: 'Ruta N · Colombia',
+        contexto: '**Ruta N** evalúa **innovación, mercado, equipo e impacto regional** en Medellín y Antioquia. Montos hasta **COP 500M**. Foco en **beneficio territorial**.',
+        trlBot: '¿Cuál es el **TRL** aproximado? Ruta N valora la coherencia entre **madurez tecnológica** e **impacto regional**.',
+        propuestaBot: 'Pega **texto** de la propuesta si lo tienes: enfatiza **innovación, mercado local e impacto**. Opcional con PDF.',
+        propuestaPh: 'Innovación, mercado, impacto regional, equipo…',
+      },
+      'iNNpulsa (Colombia)': {
+        header: 'iNNpulsa · Colombia',
+        contexto: '**iNNpulsa** evalúa **innovación, escalabilidad, impacto y equipo**. Hasta **COP 1.000M**. Foco en **emprendimiento e innovación empresarial**.',
+        trlBot: '¿Cuál es el **TRL** aproximado? iNNpulsa busca coherencia entre **madurez del producto** y **escalabilidad**.',
+        propuestaBot: 'Pega **texto** si lo tienes: resalta **innovación, escalabilidad y modelo de negocio**. Opcional con PDF.',
+        propuestaPh: 'Innovación, escalabilidad, impacto, equipo…',
+      },
+      'FONTAR (Argentina)': {
+        header: 'FONTAR · Argentina',
+        contexto: '**FONTAR** evalúa **mérito técnico, viabilidad, impacto y capacidad ejecutora**. Foco en **modernización tecnológica** de empresas argentinas.',
+        trlBot: '¿Cuál es el **TRL** aproximado? FONTAR busca coherencia entre **mérito técnico** y **viabilidad** del proyecto.',
+        propuestaBot: 'Pega **texto** si lo tienes: destaca **innovación tecnológica, viabilidad y capacidad ejecutora**. Opcional con PDF.',
+        propuestaPh: 'Mérito técnico, viabilidad, impacto, capacidad ejecutora…',
+      },
+      'FINEP (Brasil)': {
+        header: 'FINEP · Brasil',
+        contexto: '**FINEP** avalia **mérito técnico, inovação, impacto e capacidade**. Foco em **inovação e desenvolvimento tecnológico** no Brasil.',
+        trlBot: '¿Cuál es el **TRL** aproximado? FINEP valora la coherencia entre **innovación** y **capacidad de ejecución**.',
+        propuestaBot: 'Pega **texto** si lo tienes: enfatiza **innovación, mérito técnico e impacto**. Opcional con PDF.',
+        propuestaPh: 'Innovación, mérito técnico, impacto, capacidad…',
+      },
+    };
+
+    const steps = [
+      { key: 'intro', bot: 'Bienvenido a **ZENTI**. Vamos a realizar la evaluación técnico-estratégica de tu postulación. Selecciona el **instrumento** al que postulas.', input: null },
+      { key: 'fondo', bot: '¿A qué **instrumento o convocatoria** postulas?', input: { type: 'select', options: FONDOS, field: 'field-2' } },
+      { key: 'nombre', bot: '¿Cómo se llama el **proyecto**?', input: { type: 'text', placeholder: 'Nombre del proyecto', field: 'field-0' } },
+      { key: 'empresa', bot: '¿Nombre de la **empresa** o institución?', input: { type: 'text', placeholder: 'Empresa', field: 'field-1' } },
+      { key: 'trl', bot: '¿Cuál es el **TRL actual** aproximado?', input: { type: 'select', options: TRLS, field: 'field-3' } },
+      { key: 'propuesta', bot: 'Si tienes **texto** de la propuesta, pégalo aquí. Es **opcional** si adjuntas PDF.', input: { type: 'textarea', placeholder: 'Opcional: problema, solución, mercado, equipo…', field: 'field-4' } },
+      { key: 'email', bot: '¿A qué **correo** enviamos el informe ejecutivo?', input: { type: 'email', placeholder: 'tu@email.com', field: 'field-5' } },
+      { key: 'pdf', bot: '¿Quieres **adjuntar un PDF**? Recomendado si la propuesta está en archivo.', input: { type: 'file', field: 'field-6', accept: '.pdf,application/pdf' } },
+      { key: 'coupon', bot: '¿Tienes un **código cupón** para el informe premium? (opcional — ej. ZENTIMVP)', input: { type: 'text', placeholder: 'Dejar vacío si no aplica', field: 'field-7', optional: true } },
+      { key: 'review', bot: '**Revisá los datos** antes de enviar. Si algo está mal, usá **Atrás**.', input: { type: 'submit' } },
+    ];
+
+    const CHAT_TOTAL_STEPS = 9;
+    const LS_DRAFT_KEY = 'zenti-eval-draft-v2';
+
+    function setHeaderSubtitle(fondoKey) {
+      const el = document.getElementById('header-subtitle');
+      if (!el) return;
+      const info = fondoKey && FONDO_INFO[fondoKey];
+      el.textContent = info ? info.header : 'Evaluación técnico-estratégica · selecciona el instrumento';
+    }
+
+    function botTextForStep(step) {
+      const f = values['field-2'];
+      const info = f && FONDO_INFO[f];
+      if (step.key === 'trl' && info && info.trlBot) return info.trlBot;
+      if (step.key === 'propuesta' && info && info.propuestaBot) return info.propuestaBot;
+      if (step.key === 'review' && f) return 'Evaluación calibrada para **' + f + '**. Pulsa **Solicitar evaluación** para iniciar. Tarda **1–2 minutos**.';
+      return step.bot;
+    }
+
+    const values = { files: {} };
+    let stepIndex = 0;
+    const chatEl = document.getElementById('chat');
+    const stepUi = document.getElementById('step-ui');
+    const errEl = document.getElementById('err');
+    const composer = document.getElementById('composer');
+
+    function updateProgress() {
+      const el = document.getElementById('chat-progress');
+      if (!el) return;
+      const n = Math.min(Math.max(stepIndex + 1, 1), CHAT_TOTAL_STEPS);
+      el.textContent = 'Paso ' + n + ' de ' + CHAT_TOTAL_STEPS;
+    }
+
+    function persistDraft() {
+      try {
+        localStorage.setItem(LS_DRAFT_KEY, JSON.stringify({
+          stepIndex,
+          valuesScalar: {
+            'field-0': values['field-0'] || '',
+            'field-1': values['field-1'] || '',
+            'field-2': values['field-2'] || '',
+            'field-3': values['field-3'] || '',
+            'field-4': values['field-4'] || '',
+            'field-5': values['field-5'] || '',
+            'field-7': values['field-7'] || '',
+          },
+        }));
+      } catch (e) {}
+    }
+
+    function clearDraft() {
+      try { localStorage.removeItem(LS_DRAFT_KEY); } catch (e) {}
+    }
+
+    function buildSummaryHtml() {
+      const f = values['field-2'] || '—';
+      const pdf = values.files['field-6'];
+      const pdfLabel = pdf && pdf.name ? esc(pdf.name) : 'Sin archivo (solo texto)';
+      let prop = (values['field-4'] || '').trim();
+      if (prop.length > 280) prop = prop.slice(0, 277) + '…';
+      return (
+        '<strong>Resumen del envío</strong>' +
+        '<dl>' +
+        '<dt>Instrumento</dt><dd>' + esc(f) + '</dd>' +
+        '<dt>Proyecto</dt><dd>' + esc(values['field-0'] || '—') + '</dd>' +
+        '<dt>Empresa</dt><dd>' + esc(values['field-1'] || '—') + '</dd>' +
+        '<dt>TRL</dt><dd>' + esc(values['field-3'] || '—') + '</dd>' +
+        '<dt>Correo</dt><dd>' + esc(values['field-5'] || '—') + '</dd>' +
+        '<dt>Propuesta (extracto)</dt><dd>' + (prop ? esc(prop) : '<em>Sin texto — PDF u opcional</em>') + '</dd>' +
+        '<dt>PDF</dt><dd>' + pdfLabel + '</dd>' +
+        ((values['field-7'] || '').trim()
+          ? '<dt>Cupón</dt><dd>' + esc((values['field-7'] || '').trim()) + '</dd>'
+          : '') +
+        '</dl>'
+      );
+    }
+
+    function addBubble(who, html, small) {
+      const row = document.createElement('div');
+      row.className = 'row ' + (who === 'user' ? 'user' : 'bot');
+      row.innerHTML =
+        '<div class="avatar">' + (who === 'user' ? 'Tú' : 'Z') + '</div>' +
+        '<div class="bubble">' + html + (small ? '<small>' + small + '</small>' : '') + '</div>';
+      chatEl.appendChild(row);
+      chatEl.scrollTop = chatEl.scrollHeight;
+    }
+
+    function esc(s) {
+      return String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    }
+    function formatBot(text) {
+      return esc(text).replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+    }
+    function showError(msg) {
+      errEl.textContent = msg || '';
+      errEl.classList.toggle('hidden', !msg);
+    }
+
+    function renderStep(opt) {
+      opt = opt || {};
+      showError('');
+      stepUi.innerHTML = '';
+      const step = steps[stepIndex];
+      if (!step) return;
+
+      if (!opt.skipBot) {
+        addBubble('bot', formatBot(botTextForStep(step)));
+      }
+      updateProgress();
+
+      if (!step.input) {
+        stepIndex++;
+        renderStep({});
+        return;
+      }
+
+      if (step.input.type === 'submit') {
+        const sum = document.createElement('div');
+        sum.className = 'review-summary';
+        sum.innerHTML = buildSummaryHtml();
+        stepUi.appendChild(sum);
+        const hint = document.createElement('p');
+        hint.style.cssText = 'font-size:12px;color:#6B7280;margin:0 0 12px;line-height:1.5';
+        hint.textContent = 'El envío tarda unos minutos en procesarse. Revisá también spam.';
+        stepUi.appendChild(hint);
+        const wrap = document.createElement('div');
+        wrap.className = 'actions';
+        wrap.innerHTML = '<button type="button" class="ghost" id="btn-back">Atrás</button><button type="button" class="primary" id="btn-send">Solicitar evaluación</button>';
+        stepUi.appendChild(wrap);
+        persistDraft();
+        document.getElementById('btn-back').onclick = function () {
+          if (stepIndex <= 1) return;
+          const last = chatEl.lastElementChild;
+          if (last && last.classList.contains('row')) chatEl.removeChild(last);
+          stepIndex -= 1;
+          renderStep({ skipBot: true });
+        };
+        document.getElementById('btn-send').onclick = submitForm;
+        return;
+      }
+
+      if (step.input.type === 'file') {
+        const zone = document.createElement('div');
+        zone.className = 'upload-zone';
+        zone.id = 'upload-zone';
+        zone.innerHTML =
+          '<input type="file" id="dyn-input" accept="' + (step.input.accept || '') + '" />' +
+          '<div class="upload-icon">\u2191</div>' +
+          '<div class="upload-label">Haz clic o arrastra tu PDF aqu\u00ed</div>' +
+          '<div class="upload-hint">Formato PDF \u00b7 Opcional</div>' +
+          '<div class="upload-filename" id="upload-fname"></div>';
+        stepUi.appendChild(zone);
+
+        const fileInput = document.getElementById('dyn-input');
+        const fnameEl = document.getElementById('upload-fname');
+        zone.onclick = function () { fileInput.click(); };
+        zone.ondragover = function (e) { e.preventDefault(); zone.classList.add('dragover'); };
+        zone.ondragleave = function () { zone.classList.remove('dragover'); };
+        zone.ondrop = function (e) {
+          e.preventDefault(); zone.classList.remove('dragover');
+          if (e.dataTransfer.files[0]) {
+            fileInput.files = e.dataTransfer.files;
+            fileInput.dispatchEvent(new Event('change'));
+          }
+        };
+        fileInput.onchange = function () {
+          const f = fileInput.files[0];
+          if (f) {
+            zone.classList.add('has-file');
+            fnameEl.textContent = f.name;
+          } else {
+            zone.classList.remove('has-file');
+            fnameEl.textContent = '';
+          }
+        };
+
+        const actions = document.createElement('div');
+        actions.className = 'actions';
+        actions.style.marginTop = '12px';
+        actions.innerHTML =
+          '<button type="button" class="primary" id="btn-next">Continuar</button>' +
+          '<button type="button" class="ghost" id="btn-skip" style="font-size:13px;padding:10px 16px">Saltar sin archivo</button>';
+        stepUi.appendChild(actions);
+        document.getElementById('btn-skip').onclick = function () {
+          values.files[step.input.field] = null;
+          stepIndex++;
+          persistDraft();
+          renderStep({});
+        };
+        document.getElementById('btn-next').onclick = function () {
+          values.files[step.input.field] = fileInput.files[0] || null;
+          stepIndex++;
+          persistDraft();
+          renderStep({});
+        };
+        return;
+      }
+
+      if (step.input.type === 'select') {
+        const sel = document.createElement('select');
+        sel.id = 'dyn-input';
+        sel.innerHTML = '<option value="">Elige una opción…</option>' + step.input.options.map(function (o) {
+          if (o.startsWith('──')) return '<option disabled style="font-weight:700;color:#9CA3AF;background:#F3F4F6;font-size:12px">' + esc(o) + '</option>';
+          return '<option value="' + esc(o) + '">' + esc(o) + '</option>';
+        }).join('');
+        stepUi.appendChild(sel);
+      } else if (step.input.type === 'textarea') {
+        const ta = document.createElement('textarea');
+        ta.id = 'dyn-input';
+        const f = values['field-2'];
+        const info = f && FONDO_INFO[f];
+        ta.placeholder = (step.key === 'propuesta' && info && info.propuestaPh) || step.input.placeholder || '';
+        ta.value = values[step.input.field] || '';
+        stepUi.appendChild(ta);
+      } else {
+        const inp = document.createElement('input');
+        inp.type = step.input.type;
+        inp.id = 'dyn-input';
+        inp.placeholder = step.input.placeholder || '';
+        inp.value = values[step.input.field] || '';
+        stepUi.appendChild(inp);
+      }
+
+      const actions = document.createElement('div');
+      actions.className = 'actions';
+      actions.innerHTML = '<button type="button" class="primary" id="btn-next">Siguiente</button>';
+      stepUi.appendChild(actions);
+
+      document.getElementById('btn-next').onclick = function () {
+        const el = document.getElementById('dyn-input');
+        const v = el.value.trim();
+        if (step.input.type === 'select' && !v) { showError('Selecciona una opción.'); return; }
+        if (!step.input.optional && step.input.type !== 'select' && step.input.type !== 'textarea' && !v) { showError('Este dato es obligatorio.'); return; }
+        if (step.input.type === 'email' && v && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)) { showError('Correo no válido.'); return; }
+        values[step.input.field] = v;
+        addBubble('user', esc(v) || '(vacío)');
+        if (step.key === 'fondo') {
+          setHeaderSubtitle(v);
+          const fi = FONDO_INFO[v];
+          if (fi) addBubble('bot', formatBot(fi.contexto));
+        }
+        stepIndex++;
+        persistDraft();
+        renderStep({});
+      };
+    }
+
+    async function submitForm() {
+      const btn = document.getElementById('btn-send');
+      btn.disabled = true;
+      showError('');
+
+      const fd = new FormData();
+      fd.append('field-0', values['field-0'] || '');
+      fd.append('field-1', values['field-1'] || '');
+      fd.append('field-2', values['field-2'] || '');
+      fd.append('field-3', values['field-3'] || '');
+      fd.append('field-4', values['field-4'] || '');
+      fd.append('field-5', values['field-5'] || '');
+      const f = values.files['field-6'];
+      if (f && f.size > 0) fd.append('field-6', f, f.name);
+      fd.append('field-7', (values['field-7'] || '').trim());
+
+      try {
+        const res = await fetch(FORM_POST_URL, { method: 'POST', body: fd });
+        const text = await res.text();
+        let json;
+        try { json = JSON.parse(text); } catch (e) { json = null; }
+
+        composer.classList.add('hidden');
+        chatEl.innerHTML = '';
+
+        const panel = document.createElement('div');
+        panel.className = 'success-panel';
+        const h2 = document.createElement('h2');
+        h2.textContent = 'Evaluación enviada';
+        const p = document.createElement('p');
+        p.style.whiteSpace = 'pre-wrap';
+        p.style.color = '#6b6b6b';
+        let body = 'Recibirás el informe ejecutivo en tu correo en los próximos minutos.\nRevisa también la carpeta de spam.';
+        if (json && json.formSubmittedText) body = String(json.formSubmittedText).replace(/\\n/g, '\n');
+        else if (text && text.length < 2000 && !text.trim().startsWith('<!')) body = text;
+        p.textContent = body;
+        panel.appendChild(h2);
+        panel.appendChild(p);
+
+        const payA = document.createElement('a');
+        var zpl = (typeof ZENTI_PAY_LINKS !== 'undefined') ? ZENTI_PAY_LINKS : {};
+        var consultHrefEval = (zpl.consultCheckoutUrl && String(zpl.consultCheckoutUrl).trim())
+          ? zpl.consultCheckoutUrl
+          : (zpl.consultPayUrl || 'mailto:hola@zentigrants.com?subject=Consultor%C3%ADa%20ZENTI');
+        payA.href = consultHrefEval;
+        payA.target = '_blank';
+        payA.rel = 'noopener';
+        payA.style.cssText = 'display:inline-block;margin-top:24px;padding:12px 28px;background:#F26C22;color:#fff;border-radius:999px;font-weight:700;font-size:14px;text-decoration:none;box-shadow:0 6px 18px rgba(242,108,34,.25)';
+        payA.textContent = 'Pagar sesión 1:1 (Flow)';
+        panel.appendChild(payA);
+        const calHint = document.createElement('p');
+        calHint.style.cssText = 'margin-top:12px;padding:12px 18px;border:1px dashed #d1d5db;border-radius:12px;color:#6b7280;font-size:13px;line-height:1.5;max-width:380px';
+        calHint.innerHTML = 'Agenda: te enviamos el enlace a Calendly <strong>por correo</strong> cuando el pago est&eacute; confirmado.';
+        panel.appendChild(calHint);
+
+        const again = document.createElement('button');
+        again.type = 'button';
+        again.className = 'ghost';
+        again.style.marginTop = '12px';
+        again.textContent = 'Nueva evaluación';
+        again.onclick = resetForm;
+        panel.appendChild(again);
+
+        chatEl.appendChild(panel);
+        clearDraft();
+      } catch (e) {
+        showError('No se pudo procesar la solicitud. Verifica tu conexión e inténtalo nuevamente.');
+        btn.disabled = false;
+      }
+    }
+
+    function resetForm() {
+      clearDraft();
+      Object.keys(values).forEach(function (k) { if (k !== 'files') delete values[k]; });
+      values.files = {};
+      stepIndex = 0;
+      chatEl.innerHTML = '';
+      composer.classList.remove('hidden');
+      var db = document.getElementById('draft-banner');
+      if (db) db.classList.add('hidden');
+      setHeaderSubtitle(null);
+      renderStep({});
+    }
+
+    document.querySelectorAll('a[href="#evaluator"]').forEach(function (a) {
+      a.addEventListener('click', function (e) {
+        e.preventDefault();
+        var el = document.getElementById('evaluator');
+        if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    });
+    document.querySelectorAll('a[href="#start"]').forEach(function (a) {
+      a.addEventListener('click', function (e) {
+        e.preventDefault();
+        var el = document.getElementById('start');
+        if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    });
+
+    (function bootDraftOrEval() {
+      var banner = document.getElementById('draft-banner');
+      var raw = null;
+      try { raw = localStorage.getItem(LS_DRAFT_KEY); } catch (e1) {}
+      if (raw && banner) {
+        var d = null;
+        try { d = JSON.parse(raw); } catch (e2) { d = null; }
+        if (d && d.stepIndex != null && d.stepIndex >= 1 && d.valuesScalar) {
+          banner.classList.remove('hidden');
+          var stepLabel = Math.min(d.stepIndex + 1, CHAT_TOTAL_STEPS);
+          document.getElementById('draft-banner-msg').textContent =
+            'Tenés un borrador en este navegador (paso ' + stepLabel + ' de ' + CHAT_TOTAL_STEPS + ').';
+          document.getElementById('draft-continue').onclick = function () {
+            Object.assign(values, d.valuesScalar);
+            values.files = {};
+            stepIndex = d.stepIndex;
+            banner.classList.add('hidden');
+            chatEl.innerHTML = '';
+            setHeaderSubtitle(values['field-2'] || null);
+            addBubble('bot', formatBot('**Continuamos tu borrador.** Si adjuntaste PDF antes, volvé a subirlo en el paso de archivo.'));
+            renderStep({ skipBot: true });
+          };
+          document.getElementById('draft-discard').onclick = function () {
+            clearDraft();
+            banner.classList.add('hidden');
+            stepIndex = 0;
+            Object.keys(values).forEach(function (k) { if (k !== 'files') delete values[k]; });
+            values.files = {};
+            chatEl.innerHTML = '';
+            setHeaderSubtitle(null);
+            renderStep({});
+          };
+          return;
+        }
+      }
+      renderStep({});
+    })();
+  </script>
+
+</body>
+</html>
