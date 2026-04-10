@@ -2355,7 +2355,7 @@
       const info = f && FONDO_INFO[f];
       if (step.key === 'trl' && info && info.trlBot) return info.trlBot;
       if (step.key === 'propuesta' && info && info.propuestaBot) return info.propuestaBot;
-      if (step.key === 'review' && f) return 'Evaluación calibrada para **' + f + '**. Pulsa **Solicitar evaluación** para iniciar. Tarda **1–2 minutos**.';
+      if (step.key === 'review' && f) return 'Evaluación calibrada para **' + f + '**. Pulsa **Solicitar evaluación** para iniciar. En la práctica tarda **unos minutos** (típico 2–5 min).';
       return step.bot;
     }
 
@@ -2627,7 +2627,7 @@
         '  <p class="loading-sub">ZENTI est\u00e1 evaluando tu postulaci\u00f3n<br/>con los criterios reales del comit\u00e9.</p>',
         '  <div class="loading-timer" id="loading-timer">\u23f1 0:00</div>',
         '  <div class="loading-bar-wrap"><div class="loading-bar" id="loading-bar"></div></div>',
-        '  <p class="loading-hint">Esto suele tomar 1\u20133 minutos.</p>',
+        '  <p class="loading-hint">Suele tardar <strong>2\u20135 min</strong> (IA + informe + subida). No cierres esta pesta\u00f1a.</p>',
         '</div>'
       ].join('');
       var startTime = Date.now();
@@ -2639,7 +2639,7 @@
         var min = Math.floor(elapsed / 60);
         var sec = elapsed % 60;
         timerEl.textContent = '\u23f1 ' + min + ':' + String(sec).padStart(2, '0');
-        if (barEl) barEl.style.width = Math.min(90, elapsed / 180 * 90) + '%';
+        if (barEl) barEl.style.width = Math.min(93, (elapsed / 360) * 93) + '%';
       }, 1000);
     }
 
@@ -2840,12 +2840,13 @@
     }
 
     function startPolling(session_id, container) {
-      var MAX_MS = 5 * 60 * 1000;
-      var INTERVAL_MS = 5000;
+      var MAX_MS = 8 * 60 * 1000;
+      var INTERVAL_MS = 3000;
       var startTime = Date.now();
-      var pollTimer = setInterval(function() {
+      var pollTimer = null;
+      function pollOnce() {
         if (Date.now() - startTime > MAX_MS) {
-          clearInterval(pollTimer);
+          if (pollTimer) clearInterval(pollTimer);
           showFallbackPanel(container);
           return;
         }
@@ -2853,12 +2854,14 @@
           .then(function(res) { return res.ok ? res.json() : null; })
           .then(function(data) {
             if (data && data.status === 'done' && data.preview_url) {
-              clearInterval(pollTimer);
-              showInlineReport(container, data.preview_url);
+              if (pollTimer) clearInterval(pollTimer);
+              showInlineReport(container, data.preview_url, data);
             }
           })
           .catch(function() {});
-      }, INTERVAL_MS);
+      }
+      pollOnce();
+      pollTimer = setInterval(pollOnce, INTERVAL_MS);
     }
 
     async function submitForm() {
