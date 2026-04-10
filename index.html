@@ -954,22 +954,30 @@
       color: var(--z-orange);
       white-space: nowrap;
     }
+    /* Resumen previo al envío: misma familia visual que burbujas bot (+ acento ZENTI) */
     .review-summary {
-      font-size: 13px; line-height: 1.55; color: var(--z-gray-700);
-      background: var(--z-gray-100);
-      border: 1px solid var(--z-border);
-      border-radius: 12px;
+      font-size: 13px;
+      line-height: 1.55;
+      color: var(--z-text);
+      background: var(--z-surface-4);
+      border: 1px solid var(--z-ghost-border);
+      border-left: 3px solid var(--z-orange);
+      border-radius: var(--z-radius);
       padding: 14px 16px;
       margin-bottom: 12px;
       text-align: left;
+      box-shadow: 0 2px 14px rgba(0, 0, 0, 0.22);
     }
-    /* Resumen: layout vertical original (sin grid de dos columnas en bubble angosto) */
     .review-summary > strong {
       display: block;
-      margin: 0 0 8px;
+      margin: 0 0 12px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--z-ghost-border);
       font-size: 13px;
       font-weight: 700;
-      color: var(--z-text);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--z-orange);
     }
     .review-summary dl { margin: 0; }
     .review-summary dt {
@@ -984,6 +992,17 @@
       padding-left: 0;
       font-weight: 600;
       color: var(--z-text);
+    }
+    .review-submit-hint {
+      font-size: 12px;
+      color: var(--z-gray-500);
+      margin: 0 0 12px;
+      line-height: 1.5;
+    }
+    .review-summary dd em {
+      font-style: normal;
+      font-weight: 500;
+      color: var(--z-gray-500);
     }
     .draft-banner {
       font-size: 12px; color: var(--z-gray-700);
@@ -2370,12 +2389,29 @@
       try { localStorage.removeItem(LS_DRAFT_KEY); } catch (e) {}
     }
 
+    function looksLikeEmail(s) {
+      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(s || '').trim());
+    }
+
     function buildSummaryHtml() {
       const f = values['field-2'] || '—';
       const pdf = values.files['field-6'];
       const pdfLabel = pdf && pdf.name ? esc(pdf.name) : 'Sin archivo (solo texto)';
       let prop = (values['field-4'] || '').trim();
       if (prop.length > 280) prop = prop.slice(0, 277) + '…';
+      const email = (values['field-5'] || '').trim();
+      const cupIn = (values['field-7'] || '').trim();
+      let cupRaw = cupIn;
+      if (cupRaw && looksLikeEmail(cupRaw) && cupRaw.toLowerCase() === email.toLowerCase()) {
+        cupRaw = '';
+      }
+      var cupónBlock = '';
+      if (cupRaw) {
+        cupónBlock = '<dt>Cupón</dt><dd>' + esc(cupRaw) + '</dd>';
+      } else if (cupIn && looksLikeEmail(cupIn) && cupIn.toLowerCase() !== email.toLowerCase()) {
+        cupónBlock =
+          '<dt>Cupón</dt><dd><em>Parece un correo; el cupón es un código (ej. ZENTIMVP).</em></dd>';
+      }
       return (
         '<strong>Resumen del envío</strong>' +
         '<dl>' +
@@ -2383,12 +2419,10 @@
         '<dt>Proyecto</dt><dd>' + esc(values['field-0'] || '—') + '</dd>' +
         '<dt>Empresa</dt><dd>' + esc(values['field-1'] || '—') + '</dd>' +
         '<dt>TRL</dt><dd>' + esc(values['field-3'] || '—') + '</dd>' +
-        '<dt>Correo</dt><dd>' + esc(values['field-5'] || '—') + '</dd>' +
+        '<dt>Correo</dt><dd>' + esc(email || '—') + '</dd>' +
         '<dt>Propuesta (extracto)</dt><dd>' + (prop ? esc(prop) : '<em>Sin texto — PDF u opcional</em>') + '</dd>' +
         '<dt>PDF</dt><dd>' + pdfLabel + '</dd>' +
-        ((values['field-7'] || '').trim()
-          ? '<dt>Cupón</dt><dd>' + esc((values['field-7'] || '').trim()) + '</dd>'
-          : '') +
+        cupónBlock +
         '</dl>'
       );
     }
@@ -2438,7 +2472,7 @@
         sum.innerHTML = buildSummaryHtml();
         stepUi.appendChild(sum);
         const hint = document.createElement('p');
-        hint.style.cssText = 'font-size:12px;color:#6B7280;margin:0 0 12px;line-height:1.5';
+        hint.className = 'review-submit-hint';
         hint.textContent = 'El envío tarda unos minutos en procesarse. Revisá también spam.';
         stepUi.appendChild(hint);
         const wrap = document.createElement('div');
