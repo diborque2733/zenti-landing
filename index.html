@@ -573,10 +573,14 @@
     #pricing .pricing-features li {
       position: relative;
       padding-left: 26px;
-      margin-bottom: 11px;
-      font-size: 14px;
-      line-height: 1.45;
-      color: rgba(255, 255, 255, 0.9);
+      margin-bottom: 12px;
+      font-size: 13px;
+      line-height: 1.5;
+      color: rgba(255, 255, 255, 0.88);
+      min-height: 3.1em;
+    }
+    #pricing .pricing-features li:last-child {
+      margin-bottom: 0;
     }
     #pricing .pricing-features li::before {
       content: '';
@@ -650,9 +654,25 @@
       pointer-events: none;
       user-select: none;
     }
+    #pricing .pricing-aux-links {
+      text-align: center;
+      margin: 20px auto 0;
+      max-width: 720px;
+      font-size: 12px;
+      line-height: 1.6;
+      color: rgba(229, 226, 225, 0.55);
+    }
+    #pricing .pricing-aux-links a {
+      color: var(--z-orange);
+      font-weight: 600;
+      text-decoration: none;
+    }
+    #pricing .pricing-aux-links a:hover {
+      text-decoration: underline;
+    }
     #pricing .pricing-tagline {
       text-align: center;
-      margin: 36px auto 0;
+      margin: 28px auto 0;
       max-width: 640px;
       font-size: 15px;
       font-weight: 600;
@@ -1805,18 +1825,12 @@
             <div class="pricing-card-eyebrow pricing-card-eyebrow--soft">Siempre gratis</div>
             <h3 class="pricing-card-name">Gratis</h3>
             <div class="pricing-card-price">$0</div>
-            <p class="pricing-card-sub">Sin tarjeta &middot; ad&oacute;nde postular, roadmap y &eacute;nfasis</p>
+            <p class="pricing-card-sub">Sin tarjeta &middot; mapa de fondos, prioridad y &eacute;nfasis</p>
             <ul class="pricing-features">
-              <li><strong>Ad&oacute;nde postular:</strong> fondos e instrumentos alineados a tu perfil, con lectura comparada</li>
-              <li><strong>Roadmap:</strong> varias opciones posibles y <strong>an&aacute;lisis</strong> por convocatoria &mdash; qu&eacute; priorizar y <strong>en qu&eacute; hacer &eacute;nfasis</strong> antes de escribir la postulaci&oacute;n</li>
-              <li>Informe b&aacute;sico por <strong>correo (HTML)</strong>; la simulaci&oacute;n tipo comit&eacute; completa y el premium son el siguiente nivel (pago)</li>
+              <li><strong>D&oacute;nde postular:</strong> fondos e instrumentos que calzan con tu perfil, con lectura comparada por convocatoria.</li>
+              <li><strong>Roadmap y &eacute;nfasis:</strong> varias opciones posibles, qu&eacute; priorizar y qu&eacute; reforzar (equipo, mercado, I+D) antes de escribir.</li>
+              <li><strong>Entrega:</strong> informe b&aacute;sico por correo (HTML). La simulaci&oacute;n tipo comit&eacute; completa y el premium son el nivel siguiente (pago).</li>
             </ul>
-            <p class="pricing-demo-links" style="margin:14px 0 0;font-size:12px;line-height:1.5;color:var(--z-gray-500)">
-              <a href="demo-informe-gratis.html" target="_blank" rel="noopener" style="color:var(--z-orange);font-weight:600">Ver ejemplo informe gratis</a>
-              &middot;
-              <a href="demo-informe-premium.html" target="_blank" rel="noopener" style="color:var(--z-orange);font-weight:600">Ver ejemplo informe premium</a>
-            </p>
-            <p style="margin:10px 0 0;font-size:12px;line-height:1.45;color:var(--z-gray-500)">&iquest;Ya ten&eacute;s borrador? <a href="#evaluator" style="color:var(--z-orange);font-weight:600">Evaluar propuesta</a> (simulaci&oacute;n tipo comit&eacute;).</p>
           </div>
           <div class="pricing-card-cta">
             <a href="#start" class="btn-pricing-dark">Empezar gratis</a>
@@ -1830,17 +1844,16 @@
             <div class="pricing-card-eyebrow">Informe completo</div>
             <h3 class="pricing-card-name">Est&aacute;ndar</h3>
             <div class="pricing-card-price">$89 <small>USD</small></div>
-            <p class="pricing-card-sub">Por propuesta &middot; $80.000 CLP &middot; Para equipos que postulan en semanas</p>
+            <p class="pricing-card-sub">Por propuesta &middot; $80.000 CLP &middot; Equipos que cierran postulaci&oacute;n en semanas</p>
             <ul class="pricing-features">
-              <li>Simulaci&oacute;n de evaluaci&oacute;n completa</li>
-              <li>Informe detallado (HTML / PDF descargable)</li>
-              <li>Criterios y fondos globales calibrados</li>
-              <li>Benchmarks vs. otras postulaciones</li>
+              <li><strong>Simulaci&oacute;n tipo comit&eacute;:</strong> nota, veredicto y diagn&oacute;stico por criterio del fondo que elijas, con brechas claras.</li>
+              <li><strong>Informe ejecutivo</strong> en HTML y PDF descargable; criterios globales calibrados y benchmarks vs. otras postulaciones.</li>
+              <li><strong>Entrega:</strong> ves una parte del resultado por correo; el <strong>pago desbloquea</strong> el informe ampliado completo.</li>
             </ul>
           </div>
           <div class="pricing-card-cta">
             <a href="#evaluator" class="btn-pricing-hot">Obtener evaluaci&oacute;n</a>
-            <p class="pricing-card-foot">Primero ves <strong>una parte</strong> del resultado por correo; el pago <strong>desbloquea</strong> el informe completo ampliado</p>
+            <p class="pricing-card-foot pricing-card-foot--spacer" aria-hidden="true">&nbsp;</p>
           </div>
         </div>
 
@@ -1849,11 +1862,11 @@
             <div class="pricing-card-eyebrow">Para grandes proyectos</div>
             <h3 class="pricing-card-name">Consultor&iacute;a</h3>
             <div class="pricing-card-price">$233 <small>USD</small></div>
-            <p class="pricing-card-sub">Referencial &middot; $230.000 CLP &middot; Sesi&oacute;n 1:1 con experto ZENTI</p>
+            <p class="pricing-card-sub">Referencial &middot; $230.000 CLP &middot; Sesiones 1:1 con experto ZENTI</p>
             <ul class="pricing-features">
-              <li>Evaluaci&oacute;n experta alineada al fondo o instrumento espec&iacute;fico que seleccion&aacute;s</li>
-              <li>Auditor&iacute;a personalizada en vivo</li>
-              <li>Plan de mejoras a medida</li>
+              <li><strong>Sesi&oacute;n 1:1</strong> con experto alineado al instrumento y a tu expediente; revisi&oacute;n de postulaci&oacute;n en profundidad.</li>
+              <li><strong>Auditor&iacute;a en vivo</strong> y plan de mejoras accionable para levantar la competitividad frente al fondo.</li>
+              <li><strong>Flujo:</strong> pag&aacute;s en Flow (checkout); el enlace para agendar en Calendly te lo enviamos <strong>por correo</strong> al acreditarse el pago.</li>
             </ul>
           </div>
           <div class="pricing-card-cta">
@@ -1862,6 +1875,14 @@
           </div>
         </div>
       </div>
+
+      <p class="pricing-aux-links">
+        <a href="demo-informe-gratis.html" target="_blank" rel="noopener">Ver ejemplo informe gratis</a>
+        &middot;
+        <a href="demo-informe-premium.html" target="_blank" rel="noopener">Ver ejemplo informe premium</a>
+        &middot;
+        <a href="#evaluator">&iquest;Ya ten&eacute;s borrador? Evaluar propuesta</a>
+      </p>
 
       <p class="pricing-tagline">Nunca pierdas un fondo por errores evitables. Asegur&aacute; tu &eacute;xito con ZENTI.</p>
 
