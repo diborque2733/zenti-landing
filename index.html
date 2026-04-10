@@ -1254,7 +1254,12 @@
       flex-direction: column; gap: 10px; background: #141414; color: rgba(229,226,225,0.75);
       font-size: 14px; pointer-events: none; transition: opacity 0.35s ease;
     }
-    .report-iframe-loading.is-done { opacity: 0; }
+    .report-iframe-loading.is-done {
+      opacity: 0;
+      visibility: hidden;
+      z-index: 0;
+      transition: opacity 0.35s ease, visibility 0s linear 0.35s;
+    }
     .report-iframe-wrap.report-iframe-fullscreen {
       position: fixed; inset: 0; z-index: 9999; border-radius: 0; background: #000;
     }
@@ -2405,11 +2410,11 @@
       if (cupRaw && looksLikeEmail(cupRaw) && cupRaw.toLowerCase() === email.toLowerCase()) {
         cupRaw = '';
       }
-      var cupónBlock = '';
+      var couponBlock = '';
       if (cupRaw) {
-        cupónBlock = '<dt>Cupón</dt><dd>' + esc(cupRaw) + '</dd>';
+        couponBlock = '<dt>Cupón</dt><dd>' + esc(cupRaw) + '</dd>';
       } else if (cupIn && looksLikeEmail(cupIn) && cupIn.toLowerCase() !== email.toLowerCase()) {
-        cupónBlock =
+        couponBlock =
           '<dt>Cupón</dt><dd><em>Parece un correo; el cupón es un código (ej. ZENTIMVP).</em></dd>';
       }
       return (
@@ -2422,7 +2427,7 @@
         '<dt>Correo</dt><dd>' + esc(email || '—') + '</dd>' +
         '<dt>Propuesta (extracto)</dt><dd>' + (prop ? esc(prop) : '<em>Sin texto — PDF u opcional</em>') + '</dd>' +
         '<dt>PDF</dt><dd>' + pdfLabel + '</dd>' +
-        cupónBlock +
+        couponBlock +
         '</dl>'
       );
     }
@@ -2736,11 +2741,23 @@
           document.body.style.overflow = on ? 'hidden' : '';
         } catch (e1) {}
       }
-      iframe.addEventListener('load', function onIframeLoad() {
+      var loadingOverlayDone = false;
+      function dismissIframeLoading() {
+        if (loadingOverlayDone) return;
+        loadingOverlayDone = true;
+        try {
+          if (loadingFallbackTimer) clearTimeout(loadingFallbackTimer);
+        } catch (e2) {}
         loadingEl.classList.add('is-done');
         setTimeout(function() {
           if (loadingEl.parentNode) loadingEl.parentNode.removeChild(loadingEl);
-        }, 400);
+        }, 450);
+      }
+      var loadingFallbackTimer = setTimeout(function() {
+        dismissIframeLoading();
+      }, 8000);
+      iframe.addEventListener('load', function onIframeLoad() {
+        dismissIframeLoading();
       });
 
       fsBtn.onclick = function() {
