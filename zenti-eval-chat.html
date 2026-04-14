@@ -511,6 +511,20 @@
       text-align: center;
       padding: 40px 28px;
     }
+    .start-success-icon {
+      width: 56px;
+      height: 56px;
+      margin: 0 auto 16px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(145deg, #22c55e 0%, #16a34a 100%);
+      box-shadow: 0 8px 28px rgba(22, 163, 74, 0.35);
+    }
+    .start-success-icon svg {
+      flex-shrink: 0;
+    }
     .start-success h3 {
       font-size: 20px; font-weight: 800;
       margin-bottom: 10px;
@@ -1073,6 +1087,9 @@
           </div>
         </div>
         <div class="start-success hidden" id="start-success">
+          <div class="start-success-icon" role="img" aria-label="Solicitud enviada correctamente">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>
+          </div>
           <h3>Solicitud recibida</h3>
           <p>Analizaremos tu idea y te enviaremos las recomendaciones de fondos a tu correo en los próximos minutos.</p>
           <a href="https://zentigrants.com/checkout-consultoria.html" id="consult-pay-start-success" target="_blank" rel="noopener" style="display:inline-block;padding:12px 28px;background:#F26C22;color:#fff;border-radius:999px;font-weight:700;font-size:14px;text-decoration:none;box-shadow:0 6px 18px rgba(242,108,34,.25)">Pagar sesi&oacute;n 1:1 (Flow)</a>

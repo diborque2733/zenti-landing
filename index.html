@@ -487,6 +487,7 @@
     }
     #pricing .pricing-card-body {
       min-height: 0;
+      position: relative;
     }
     #pricing .pricing-card-cta {
       display: flex;
@@ -511,11 +512,13 @@
         0 0 56px rgba(242, 108, 34, 0.28),
         0 24px 56px rgba(0, 0, 0, 0.55);
     }
+    /* Badge dentro del body: el grid de .pricing-card solo tiene 2 hijos (body + CTA) como las otras columnas */
     #pricing .pricing-badge-popular {
       position: absolute;
-      top: -12px;
+      top: -10px;
       left: 50%;
       transform: translateX(-50%);
+      z-index: 2;
       background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
       color: #fff;
       font-size: 10px;
@@ -526,6 +529,9 @@
       border-radius: 999px;
       white-space: nowrap;
       box-shadow: 0 4px 16px rgba(234, 88, 12, 0.45);
+    }
+    #pricing .pricing-card--featured .pricing-card-body {
+      padding-top: 10px;
     }
     #pricing .pricing-card-name {
       font-family: var(--z-headline);
@@ -562,8 +568,10 @@
     }
     #pricing .pricing-card-sub {
       font-size: 12px;
+      line-height: 1.45;
       color: rgba(255, 255, 255, 0.45);
       margin-bottom: 18px;
+      min-height: 2.9em;
     }
     #pricing .pricing-features {
       list-style: none;
@@ -577,7 +585,6 @@
       font-size: 13px;
       line-height: 1.5;
       color: rgba(255, 255, 255, 0.88);
-      min-height: 3.1em;
     }
     #pricing .pricing-features li:last-child {
       margin-bottom: 0;
@@ -1216,6 +1223,7 @@
     .loading-bar-wrap { height: 4px; background: var(--z-gray-100); border-radius: 2px; overflow: hidden; margin: 0 auto 12px; max-width: 240px; }
     .loading-bar { height: 100%; background: var(--z-orange); border-radius: 2px; width: 0%; transition: width 1s ease; }
     .loading-hint { font-size: 12px; color: var(--z-gray-400); margin: 0; }
+    .loading-hint-extra { max-width: 320px; margin: 10px auto 0; line-height: 1.45; font-size: 11px; color: var(--z-gray-500); }
 
     /* ── REPORT VIEWER — dark ZENTI theme ── */
     .report-panel { display: flex; flex-direction: column; align-items: center; padding: 0; width: 100%; }
@@ -1397,6 +1405,20 @@
     .start-success {
       text-align: center;
       padding: 40px 28px;
+    }
+    .start-success-icon {
+      width: 56px;
+      height: 56px;
+      margin: 0 auto 16px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(145deg, #22c55e 0%, #16a34a 100%);
+      box-shadow: 0 8px 28px rgba(22, 163, 74, 0.35);
+    }
+    .start-success-icon svg {
+      flex-shrink: 0;
     }
     .start-success h3 {
       font-size: 20px; font-weight: 800;
@@ -1839,8 +1861,8 @@
         </div>
 
         <div class="pricing-card pricing-card--featured">
-          <span class="pricing-badge-popular">M&aacute;s popular</span>
           <div class="pricing-card-body">
+            <span class="pricing-badge-popular">M&aacute;s popular</span>
             <div class="pricing-card-eyebrow">Informe completo</div>
             <h3 class="pricing-card-name">Est&aacute;ndar</h3>
             <div class="pricing-card-price">$89 <small>USD</small></div>
@@ -1979,6 +2001,9 @@
           </div>
         </div>
         <div class="start-success hidden" id="start-success">
+          <div class="start-success-icon" role="img" aria-label="Solicitud enviada correctamente">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>
+          </div>
           <h3>Solicitud recibida</h3>
           <p>Analizaremos tu idea y te enviaremos las recomendaciones de fondos a tu correo en los próximos minutos.</p>
           <a href="https://zentigrants.com/checkout-consultoria.html?utm_source=landing&amp;utm_medium=start-success&amp;utm_campaign=consult-cta" target="_blank" rel="noopener" style="display:inline-block;padding:12px 28px;background:#F26C22;color:#fff;border-radius:999px;font-weight:700;font-size:14px;text-decoration:none;box-shadow:0 6px 18px rgba(242,108,34,.25)">Pagar sesi&oacute;n 1:1 — checkout</a>
@@ -2398,7 +2423,7 @@
       const info = f && FONDO_INFO[f];
       if (step.key === 'trl' && info && info.trlBot) return info.trlBot;
       if (step.key === 'propuesta' && info && info.propuestaBot) return info.propuestaBot;
-      if (step.key === 'review' && f) return 'Evaluación calibrada para **' + f + '**. Pulsa **Solicitar evaluación** para iniciar. En la práctica tarda **unos minutos** (típico 2–5 min).';
+      if (step.key === 'review' && f) return 'Evaluación calibrada para **' + f + '**. Pulsa **Solicitar evaluación** para iniciar. En la práctica tarda **unos minutos** (típico 2–5 min; con cola puede acercarse a **~8 min**).';
       return step.bot;
     }
 
@@ -2670,19 +2695,23 @@
         '  <p class="loading-sub">ZENTI est\u00e1 evaluando tu postulaci\u00f3n<br/>con los criterios reales del comit\u00e9.</p>',
         '  <div class="loading-timer" id="loading-timer">\u23f1 0:00</div>',
         '  <div class="loading-bar-wrap"><div class="loading-bar" id="loading-bar"></div></div>',
-        '  <p class="loading-hint">Suele tardar <strong>2\u20135 min</strong> (IA + informe + subida). No cierres esta pesta\u00f1a.</p>',
+        '  <p class="loading-hint" id="loading-hint">T\u00edpico <strong>2\u20135 min</strong>; con cola o PDFs grandes puede acercarse a <strong>8 min</strong> (IA + informe + subida). No cierres esta pesta\u00f1a.</p>',
+        '  <p class="loading-hint loading-hint-extra" id="loading-hint-extra" style="display:none">Llev\u00e1s varios minutos: si hay cola en el servidor, seguimos buscando tu informe hasta <strong>8 min</strong>. Despu\u00e9s te mostramos c\u00f3mo seguir por correo.</p>',
         '</div>'
       ].join('');
       var startTime = Date.now();
+      var LOADING_BAR_CAP_SEC = 8 * 60;
       window._zentiLoadingTimer = setInterval(function() {
         var timerEl = document.getElementById('loading-timer');
         var barEl = document.getElementById('loading-bar');
+        var extraHint = document.getElementById('loading-hint-extra');
         if (!timerEl) { clearInterval(window._zentiLoadingTimer); return; }
         var elapsed = Math.floor((Date.now() - startTime) / 1000);
         var min = Math.floor(elapsed / 60);
         var sec = elapsed % 60;
         timerEl.textContent = '\u23f1 ' + min + ':' + String(sec).padStart(2, '0');
-        if (barEl) barEl.style.width = Math.min(93, (elapsed / 360) * 93) + '%';
+        if (barEl) barEl.style.width = Math.min(93, (elapsed / LOADING_BAR_CAP_SEC) * 93) + '%';
+        if (extraHint && elapsed >= 4 * 60 && extraHint.style.display === 'none') extraHint.style.display = 'block';
       }, 1000);
     }
 
