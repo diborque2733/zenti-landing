@@ -459,6 +459,144 @@
     .success-panel h2 { margin: 0 0 10px; font-size: 20px; }
     .success-panel p { color: var(--z-gray-500); margin: 0; line-height: 1.6; }
 
+    /* ── LOADING PANEL (eval async + visor) — alineado a index.html ── */
+    .loading-panel { text-align: center; padding: 32px 16px 24px; }
+    .z-logo-pulse {
+      width: 64px; height: 64px; border-radius: 16px;
+      background: var(--z-orange); color: #111;
+      font-size: 28px; font-weight: 900; line-height: 64px; text-align: center;
+      margin: 0 auto 20px;
+      animation: zPulseEval 1.4s ease-in-out infinite;
+    }
+    @keyframes zPulseEval {
+      0%,100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(242,108,34,.45); }
+      50%      { transform: scale(1.1); box-shadow: 0 0 0 14px rgba(242,108,34,0); }
+    }
+    .loading-title { font-size: 18px; font-weight: 700; margin: 0 0 8px; color: var(--z-black); }
+    .loading-sub { font-size: 13px; color: var(--z-gray-500); margin: 0 0 16px; line-height: 1.55; }
+    .loading-timer { font-size: 15px; font-weight: 700; color: var(--z-orange); margin-bottom: 12px; letter-spacing: .02em; }
+    .loading-bar-wrap { height: 4px; background: var(--z-gray-100); border-radius: 2px; overflow: hidden; margin: 0 auto 12px; max-width: 240px; }
+    .loading-bar { height: 100%; background: var(--z-orange); border-radius: 2px; width: 0%; transition: width 1s ease; }
+    .loading-hint { font-size: 12px; color: var(--z-gray-400); margin: 0; }
+    .loading-hint-extra { max-width: 320px; margin: 10px auto 0; line-height: 1.45; font-size: 11px; color: var(--z-gray-500); }
+
+    /* ── REPORT VIEWER — dark ZENTI theme ── */
+    .report-panel { display: flex; flex-direction: column; align-items: center; padding: 0; width: 100%; }
+    .report-score-reveal {
+      width: 100%; padding: 24px 16px 20px; text-align: center;
+      background: #0d0d0d; border-bottom: 1px solid rgba(242,108,34,.2);
+    }
+    .report-score-ring {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 96px; height: 96px; border-radius: 50%;
+      border: 4px solid rgba(242,108,34,.2);
+      background: #1a0f00;
+      position: relative; margin: 0 auto 12px;
+    }
+    .report-score-ring svg {
+      position: absolute; top: -4px; left: -4px; width: calc(100% + 8px); height: calc(100% + 8px);
+    }
+    .report-score-ring circle.track {
+      fill: none; stroke: rgba(242,108,34,.12); stroke-width: 4;
+    }
+    .report-score-ring circle.fill {
+      fill: none; stroke: #F26C22; stroke-width: 4;
+      stroke-linecap: round;
+      stroke-dasharray: 283;
+      stroke-dashoffset: 283;
+      transform: rotate(-90deg); transform-origin: 50% 50%;
+      transition: stroke-dashoffset 1.8s cubic-bezier(.22,1,.36,1);
+    }
+    .report-score-num {
+      font-size: 26px; font-weight: 900; color: #F26C22; line-height: 1;
+      position: relative; z-index: 1;
+    }
+    .report-score-label { font-size: 12px; color: rgba(229,226,225,.5); margin-top: 2px; letter-spacing: .08em; }
+    .report-verdict-pill {
+      display: inline-block; margin-top: 10px;
+      padding: 6px 18px; border-radius: 999px;
+      font-size: 13px; font-weight: 700; letter-spacing: .03em;
+      background: rgba(242,108,34,.12); color: #F26C22; border: 1px solid rgba(242,108,34,.3);
+    }
+    .report-verdict-pill.green { background: rgba(16,185,129,.1); color: #10b981; border-color: rgba(16,185,129,.3); }
+    .report-verdict-pill.red   { background: rgba(239,68,68,.1);  color: #ef4444;  border-color: rgba(239,68,68,.3); }
+    .report-header { width: 100%; padding: 10px 16px 8px; text-align: center; background: #0d0d0d; }
+    .report-ready-badge {
+      display: inline-block; padding: 5px 14px;
+      background: rgba(16,185,129,.12); color: #10b981;
+      border: 1px solid rgba(16,185,129,.25);
+      border-radius: 999px; font-size: 12px; font-weight: 700; letter-spacing: .04em;
+    }
+    .report-toolbar {
+      width: 100%; padding: 10px 16px;
+      display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 8px 14px;
+      background: #111; border-top: 1px solid rgba(229,226,225,.06); border-bottom: 1px solid rgba(229,226,225,.06);
+    }
+    .report-toolbar-hint {
+      flex: 1 1 200px; margin: 0; font-size: 11px; color: rgba(229,226,225,.35); line-height: 1.5;
+    }
+    .report-fs-btn {
+      flex: 0 0 auto; padding: 7px 14px; font-size: 12px; font-weight: 700;
+      border: 1px solid rgba(242,108,34,.4); border-radius: 999px;
+      background: transparent; color: #F26C22; cursor: pointer;
+      transition: background .15s;
+    }
+    .report-fs-btn:hover { background: rgba(242,108,34,.08); }
+    .report-fs-btn:focus-visible { outline: 2px solid var(--z-orange); outline-offset: 2px; }
+    .report-iframe-wrap { width: 100%; position: relative; background: #0d0d0d; }
+    .report-iframe-loading {
+      position: absolute; inset: 0; z-index: 2; display: flex; align-items: center; justify-content: center;
+      flex-direction: column; gap: 10px; background: #141414; color: rgba(229,226,225,0.75);
+      font-size: 14px; pointer-events: none; transition: opacity 0.35s ease;
+    }
+    .report-iframe-loading.is-done {
+      opacity: 0;
+      visibility: hidden;
+      z-index: 0;
+      transition: opacity 0.35s ease, visibility 0s linear 0.35s;
+    }
+    .report-iframe-wrap.report-iframe-fullscreen {
+      position: fixed; inset: 0; z-index: 9999; border-radius: 0; background: #000;
+    }
+    .report-iframe-wrap.report-iframe-fullscreen .report-iframe { height: 100vh !important; border-radius: 0; }
+    .chat-shell.report-shell-fs .chat-body { height: 100vh !important; max-height: none !important; }
+    .report-iframe { width: 100%; height: 72vh; border: none; display: block; }
+    .report-pdf-row { width: 100%; text-align: center; padding: 16px; background: #0d0d0d; border-top: 1px solid rgba(229,226,225,.06); }
+    .report-pdf-btn {
+      display: inline-block; padding: 12px 24px; font-size: 14px; font-weight: 700;
+      background: transparent; color: rgba(229,226,225,.6);
+      border: 1px solid rgba(229,226,225,.15); border-radius: 999px;
+      text-decoration: none; transition: border-color .15s, color .15s;
+    }
+    .report-pdf-btn:hover { border-color: rgba(229,226,225,.35); color: #fff; }
+    .report-sticky-bar {
+      position: sticky; bottom: 0; z-index: 100;
+      background: #0d0d0d; border-top: 1px solid rgba(242,108,34,.35);
+      padding: 12px 16px;
+      display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 10px 16px;
+      box-shadow: 0 -8px 32px rgba(0,0,0,.6);
+    }
+    .report-sticky-text {
+      font-size: 13px; color: rgba(229,226,225,.7);
+      flex: 1 1 200px; text-align: center;
+    }
+    .report-sticky-text strong { color: #fff; }
+    .report-sticky-cta {
+      display: inline-block; padding: 11px 22px; font-size: 14px; font-weight: 800;
+      background: #F26C22; color: #fff; border-radius: 999px;
+      text-decoration: none; box-shadow: 0 6px 20px rgba(242,108,34,.35);
+      white-space: nowrap; transition: transform .15s, box-shadow .15s;
+    }
+    .report-sticky-cta:hover { transform: translateY(-1px); box-shadow: 0 8px 24px rgba(242,108,34,.45); }
+    .report-cta-btn {
+      display: inline-block; margin-top: 10px; padding: 11px 24px;
+      background: rgba(242,108,34,.08); color: #F26C22;
+      border: 1px solid rgba(242,108,34,.3); border-radius: 999px;
+      font-weight: 700; font-size: 13px; text-decoration: none;
+      transition: background .15s;
+    }
+    .report-cta-btn:hover { background: rgba(242,108,34,.15); }
+
     /* ── ZENTI.START FORM ── */
     .start-section {
       padding: 80px 24px 100px;
@@ -1229,6 +1367,8 @@
 
   <script>
     const FORM_POST_URL = 'https://zenti.app.n8n.cloud/form/7c2e685a-2439-4afa-889d-35168e65d856';
+    /** Polling ZENTI.status — mismo webhook que index.html (visor inline post-eval). */
+    const STATUS_URL = 'https://zenti.app.n8n.cloud/webhook/zenti-status';
     const START_FORM_URL = 'https://zenti.app.n8n.cloud/form/cff65159-a00b-423f-a02d-3ebac9ce30bd';
 
     /** GA4: rellenar G-XXXXXXXX o `python3 scripts/sync-payment-links.py` con ga4MeasurementId en payment-links.json */
@@ -1927,11 +2067,254 @@
       };
     }
 
-    async function submitForm() {
+    function generateUUID() {
+      if (typeof crypto !== 'undefined' && crypto.randomUUID) return crypto.randomUUID();
+      return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+        var r = (crypto.getRandomValues(new Uint8Array(1))[0] & 0xff) >> 4;
+        return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16);
+      });
+    }
+
+    function showLoadingPanel(container) {
+      container.innerHTML = [
+        '<div class="loading-panel" id="zenti-loading">',
+        '  <div class="z-logo-pulse">Z</div>',
+        '  <h3 class="loading-title">Analizando tu propuesta\u2026</h3>',
+        '  <p class="loading-sub">ZENTI est\u00e1 evaluando tu postulaci\u00f3n<br/>con los criterios reales del comit\u00e9.</p>',
+        '  <div class="loading-timer" id="loading-timer">\u23f1 0:00</div>',
+        '  <div class="loading-bar-wrap"><div class="loading-bar" id="loading-bar"></div></div>',
+        '  <p class="loading-hint" id="loading-hint">T\u00edpico <strong>2\u20135 min</strong>; con cola o PDFs grandes puede acercarse a <strong>8 min</strong> (IA + informe + subida). No cierres esta pesta\u00f1a.</p>',
+        '  <p class="loading-hint loading-hint-extra" id="loading-hint-extra" style="display:none">Llev\u00e1s varios minutos: si hay cola en el servidor, seguimos buscando tu informe hasta <strong>8 min</strong>. Despu\u00e9s te mostramos c\u00f3mo seguir por correo.</p>',
+        '</div>'
+      ].join('');
+      var startTime = Date.now();
+      var LOADING_BAR_CAP_SEC = 8 * 60;
+      window._zentiLoadingTimer = setInterval(function() {
+        var timerEl = document.getElementById('loading-timer');
+        var barEl = document.getElementById('loading-bar');
+        var extraHint = document.getElementById('loading-hint-extra');
+        if (!timerEl) { clearInterval(window._zentiLoadingTimer); return; }
+        var elapsed = Math.floor((Date.now() - startTime) / 1000);
+        var min = Math.floor(elapsed / 60);
+        var sec = elapsed % 60;
+        timerEl.textContent = '\u23f1 ' + min + ':' + String(sec).padStart(2, '0');
+        if (barEl) barEl.style.width = Math.min(93, (elapsed / LOADING_BAR_CAP_SEC) * 93) + '%';
+        if (extraHint && elapsed >= 4 * 60 && extraHint.style.display === 'none') extraHint.style.display = 'block';
+      }, 1000);
+    }
+
+    function showInlineReport(container, preview_url, scoreData) {
+      if (window._zentiLoadingTimer) { clearInterval(window._zentiLoadingTimer); window._zentiLoadingTimer = null; }
+      var zpl = (typeof ZENTI_PAY_LINKS !== 'undefined') ? ZENTI_PAY_LINKS : {};
+      var consultCheckoutUrl = (zpl.consultCheckoutUrl && String(zpl.consultCheckoutUrl).trim())
+        ? zpl.consultCheckoutUrl
+        : 'https://zentigrants.com/checkout-consultoria.html';
+      var premiumBase = (zpl.premiumClp && String(zpl.premiumClp).trim()) ? zpl.premiumClp : 'https://www.flow.cl/uri/JSbQZ7S1H';
+      var stickyUtm = (premiumBase.indexOf('?') >= 0 ? '&' : '?') + 'utm_source=visor&utm_medium=sticky&utm_campaign=premium-upgrade';
+      var stickyHref = premiumBase + stickyUtm;
+
+      container.innerHTML = '';
+      var chatShell = document.querySelector('.chat-shell');
+      var chatBody = document.querySelector('.chat-body');
+      if (chatBody) { chatBody.style.maxHeight = 'none'; chatBody.style.height = 'auto'; chatBody.style.paddingBottom = '0'; }
+
+      var panel = document.createElement('div');
+      panel.className = 'report-panel';
+
+      var score = (scoreData && scoreData.score) ? parseFloat(scoreData.score) : null;
+      var verdict = (scoreData && scoreData.verdict) ? scoreData.verdict : null;
+      if (score && !isNaN(score)) {
+        var scoreReveal = document.createElement('div');
+        scoreReveal.className = 'report-score-reveal';
+        var circumference = 283;
+        var pct = Math.min(Math.max(score / 10, 0), 1);
+        var dashOffset = circumference * (1 - pct);
+        var verdictClass = score >= 7 ? 'green' : score >= 5 ? '' : 'red';
+        var verdictText = verdict || (score >= 7 ? '\u2713 Postulaci\u00f3n competitiva' : score >= 5 ? '\u26a0 Requiere fortalecimiento' : '\u2717 Brechas cr\u00edticas detectadas');
+        scoreReveal.innerHTML =
+          '<div class="report-score-ring">' +
+            '<svg viewBox="0 0 104 104"><circle class="track" cx="52" cy="52" r="45"/><circle class="fill" id="zScoreCircle" cx="52" cy="52" r="45"/></svg>' +
+            '<span class="report-score-num" id="zScoreNum">\u2014</span>' +
+          '</div>' +
+          '<div class="report-score-label">PUNTUACI\u00d3N ZENTI</div>' +
+          '<div class="report-verdict-pill ' + verdictClass + '">' + verdictText + '</div>';
+        panel.appendChild(scoreReveal);
+        setTimeout(function() {
+          var circle = document.getElementById('zScoreCircle');
+          var numEl  = document.getElementById('zScoreNum');
+          if (circle) circle.style.strokeDashoffset = dashOffset;
+          if (numEl) {
+            var start = 0, end = score, dur = 1600, startTs = null;
+            function step(ts) {
+              if (!startTs) startTs = ts;
+              var prog = Math.min((ts - startTs) / dur, 1);
+              var ease = 1 - Math.pow(1 - prog, 3);
+              numEl.textContent = (start + (end - start) * ease).toFixed(1);
+              if (prog < 1) requestAnimationFrame(step);
+            }
+            requestAnimationFrame(step);
+          }
+        }, 80);
+      }
+
+      var header = document.createElement('div');
+      header.className = 'report-header';
+      header.innerHTML = '<span class="report-ready-badge">\u2713 Informe listo \u00b7 versi\u00f3n gratuita</span>';
+      panel.appendChild(header);
+
+      var toolbar = document.createElement('div');
+      toolbar.className = 'report-toolbar';
+      var hint = document.createElement('p');
+      hint.className = 'report-toolbar-hint';
+      hint.textContent = 'Us\u00e1 "pantalla completa" para mejor lectura. El men\u00fa \u22ee del visor permite descargar PDF.';
+      var fsBtn = document.createElement('button');
+      fsBtn.type = 'button';
+      fsBtn.className = 'report-fs-btn';
+      fsBtn.setAttribute('aria-expanded', 'false');
+      fsBtn.textContent = '\u26f6 Pantalla completa';
+      toolbar.appendChild(hint);
+      toolbar.appendChild(fsBtn);
+      panel.appendChild(toolbar);
+
+      var wrap = document.createElement('div');
+      wrap.className = 'report-iframe-wrap';
+      var loadingEl = document.createElement('div');
+      loadingEl.className = 'report-iframe-loading';
+      loadingEl.setAttribute('aria-busy', 'true');
+      loadingEl.innerHTML = '<span>Cargando informe\u2026</span>';
+      var iframe = document.createElement('iframe');
+      iframe.src = preview_url;
+      iframe.className = 'report-iframe';
+      iframe.title = 'Informe ZENTI';
+      iframe.setAttribute('allow', 'fullscreen');
+      wrap.appendChild(loadingEl);
+      wrap.appendChild(iframe);
+      panel.appendChild(wrap);
+
+      function setFsBodyScroll(on) {
+        try { document.body.style.overflow = on ? 'hidden' : ''; } catch (e1) {}
+      }
+      var loadingOverlayDone = false;
+      function dismissIframeLoading() {
+        if (loadingOverlayDone) return;
+        loadingOverlayDone = true;
+        try { if (loadingFallbackTimer) clearTimeout(loadingFallbackTimer); } catch (e2) {}
+        loadingEl.classList.add('is-done');
+        setTimeout(function() {
+          if (loadingEl.parentNode) loadingEl.parentNode.removeChild(loadingEl);
+        }, 450);
+      }
+      var loadingFallbackTimer = setTimeout(function() { dismissIframeLoading(); }, 8000);
+      iframe.addEventListener('load', function onIframeLoad() { dismissIframeLoading(); });
+
+      fsBtn.onclick = function() {
+        var on = wrap.classList.toggle('report-iframe-fullscreen');
+        fsBtn.setAttribute('aria-expanded', on ? 'true' : 'false');
+        fsBtn.textContent = on ? '\u2715 Salir pantalla completa' : '\u26f6 Pantalla completa';
+        if (chatShell) chatShell.classList.toggle('report-shell-fs', on);
+        setFsBodyScroll(on);
+      };
+      if (window._zentiEscFsHandler) document.removeEventListener('keydown', window._zentiEscFsHandler);
+      window._zentiEscFsHandler = function(ev) {
+        if (ev.key !== 'Escape' || !wrap.classList.contains('report-iframe-fullscreen')) return;
+        wrap.classList.remove('report-iframe-fullscreen');
+        fsBtn.setAttribute('aria-expanded', 'false');
+        fsBtn.textContent = '\u26f6 Pantalla completa';
+        if (chatShell) chatShell.classList.remove('report-shell-fs');
+        setFsBodyScroll(false);
+      };
+      document.addEventListener('keydown', window._zentiEscFsHandler);
+
+      var dm = typeof preview_url === 'string' ? preview_url.match(/\/d\/([^/]+)/) : null;
+      if (dm && dm[1]) {
+        var pdfRow = document.createElement('div');
+        pdfRow.className = 'report-pdf-row';
+        var pdfA = document.createElement('a');
+        pdfA.href = 'https://drive.google.com/file/d/' + dm[1] + '/view';
+        pdfA.target = '_blank'; pdfA.rel = 'noopener';
+        pdfA.className = 'report-pdf-btn';
+        pdfA.textContent = '\u2197 Abrir en Google Drive';
+        pdfRow.appendChild(pdfA);
+        var payA = document.createElement('a');
+        payA.href = consultCheckoutUrl; payA.target = '_blank'; payA.rel = 'noopener';
+        payA.className = 'report-cta-btn'; payA.style.display = 'block'; payA.style.marginTop = '10px';
+        payA.textContent = 'Pagar sesi\u00f3n 1:1 \u2014 datos, cup\u00f3n y Flow \u2192';
+        pdfRow.appendChild(payA);
+        var calHint = document.createElement('p');
+        calHint.style.cssText = 'margin-top:8px;padding:10px 14px;border:1px dashed #d1d5db;border-radius:10px;color:#6b7280;font-size:13px;line-height:1.45;max-width:360px';
+        calHint.innerHTML = 'Agenda: te enviamos el enlace a Calendly <strong>por correo</strong> cuando el pago est&eacute; confirmado.';
+        pdfRow.appendChild(calHint);
+        panel.appendChild(pdfRow);
+      }
+
+      var stickyBar = document.createElement('div');
+      stickyBar.className = 'report-sticky-bar';
+      stickyBar.innerHTML =
+        '<span class="report-sticky-text"><strong>\u00bfQuer\u00e9s el informe completo?</strong> \u00b7 5 criterios detallados + plan de acci\u00f3n + PDF descargable</span>' +
+        '<a target="_blank" rel="noopener noreferrer" class="report-sticky-cta">Informe Premium \u2014 $80.000 CLP</a>';
+      var stickyA = stickyBar.querySelector('a.report-sticky-cta');
+      if (stickyA) stickyA.href = stickyHref;
+      panel.appendChild(stickyBar);
+
+      var again = document.createElement('button');
+      again.type = 'button'; again.className = 'ghost';
+      again.style.cssText = 'margin:12px auto;display:block;font-size:12px;opacity:.5';
+      again.textContent = 'Nueva evaluaci\u00f3n';
+      again.onclick = resetForm;
+      panel.appendChild(again);
+
+      container.appendChild(panel);
+      clearDraft();
+    }
+
+    function showFallbackPanel(container) {
+      if (window._zentiLoadingTimer) { clearInterval(window._zentiLoadingTimer); window._zentiLoadingTimer = null; }
+      container.innerHTML = '';
+      var panel = document.createElement('div');
+      panel.className = 'success-panel';
+      panel.innerHTML = '<h2>Evaluaci\u00f3n enviada \u2713</h2><p>Revis\u00e1 tu correo \u2014 el informe estar\u00e1 en tu bandeja en unos minutos.<br/>Si no aparece, revis\u00e1 Spam o Promociones.</p>';
+      var again = document.createElement('button');
+      again.type = 'button';
+      again.className = 'ghost';
+      again.style.marginTop = '16px';
+      again.textContent = 'Nueva evaluaci\u00f3n';
+      again.onclick = resetForm;
+      panel.appendChild(again);
+      container.appendChild(panel);
+      clearDraft();
+    }
+
+    function startPolling(session_id, container) {
+      var MAX_MS = 8 * 60 * 1000;
+      var INTERVAL_MS = 3000;
+      var startTime = Date.now();
+      var pollTimer = null;
+      function pollOnce() {
+        if (Date.now() - startTime > MAX_MS) {
+          if (pollTimer) clearInterval(pollTimer);
+          showFallbackPanel(container);
+          return;
+        }
+        fetch(STATUS_URL + '?id=' + encodeURIComponent(session_id), { cache: 'no-store' })
+          .then(function(res) { return res.ok ? res.json() : null; })
+          .then(function(data) {
+            if (data && data.status === 'done' && data.preview_url) {
+              if (pollTimer) clearInterval(pollTimer);
+              showInlineReport(container, data.preview_url, data);
+            }
+          })
+          .catch(function() {});
+      }
+      pollOnce();
+      pollTimer = setInterval(pollOnce, INTERVAL_MS);
+    }
+
+    function submitForm() {
       const btn = document.getElementById('btn-send');
       btn.disabled = true;
       showError('');
 
+      const session_id = generateUUID();
       const fd = new FormData();
       fd.append('field-0', values['field-0'] || '');
       fd.append('field-1', values['field-1'] || '');
@@ -1939,63 +2322,18 @@
       fd.append('field-3', values['field-3'] || '');
       fd.append('field-4', values['field-4'] || '');
       fd.append('field-5', values['field-5'] || '');
+      fd.append('session_id', session_id);
+      fd.append('field-7', (values['field-7'] || '').trim());
       const f = values.files['field-6'];
       if (f && f.size > 0) fd.append('field-6', f, f.name);
-      fd.append('field-7', (values['field-7'] || '').trim());
 
-      try {
-        const res = await fetch(FORM_POST_URL, { method: 'POST', body: fd });
-        const text = await res.text();
-        let json;
-        try { json = JSON.parse(text); } catch (e) { json = null; }
+      composer.classList.add('hidden');
+      chatEl.innerHTML = '';
+      showLoadingPanel(chatEl);
 
-        composer.classList.add('hidden');
-        chatEl.innerHTML = '';
+      fetch(FORM_POST_URL, { method: 'POST', body: fd }).catch(function() {});
 
-        const panel = document.createElement('div');
-        panel.className = 'success-panel';
-        const h2 = document.createElement('h2');
-        h2.textContent = 'Evaluación enviada';
-        const p = document.createElement('p');
-        p.style.whiteSpace = 'pre-wrap';
-        p.style.color = '#6b6b6b';
-        let body = 'Recibirás el informe ejecutivo en tu correo en los próximos minutos.\nRevisa también la carpeta de spam.';
-        if (json && json.formSubmittedText) body = String(json.formSubmittedText).replace(/\\n/g, '\n');
-        else if (text && text.length < 2000 && !text.trim().startsWith('<!')) body = text;
-        p.textContent = body;
-        panel.appendChild(h2);
-        panel.appendChild(p);
-
-        const payA = document.createElement('a');
-        var zpl = (typeof ZENTI_PAY_LINKS !== 'undefined') ? ZENTI_PAY_LINKS : {};
-        var consultHrefEval = (zpl.consultCheckoutUrl && String(zpl.consultCheckoutUrl).trim())
-          ? zpl.consultCheckoutUrl
-          : (zpl.consultPayUrl || 'mailto:hola@zentigrants.com?subject=Consultor%C3%ADa%20ZENTI');
-        payA.href = consultHrefEval;
-        payA.target = '_blank';
-        payA.rel = 'noopener';
-        payA.style.cssText = 'display:inline-block;margin-top:24px;padding:12px 28px;background:#F26C22;color:#fff;border-radius:999px;font-weight:700;font-size:14px;text-decoration:none;box-shadow:0 6px 18px rgba(242,108,34,.25)';
-        payA.textContent = 'Pagar sesión 1:1 (Flow)';
-        panel.appendChild(payA);
-        const calHint = document.createElement('p');
-        calHint.style.cssText = 'margin-top:12px;padding:12px 18px;border:1px dashed #d1d5db;border-radius:12px;color:#6b7280;font-size:13px;line-height:1.5;max-width:380px';
-        calHint.innerHTML = 'Agenda: te enviamos el enlace a Calendly <strong>por correo</strong> cuando el pago est&eacute; confirmado.';
-        panel.appendChild(calHint);
-
-        const again = document.createElement('button');
-        again.type = 'button';
-        again.className = 'ghost';
-        again.style.marginTop = '12px';
-        again.textContent = 'Nueva evaluación';
-        again.onclick = resetForm;
-        panel.appendChild(again);
-
-        chatEl.appendChild(panel);
-        clearDraft();
-      } catch (e) {
-        showError('No se pudo procesar la solicitud. Verifica tu conexión e inténtalo nuevamente.');
-        btn.disabled = false;
-      }
+      startPolling(session_id, chatEl);
     }
 
     function resetForm() {
@@ -2004,9 +2342,24 @@
       values.files = {};
       stepIndex = 0;
       chatEl.innerHTML = '';
+      var shell = document.querySelector('.chat-shell');
+      var chatBodyReset = document.querySelector('.chat-body');
+      if (shell) shell.classList.remove('report-shell-fs');
+      if (chatBodyReset) {
+        chatBodyReset.style.maxHeight = '';
+        chatBodyReset.style.height = '';
+        chatBodyReset.style.paddingBottom = '';
+      }
+      try { document.body.style.overflow = ''; } catch (eFs) {}
+      if (window._zentiEscFsHandler) {
+        try { document.removeEventListener('keydown', window._zentiEscFsHandler); } catch (eEsc) {}
+        window._zentiEscFsHandler = null;
+      }
       composer.classList.remove('hidden');
       var db = document.getElementById('draft-banner');
       if (db) db.classList.add('hidden');
+      var btnSend = document.getElementById('btn-send');
+      if (btnSend) btnSend.disabled = false;
       setHeaderSubtitle(null);
       renderStep({});
     }
