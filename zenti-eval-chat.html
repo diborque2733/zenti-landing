@@ -543,10 +543,10 @@
     }
     .report-fs-btn:hover { background: rgba(242,108,34,.08); }
     .report-fs-btn:focus-visible { outline: 2px solid var(--z-orange); outline-offset: 2px; }
-    .report-iframe-wrap { width: 100%; position: relative; background: #0d0d0d; }
+    .report-iframe-wrap { width: 100%; position: relative; background: #f8f8f8; }
     .report-iframe-loading {
       position: absolute; inset: 0; z-index: 2; display: flex; align-items: center; justify-content: center;
-      flex-direction: column; gap: 10px; background: #141414; color: rgba(229,226,225,0.75);
+      flex-direction: column; gap: 10px; background: #f8f8f8; color: #444;
       font-size: 14px; pointer-events: none; transition: opacity 0.35s ease;
     }
     .report-iframe-loading.is-done {
@@ -2109,7 +2109,7 @@
       var consultCheckoutUrl = (zpl.consultCheckoutUrl && String(zpl.consultCheckoutUrl).trim())
         ? zpl.consultCheckoutUrl
         : 'https://zentigrants.com/checkout-consultoria.html';
-      var premiumBase = (zpl.premiumClp && String(zpl.premiumClp).trim()) ? zpl.premiumClp : 'https://www.flow.cl/uri/JSbQZ7S1H';
+      var premiumBase = (zpl.premiumClp && String(zpl.premiumClp).trim()) ? zpl.premiumClp : 'https://zentigrants.com/checkout-premium.html';
       var stickyUtm = (premiumBase.indexOf('?') >= 0 ? '&' : '?') + 'utm_source=visor&utm_medium=sticky&utm_campaign=premium-upgrade';
       var stickyHref = premiumBase + stickyUtm;
 
@@ -2204,7 +2204,22 @@
           if (loadingEl.parentNode) loadingEl.parentNode.removeChild(loadingEl);
         }, 450);
       }
-      var loadingFallbackTimer = setTimeout(function() { dismissIframeLoading(); }, 8000);
+      var loadingFallbackTimer = setTimeout(function() {
+        // If iframe hasn't loaded after 8s, check if it's still blank; show fallback hint
+        dismissIframeLoading();
+        try {
+          // Brief check: if iframe body appears empty, show a note in loadingEl before removing it
+          if (!loadingOverlayDone) return;
+          var hint = wrap.querySelector('.report-iframe-load-hint');
+          if (!hint) {
+            hint = document.createElement('div');
+            hint.className = 'report-iframe-load-hint';
+            hint.style.cssText = 'position:absolute;bottom:12px;left:50%;transform:translateX(-50%);background:#fff;border:1px solid #e5e7eb;border-radius:10px;padding:10px 16px;font-size:12px;color:#444;text-align:center;z-index:5;white-space:nowrap;box-shadow:0 2px 8px rgba(0,0,0,.08)';
+            hint.innerHTML = '¿No carga el visor? <a href="#" style="color:#F26C22;font-weight:700" onclick="window.open(this.dataset.url,\'_blank\');return false;" data-url="' + (preview_url || '') + '">Abrir en Google Drive \u2197</a>';
+            wrap.appendChild(hint);
+          }
+        } catch (e3) {}
+      }, 8000);
       iframe.addEventListener('load', function onIframeLoad() { dismissIframeLoading(); });
 
       fsBtn.onclick = function() {
