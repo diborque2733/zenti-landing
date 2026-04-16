@@ -490,6 +490,7 @@
       position: relative;
       display: flex;
       flex-direction: column;
+      padding-top: 10px; /* equal across all cards so features align (badge card had extra 10px) */
     }
     #pricing .pricing-card-cta {
       display: flex;
@@ -533,7 +534,7 @@
       box-shadow: 0 4px 16px rgba(234, 88, 12, 0.45);
     }
     #pricing .pricing-card--featured .pricing-card-body {
-      padding-top: 10px;
+      /* padding-top already in base .pricing-card-body — no extra needed */
     }
     #pricing .pricing-card-name {
       font-family: var(--z-headline);
