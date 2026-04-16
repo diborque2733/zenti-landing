@@ -152,8 +152,8 @@
 
         <div class="row-2">
           <div>
-            <label>RUT <span class="req">*</span></label>
-            <input type="text" id="rut" name="rut" required placeholder="12.345.678-9" autocomplete="off" />
+            <label>RUT <span style="font-size:11px;color:#6b6b6b;font-weight:400">(solo Chile)</span></label>
+            <input type="text" id="rut" name="rut" placeholder="12.345.678-9 o N/A" autocomplete="off" />
           </div>
           <div>
             <label>Cup&oacute;n (opcional) &mdash; complet&aacute; y segu&iacute; al pago</label>
@@ -265,7 +265,7 @@
 
       if (full_name.length < 2) { errEl.textContent = 'Ingresá tu nombre completo.'; return; }
       if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { errEl.textContent = 'Correo inválido.'; return; }
-      if (!validateRut(rut)) { errEl.textContent = 'RUT inválido.'; return; }
+      if (rut && rut.toUpperCase() !== 'N/A' && !validateRut(rut)) { errEl.textContent = 'RUT inválido. Si no tenés RUT chileno, escribí N/A.'; return; }
       if (buyerType === 'empresa') {
         if (company_name.length < 2) { errEl.textContent = 'Indicá la razón social.'; return; }
         if (company_giro.length < 2) { errEl.textContent = 'Indicá el giro.'; return; }
