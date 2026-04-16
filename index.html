@@ -536,9 +536,8 @@
     #pricing .pricing-card--featured .pricing-card-body {
       /* padding-top already in base .pricing-card-body — badge is position:absolute */
     }
-    #pricing .pricing-card--featured .pricing-card-eyebrow {
-      margin-top: 14px; /* clear space below the absolute "Más popular" badge */
-    }
+    /* Badge is position:absolute — no extra margin needed on eyebrow.
+       The padding-top:10px on .pricing-card-body handles the space. */
     #pricing .pricing-card-name {
       font-family: var(--z-headline);
       font-size: 1.35rem;
