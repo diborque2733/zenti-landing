@@ -534,7 +534,10 @@
       box-shadow: 0 4px 16px rgba(234, 88, 12, 0.45);
     }
     #pricing .pricing-card--featured .pricing-card-body {
-      /* padding-top already in base .pricing-card-body — no extra needed */
+      /* padding-top already in base .pricing-card-body — badge is position:absolute */
+    }
+    #pricing .pricing-card--featured .pricing-card-eyebrow {
+      margin-top: 14px; /* clear space below the absolute "Más popular" badge */
     }
     #pricing .pricing-card-name {
       font-family: var(--z-headline);
@@ -545,6 +548,7 @@
       letter-spacing: -0.02em;
     }
     #pricing .pricing-card-eyebrow {
+      color: #ff8533; /* lightened from #F26C22 for AA contrast on dark bg */
       font-size: 11px;
       font-weight: 700;
       letter-spacing: 0.18em;
