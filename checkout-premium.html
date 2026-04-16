@@ -176,8 +176,8 @@
 
         <div class="row-2">
           <div>
-            <label>RUT <span class="req">*</span></label>
-            <input type="text" id="rut" name="rut" required placeholder="12.345.678-9" autocomplete="off" />
+            <label>RUT <span style="font-size:11px;color:#6b6b6b;font-weight:400">(solo Chile)</span></label>
+            <input type="text" id="rut" name="rut" placeholder="12.345.678-9 o N/A" autocomplete="off" />
           </div>
           <div>
             <label>Cup&oacute;n (opcional)</label>
@@ -224,6 +224,40 @@
       return BASE_CLP;
     }
     // </sync-coupon-rules-checkout-premium>
+
+    // Live coupon feedback
+    document.getElementById('coupon_code').addEventListener('input', function() {
+      var code = this.value.trim().toUpperCase();
+      var badge = document.getElementById('coupon-badge');
+      if (!badge) {
+        badge = document.createElement('span');
+        badge.id = 'coupon-badge';
+        badge.style.cssText = 'display:inline-block;font-size:12px;font-weight:700;padding:3px 10px;border-radius:6px;margin-top:4px;transition:opacity .2s';
+        this.parentNode.appendChild(badge);
+      }
+      var display = document.getElementById('price-display');
+      var usdHint = document.getElementById('price-usd');
+      if (code && ZENTI_COUPON_RULES[code]) {
+        var newClp = computeDisplayClp();
+        badge.textContent = '✓ Cupón aplicado';
+        badge.style.background = '#dcfce7';
+        badge.style.color = '#166534';
+        badge.style.opacity = '1';
+        if (display) display.textContent = '$' + newClp.toLocaleString('es-CL') + ' CLP';
+        if (usdHint) usdHint.textContent = '(~$' + Math.round(newClp / 900) + ' USD)';
+      } else if (code) {
+        badge.textContent = 'Cupón no válido';
+        badge.style.background = '#fef2f2';
+        badge.style.color = '#991b1b';
+        badge.style.opacity = '1';
+        if (display) display.textContent = '$' + BASE_CLP.toLocaleString('es-CL') + ' CLP';
+        if (usdHint) usdHint.textContent = '(~$89 USD)';
+      } else {
+        badge.style.opacity = '0';
+        if (display) display.textContent = '$' + BASE_CLP.toLocaleString('es-CL') + ' CLP';
+        if (usdHint) usdHint.textContent = '(~$89 USD)';
+      }
+    });
 
     // Pre-fill email from URL param (passed from report viewer)
     (function prefill() {
@@ -304,7 +338,7 @@
 
       if (full_name.length < 2) { errEl.textContent = 'Ingresá tu nombre completo.'; return; }
       if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { errEl.textContent = 'Correo inválido.'; return; }
-      if (!validateRut(rut)) { errEl.textContent = 'RUT inválido.'; return; }
+      if (rut && rut.toUpperCase() !== 'N/A' && !validateRut(rut)) { errEl.textContent = 'RUT inválido. Si no tenés RUT chileno, escribí N/A.'; return; }
       if (buyerType === 'empresa') {
         if (company_name.length < 2) { errEl.textContent = 'Indicá la razón social.'; return; }
         if (company_giro.length < 2) { errEl.textContent = 'Indicá el giro.'; return; }
