@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Checkout ZENTI — sesión de consultoría 1:1. Datos de facturación y pago seguro vía Flow.cl." />
-  <title>ZENTI — Pago consultoría 1:1</title>
-  <link rel="canonical" href="https://zentigrants.com/checkout-consultoria.html" />
+  <meta name="description" content="Checkout ZENTI — evaluación premium. Datos de facturación y pago seguro vía Flow.cl." />
+  <title>ZENTI — Evaluación premium</title>
+  <link rel="canonical" href="https://zentigrants.com/checkout-premium.html" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
@@ -17,13 +17,13 @@
       --z-gray-100: #0d0d0d;
       --z-border: #2a2a2a;
       --z-white: #1a1a1a;
+      --z-font: 'Inter', ui-sans-serif, system-ui, sans-serif;
+      --z-radius: 16px;
+      --z-max-w: 520px;
       --z-surface: #1a1a1a;
       --z-input-bg: #111;
       --z-input-border: #333;
       --z-input-text: #e8e6e3;
-      --z-font: 'Inter', ui-sans-serif, system-ui, sans-serif;
-      --z-radius: 16px;
-      --z-max-w: 520px;
     }
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     body {
@@ -74,6 +74,20 @@
       margin-bottom: 22px;
     }
     .price-row strong { font-size: 1.25rem; }
+    .features-list {
+      list-style: none;
+      margin-bottom: 22px;
+      padding: 0;
+    }
+    .features-list li {
+      font-size: 13px;
+      color: var(--z-gray-500);
+      padding: 5px 0;
+      display: flex;
+      gap: 8px;
+      align-items: flex-start;
+    }
+    .features-list li::before { content: '✓'; color: var(--z-orange); font-weight: 700; flex-shrink: 0; }
     label {
       display: block;
       font-size: 13px;
@@ -84,13 +98,13 @@
     input, select {
       width: 100%;
       padding: 10px 12px;
-      border: 1px solid var(--z-input-border);
+      border: 1px solid var(--z-input-border, var(--z-border));
       border-radius: 10px;
       font-size: 15px;
       font-family: inherit;
       margin-bottom: 16px;
-      background: var(--z-input-bg);
-      color: var(--z-input-text);
+      background: var(--z-input-bg, #fff);
+      color: var(--z-input-text, #111);
     }
     input:focus, select:focus {
       outline: 2px solid rgba(242,108,34,.35);
@@ -132,13 +146,23 @@
 </head>
 <body>
   <div class="wrap">
-    <a class="nav-back" href="zenti-eval-chat.html#consultoria">← Volver a ZENTI</a>
+    <a class="nav-back" href="zenti-eval-chat.html">← Volver a ZENTI</a>
     <div class="card">
-      <h1>Consultoría 1:1 — checkout</h1>
+      <h1>Evaluación premium — checkout</h1>
       <p class="sub"><strong>1)</strong> Cup&oacute;n si ten&eacute;s &middot; <strong>2)</strong> Datos de facturaci&oacute;n &middot; <strong>3)</strong> <strong>Continuar al pago</strong> en Flow.cl (tarjeta o d&eacute;bito, Chile).</p>
+
+      <ul class="features-list">
+        <li>Diagnóstico detallado por criterio CORFO/ANID/ANID</li>
+        <li>Análisis de brechas y fortalezas de la propuesta</li>
+        <li>Recomendaciones estratégicas específicas</li>
+        <li>Informe descargable en PDF y visualización online</li>
+        <li>ZENTI MATCH — fondos alternativos recomendados</li>
+      </ul>
+
       <div class="price-row">
         <span>Total estimado</span>
-        <strong id="price-display">$230.000 CLP</strong>
+        <strong id="price-display">$80.000 CLP</strong>
+        <span style="display:block;font-size:12px;color:#6b6b6b;margin-top:2px" id="price-usd">(~$89 USD)</span>
       </div>
 
       <form id="checkout-form" novalidate>
@@ -162,7 +186,7 @@
             <input type="text" id="rut" name="rut" placeholder="12.345.678-9 o N/A" autocomplete="off" />
           </div>
           <div>
-            <label>Cup&oacute;n (opcional) &mdash; complet&aacute; y segu&iacute; al pago</label>
+            <label>Cup&oacute;n (opcional)</label>
             <input type="text" id="coupon_code" name="coupon_code" placeholder="Ej. ZENTIMVP" autocomplete="off" />
           </div>
         </div>
@@ -177,18 +201,18 @@
 
         <p class="err" id="form-err" aria-live="polite"></p>
         <button type="submit" class="btn" id="btn-pay">Continuar al pago</button>
-        <p class="hint">Al continuar aceptás ser redirigido al proveedor de pagos Flow.cl. El enlace para agendar en Calendly se envía <strong>por correo</strong> cuando el pago quede acreditado.</p>
+        <p class="hint">Al continuar aceptás ser redirigido al proveedor de pagos Flow.cl. El informe premium se entrega <strong>por correo</strong> cuando el pago quede acreditado.</p>
       </form>
     </div>
   </div>
 
   <!-- Sincronizar webhook + GA4 con scripts/sync-payment-links.py -->
   <script>
-    const ZENTI_CHECKOUT_WEBHOOK = 'https://zenti.app.n8n.cloud/webhook/zenti-checkout-consult';
+    const ZENTI_CHECKOUT_WEBHOOK = 'https://zenti.app.n8n.cloud/webhook/zenti-checkout-premium';
     const ZENTI_GA4_MEASUREMENT_ID = 'G-SSW9F84YTR';
-    // <sync-coupon-rules-checkout>
+    // <sync-coupon-rules-checkout-premium>
     const ZENTI_COUPON_RULES = {"ZENTIMVP":{"percentOff":10},"SAVE30":{"percentOff":30},"ZENTIQA":{"fixedClp":1000}};
-    const BASE_CLP = 230000;
+    const BASE_CLP = 80000;
     function computeDisplayClp() {
       var coupon = (document.getElementById('coupon_code').value || '').trim().toUpperCase();
       if (!coupon) return BASE_CLP;
@@ -205,7 +229,54 @@
       }
       return BASE_CLP;
     }
-    // </sync-coupon-rules-checkout>
+    // </sync-coupon-rules-checkout-premium>
+
+    // Live coupon feedback
+    document.getElementById('coupon_code').addEventListener('input', function() {
+      var code = this.value.trim().toUpperCase();
+      var badge = document.getElementById('coupon-badge');
+      if (!badge) {
+        badge = document.createElement('span');
+        badge.id = 'coupon-badge';
+        badge.style.cssText = 'display:inline-block;font-size:12px;font-weight:700;padding:3px 10px;border-radius:6px;margin-top:4px;transition:opacity .2s';
+        this.parentNode.appendChild(badge);
+      }
+      var display = document.getElementById('price-display');
+      var usdHint = document.getElementById('price-usd');
+      if (code && ZENTI_COUPON_RULES[code]) {
+        var newClp = computeDisplayClp();
+        badge.textContent = '✓ Cupón aplicado';
+        badge.style.background = '#dcfce7';
+        badge.style.color = '#166534';
+        badge.style.opacity = '1';
+        if (display) display.textContent = '$' + newClp.toLocaleString('es-CL') + ' CLP';
+        if (usdHint) usdHint.textContent = '(~$' + Math.round(newClp / 900) + ' USD)';
+      } else if (code) {
+        badge.textContent = 'Cupón no válido';
+        badge.style.background = '#fef2f2';
+        badge.style.color = '#991b1b';
+        badge.style.opacity = '1';
+        if (display) display.textContent = '$' + BASE_CLP.toLocaleString('es-CL') + ' CLP';
+        if (usdHint) usdHint.textContent = '(~$89 USD)';
+      } else {
+        badge.style.opacity = '0';
+        if (display) display.textContent = '$' + BASE_CLP.toLocaleString('es-CL') + ' CLP';
+        if (usdHint) usdHint.textContent = '(~$89 USD)';
+      }
+    });
+
+    // Pre-fill email from URL param (passed from report viewer)
+    (function prefill() {
+      var params = new URLSearchParams(window.location.search);
+      var em = params.get('email');
+      var sid = params.get('session_id');
+      if (em) document.getElementById('email').value = decodeURIComponent(em);
+      if (sid) {
+        var inp = document.createElement('input');
+        inp.type = 'hidden'; inp.name = 'session_id'; inp.id = 'session_id'; inp.value = sid;
+        document.getElementById('checkout-form').appendChild(inp);
+      }
+    })();
 
     function cleanRut(rut) {
       return String(rut || '').replace(/\./g, '').replace(/-/g, '').trim().toUpperCase();
@@ -268,6 +339,8 @@
       var coupon_code = document.getElementById('coupon_code').value.trim().toUpperCase();
       var company_name = document.getElementById('company_name').value.trim();
       var company_giro = document.getElementById('company_giro').value.trim();
+      var session_id_el = document.getElementById('session_id');
+      var session_id = session_id_el ? session_id_el.value : '';
 
       if (full_name.length < 2) { errEl.textContent = 'Ingresá tu nombre completo.'; return; }
       if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { errEl.textContent = 'Correo inválido.'; return; }
@@ -290,6 +363,7 @@
         coupon_code: coupon_code || undefined,
         company_name: buyerType === 'empresa' ? company_name : '',
         company_giro: buyerType === 'empresa' ? company_giro : '',
+        session_id: session_id || undefined,
       };
 
       btn.disabled = true;
@@ -313,7 +387,7 @@
         if (!payUrl) throw new Error('No se recibió el enlace de pago. Intenta de nuevo o escribe a hola@zentigrants.com');
 
         if (typeof gtag === 'function') {
-          gtag('event', 'begin_checkout', { currency: 'CLP', value: computeDisplayClp(), items: [{ item_name: 'consultoria_1_1' }] });
+          gtag('event', 'begin_checkout', { currency: 'CLP', value: computeDisplayClp(), items: [{ item_name: 'evaluacion_premium' }] });
         }
         window.location.href = payUrl;
       } catch (err) {
@@ -322,8 +396,6 @@
         btn.textContent = 'Continuar al pago';
       }
     });
-
-    refreshPrice();
   </script>
 </body>
 </html>
