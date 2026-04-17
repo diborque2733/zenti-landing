@@ -1849,8 +1849,8 @@
       { key: 'trl', bot: '¿Cuál es el **TRL actual** aproximado?', input: { type: 'select', options: TRLS, field: 'field-3' } },
       { key: 'propuesta', bot: 'Si tienes **texto** de la propuesta, pégalo aquí. Es **opcional** si adjuntas PDF.', input: { type: 'textarea', placeholder: 'Opcional: problema, solución, mercado, equipo…', field: 'field-4' } },
       { key: 'email', bot: '¿A qué **correo** enviamos el informe ejecutivo?', input: { type: 'email', placeholder: 'tu@email.com', field: 'field-5' } },
-      { key: 'pdf', bot: '¿Quieres **adjuntar un PDF o Word**? Recomendado si la propuesta está en archivo (.pdf o .docx).', input: { type: 'file', field: 'field-6', accept: '.pdf,application/pdf,.docx,application/vnd.openxmlformats-officedocument.wordprocessingml.document' } },
-      { key: 'coupon', bot: '**Cupón** informe premium (opcional). C&oacute;digo **ej. ZENTIMVP**; luego **complet&aacute; y pag&aacute; en Flow** con el enlace del correo.', input: { type: 'text', placeholder: 'Vacío si no aplica', field: 'field-7', optional: true } },
+      { key: 'pdf', bot: '¿Quieres **adjuntar un PDF o DOCX**? Recomendado si la propuesta está en archivo. Formatos aceptados: **.pdf** o **.docx** (el formato viejo **.doc** no es compatible).', input: { type: 'file', field: 'field-6', accept: '.pdf,application/pdf,.docx,application/vnd.openxmlformats-officedocument.wordprocessingml.document' } },
+      { key: 'coupon', bot: '**Cupón** informe premium (opcional). Código **ej. ZENTIMVP**; luego **completá y pagá en Flow** con el enlace del correo.', input: { type: 'text', placeholder: 'Vacío si no aplica', field: 'field-7', optional: true } },
       { key: 'review', bot: '**Revisá los datos** antes de enviar. Si algo está mal, usá **Atrás**.', input: { type: 'submit' } },
     ];
 
@@ -2380,11 +2380,21 @@
       chatEl.innerHTML = '';
       showLoadingPanel(chatEl);
 
-      // Bug 3 fix: scroll to evaluator section so user sees loading panel
+      // E2E-02 fix: scroll to loading panel directly (not section) para que usuario
+      // vea el "Analizando tu propuesta…" sin tener que scroll arriba manualmente.
       try {
-        var evalSection = document.getElementById('evaluator');
-        if (evalSection) evalSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        var loadingEl = document.getElementById('zenti-loading');
+        if (loadingEl) {
+          loadingEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        } else {
+          var evalSection = document.getElementById('evaluator');
+          if (evalSection) evalSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
       } catch (eScroll) {}
+
+      // E2E-05 fix: persistir session_id en localStorage para que el visor pueda
+      // recuperar el estado si el usuario cierra la pestaña antes de recibir email.
+      try { localStorage.setItem('zenti-last-session', session_id); } catch (eLS) {}
 
       fetch(FORM_POST_URL, { method: 'POST', body: fd }).catch(function() {});
 
