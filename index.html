@@ -1017,10 +1017,33 @@
     .chat-brand strong { font-size: 15px; letter-spacing: .06em; }
     .chat-brand span { font-size: 12px; opacity: .78; display: block; margin-top: 2px; }
     .chat-progress {
+      min-width: 180px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      align-items: flex-end;
+    }
+    .chat-progress-phase {
       font-size: 11px; font-weight: 700;
       letter-spacing: .08em; text-transform: uppercase;
       color: var(--z-orange);
       white-space: nowrap;
+      text-align: right;
+    }
+    .chat-progress-bar {
+      width: 180px;
+      height: 7px;
+      border-radius: 999px;
+      overflow: hidden;
+      background: rgba(229,226,225,0.12);
+      border: 1px solid rgba(229,226,225,0.08);
+    }
+    .chat-progress-fill {
+      width: 0%;
+      height: 100%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, #F26C22 0%, #FFB695 100%);
+      transition: width .24s ease;
     }
     /* Resumen previo al envío: misma familia visual que burbujas bot (+ acento ZENTI) */
     .review-summary {
@@ -1540,11 +1563,21 @@
   </style>
   <!-- F-OBS-01 Sentry browser SDK -->
   <script>
-    window.ZENTI_SENTRY_DSN = ''; // TODO set from env at deploy
+    // Setup: inyectar el DSN en deploy/publicación. Si queda vacío, el bloque hace no-op.
+    // Ejemplo: window.ZENTI_SENTRY_DSN = 'https://PUBLIC_KEY@o0.ingest.sentry.io/0';
+    window.ZENTI_SENTRY_DSN = '';
   </script>
   <script src='https://browser.sentry-cdn.com/7.100.0/bundle.tracing.min.js' crossorigin='anonymous'></script>
   <script>
-    Sentry.init({dsn: window.ZENTI_SENTRY_DSN || '', tracesSampleRate: 0.1, environment: 'production'});
+    (function () {
+      var dsn = String(window.ZENTI_SENTRY_DSN || '').trim();
+      if (!dsn || typeof Sentry === 'undefined') return;
+      Sentry.init({
+        dsn: dsn,
+        tracesSampleRate: 0.1,
+        environment: 'production',
+      });
+    })();
   </script>
 </head>
 <body>
@@ -2064,7 +2097,12 @@
             <strong>ZENTI</strong>
             <span id="header-subtitle">Evaluación técnico-estratégica · selecciona el instrumento</span>
           </div>
-          <div class="chat-progress" id="chat-progress" aria-live="polite">Paso 1 de 9</div>
+          <div class="chat-progress" id="chat-progress" aria-live="polite">
+            <div class="chat-progress-phase" id="chat-progress-phase">Fase 1 de 3: Proyecto</div>
+            <div class="chat-progress-bar" aria-hidden="true">
+              <div class="chat-progress-fill" id="chat-progress-fill"></div>
+            </div>
+          </div>
         </div>
         <div class="chat-body" id="chat"></div>
         <div class="composer" id="composer">
@@ -2430,6 +2468,11 @@
       },
     };
 
+    const PLAN_TRABAJO_OPTIONS = ['Sí', 'No', 'En elaboración'];
+    const TAMANO_EMPRESA_OPTIONS = ['Micro <10', 'Pequeña 10-49', 'Mediana 50-199', 'Grande 200+'];
+    const MONTO_SOLICITADO_OPTIONS = ['<30M', '30-100M', '100-300M', '300M+'];
+    const ETAPA_PROYECTO_OPTIONS = ['Idea', 'MVP', 'Early revenue', 'Escalamiento'];
+
     const steps = [
       { key: 'intro', bot: 'Bienvenido a **ZENTI**. Vamos a realizar la evaluación técnico-estratégica de tu postulación. Selecciona el **instrumento** al que postulas.', input: null },
       { key: 'fondo', bot: '¿A qué **instrumento o convocatoria** postulas?', input: { type: 'select', options: FONDOS, field: 'field-2' } },
@@ -2438,12 +2481,17 @@
       { key: 'trl', bot: '¿Cuál es el **TRL actual** aproximado?', input: { type: 'select', options: TRLS, field: 'field-3' } },
       { key: 'propuesta', bot: 'Si tienes **texto** de la propuesta, pégalo aquí. Es **opcional** si adjuntas PDF.', input: { type: 'textarea', placeholder: 'Opcional: problema, solución, mercado, equipo…', field: 'field-4' } },
       { key: 'email', bot: '¿A qué **correo** enviamos el informe ejecutivo?', input: { type: 'email', placeholder: 'tu@email.com', field: 'field-5' } },
-      { key: 'pdf', bot: '¿Quieres **adjuntar un PDF o DOCX**? Recomendado si la propuesta está en archivo. Formatos aceptados: **.pdf** o **.docx** (el formato viejo **.doc** no es compatible).', input: { type: 'file', field: 'field-6', accept: '.pdf,.docx,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document' } },
-      { key: 'coupon', bot: '**Cupón** para el informe premium (opcional). Escribí el **código** (ej. ZENTIMVP); después del resultado, **completá y pagá en Flow** con el enlace del correo.', input: { type: 'text', placeholder: 'Vacío si no tenés cupón', field: 'field-7', optional: true } },
+      { key: 'plan_trabajo', bot: '¿Tiene **plan de trabajo**?', input: { type: 'select', options: PLAN_TRABAJO_OPTIONS, field: 'field-6' } },
+      { key: 'tamano_empresa', bot: '¿Cuál es el **tamaño de empresa**?', input: { type: 'select', options: TAMANO_EMPRESA_OPTIONS, field: 'field-7' } },
+      { key: 'monto_solicitado', bot: '¿Cuál es el **rango** del monto solicitado CLP?', input: { type: 'select', options: MONTO_SOLICITADO_OPTIONS, field: 'field-8' } },
+      { key: 'etapa_proyecto', bot: '¿En qué **etapa** está el proyecto?', input: { type: 'select', options: ETAPA_PROYECTO_OPTIONS, field: 'field-9' } },
+      { key: 'pdf', bot: '¿Quieres **adjuntar un PDF o DOCX**? Recomendado si la propuesta está en archivo. Formatos aceptados: **.pdf** o **.docx** (el formato viejo **.doc** no es compatible).', input: { type: 'file', field: 'field-10', accept: '.pdf,.docx,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document' } },
+      { key: 'coupon', bot: '**Cupón** para el informe premium (opcional). Escribí el **código** (ej. ZENTIMVP); después del resultado, **completá y pagá en Flow** con el enlace del correo.', input: { type: 'text', placeholder: 'Vacío si no tenés cupón', field: 'field-11', optional: true } },
       { key: 'review', bot: '**Revisá los datos** antes de enviar. Si algo está mal, usá **Atrás**.', input: { type: 'submit' } },
     ];
 
-    const CHAT_TOTAL_STEPS = 9;
+    const CHAT_TOTAL_STEPS = 13;
+    const CHAT_PHASES = ['Proyecto', 'Team', 'Fondo'];
     const LS_DRAFT_KEY = 'zenti-eval-draft-v2';
 
     function setHeaderSubtitle(fondoKey) {
@@ -2470,10 +2518,15 @@
     const composer = document.getElementById('composer');
 
     function updateProgress() {
-      const el = document.getElementById('chat-progress');
-      if (!el) return;
+      const el = document.getElementById('chat-progress-phase');
+      const fill = document.getElementById('chat-progress-fill');
+      if (!el || !fill) return;
       const n = Math.min(Math.max(stepIndex + 1, 1), CHAT_TOTAL_STEPS);
-      el.textContent = 'Paso ' + n + ' de ' + CHAT_TOTAL_STEPS;
+      const phaseIndex = Math.min(Math.floor((n - 1) / 3), CHAT_PHASES.length - 1);
+      const phaseNumber = phaseIndex + 1;
+      const progressPct = ((n - 1) / (CHAT_TOTAL_STEPS - 1)) * 100;
+      el.textContent = 'Fase ' + phaseNumber + ' de 3: ' + CHAT_PHASES[phaseIndex];
+      fill.style.width = progressPct + '%';
     }
 
     function persistDraft() {
@@ -2487,7 +2540,11 @@
             'field-3': values['field-3'] || '',
             'field-4': values['field-4'] || '',
             'field-5': values['field-5'] || '',
+            'field-6': values['field-6'] || '',
             'field-7': values['field-7'] || '',
+            'field-8': values['field-8'] || '',
+            'field-9': values['field-9'] || '',
+            'field-11': values['field-11'] || '',
           },
         }));
       } catch (e) {}
@@ -2503,12 +2560,12 @@
 
     function buildSummaryHtml() {
       const f = values['field-2'] || '—';
-      const pdf = values.files['field-6'];
+      const pdf = values.files['field-10'];
       const pdfLabel = pdf && pdf.name ? esc(pdf.name) : 'Sin archivo (solo texto)';
       let prop = (values['field-4'] || '').trim();
       if (prop.length > 280) prop = prop.slice(0, 277) + '…';
       const email = (values['field-5'] || '').trim();
-      const cupIn = (values['field-7'] || '').trim();
+      const cupIn = (values['field-11'] || '').trim();
       let cupRaw = cupIn;
       if (cupRaw && looksLikeEmail(cupRaw) && cupRaw.toLowerCase() === email.toLowerCase()) {
         cupRaw = '';
@@ -2527,6 +2584,10 @@
         '<dt>Proyecto</dt><dd>' + esc(values['field-0'] || '—') + '</dd>' +
         '<dt>Empresa</dt><dd>' + esc(values['field-1'] || '—') + '</dd>' +
         '<dt>TRL</dt><dd>' + esc(values['field-3'] || '—') + '</dd>' +
+        '<dt>Plan de trabajo</dt><dd>' + esc(values['field-6'] || '—') + '</dd>' +
+        '<dt>Tamaño empresa</dt><dd>' + esc(values['field-7'] || '—') + '</dd>' +
+        '<dt>Monto solicitado</dt><dd>' + esc(values['field-8'] || '—') + '</dd>' +
+        '<dt>Etapa proyecto</dt><dd>' + esc(values['field-9'] || '—') + '</dd>' +
         '<dt>Correo</dt><dd>' + esc(email || '—') + '</dd>' +
         '<dt>Propuesta (extracto)</dt><dd>' + (prop ? esc(prop) : '<em>Sin texto — PDF u opcional</em>') + '</dd>' +
         '<dt>PDF</dt><dd>' + pdfLabel + '</dd>' +
@@ -2987,10 +3048,14 @@
       fd.append('field-3', values['field-3'] || '');
       fd.append('field-4', values['field-4'] || '');
       fd.append('field-5', values['field-5'] || '');
+      fd.append('field-6', values['field-6'] || '');
+      fd.append('field-7', values['field-7'] || '');
+      fd.append('field-8', values['field-8'] || '');
+      fd.append('field-9', values['field-9'] || '');
       fd.append('session_id', session_id);
-      fd.append('field-7', (values['field-7'] || '').trim());
-      const f = values.files['field-6'];
-      if (f && f.size > 0) fd.append('field-6', f, f.name);
+      fd.append('field-11', (values['field-11'] || '').trim());
+      const f = values.files['field-10'];
+      if (f && f.size > 0) fd.append('field-10', f, f.name);
 
       composer.classList.add('hidden');
       chatEl.innerHTML = '';
@@ -3352,6 +3417,18 @@
     };
   })();
   });
+  </script>
+  <script>
+    window.$crisp = [];
+    window.CRISP_WEBSITE_ID = '__CRISP_WEBSITE_ID__';
+    if (window.CRISP_WEBSITE_ID && window.CRISP_WEBSITE_ID !== '__CRISP_WEBSITE_ID__') {
+      (function () {
+        const script = document.createElement('script');
+        script.src = 'https://client.crisp.chat/l.js';
+        script.async = 1;
+        document.head.appendChild(script);
+      })();
+    }
   </script>
 </body>
 </html>
