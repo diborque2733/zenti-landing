@@ -77,29 +77,12 @@
       "ragConfidence": "medium"
     },
     {
-      "id": "corfo-innova-id",
-      "name": "CORFO Innova I+D Empresas",
-      "icon": "CO",
-      "color": "#003087",
-      "amount": "Según línea y bases (no es Innova Alta Tecnología)",
-      "status": "open",
-      "deadline": null,
-      "url": "https://www.corfo.cl/sites/cpp/innova-i-mas-d-empresas",
-      "source": "https://www.corfo.cl/sites/cpp/innova-i-mas-d-empresas",
-      "region": "chile",
-      "basesUrl": null,
-      "lastChecked": "2026-04-10T02:43:12.301Z",
-      "lastScrapedAt": "2026-04-10T02:43:12.301Z",
-      "needsReview": false,
-      "ragConfidence": "medium"
-    },
-    {
       "id": "startup-chile-build",
       "name": "Startup Chile Build",
       "icon": "SC",
       "color": "#F26C22",
       "amount": "Equity-free ~$15M CLP (Build — ver bases)",
-      "status": "coming",
+      "status": "closed",
       "deadline": null,
       "url": "https://www.startupchile.org/programs/build",
       "source": "https://www.startupchile.org/programs/build",
@@ -108,7 +91,8 @@
       "lastChecked": "2026-04-10T02:43:12.301Z",
       "lastScrapedAt": "2026-04-10T02:43:12.301Z",
       "needsReview": false,
-      "ragConfidence": "medium"
+      "ragConfidence": "medium",
+      "closedNotice": "Convocatoria cerrada — próxima TBD"
     },
     {
       "id": "startup-chile-ignite",
@@ -116,7 +100,7 @@
       "icon": "SC",
       "color": "#F26C22",
       "amount": "Equity-free CLP 25M + extensión (Ignite — ver convocatoria)",
-      "status": "coming",
+      "status": "closed",
       "deadline": null,
       "url": "https://www.startupchile.org/programs/ignite",
       "source": "https://www.startupchile.org/programs/ignite",
@@ -125,7 +109,8 @@
       "lastChecked": "2026-04-10T02:43:12.301Z",
       "lastScrapedAt": "2026-04-10T02:43:12.301Z",
       "needsReview": false,
-      "ragConfidence": "medium"
+      "ragConfidence": "medium",
+      "closedNotice": "Convocatoria cerrada — próxima TBD"
     },
     {
       "id": "startup-chile-growth",
@@ -133,7 +118,7 @@
       "icon": "SC",
       "color": "#F26C22",
       "amount": "Hasta ~$75M CLP equity-free (Growth — ver bases)",
-      "status": "coming",
+      "status": "closed",
       "deadline": null,
       "url": "https://www.startupchile.org/programs/growth",
       "source": "https://www.startupchile.org/programs/growth",
@@ -142,7 +127,8 @@
       "lastChecked": "2026-04-10T02:43:12.301Z",
       "lastScrapedAt": "2026-04-10T02:43:12.301Z",
       "needsReview": false,
-      "ragConfidence": "medium"
+      "ragConfidence": "medium",
+      "closedNotice": "Convocatoria cerrada — próxima TBD"
     },
     {
       "id": "anid-fondef",
@@ -172,7 +158,24 @@
       "url": "https://www.corfo.cl/sites/cpp/innova-region",
       "source": "https://www.corfo.cl/sites/cpp/innova-region",
       "region": "chile",
-      "regions": ["Tarapacá","Antofagasta","Atacama","Coquimbo","Valparaíso","O'Higgins","Maule","Biobío","Araucanía","Los Lagos","Aysén","Magallanes","Metropolitana","Los Ríos","Arica y Parinacota","Ñuble"],
+      "regions": [
+        "Tarapacá",
+        "Antofagasta",
+        "Atacama",
+        "Coquimbo",
+        "Valparaíso",
+        "O'Higgins",
+        "Maule",
+        "Biobío",
+        "Araucanía",
+        "Los Lagos",
+        "Aysén",
+        "Magallanes",
+        "Metropolitana",
+        "Los Ríos",
+        "Arica y Parinacota",
+        "Ñuble"
+      ],
       "description": "Programa CORFO de innovación con impacto territorial. Cada región tiene sus propias bases y calendario de llamados administrados por el SEREMI o la Dirección Regional CORFO. Requiere ejecución en la región postulante y demostrar beneficio local concreto.",
       "basesUrl": null,
       "lastChecked": "2026-04-14T00:00:00.000Z",

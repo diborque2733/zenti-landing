@@ -3,13 +3,14 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="ZENTI evalúa tu postulación con criterios de fondos CORFO, Startup Chile, NSF, Horizon Europe y +30 instrumentos. Con propuesta o borrador obtenés nota, brechas y recomendaciones; con idea temprana, match de fondos y ruta. Empezá gratis." />
+  <meta name="description" content="ZENTI — Diagnóstico y evaluación de postulaciones a fondos de innovación chilenos. CORFO, ANID, Startup Chile." />
   <title>ZENTI | Evalúa tu postulación a CORFO, NSF, Horizon Europe y +30 fondos — en minutos</title>
-  <meta property="og:title" content="ZENTI — Evalúa tu postulación antes de enviarla" />
-  <meta property="og:description" content="Evaluación tipo comité cuando tenés propuesta; match de fondos si partís de una idea. Informe en minutos." />
+  <link rel="canonical" href="https://zentigrants.com/" />
+  <meta property="og:title" content="ZENTI — Evaluación IA de postulaciones a fondos CORFO/ANID" />
+  <meta property="og:description" content="ZENTI — Diagnóstico y evaluación de postulaciones a fondos de innovación chilenos. CORFO, ANID, Startup Chile." />
   <meta property="og:url" content="https://zentigrants.com" />
   <meta property="og:type" content="website" />
-  <meta property="og:image" content="https://zentigrants.com/og-image.png" />
+  <meta property="og:image" content="/og-image.png" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
   <meta name="twitter:card" content="summary_large_image" />
@@ -29,6 +30,19 @@
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
     gtag('config', 'G-SSW9F84YTR', { anonymize_ip: true });
+  </script>
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "ZENTI",
+      "url": "https://zentigrants.com/",
+      "logo": "https://zentigrants.com/og-image.png",
+      "sameAs": [
+        "https://zentigrants.com/"
+      ],
+      "description": "Diagnóstico y evaluación de postulaciones a fondos de innovación chilenos. CORFO, ANID, Startup Chile."
+    }
   </script>
   <style>
     :root {
@@ -1524,6 +1538,14 @@
       .path-tabs { flex-wrap: wrap; }
     }
   </style>
+  <!-- F-OBS-01 Sentry browser SDK -->
+  <script>
+    window.ZENTI_SENTRY_DSN = ''; // TODO set from env at deploy
+  </script>
+  <script src='https://browser.sentry-cdn.com/7.100.0/bundle.tracing.min.js' crossorigin='anonymous'></script>
+  <script>
+    Sentry.init({dsn: window.ZENTI_SENTRY_DSN || '', tracesSampleRate: 0.1, environment: 'production'});
+  </script>
 </head>
 <body>
 
@@ -1560,6 +1582,10 @@
           <a href="#evaluator" class="hero-btn hero-btn--primary" data-scroll-eval>Validar mi idea ahora</a>
           <a href="#cobertura" class="hero-btn hero-btn--glass">Ver fondos disponibles →</a>
         </div>
+        <p class="hero-sample-link" style="margin-top:14px;font-size:13px;color:var(--z-text-muted)">
+          ¿Quieres ver antes qué recibes?
+          <a href="informe-ejemplo.html" target="_blank" rel="noopener" style="color:var(--z-accent,#F26C22);font-weight:600;text-decoration:underline">Ver informe de muestra →</a>
+        </p>
       </div>
       <!-- RIGHT: AI Graphic + Steps -->
       <div class="hero-right">
@@ -1643,8 +1669,6 @@
         <div class="ticker-track" id="ticker-track">
           <span class="ticker-logo"><span class="ticker-logo-icon" style="background:#003087">CO</span><span class="ticker-logo-name">CORFO</span></span>
           <span class="ticker-sep">·</span>
-          <span class="ticker-logo"><span class="ticker-logo-icon" style="background:#F26C22">SC</span><span class="ticker-logo-name">Startup Chile</span></span>
-          <span class="ticker-sep">·</span>
           <span class="ticker-logo"><span class="ticker-logo-icon" style="background:#C8102E">AN</span><span class="ticker-logo-name">ANID · FONDEF</span></span>
           <span class="ticker-sep">·</span>
           <span class="ticker-logo"><span class="ticker-logo-icon" style="background:#FF6600">YC</span><span class="ticker-logo-name">Y Combinator</span></span>
@@ -1670,8 +1694,6 @@
           <span class="ticker-item" style="color:rgba(255,255,255,.5);font-weight:700">+30 fondos →</span>
           <!-- duplicado para loop sin salto -->
           <span class="ticker-logo"><span class="ticker-logo-icon" style="background:#003087">CO</span><span class="ticker-logo-name">CORFO</span></span>
-          <span class="ticker-sep">·</span>
-          <span class="ticker-logo"><span class="ticker-logo-icon" style="background:#F26C22">SC</span><span class="ticker-logo-name">Startup Chile</span></span>
           <span class="ticker-sep">·</span>
           <span class="ticker-logo"><span class="ticker-logo-icon" style="background:#C8102E">AN</span><span class="ticker-logo-name">ANID · FONDEF</span></span>
           <span class="ticker-sep">·</span>
@@ -1947,8 +1969,8 @@
           <a href="https://www.corfo.cl/sites/cpp/programa-semilla-de-asignacion-flexible-ssaf" target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border:1px solid var(--z-border);border-radius:20px;font-size:12px;color:var(--z-gray-500);text-decoration:none;transition:border-color .2s" onmouseover="this.style.borderColor='#003087'" onmouseout="this.style.borderColor='var(--z-border)'"><span style="font-weight:700;color:#003087">CORFO</span> SSAF</a>
           <a href="https://anid.cl/concursos/fondef-idea-id/" target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border:1px solid var(--z-border);border-radius:20px;font-size:12px;color:var(--z-gray-500);text-decoration:none;transition:border-color .2s" onmouseover="this.style.borderColor='#C8102E'" onmouseout="this.style.borderColor='var(--z-border)'"><span style="font-weight:700;color:#C8102E">ANID</span> FONDEF IDeA I+D</a>
           <a href="https://anid.cl/concursos/viu/" target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border:1px solid var(--z-border);border-radius:20px;font-size:12px;color:var(--z-gray-500);text-decoration:none;transition:border-color .2s" onmouseover="this.style.borderColor='#C8102E'" onmouseout="this.style.borderColor='var(--z-border)'"><span style="font-weight:700;color:#C8102E">ANID</span> VIU</a>
-          <a href="https://www.startupchile.org/programs/build" target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border:1px solid var(--z-border);border-radius:20px;font-size:12px;color:var(--z-gray-500);text-decoration:none;transition:border-color .2s" onmouseover="this.style.borderColor='#F26C22'" onmouseout="this.style.borderColor='var(--z-border)'"><span style="font-weight:700;color:#F26C22">Startup Chile</span> Build</a>
-          <a href="https://www.startupchile.org/programs/growth" target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border:1px solid var(--z-border);border-radius:20px;font-size:12px;color:var(--z-gray-500);text-decoration:none;transition:border-color .2s" onmouseover="this.style.borderColor='#F26C22'" onmouseout="this.style.borderColor='var(--z-border)'"><span style="font-weight:700;color:#F26C22">Startup Chile</span> Growth</a>
+          <a href="https://www.startupchile.org/programs/build" target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border:1px solid var(--z-border);border-radius:20px;font-size:12px;color:var(--z-gray-500);text-decoration:none;transition:border-color .2s" onmouseover="this.style.borderColor='#F26C22'" onmouseout="this.style.borderColor='var(--z-border)'"><span style="font-weight:700;color:#F26C22;opacity:.55;text-decoration:line-through">Startup Chile</span> Build <span style="font-size:10px;color:#dc2626;font-weight:700;margin-left:4px;padding:2px 6px;background:rgba(220,38,38,.12);border-radius:3px">Cerrada</span></a>
+          <a href="https://www.startupchile.org/programs/growth" target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border:1px solid var(--z-border);border-radius:20px;font-size:12px;color:var(--z-gray-500);text-decoration:none;transition:border-color .2s" onmouseover="this.style.borderColor='#F26C22'" onmouseout="this.style.borderColor='var(--z-border)'"><span style="font-weight:700;color:#F26C22;opacity:.55;text-decoration:line-through">Startup Chile</span> Growth <span style="font-size:10px;color:#dc2626;font-weight:700;margin-left:4px;padding:2px 6px;background:rgba(220,38,38,.12);border-radius:3px">Cerrada</span></a>
           <a href="https://eic.ec.europa.eu/eic-funding/eic-accelerator_en" target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border:1px solid var(--z-border);border-radius:20px;font-size:12px;color:var(--z-gray-500);text-decoration:none;transition:border-color .2s" onmouseover="this.style.borderColor='#003399'" onmouseout="this.style.borderColor='var(--z-border)'"><span style="font-weight:700;color:#003399">Horizon EU</span> EIC Accelerator</a>
           <a href="https://www.bidlab.org/es/call-for-proposals" target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border:1px solid var(--z-border);border-radius:20px;font-size:12px;color:var(--z-gray-500);text-decoration:none;transition:border-color .2s" onmouseover="this.style.borderColor='#009FDA'" onmouseout="this.style.borderColor='var(--z-border)'"><span style="font-weight:700;color:#009FDA">BID Lab</span> Open Call</a>
         </div>
@@ -2246,9 +2268,9 @@
       '── Chile ──',
       'CORFO Crea y Valida',
       'CORFO Innova Alta Tecnología',
-      'Startup Chile BUILD',
-      'Startup Chile IGNITE',
-      'Startup Chile GROWTH',
+      'Startup Chile BUILD (cerrada)',
+      'Startup Chile IGNITE (cerrada)',
+      'Startup Chile GROWTH (cerrada)',
       'CORFO Semilla Expande',
       'Innova Región',
       'ANID — convocatorias FONDEF',
@@ -2287,22 +2309,22 @@
         propuestaBot: 'Texto **opcional** (o PDF): en Innova conviene dejar claro **qué tan alta es la tecnología**, evidencia y **equipo**.',
         propuestaPh: 'Tecnología, novedad, viabilidad, equipo, I+D…',
       },
-      'Startup Chile BUILD': {
-        header: 'Build · Startup Chile',
+      'Startup Chile BUILD (cerrada)': {
+        header: 'Build · Startup Chile (convocatoria cerrada)',
         contexto: '**BUILD** es pre-aceleración: de idea validada a prototipo. Equity-free CLP 15M. Pondera **equipo (~40%), producto, mercado y escalabilidad**. Escala **1–7**. Hasta 50 startups por generación.',
         trlBot: '¿En qué **etapa** está tu producto? BUILD es para ideas validadas que necesitan construir prototipo.',
         propuestaBot: 'Describe tu idea, equipo y qué has validado hasta ahora. **Opcional** si adjuntas PDF.',
         propuestaPh: 'Idea, equipo, validación inicial, mercado…',
       },
-      'Startup Chile IGNITE': {
-        header: 'Ignite · Startup Chile',
+      'Startup Chile IGNITE (cerrada)': {
+        header: 'Ignite · Startup Chile (convocatoria cerrada)',
         contexto: '**IGNITE** es aceleración: producto funcional buscando **product-market fit**. Equity-free CLP 25M + CLP 20M extensión. **Equipo** es determinante (~40%). Escala **1–7**. Hasta 30 startups por generación.',
         trlBot: '¿Cuál es el **TRL** o nivel de avance? IGNITE requiere **producto funcional** ya en uso.',
         propuestaBot: 'Describe tu producto, tracción y qué métricas de product-market fit tienes. **Opcional** si adjuntas PDF.',
         propuestaPh: 'Producto, tracción, métricas PMF, equipo…',
       },
-      'Startup Chile GROWTH': {
-        header: 'Growth · Startup Chile',
+      'Startup Chile GROWTH (cerrada)': {
+        header: 'Growth · Startup Chile (convocatoria cerrada)',
         contexto: '**GROWTH** es escalamiento: startups con **revenue y tracción probada**. Equity-free hasta CLP 75M. El programa más avanzado de SUC. Foco en **escalamiento global, revenue y equipo ejecutivo**.',
         trlBot: '¿Cuál es tu nivel de **revenue** y tracción actual? GROWTH es para startups listas para escalar.',
         propuestaBot: 'Describe tu revenue, tracción, plan de escalamiento global y equipo. **Opcional** si adjuntas PDF.',
@@ -2755,14 +2777,16 @@
         var dashOffset = circumference * (1 - pct);
         var verdictClass = score >= 7 ? 'green' : score >= 5 ? '' : 'red';
         var verdictText = verdict || (score >= 7 ? '✓ Postulación competitiva' : score >= 5 ? '⚠ Requiere fortalecimiento' : '✗ Brechas críticas detectadas');
-
+        // F-SEC-01a: escape verdictText (viene de webhook n8n, potencial XSS si se vulnera el flujo)
+        var escHtml = function(s){ return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;'); };
+        // verdictClass es derivado de score numérico interno, safe. verdictText es el vector XSS → escape.
         scoreReveal.innerHTML =
           '<div class="report-score-ring">' +
             '<svg viewBox="0 0 104 104"><circle class="track" cx="52" cy="52" r="45"/><circle class="fill" id="zScoreCircle" cx="52" cy="52" r="45"/></svg>' +
             '<span class="report-score-num" id="zScoreNum">—</span>' +
           '</div>' +
           '<div class="report-score-label">PUNTUACIÓN ZENTI</div>' +
-          '<div class="report-verdict-pill ' + verdictClass + '">' + verdictText + '</div>';
+          '<div class="report-verdict-pill ' + verdictClass + '">' + escHtml(verdictText) + '</div>';
 
         panel.appendChild(scoreReveal);
 
@@ -3109,7 +3133,7 @@
     (function() {
       const COB_META = {
         all:   { t: 'Todos los fondos',   d: '30+ instrumentos en 4 regiones' },
-        chile: { t: '🇨🇱 Chile',          d: 'CORFO · Startup Chile · ANID' },
+        chile: { t: '🇨🇱 Chile',          d: 'CORFO · ANID' },
         usa:   { t: '🇺🇸 USA & Global',   d: 'NSF · DOE · NIH · Y Combinator' },
         eu:    { t: '🇪🇺 Europa',         d: 'Horizon Europe · EIC · Eurostars · Innovate UK' },
         latam: { t: '🌎 Latam',          d: 'Colombia · Perú · Argentina · Brasil' },
@@ -3179,7 +3203,7 @@
           const theme = f.theme || getFundTheme(f.name);
           const hidden = COB_CURRENT_THEME !== 'todos' && theme !== COB_CURRENT_THEME ? ' style="display:none"' : '';
           return `
-          <a class="cob-fund-item" href="#evaluator" data-scroll-eval data-theme="${theme}"${hidden}>
+          <a class="cob-fund-item" href="#evaluator" data-scroll-eval data-theme="${theme}" data-status="${f.status}"${hidden}>
             <div class="cob-fi-ico" style="background:${f.color}">${f.icon}</div>
             <div class="cob-fi-body">
               <div class="cob-fi-name">${f.name}</div>
@@ -3224,7 +3248,7 @@
               { name:'CORFO Crea y Valida', icon:'CO', color:'#003087', amount:'Hasta ~$180M / $220M (bases CORFO)', status:'coming' },
               { name:'CORFO Semilla Inicia', icon:'CO', color:'#003087', amount:'Hasta ~$15M CLP', status:'coming' },
               { name:'ANID — línea FONDEF (varias convocatorias)', icon:'AN', color:'#C8102E', amount:'Ver convocatoria en anid.cl', status:'coming' },
-              { name:'Startup Chile Ignite', icon:'SC', color:'#F26C22', amount:'CLP 25M + ext. equity-free (ver bases)', status:'open' },
+              { name:'Startup Chile Ignite', icon:'SC', color:'#F26C22', amount:'Convocatoria cerrada — próxima TBD', status:'closed' },
             ],
             usa: [
               { name:'Y Combinator', icon:'YC', color:'#FF6600', amount:'USD 500K + red', status:'open' },
