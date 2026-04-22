@@ -247,9 +247,15 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 32px;
+      justify-content: flex-start;
+      gap: 24px;
+      padding-top: 12px;
     }
-    .hero-ai-graphic { width: 200px; }
+    .hero-ai-graphic {
+      width: 240px;
+      margin: 0 auto;
+      padding-top: 24px;
+    }
     .ai-bulb-svg { width: 100%; height: auto; }
     @keyframes aiPulse {
       0%, 100% { opacity: 0.4; transform: scale(0.95); }
@@ -988,6 +994,58 @@
       border: 1px solid var(--z-ghost-border);
       box-shadow: 0 40px 80px rgba(0,0,0,0.5);
     }
+    .z-progress {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      max-width: 600px;
+      margin: 24px auto;
+      padding: 0 20px;
+    }
+    .z-progress-step {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      flex: 0 0 auto;
+    }
+    .z-progress-dot {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: #E2E8F0;
+      color: #94A3B8;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 15px;
+      transition: all .3s;
+    }
+    .z-progress-step.active .z-progress-dot {
+      background: #F26C22;
+      color: #fff;
+      box-shadow: 0 0 0 4px rgba(242,108,34,0.12);
+    }
+    .z-progress-step.done .z-progress-dot {
+      background: #166534;
+      color: #fff;
+    }
+    .z-progress-label {
+      font-size: 12px;
+      font-weight: 600;
+      color: #CBD5E1;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+    }
+    .z-progress-step.active .z-progress-label,
+    .z-progress-step.done .z-progress-label { color: #E5E2E1; }
+    .z-progress-line {
+      flex: 1;
+      height: 2px;
+      background: rgba(229,226,225,0.14);
+      margin-bottom: 22px;
+    }
     .chat-header {
       padding: 14px 18px;
       background: var(--z-black);
@@ -1044,6 +1102,45 @@
       border-radius: inherit;
       background: linear-gradient(90deg, #F26C22 0%, #FFB695 100%);
       transition: width .24s ease;
+    }
+    .chat-progress-step {
+      font-size: 11px;
+      color: var(--z-gray-500);
+      text-align: right;
+    }
+    .z-fieldset {
+      border: 1px solid #E2E8F0;
+      border-radius: 12px;
+      padding: 20px 24px;
+      margin: 16px 0 0;
+      background: #fff;
+    }
+    .z-fieldset-legend {
+      padding: 0 8px;
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: #F26C22;
+    }
+    .z-fieldset-step {
+      margin: 0 0 14px;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: #64748B;
+    }
+    .z-fieldset .review-summary {
+      background: #0F172A;
+      border-color: rgba(15,23,42,0.08);
+      box-shadow: none;
+    }
+    .z-fieldset .review-summary dd,
+    .z-fieldset .review-summary > strong { color: #E5E2E1; }
+    .z-fieldset .review-submit-hint {
+      color: #475569;
+      margin-bottom: 0;
     }
     /* Resumen previo al envío: misma familia visual que burbujas bot (+ acento ZENTI) */
     .review-summary {
@@ -1147,6 +1244,7 @@
       border-top: 1px solid var(--z-ghost-border);
     }
     .input-wrap { display: flex; flex-direction: column; gap: 10px; }
+    .z-fieldset .input-wrap { gap: 12px; }
     input[type="text"], input[type="email"], textarea, select {
       width: 100%; padding: 12px 14px; border-radius: 12px;
       border: 1px solid var(--z-ghost-border);
@@ -1247,6 +1345,24 @@
     .success-panel { text-align: center; padding: 28px 16px; }
     .success-panel h2 { margin: 0 0 10px; font-size: 20px; color: var(--z-text); }
     .success-panel p { color: var(--z-gray-500); margin: 0; line-height: 1.6; }
+    @media (max-width: 640px) {
+      .z-progress {
+        padding: 0;
+        gap: 6px;
+        margin: 20px auto;
+        align-items: flex-start;
+      }
+      .z-progress-label {
+        font-size: 10px;
+        text-align: center;
+      }
+      .z-progress-line {
+        margin-bottom: 27px;
+      }
+      .z-fieldset {
+        padding: 18px 16px;
+      }
+    }
 
     /* ── LOADING PANEL (evaluando) ── */
     .loading-panel { text-align: center; padding: 32px 16px 24px; }
@@ -1539,13 +1655,116 @@
     }
     .quote-card p { font-size: 14px; color: var(--z-text-muted); line-height: 1.65; font-style: italic; margin-bottom: 12px; }
     .quote-card cite { font-size: 12px; font-weight: 700; color: var(--z-orange); font-style: normal; }
-    .faq-list { max-width: 720px; margin: 32px auto 0; text-align: left; }
+    /* B-13 Draft 3: FAQ accordion (2026-04-22) */
+    .faq-list { max-width: 720px; margin: 32px auto 0; text-align: left; display: flex; flex-direction: column; gap: 8px; }
     .faq-item {
-      border-bottom: 1px solid var(--z-ghost-border);
-      padding: 18px 0;
+      background: rgba(255,255,255,0.02);
+      border: 1px solid var(--z-ghost-border);
+      border-radius: 10px;
+      padding: 0;
+      overflow: hidden;
+      transition: border-color .2s;
     }
-    .faq-item h3 { font-size: 15px; font-weight: 700; margin-bottom: 8px; color: var(--z-text); }
-    .faq-item p { font-size: 14px; color: var(--z-text-muted); line-height: 1.65; }
+    .faq-item[open] { border-color: var(--z-orange); background: rgba(242,108,34,0.04); }
+    .faq-item summary {
+      list-style: none;
+      padding: 18px 20px;
+      cursor: pointer;
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--z-text);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      transition: background .2s;
+    }
+    .faq-item summary::-webkit-details-marker { display: none; }
+    .faq-item summary::after {
+      content: '+';
+      color: var(--z-orange);
+      font-size: 22px;
+      font-weight: 300;
+      transition: transform .2s;
+      line-height: 1;
+      flex-shrink: 0;
+    }
+    .faq-item[open] summary::after { transform: rotate(45deg); }
+    .faq-item summary:hover { background: rgba(242,108,34,0.03); }
+    .faq-answer {
+      padding: 0 20px 18px;
+      font-size: 14px;
+      color: var(--z-text-muted);
+      line-height: 1.65;
+    }
+    .faq-answer p { margin: 0; }
+
+    .sample-modal {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+    .sample-modal[hidden] { display: none; }
+    .sample-modal-backdrop {
+      position: absolute;
+      inset: 0;
+      background: rgba(10, 14, 26, 0.82);
+      backdrop-filter: blur(4px);
+      cursor: pointer;
+    }
+    .sample-modal-content {
+      position: relative;
+      background: var(--z-surface, #fff);
+      border-radius: 16px;
+      border: 1px solid rgba(242, 108, 34, 0.25);
+      width: min(1100px, 100%);
+      height: min(88vh, 900px);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      box-shadow: 0 24px 72px rgba(0, 0, 0, 0.4);
+    }
+    .sample-modal-close {
+      position: absolute;
+      top: 12px;
+      right: 16px;
+      background: transparent;
+      border: none;
+      font-size: 32px;
+      color: var(--z-text-muted, #94a3b8);
+      cursor: pointer;
+      z-index: 2;
+      line-height: 1;
+    }
+    .sample-modal-close:hover { color: var(--z-accent, #F26C22); }
+    .sample-modal-header {
+      padding: 20px 56px 16px 28px;
+      border-bottom: 1px solid var(--z-border, #1f2937);
+      background: rgba(242, 108, 34, 0.04);
+    }
+    .sample-modal-tabs { display: flex; gap: 8px; margin-bottom: 10px; }
+    .sample-tab {
+      background: transparent;
+      border: 1px solid var(--z-border, #1f2937);
+      color: var(--z-text-muted, #94a3b8);
+      padding: 8px 18px;
+      border-radius: 999px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 13px;
+      transition: all .2s;
+    }
+    .sample-tab.active, .sample-tab:hover {
+      background: var(--z-accent, #F26C22);
+      color: #fff;
+      border-color: var(--z-accent, #F26C22);
+    }
+    .sample-modal-note { color: var(--z-text-muted, #94a3b8); font-size: 12px; margin: 0; }
+    #sample-iframe { flex: 1; border: none; width: 100%; background: #fff; }
 
     /* ── RESPONSIVE ── */
     @media (max-width: 640px) {
@@ -1560,12 +1779,19 @@
       .start-card-body { padding: 20px; }
       .path-tabs { flex-wrap: wrap; }
     }
+    @media (max-width: 720px) {
+      .sample-modal { padding: 8px; }
+      .sample-modal-content { height: 92vh; }
+      .sample-modal-header { padding: 16px 44px 12px 16px; }
+      .sample-tab { padding: 6px 12px; font-size: 12px; }
+    }
   </style>
   <!-- F-OBS-01 Sentry browser SDK -->
   <script>
-    // Setup: inyectar el DSN en deploy/publicación. Si queda vacío, el bloque hace no-op.
-    // Ejemplo: window.ZENTI_SENTRY_DSN = 'https://PUBLIC_KEY@o0.ingest.sentry.io/0';
-    window.ZENTI_SENTRY_DSN = '';
+    // Sentry DSN activado 2026-04-22 (B-12 item 3 + F-OBS-01).
+    // Project: zenti-vm / javascript. Free tier (5k errors/mes).
+    // Si necesitás desactivar temporalmente, dejá string vacío.
+    window.ZENTI_SENTRY_DSN = 'https://17725d6bf20181bbbf88493409c42047@o4511264818528256.ingest.us.sentry.io/4511264847364096';
   </script>
   <script src='https://browser.sentry-cdn.com/7.100.0/bundle.tracing.min.js' crossorigin='anonymous'></script>
   <script>
@@ -1603,7 +1829,7 @@
   <!-- HERO -->
   <section class="hero">
     <div class="promo-strip" role="region" aria-label="Cupón opcional informe premium">
-      Cup&oacute;n opcional <strong>ZENTIMVP</strong> en el evaluador (campo cup&oacute;n) o al pagar con Flow. <a href="mailto:hola@zentigrants.com?subject=Cup%C3%B3n%20ZENTI">Dudas</a>
+      Cup&oacute;n opcional <strong>ZENTIMVP</strong> en el evaluador (campo cup&oacute;n) o al pagar con Flow. <a href="#start">Probar ahora &rarr;</a>
     </div>
     <div class="hero-split">
       <!-- LEFT: Text + CTA -->
@@ -1617,13 +1843,13 @@
         </div>
         <p class="hero-sample-link" style="margin-top:14px;font-size:13px;color:var(--z-text-muted)">
           ¿Quieres ver antes qué recibes?
-          <a href="informe-ejemplo.html" target="_blank" rel="noopener" style="color:var(--z-accent,#F26C22);font-weight:600;text-decoration:underline">Ver informe de muestra →</a>
+          <a href="informe-ejemplo.html" data-sample-modal style="color:var(--z-accent,#F26C22);font-weight:600;text-decoration:underline;cursor:pointer">Ver informe de muestra →</a>
         </p>
       </div>
       <!-- RIGHT: AI Graphic + Steps -->
       <div class="hero-right">
         <div class="hero-ai-graphic">
-          <svg viewBox="0 0 220 260" xmlns="http://www.w3.org/2000/svg" class="ai-bulb-svg">
+          <svg viewBox="0 10 220 170" xmlns="http://www.w3.org/2000/svg" class="ai-bulb-svg">
             <defs>
               <radialGradient id="glowGrad" cx="50%" cy="50%" r="50%">
                 <stop offset="0%" stop-color="#F26C22" stop-opacity="0.25"/>
@@ -1947,6 +2173,7 @@
             </ul>
           </div>
           <div class="pricing-card-cta">
+            <a href="demo-informe-premium.html" data-sample-modal class="pricing-sample-link" style="display:inline-block;margin-bottom:12px;font-size:13px;color:var(--z-accent,#F26C22);text-decoration:underline;cursor:pointer">Ver un informe premium real →</a>
             <a href="#evaluator" class="btn-pricing-hot">Obtener evaluaci&oacute;n</a>
             <p class="pricing-card-foot pricing-card-foot--spacer" aria-hidden="true">&nbsp;</p>
           </div>
@@ -2090,6 +2317,23 @@
       <div class="section-label">Evaluador</div>
       <h2 class="section-title">Inicia tu evaluación</h2>
 
+      <div class="z-progress" aria-label="Progreso de la evaluación">
+        <div class="z-progress-step active" data-phase="1">
+          <span class="z-progress-dot">1</span>
+          <span class="z-progress-label">Proyecto</span>
+        </div>
+        <div class="z-progress-line"></div>
+        <div class="z-progress-step" data-phase="2">
+          <span class="z-progress-dot">2</span>
+          <span class="z-progress-label">Equipo</span>
+        </div>
+        <div class="z-progress-line"></div>
+        <div class="z-progress-step" data-phase="3">
+          <span class="z-progress-dot">3</span>
+          <span class="z-progress-label">Fondo</span>
+        </div>
+      </div>
+
       <div class="chat-shell">
         <div class="chat-header">
           <div class="chat-mark">Z</div>
@@ -2099,6 +2343,7 @@
           </div>
           <div class="chat-progress" id="chat-progress" aria-live="polite">
             <div class="chat-progress-phase" id="chat-progress-phase">Fase 1 de 3: Proyecto</div>
+            <div class="chat-progress-step" id="chat-progress-step">Paso 1 de 13</div>
             <div class="chat-progress-bar" aria-hidden="true">
               <div class="chat-progress-fill" id="chat-progress-fill"></div>
             </div>
@@ -2125,27 +2370,37 @@
     <div class="how-inner">
       <div class="section-label">FAQ</div>
       <h2 class="section-title">Preguntas frecuentes</h2>
-      <div class="faq-list">
-        <div class="faq-item">
-          <h3>&iquest;Mis datos y mi propuesta son confidenciales?</h3>
-          <p>Tratamos la informaci&oacute;n seg&uacute;n nuestra <a href="privacidad.html" style="color:var(--z-orange);font-weight:600">pol&iacute;tica de privacidad</a>. El procesamiento del texto lo realiza un modelo de lenguaje (Anthropic/Claude) bajo contratos de proveedor; no publicamos tu propuesta.</p>
-        </div>
-        <div class="faq-item">
-          <h3>&iquest;Qu&eacute; tan &laquo;precisa&raquo; es la evaluaci&oacute;n?</h3>
-          <p>Es una <strong>simulaci&oacute;n orientativa</strong> calibrada a criterios t&iacute;picos de cada instrumento, no un veredicto oficial del organismo. Sirve para priorizar brechas antes de la postulaci&oacute;n formal.</p>
-        </div>
-        <div class="faq-item">
-          <h3>&iquest;Qui&eacute;n calibr&oacute; los instrumentos?</h3>
-          <p>Equipo ZENTI a partir de bases p&uacute;blicas y marcos de evaluaci&oacute;n conocidos. Los instrumentos reales pueden cambiar convocatoria a convocatoria: revis&aacute; siempre la base oficial vigente.</p>
-        </div>
-        <div class="faq-item">
-          <h3>&iquest;Cu&aacute;ndo se cobra el Premium?</h3>
-          <p>Empez&aacute;s <strong>gratis</strong>. En el correo ves <strong>una parte</strong> del resultado (vista previa). Si quer&eacute;s el <strong>informe ampliado</strong> completo, el pago se hace con el enlace del mismo correo &mdash; as&iacute; <strong>desbloque&aacute;s</strong> capas premium y el PDF/HTML completo. No hay cargo solo por enviar el formulario.</p>
-        </div>
-        <div class="faq-item">
-          <h3>&iquest;Por qu&eacute; el informe llega en PDF o HTML?</h3>
-          <p>Seg&uacute;n la conversi&oacute;n autom&aacute;tica. Si recib&iacute;s HTML, descargalo y abrilo con <strong>Chrome, Safari o Edge</strong> para ver el dise&ntilde;o completo.</p>
-        </div>
+      <div class="faq-list" itemscope itemtype="https://schema.org/FAQPage">
+        <details class="faq-item" open itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+          <summary itemprop="name">&iquest;Mis datos y mi propuesta son confidenciales?</summary>
+          <div class="faq-answer" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+            <p itemprop="text">Tratamos la informaci&oacute;n seg&uacute;n nuestra <a href="privacidad.html" style="color:var(--z-orange);font-weight:600">pol&iacute;tica de privacidad</a>. El procesamiento del texto lo realiza un modelo de lenguaje (Anthropic/Claude) bajo contratos de proveedor; no publicamos tu propuesta.</p>
+          </div>
+        </details>
+        <details class="faq-item" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+          <summary itemprop="name">&iquest;Qu&eacute; tan &laquo;precisa&raquo; es la evaluaci&oacute;n?</summary>
+          <div class="faq-answer" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+            <p itemprop="text">Es una <strong>simulaci&oacute;n orientativa</strong> calibrada a criterios t&iacute;picos de cada instrumento, no un veredicto oficial del organismo. Sirve para priorizar brechas antes de la postulaci&oacute;n formal.</p>
+          </div>
+        </details>
+        <details class="faq-item" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+          <summary itemprop="name">&iquest;Qui&eacute;n calibr&oacute; los instrumentos?</summary>
+          <div class="faq-answer" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+            <p itemprop="text">Equipo ZENTI a partir de bases p&uacute;blicas y marcos de evaluaci&oacute;n conocidos. Los instrumentos reales pueden cambiar convocatoria a convocatoria: revis&aacute; siempre la base oficial vigente.</p>
+          </div>
+        </details>
+        <details class="faq-item" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+          <summary itemprop="name">&iquest;Cu&aacute;ndo se cobra el Premium?</summary>
+          <div class="faq-answer" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+            <p itemprop="text">Empez&aacute;s <strong>gratis</strong>. En el correo ves <strong>una parte</strong> del resultado (vista previa). Si quer&eacute;s el <strong>informe ampliado</strong> completo, el pago se hace con el enlace del mismo correo &mdash; as&iacute; <strong>desbloque&aacute;s</strong> capas premium y el PDF/HTML completo. No hay cargo solo por enviar el formulario.</p>
+          </div>
+        </details>
+        <details class="faq-item" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+          <summary itemprop="name">&iquest;Por qu&eacute; el informe llega en PDF o HTML?</summary>
+          <div class="faq-answer" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+            <p itemprop="text">Seg&uacute;n la conversi&oacute;n autom&aacute;tica. Si recib&iacute;s HTML, descargalo y abrilo con <strong>Chrome, Safari o Edge</strong> para ver el dise&ntilde;o completo.</p>
+          </div>
+        </details>
       </div>
     </div>
   </section>
@@ -2472,26 +2727,30 @@
     const TAMANO_EMPRESA_OPTIONS = ['Micro <10', 'Pequeña 10-49', 'Mediana 50-199', 'Grande 200+'];
     const MONTO_SOLICITADO_OPTIONS = ['<30M', '30-100M', '100-300M', '300M+'];
     const ETAPA_PROYECTO_OPTIONS = ['Idea', 'MVP', 'Early revenue', 'Escalamiento'];
+    const CHAT_PHASES = [
+      { label: 'Proyecto', legend: 'Proyecto' },
+      { label: 'Equipo', legend: 'Equipo' },
+      { label: 'Fondo', legend: 'Fondo' },
+    ];
 
     const steps = [
       { key: 'intro', bot: 'Bienvenido a **ZENTI**. Vamos a realizar la evaluación técnico-estratégica de tu postulación. Selecciona el **instrumento** al que postulas.', input: null },
-      { key: 'fondo', bot: '¿A qué **instrumento o convocatoria** postulas?', input: { type: 'select', options: FONDOS, field: 'field-2' } },
-      { key: 'nombre', bot: '¿Cómo se llama el **proyecto**?', input: { type: 'text', placeholder: 'Nombre del proyecto', field: 'field-0' } },
-      { key: 'empresa', bot: '¿Nombre de la **empresa** o institución?', input: { type: 'text', placeholder: 'Empresa', field: 'field-1' } },
-      { key: 'trl', bot: '¿Cuál es el **TRL actual** aproximado?', input: { type: 'select', options: TRLS, field: 'field-3' } },
-      { key: 'propuesta', bot: 'Si tienes **texto** de la propuesta, pégalo aquí. Es **opcional** si adjuntas PDF.', input: { type: 'textarea', placeholder: 'Opcional: problema, solución, mercado, equipo…', field: 'field-4' } },
-      { key: 'email', bot: '¿A qué **correo** enviamos el informe ejecutivo?', input: { type: 'email', placeholder: 'tu@email.com', field: 'field-5' } },
-      { key: 'plan_trabajo', bot: '¿Tiene **plan de trabajo**?', input: { type: 'select', options: PLAN_TRABAJO_OPTIONS, field: 'field-6' } },
-      { key: 'tamano_empresa', bot: '¿Cuál es el **tamaño de empresa**?', input: { type: 'select', options: TAMANO_EMPRESA_OPTIONS, field: 'field-7' } },
-      { key: 'monto_solicitado', bot: '¿Cuál es el **rango** del monto solicitado CLP?', input: { type: 'select', options: MONTO_SOLICITADO_OPTIONS, field: 'field-8' } },
-      { key: 'etapa_proyecto', bot: '¿En qué **etapa** está el proyecto?', input: { type: 'select', options: ETAPA_PROYECTO_OPTIONS, field: 'field-9' } },
-      { key: 'pdf', bot: '¿Quieres **adjuntar un PDF o DOCX**? Recomendado si la propuesta está en archivo. Formatos aceptados: **.pdf** o **.docx** (el formato viejo **.doc** no es compatible).', input: { type: 'file', field: 'field-10', accept: '.pdf,.docx,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document' } },
-      { key: 'coupon', bot: '**Cupón** para el informe premium (opcional). Escribí el **código** (ej. ZENTIMVP); después del resultado, **completá y pagá en Flow** con el enlace del correo.', input: { type: 'text', placeholder: 'Vacío si no tenés cupón', field: 'field-11', optional: true } },
-      { key: 'review', bot: '**Revisá los datos** antes de enviar. Si algo está mal, usá **Atrás**.', input: { type: 'submit' } },
+      { key: 'fondo', phase: 0, bot: '¿A qué **instrumento o convocatoria** postulas?', input: { type: 'select', options: FONDOS, field: 'field-2' } },
+      { key: 'nombre', phase: 0, bot: '¿Cómo se llama el **proyecto**?', input: { type: 'text', placeholder: 'Nombre del proyecto', field: 'field-0' } },
+      { key: 'trl', phase: 0, bot: '¿Cuál es el **TRL actual** aproximado?', input: { type: 'select', options: TRLS, field: 'field-3' } },
+      { key: 'propuesta', phase: 0, bot: 'Si tienes **texto** de la propuesta, pégalo aquí. Es **opcional** si adjuntas PDF.', input: { type: 'textarea', placeholder: 'Opcional: problema, solución, mercado, equipo…', field: 'field-4' } },
+      { key: 'monto_solicitado', phase: 0, bot: '¿Cuál es el **rango** del monto solicitado CLP?', input: { type: 'select', options: MONTO_SOLICITADO_OPTIONS, field: 'field-8' } },
+      { key: 'empresa', phase: 1, bot: '¿Nombre de la **empresa** o institución?', input: { type: 'text', placeholder: 'Empresa', field: 'field-1' } },
+      { key: 'tamano_empresa', phase: 1, bot: '¿Cuál es el **tamaño de empresa**?', input: { type: 'select', options: TAMANO_EMPRESA_OPTIONS, field: 'field-7' } },
+      { key: 'email', phase: 2, bot: '¿A qué **correo** enviamos el informe ejecutivo?', input: { type: 'email', placeholder: 'tu@email.com', field: 'field-5' } },
+      { key: 'plan_trabajo', phase: 2, bot: '¿Tiene **plan de trabajo**?', input: { type: 'select', options: PLAN_TRABAJO_OPTIONS, field: 'field-6' } },
+      { key: 'etapa_proyecto', phase: 2, bot: '¿En qué **etapa** está el proyecto?', input: { type: 'select', options: ETAPA_PROYECTO_OPTIONS, field: 'field-9' } },
+      { key: 'pdf', phase: 2, bot: '¿Quieres **adjuntar un PDF o DOCX**? Recomendado si la propuesta está en archivo. Formatos aceptados: **.pdf** o **.docx** (el formato viejo **.doc** no es compatible).', input: { type: 'file', field: 'field-10', accept: '.pdf,.docx,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document' } },
+      { key: 'coupon', phase: 2, bot: '**Cupón** para el informe premium (opcional). Escribí el **código** (ej. ZENTIMVP); después del resultado, **completá y pagá en Flow** con el enlace del correo.', input: { type: 'text', placeholder: 'Vacío si no tenés cupón', field: 'field-11', optional: true } },
+      { key: 'review', phase: 2, bot: '**Revisá los datos** antes de enviar. Si algo está mal, usá **Atrás**.', input: { type: 'submit' } },
     ];
 
     const CHAT_TOTAL_STEPS = 13;
-    const CHAT_PHASES = ['Proyecto', 'Team', 'Fondo'];
     const LS_DRAFT_KEY = 'zenti-eval-draft-v2';
 
     function setHeaderSubtitle(fondoKey) {
@@ -2517,16 +2776,60 @@
     const errEl = document.getElementById('err');
     const composer = document.getElementById('composer');
 
+    function getRenderableSteps() {
+      return steps.filter(function(step) { return !!step.input; });
+    }
+
+    function getVisibleStepNumber() {
+      return Math.max(1, getRenderableSteps().findIndex(function(step) { return step === steps[stepIndex]; }) + 1);
+    }
+
+    function getCurrentPhaseIndex() {
+      const step = steps[stepIndex];
+      return step && step.input && step.phase != null ? step.phase : 0;
+    }
+
+    function updatePhaseStepper(activePhase) {
+      document.querySelectorAll('.z-progress-step').forEach(function(el) {
+        const phase = Number(el.getAttribute('data-phase')) - 1;
+        el.classList.toggle('active', phase === activePhase);
+        el.classList.toggle('done', phase < activePhase);
+      });
+    }
+
+    function buildFieldset(step) {
+      const phaseIndex = step && step.phase != null ? step.phase : 0;
+      const phase = CHAT_PHASES[phaseIndex] || CHAT_PHASES[0];
+      const fieldset = document.createElement('fieldset');
+      fieldset.className = 'z-fieldset';
+      fieldset.setAttribute('data-phase', String(phaseIndex + 1));
+
+      const legend = document.createElement('legend');
+      legend.className = 'z-fieldset-legend';
+      legend.textContent = phase.legend;
+      fieldset.appendChild(legend);
+
+      const meta = document.createElement('p');
+      meta.className = 'z-fieldset-step';
+      meta.textContent = 'Paso ' + getVisibleStepNumber() + ' de ' + CHAT_TOTAL_STEPS;
+      fieldset.appendChild(meta);
+
+      return fieldset;
+    }
+
     function updateProgress() {
       const el = document.getElementById('chat-progress-phase');
+      const stepEl = document.getElementById('chat-progress-step');
       const fill = document.getElementById('chat-progress-fill');
       if (!el || !fill) return;
-      const n = Math.min(Math.max(stepIndex + 1, 1), CHAT_TOTAL_STEPS);
-      const phaseIndex = Math.min(Math.floor((n - 1) / 3), CHAT_PHASES.length - 1);
+      const n = getVisibleStepNumber();
+      const phaseIndex = getCurrentPhaseIndex();
       const phaseNumber = phaseIndex + 1;
       const progressPct = ((n - 1) / (CHAT_TOTAL_STEPS - 1)) * 100;
-      el.textContent = 'Fase ' + phaseNumber + ' de 3: ' + CHAT_PHASES[phaseIndex];
+      el.textContent = 'Fase ' + phaseNumber + ' de 3: ' + CHAT_PHASES[phaseIndex].label;
+      if (stepEl) stepEl.textContent = 'Paso ' + n + ' de ' + CHAT_TOTAL_STEPS;
       fill.style.width = progressPct + '%';
+      updatePhaseStepper(phaseIndex);
     }
 
     function persistDraft() {
@@ -2635,19 +2938,25 @@
         return;
       }
 
+      const fieldset = buildFieldset(step);
+      const fieldsetContent = document.createElement('div');
+      fieldsetContent.className = 'input-wrap';
+      fieldset.appendChild(fieldsetContent);
+      stepUi.appendChild(fieldset);
+
       if (step.input.type === 'submit') {
         const sum = document.createElement('div');
         sum.className = 'review-summary';
         sum.innerHTML = buildSummaryHtml();
-        stepUi.appendChild(sum);
+        fieldsetContent.appendChild(sum);
         const hint = document.createElement('p');
         hint.className = 'review-submit-hint';
         hint.textContent = 'El envío tarda unos minutos en procesarse. Revisá también spam.';
-        stepUi.appendChild(hint);
+        fieldsetContent.appendChild(hint);
         const wrap = document.createElement('div');
         wrap.className = 'actions';
         wrap.innerHTML = '<button type="button" class="ghost" id="btn-back">Atrás</button><button type="button" class="primary" id="btn-send">Solicitar evaluación</button>';
-        stepUi.appendChild(wrap);
+        fieldsetContent.appendChild(wrap);
         persistDraft();
         document.getElementById('btn-back').onclick = function () {
           if (stepIndex <= 1) return;
@@ -2673,7 +2982,7 @@
             '<div class="upload-filename" id="upload-fname"></div>' +
             '<button type="button" class="upload-skip" id="btn-upload-skip">No tengo PDF a\u00fan \u2014 continuar sin adjuntar \u2192</button>' +
           '</div>';
-        stepUi.appendChild(zone);
+        fieldsetContent.appendChild(zone);
 
         const fileInput = document.getElementById('dyn-input');
         const fnameEl = document.getElementById('upload-fname');
@@ -2711,7 +3020,7 @@
         actions.innerHTML =
           '<button type="button" class="primary" id="btn-next">Continuar</button>' +
           '<button type="button" class="ghost" id="btn-skip" style="font-size:13px;padding:10px 16px">Saltar sin archivo</button>';
-        stepUi.appendChild(actions);
+        fieldsetContent.appendChild(actions);
         document.getElementById('btn-skip').onclick = function () {
           values.files[step.input.field] = null;
           stepIndex++;
@@ -2734,7 +3043,7 @@
           if (o.startsWith('──')) return '<option disabled style="font-weight:700;color:#9CA3AF;background:#F3F4F6;font-size:12px">' + esc(o) + '</option>';
           return '<option value="' + esc(o) + '">' + esc(o) + '</option>';
         }).join('');
-        stepUi.appendChild(sel);
+        fieldsetContent.appendChild(sel);
       } else if (step.input.type === 'textarea') {
         const ta = document.createElement('textarea');
         ta.id = 'dyn-input';
@@ -2742,20 +3051,20 @@
         const info = f && FONDO_INFO[f];
         ta.placeholder = (step.key === 'propuesta' && info && info.propuestaPh) || step.input.placeholder || '';
         ta.value = values[step.input.field] || '';
-        stepUi.appendChild(ta);
+        fieldsetContent.appendChild(ta);
       } else {
         const inp = document.createElement('input');
         inp.type = step.input.type;
         inp.id = 'dyn-input';
         inp.placeholder = step.input.placeholder || '';
         inp.value = values[step.input.field] || '';
-        stepUi.appendChild(inp);
+        fieldsetContent.appendChild(inp);
       }
 
       const actions = document.createElement('div');
       actions.className = 'actions';
       actions.innerHTML = '<button type="button" class="primary" id="btn-next">Siguiente</button>';
-      stepUi.appendChild(actions);
+      fieldsetContent.appendChild(actions);
 
       document.getElementById('btn-next').onclick = function () {
         const el = document.getElementById('dyn-input');
@@ -3417,6 +3726,72 @@
     };
   })();
   });
+  </script>
+  <!-- B-18: Modal visor informe demo -->
+  <div id="sample-modal" class="sample-modal" hidden>
+    <div class="sample-modal-backdrop" data-close></div>
+    <div class="sample-modal-content">
+      <button class="sample-modal-close" data-close aria-label="Cerrar">&times;</button>
+      <div class="sample-modal-header">
+        <div class="sample-modal-tabs">
+          <button class="sample-tab active" data-src="demo-informe-gratis.html">Match gratuito</button>
+          <button class="sample-tab" data-src="demo-informe-premium.html">Informe Premium</button>
+        </div>
+        <p class="sample-modal-note">Ejemplo real de salida del sistema. Tu informe tendr&aacute; tu proyecto y tu fondo.</p>
+      </div>
+      <iframe id="sample-iframe" src="demo-informe-gratis.html" title="Informe de muestra" loading="lazy"></iframe>
+    </div>
+  </div>
+  <script>
+    (function() {
+      const modal = document.getElementById('sample-modal');
+      const iframe = document.getElementById('sample-iframe');
+      if (!modal || !iframe) return;
+
+      const tabs = document.querySelectorAll('.sample-tab');
+      const setActiveTab = function(src) {
+        const target = (src || '').split('/').pop();
+        tabs.forEach(tab => {
+          tab.classList.toggle('active', tab.getAttribute('data-src') === target);
+        });
+      };
+      const closeModal = function() {
+        modal.hidden = true;
+        document.body.style.overflow = '';
+      };
+
+      const triggers = document.querySelectorAll(
+        'a[href="informe-ejemplo.html"], a[href="demo-informe-gratis.html"], a[href="demo-informe-premium.html"], a[href="demo-informe-tech.html"], a[href="demo-informe-tech-premium.html"], a[data-sample-modal]'
+      );
+
+      triggers.forEach(link => {
+        link.addEventListener('click', function(e) {
+          e.preventDefault();
+          const href = link.getAttribute('href');
+          const isPremium = href && href.includes('premium');
+          iframe.src = isPremium ? 'demo-informe-premium.html' : 'demo-informe-gratis.html';
+          setActiveTab(iframe.src);
+          modal.hidden = false;
+          document.body.style.overflow = 'hidden';
+        });
+      });
+
+      tabs.forEach(tab => {
+        tab.addEventListener('click', function() {
+          const src = tab.getAttribute('data-src');
+          iframe.src = src;
+          setActiveTab(src);
+        });
+      });
+
+      modal.querySelectorAll('[data-close]').forEach(el => {
+        el.addEventListener('click', closeModal);
+      });
+
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && !modal.hidden) closeModal();
+      });
+    })();
   </script>
   <script>
     window.$crisp = [];
