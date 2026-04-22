@@ -302,12 +302,14 @@
     }
     /* Responsive hero */
     @media (max-width: 820px) {
-      .hero-split { grid-template-columns: 1fr; gap: 48px; }
+      .hero-split { grid-template-columns: 1fr; gap: 36px; }
       .hero-left { text-align: center; }
-      .hero-sub { margin: 0 auto 36px; }
+      .hero-sub { margin: 0 auto 28px; }
       .hero-ctas { justify-content: center; }
-      .hero-right { order: -1; }
-      .hero-ai-graphic { width: 150px; }
+      /* NO order: -1 — mantener H1 arriba, lámpara después del texto (flow natural) */
+      .hero-right { order: 2; }
+      .hero-ai-graphic { width: 200px; max-width: 60%; }
+      .hero-sample-card { margin-left: auto !important; margin-right: auto !important; }
     }
     /* Keep legacy classes available for any existing references */
     .hero-inner { max-width: var(--z-max-w); margin: 0 auto; position: relative; z-index: 1; }
@@ -1110,27 +1112,32 @@
       text-align: right;
     }
     .z-fieldset {
-      border: 1px solid #E2E8F0;
+      border: 1px solid rgba(242,108,34,0.25);
       border-radius: 12px;
-      padding: 20px 24px;
-      margin: 16px 0 0;
-      background: #fff;
+      padding: 28px 24px 22px;
+      margin: 20px 0 0;
+      background: rgba(18, 22, 34, 0.6);
+      backdrop-filter: blur(4px);
     }
     .z-fieldset-legend {
-      padding: 0 8px;
-      font-size: 12px;
+      padding: 4px 12px;
+      font-size: 11px;
       font-weight: 800;
-      letter-spacing: .12em;
+      letter-spacing: .18em;
       text-transform: uppercase;
-      color: #F26C22;
+      color: #FFB695;
+      background: rgba(242,108,34,0.12);
+      border: 1px solid rgba(242,108,34,0.28);
+      border-radius: 999px;
+      margin-left: 4px;
     }
     .z-fieldset-step {
-      margin: 0 0 14px;
-      font-size: 12px;
+      margin: 10px 0 16px;
+      font-size: 11px;
       font-weight: 700;
-      letter-spacing: .08em;
+      letter-spacing: .12em;
       text-transform: uppercase;
-      color: #64748B;
+      color: #94a3b8;
     }
     .z-fieldset .review-summary {
       background: #0F172A;
