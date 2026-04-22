@@ -252,7 +252,8 @@
       padding-top: 12px;
     }
     .hero-ai-graphic {
-      width: 240px;
+      width: 360px;
+      max-width: 100%;
       margin: 0 auto;
       padding-top: 24px;
     }
@@ -1841,10 +1842,14 @@
           <a href="#evaluator" class="hero-btn hero-btn--primary" data-scroll-eval>Validar mi idea ahora</a>
           <a href="#cobertura" class="hero-btn hero-btn--glass">Ver fondos disponibles →</a>
         </div>
-        <p class="hero-sample-link" style="margin-top:14px;font-size:13px;color:var(--z-text-muted)">
-          ¿Quieres ver antes qué recibes?
-          <a href="informe-ejemplo.html" data-sample-modal style="color:var(--z-accent,#F26C22);font-weight:600;text-decoration:underline;cursor:pointer">Ver informe de muestra →</a>
-        </p>
+        <a href="informe-ejemplo.html" data-sample-modal class="hero-sample-card" style="display:flex;align-items:center;gap:12px;margin-top:18px;padding:14px 18px;background:rgba(242,108,34,0.08);border:1px solid rgba(242,108,34,0.35);border-radius:12px;text-decoration:none;color:#fff;max-width:440px;cursor:pointer;transition:all .2s">
+          <span style="font-size:22px">👁️</span>
+          <span style="flex:1">
+            <span style="display:block;font-weight:700;font-size:14px">Ver informe de muestra</span>
+            <span style="display:block;font-size:12px;color:var(--z-text-muted);margin-top:2px">Salida real del sistema antes de probar</span>
+          </span>
+          <span style="color:var(--z-accent,#F26C22);font-weight:700">→</span>
+        </a>
       </div>
       <!-- RIGHT: AI Graphic + Steps -->
       <div class="hero-right">
