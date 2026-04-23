@@ -17,6 +17,11 @@
   <meta name="twitter:title" content="ZENTI — Evalúa tu postulación a CORFO, NSF y +30 fondos" />
   <meta name="twitter:description" content="Evaluación con criterios de fondos públicos. Propuesta = informe completo; idea = match y ruta." />
   <meta name="twitter:image" content="https://zentigrants.com/og-image.png" />
+
+  <!-- Favicon SVG inline (letra Z naranja brand ZENTI) -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23F26C22'/%3E%3Ctext x='50%25' y='58%25' text-anchor='middle' font-family='Inter,system-ui,-apple-system,sans-serif' font-weight='900' font-size='42' fill='%23111'%3EZ%3C/text%3E%3C/svg%3E" />
+  <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23F26C22'/%3E%3Ctext x='50%25' y='58%25' text-anchor='middle' font-family='Inter,sans-serif' font-weight='900' font-size='42' fill='%23111'%3EZ%3C/text%3E%3C/svg%3E" />
+
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@600;700;800&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
@@ -2433,46 +2438,68 @@
     </div>
   </section>
 
-  <!-- WISHLIST / COMENTARIOS -->
+  <!-- ══════════════════════════════════════════════════════════════
+       B-28 · WIDGET VALIDACIÓN DEMANDA ZENTI ASESOR
+       (reemplaza sección Wishlist/Comunidad anterior)
+       Objetivo: medir willingness-to-pay real del APP orquestador
+       ANTES de construirlo. Gate go/no-go para sprint MVP 100h+.
+       ══════════════════════════════════════════════════════════════ -->
   <section style="padding:64px 24px;background:#111111">
-    <div style="max-width:560px;margin:0 auto;text-align:center">
-      <div style="display:inline-block;font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--z-orange);border:1px solid var(--z-orange);border-radius:999px;padding:4px 14px;margin-bottom:16px">Comunidad ZENTI</div>
-      <h2 style="font-size:clamp(22px,4vw,30px);font-weight:800;color:#ffffff;margin:0 0 14px;line-height:1.25">¿Qué funcionalidad te gustaría ver primero?</h2>
-      <p style="font-size:15px;color:rgba(255,255,255,.6);margin:0 0 32px;line-height:1.65">Tu opinión define el roadmap. Cuéntanos qué agregarías o qué te gustaría que ZENTI hiciera por ti.</p>
-      <form id="wishlist-form" style="text-align:left">
-        <div style="margin-bottom:16px">
-          <label style="display:block;font-size:12px;font-weight:600;color:rgba(255,255,255,.5);margin-bottom:6px;letter-spacing:.05em;text-transform:uppercase">¿Qué feature agregarías?</label>
-          <select id="wishlist-feature" style="width:100%;padding:12px 16px;border-radius:8px;border:1px solid rgba(255,255,255,.15);background:rgba(255,255,255,.06);color:#fff;font-size:14px">
-            <option value="">Selecciona una opción…</option>
-            <option value="scraping_fondos">Scraping automático de fondos nuevos</option>
-            <option value="bot_soporte">Bot de soporte para preguntas sobre bases</option>
-            <option value="visor_online">Ver el informe directamente en la web</option>
-            <option value="cupones">Cupones y acceso gratuito para probar</option>
-            <option value="comparador">Comparador de proyectos similares</option>
-            <option value="historial">Historial de mis evaluaciones</option>
-            <option value="otro">Otro (escribir abajo)</option>
-          </select>
-        </div>
-        <div style="margin-bottom:16px">
-          <label style="display:block;font-size:12px;font-weight:600;color:rgba(255,255,255,.5);margin-bottom:6px;letter-spacing:.05em;text-transform:uppercase">Tu comentario o idea</label>
-          <textarea id="wishlist-comment" rows="3" placeholder="Cuéntanos con tus palabras…" style="width:100%;padding:12px 16px;border-radius:8px;border:1px solid rgba(255,255,255,.15);background:rgba(255,255,255,.06);color:#fff;font-size:14px;resize:vertical;box-sizing:border-box"></textarea>
-        </div>
-        <div style="margin-bottom:20px">
-          <label style="display:block;font-size:12px;font-weight:600;color:rgba(255,255,255,.5);margin-bottom:6px;letter-spacing:.05em;text-transform:uppercase">¿Pagarías por esta función?</label>
-          <div style="display:flex;gap:10px;flex-wrap:wrap">
-            <label style="display:flex;align-items:center;gap:6px;font-size:13px;color:rgba(255,255,255,.7);cursor:pointer"><input type="radio" name="wishlist-pay" value="gratis" style="accent-color:var(--z-orange)"> Solo si es gratis</label>
-            <label style="display:flex;align-items:center;gap:6px;font-size:13px;color:rgba(255,255,255,.7);cursor:pointer"><input type="radio" name="wishlist-pay" value="menor_9usd"> Sí, hasta $9 USD</label>
-            <label style="display:flex;align-items:center;gap:6px;font-size:13px;color:rgba(255,255,255,.7);cursor:pointer"><input type="radio" name="wishlist-pay" value="mayor_9usd"> Sí, más de $9 USD</label>
+    <div style="max-width:640px;margin:0 auto">
+      <div style="text-align:center;margin-bottom:32px">
+        <div style="display:inline-block;font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--z-orange);border:1px solid var(--z-orange);border-radius:999px;padding:4px 14px;margin-bottom:16px">Próximo producto</div>
+        <h2 style="font-size:clamp(24px,4vw,32px);font-weight:800;color:#ffffff;margin:0 0 18px;line-height:1.2">ZENTI Asesor</h2>
+        <p style="font-size:16px;color:rgba(255,255,255,.75);margin:0 0 24px;line-height:1.55">Redacta contigo el proyecto completo, sección por sección, contra las bases oficiales. Sin rebotes por errores de forma.</p>
+      </div>
+
+      <ul style="list-style:none;padding:0;margin:0 0 32px;display:grid;grid-template-columns:1fr;gap:10px;max-width:520px;margin-left:auto;margin-right:auto">
+        <li style="display:flex;gap:10px;font-size:14px;color:rgba(255,255,255,.8);line-height:1.5"><span style="color:var(--z-orange);font-weight:700;flex-shrink:0">✓</span>Redacta problema, solución, metodología, presupuesto y cronograma con el estándar evaluador CORFO/ANID</li>
+        <li style="display:flex;gap:10px;font-size:14px;color:rgba(255,255,255,.8);line-height:1.5"><span style="color:var(--z-orange);font-weight:700;flex-shrink:0">✓</span>Detecta en tiempo real inconsistencias entre bases y tu propuesta</li>
+        <li style="display:flex;gap:10px;font-size:14px;color:rgba(255,255,255,.8);line-height:1.5"><span style="color:var(--z-orange);font-weight:700;flex-shrink:0">✓</span>Marca cuándo estás listo para enviar (o qué te falta)</li>
+        <li style="display:flex;gap:10px;font-size:14px;color:rgba(255,255,255,.8);line-height:1.5"><span style="color:var(--z-orange);font-weight:700;flex-shrink:0">✓</span>Versiona tu postulación por convocatoria</li>
+      </ul>
+
+      <div style="background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:28px 24px">
+        <h3 style="font-size:18px;font-weight:700;color:#ffffff;margin:0 0 6px;text-align:center">Reservá tu lugar</h3>
+        <p style="font-size:13px;color:rgba(255,255,255,.55);margin:0 0 24px;text-align:center;line-height:1.55">Estamos validando demanda antes de construir. Tu registro nos ayuda a priorizar.</p>
+
+        <form id="asesor-form" style="text-align:left">
+          <div style="margin-bottom:22px">
+            <label style="display:block;font-size:12px;font-weight:700;color:rgba(255,255,255,.75);margin-bottom:10px;letter-spacing:.05em;text-transform:uppercase">¿Cuál de estas versiones usarías?</label>
+            <div style="display:flex;flex-direction:column;gap:8px">
+              <label style="display:flex;align-items:flex-start;gap:10px;font-size:14px;color:rgba(255,255,255,.85);cursor:pointer;padding:10px 12px;border:1px solid rgba(255,255,255,.1);border-radius:8px;background:rgba(255,255,255,.02)"><input type="radio" name="asesor-version" value="copiloto" style="accent-color:var(--z-orange);margin-top:3px"><span><strong style="color:#fff">Copiloto todo el proceso</strong> — acompañamiento continuo mientras redacto (yo escribo, ZENTI corrige, sugiere, detecta gaps en vivo)</span></label>
+              <label style="display:flex;align-items:flex-start;gap:10px;font-size:14px;color:rgba(255,255,255,.85);cursor:pointer;padding:10px 12px;border:1px solid rgba(255,255,255,.1);border-radius:8px;background:rgba(255,255,255,.02)"><input type="radio" name="asesor-version" value="completo" style="accent-color:var(--z-orange);margin-top:3px"><span><strong style="color:#fff">Proyecto completo</strong> — redacción de principio a fin (ZENTI escribe, yo reviso)</span></label>
+              <label style="display:flex;align-items:flex-start;gap:10px;font-size:14px;color:rgba(255,255,255,.85);cursor:pointer;padding:10px 12px;border:1px solid rgba(255,255,255,.1);border-radius:8px;background:rgba(255,255,255,.02)"><input type="radio" name="asesor-version" value="seccion" style="accent-color:var(--z-orange);margin-top:3px"><span><strong style="color:#fff">Sección puntual</strong> — presupuesto, OEs o metodología</span></label>
+              <label style="display:flex;align-items:flex-start;gap:10px;font-size:14px;color:rgba(255,255,255,.85);cursor:pointer;padding:10px 12px;border:1px solid rgba(255,255,255,.1);border-radius:8px;background:rgba(255,255,255,.02)"><input type="radio" name="asesor-version" value="ninguna" style="accent-color:var(--z-orange);margin-top:3px"><span><strong style="color:#fff">Ninguna</strong> — con Match + Premium me alcanza</span></label>
+            </div>
           </div>
-        </div>
-        <div style="margin-bottom:20px">
-          <label style="display:block;font-size:12px;font-weight:600;color:rgba(255,255,255,.5);margin-bottom:6px;letter-spacing:.05em;text-transform:uppercase">Tu email (para avisarte cuando esté disponible)</label>
-          <input type="email" id="wishlist-email" placeholder="correo@empresa.com" style="width:100%;padding:12px 16px;border-radius:8px;border:1px solid rgba(255,255,255,.15);background:rgba(255,255,255,.06);color:#fff;font-size:14px;box-sizing:border-box" />
-        </div>
-        <button type="submit" style="width:100%;padding:14px;background:var(--z-orange);color:#fff;border:none;border-radius:8px;font-size:15px;font-weight:700;cursor:pointer">Enviar sugerencia →</button>
-        <p id="wishlist-ok" style="display:none;margin:16px 0 0;font-size:14px;color:var(--z-orange);font-weight:600;text-align:center">¡Gracias! Anotamos tu sugerencia.</p>
-        <p id="wishlist-err" style="display:none;margin:16px 0 0;font-size:13px;color:#ef4444;text-align:center">No se pudo enviar. Inténtalo de nuevo.</p>
-      </form>
+
+          <div style="margin-bottom:22px">
+            <label style="display:block;font-size:12px;font-weight:700;color:rgba(255,255,255,.75);margin-bottom:10px;letter-spacing:.05em;text-transform:uppercase">Si el Asesor ZENTI estuviera hoy disponible, ¿cuánto pagarías por postulación?</label>
+            <div style="display:flex;flex-direction:column;gap:6px">
+              <label style="display:flex;align-items:center;gap:10px;font-size:14px;color:rgba(255,255,255,.85);cursor:pointer;padding:8px 12px"><input type="radio" name="asesor-wtp" value="lt50k" style="accent-color:var(--z-orange)"> Menos de CLP 50.000</label>
+              <label style="display:flex;align-items:center;gap:10px;font-size:14px;color:rgba(255,255,255,.85);cursor:pointer;padding:8px 12px"><input type="radio" name="asesor-wtp" value="50_150k" style="accent-color:var(--z-orange)"> CLP 50.000 – 150.000</label>
+              <label style="display:flex;align-items:center;gap:10px;font-size:14px;color:rgba(255,255,255,.85);cursor:pointer;padding:8px 12px"><input type="radio" name="asesor-wtp" value="150_300k" style="accent-color:var(--z-orange)"> CLP 150.000 – 300.000</label>
+              <label style="display:flex;align-items:center;gap:10px;font-size:14px;color:rgba(255,255,255,.85);cursor:pointer;padding:8px 12px"><input type="radio" name="asesor-wtp" value="gt300k" style="accent-color:var(--z-orange)"> Más de CLP 300.000</label>
+            </div>
+          </div>
+
+          <div style="margin-bottom:20px">
+            <label style="display:block;font-size:12px;font-weight:700;color:rgba(255,255,255,.75);margin-bottom:8px;letter-spacing:.05em;text-transform:uppercase">¿Qué te gustaría que hiciera? <span style="font-weight:400;text-transform:none;letter-spacing:0;color:rgba(255,255,255,.4)">(opcional)</span></label>
+            <textarea id="asesor-comment" rows="3" placeholder="Ej: que me ayude con el cronograma, que revise mi presupuesto vs bases, que detecte contradicciones con la rúbrica…" style="width:100%;padding:13px 16px;border-radius:8px;border:1px solid rgba(255,255,255,.15);background:rgba(255,255,255,.06);color:#fff;font-size:14px;resize:vertical;box-sizing:border-box;font-family:inherit;line-height:1.55"></textarea>
+          </div>
+
+          <div style="margin-bottom:20px">
+            <label style="display:block;font-size:12px;font-weight:700;color:rgba(255,255,255,.75);margin-bottom:8px;letter-spacing:.05em;text-transform:uppercase">Email</label>
+            <input type="email" id="asesor-email" placeholder="correo@empresa.com" required style="width:100%;padding:13px 16px;border-radius:8px;border:1px solid rgba(255,255,255,.15);background:rgba(255,255,255,.06);color:#fff;font-size:15px;box-sizing:border-box" />
+          </div>
+
+          <button type="submit" style="width:100%;padding:15px;background:var(--z-orange);color:#fff;border:none;border-radius:8px;font-size:15px;font-weight:700;cursor:pointer">Reservar mi lugar →</button>
+          <p style="margin:14px 0 0;font-size:12px;color:rgba(255,255,255,.5);text-align:center;line-height:1.5">Los primeros registrados acceden antes que el resto.</p>
+          <p id="asesor-ok" style="display:none;margin:16px 0 0;font-size:14px;color:var(--z-orange);font-weight:600;text-align:center">¡Listo! Te sumamos a la lista. Nos vamos a contactar.</p>
+          <p id="asesor-err" style="display:none;margin:16px 0 0;font-size:13px;color:#ef4444;text-align:center">No se pudo enviar. Revisá tu email e intentá de nuevo.</p>
+        </form>
+      </div>
     </div>
   </section>
 
@@ -2483,6 +2510,8 @@
       <p>
         Evaluación técnico-estratégica de postulaciones a fondos de innovación, I+D+i y emprendimiento.<br/>
         <a href="privacidad.html" style="color:var(--z-gray-400);text-decoration:none">Pol&iacute;tica de privacidad</a>
+        &nbsp;·&nbsp;
+        <a href="terminos.html" style="color:var(--z-gray-400);text-decoration:none">T&eacute;rminos y condiciones</a>
         &nbsp;·&nbsp;
         <a href="mailto:hola@zentigrants.com" style="color:var(--z-gray-400);text-decoration:none">hola@zentigrants.com</a>
         &nbsp;·&nbsp;
@@ -3484,30 +3513,49 @@
       renderStep({});
     })();
 
-    /* ── WISHLIST FORM ── */
+    /* ── B-28 · WAITLIST ASESOR FORM (validación demanda APP orquestador) ── */
     (function() {
-      var form = document.getElementById('wishlist-form');
+      var form = document.getElementById('asesor-form');
       if (!form) return;
       form.addEventListener('submit', function(e) {
         e.preventDefault();
-        var feature = (document.getElementById('wishlist-feature') || {}).value || '';
-        var comment = (document.getElementById('wishlist-comment') || {}).value || '';
-        var email   = (document.getElementById('wishlist-email')   || {}).value || '';
-        var pay     = (document.querySelector('input[name="wishlist-pay"]:checked') || {}).value || '';
+        var version = (document.querySelector('input[name="asesor-version"]:checked') || {}).value || '';
+        var wtp     = (document.querySelector('input[name="asesor-wtp"]:checked')     || {}).value || '';
+        var email   = (document.getElementById('asesor-email') || {}).value || '';
+        var comment = (document.getElementById('asesor-comment') || {}).value || '';
         var btn = form.querySelector('button[type="submit"]');
-        var ok  = document.getElementById('wishlist-ok');
-        var err = document.getElementById('wishlist-err');
-        if (!comment.trim() && !feature) return;
+        var ok  = document.getElementById('asesor-ok');
+        var err = document.getElementById('asesor-err');
+        // Email requerido + al menos uno de los radios marcado
+        if (!email.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) {
+          if (err) { err.textContent = 'Necesitamos un email válido para reservar tu lugar.'; err.style.display = 'block'; }
+          return;
+        }
+        if (!version && !wtp) {
+          if (err) { err.textContent = 'Marcá al menos una opción de versión o precio.'; err.style.display = 'block'; }
+          return;
+        }
         if (btn) { btn.disabled = true; btn.textContent = 'Enviando…'; }
-        var body = JSON.stringify({ feature: feature, comment: comment, email: email, pay: pay, source: 'wishlist', ts: new Date().toISOString() });
-        fetch('https://zenti.app.n8n.cloud/webhook/zenti-wishlist', {
+        if (err) err.style.display = 'none';
+        var body = JSON.stringify({
+          email: email,
+          version: version,
+          wtp: wtp,
+          comment: comment.slice(0, 1000),
+          source: 'waitlist-asesor',
+          product: 'zenti-asesor',
+          ts: new Date().toISOString(),
+          referer: document.referrer || '',
+          ua: navigator.userAgent || '',
+        });
+        fetch('https://zenti.app.n8n.cloud/webhook/zenti-waitlist-asesor', {
           method: 'POST', headers: { 'Content-Type': 'application/json' }, body: body
         }).catch(function() {
-          try { localStorage.setItem('zenti_wishlist_' + Date.now(), body); } catch(_) {}
+          // Fallback local si el webhook falla (no perder leads)
+          try { localStorage.setItem('zenti_waitlist_asesor_' + Date.now(), body); } catch(_) {}
         }).finally(function() {
           if (ok) ok.style.display = 'block';
-          if (err) err.style.display = 'none';
-          if (btn) { btn.disabled = false; btn.textContent = 'Enviar sugerencia →'; }
+          if (btn) { btn.disabled = false; btn.textContent = 'Reservar mi lugar →'; }
           form.reset();
         });
       });
@@ -3807,7 +3855,9 @@
   </script>
   <script>
     window.$crisp = [];
-    window.CRISP_WEBSITE_ID = '__CRISP_WEBSITE_ID__';
+    // Crisp deshabilitado 2026-04-23 hasta tener account activa.
+    // Para enable: descomentar línea siguiente con el website_id real.
+    // window.CRISP_WEBSITE_ID = 'PASTE_REAL_CRISP_ID';
     if (window.CRISP_WEBSITE_ID && window.CRISP_WEBSITE_ID !== '__CRISP_WEBSITE_ID__') {
       (function () {
         const script = document.createElement('script');
