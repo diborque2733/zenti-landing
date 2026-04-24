@@ -2547,6 +2547,101 @@
         errEl.classList.toggle('hidden', !msg);
       }
 
+      function startMatchPolling(sessionId) {
+        // B-37 · visor inline post-submit Match. Poll a ZENTI.status cada 3s,
+        // cuando devuelva preview_url renderiza iframe dentro del success panel.
+        var MAX_MS = 8 * 60 * 1000;
+        var INTERVAL_MS = 3000;
+        var startTime = Date.now();
+        var pollTimer = null;
+        var loadingIx = 0;
+        var loadingMessages = [
+          'Analizando tu idea…',
+          'Buscando el fondo que mejor calza…',
+          'Cruzando bases con tu etapa y sector…',
+          'Preparando tu informe Match…',
+          'Últimos detalles…',
+        ];
+        // Loading state inicial
+        var loadingBlock = document.createElement('div');
+        loadingBlock.id = 'start-match-loading';
+        loadingBlock.style.cssText = 'margin-top:20px;padding:16px;background:#FEF3EC;border-left:4px solid #F26C22;border-radius:8px;font-size:13px;color:#334155;text-align:left;max-width:440px;margin-left:auto;margin-right:auto';
+        loadingBlock.innerHTML = '<strong style="color:#F26C22">⏳ Generando tu Match…</strong><br><span id="start-match-loading-text">Analizando tu idea…</span>';
+        successPanel.appendChild(loadingBlock);
+        var loadingTextEl = document.getElementById('start-match-loading-text');
+        var loadingInterval = setInterval(function() {
+          loadingIx = (loadingIx + 1) % loadingMessages.length;
+          if (loadingTextEl) loadingTextEl.textContent = loadingMessages[loadingIx];
+        }, 2500);
+
+        function renderMatchInline(previewUrl) {
+          if (loadingInterval) clearInterval(loadingInterval);
+          var lb = document.getElementById('start-match-loading');
+          if (lb && lb.parentNode) lb.parentNode.removeChild(lb);
+
+          var wrap = document.createElement('div');
+          wrap.style.cssText = 'margin-top:20px;border-radius:12px;overflow:hidden;border:1px solid #E5E7EB;background:#fff;max-width:880px;margin-left:auto;margin-right:auto';
+          var header = document.createElement('div');
+          header.style.cssText = 'padding:10px 14px;display:flex;justify-content:space-between;align-items:center;background:#0A0E1A;color:#fff;font-size:13px;font-weight:600';
+          header.innerHTML = '<span>📄 Tu informe Match</span>';
+          var fsBtn = document.createElement('button');
+          fsBtn.type = 'button';
+          fsBtn.textContent = '⛶ Pantalla completa';
+          fsBtn.style.cssText = 'background:#F26C22;color:#fff;border:none;padding:6px 12px;border-radius:6px;font-size:12px;font-weight:600;cursor:pointer';
+          header.appendChild(fsBtn);
+          wrap.appendChild(header);
+          var iframe = document.createElement('iframe');
+          iframe.src = previewUrl;
+          iframe.style.cssText = 'width:100%;height:620px;border:none;display:block';
+          iframe.loading = 'lazy';
+          wrap.appendChild(iframe);
+          fsBtn.onclick = function() {
+            var on = wrap.classList.toggle('report-iframe-fullscreen');
+            fsBtn.textContent = on ? '✕ Salir pantalla completa' : '⛶ Pantalla completa';
+            iframe.style.height = on ? '100vh' : '620px';
+          };
+
+          // CTAs debajo del visor
+          var cta = document.createElement('div');
+          cta.style.cssText = 'margin-top:16px;padding:16px;background:#F8FAFC;border-radius:12px;text-align:center;max-width:440px;margin-left:auto;margin-right:auto';
+          cta.innerHTML =
+            '<p style="margin:0 0 12px;font-size:14px;color:#334155"><strong>¿Querés el informe completo?</strong><br><span style="font-size:12px;color:#6b7280">5 criterios detallados + rúbrica + plan de acción + PDF</span></p>' +
+            '<a href="https://zentigrants.com/checkout-premium.html?utm_source=visor-match&utm_medium=inline&utm_campaign=premium-upgrade" target="_blank" rel="noopener noreferrer" style="display:inline-block;padding:12px 28px;background:#F26C22;color:#fff;border-radius:999px;font-weight:700;font-size:14px;text-decoration:none">Informe Premium — $80.000 CLP</a>' +
+            '<br><a href="https://zentigrants.com/checkout-consultoria.html?utm_source=visor-match&utm_medium=inline&utm_campaign=consult-cta" target="_blank" rel="noopener noreferrer" style="display:inline-block;margin-top:10px;padding:10px 24px;background:#0A0E1A;color:#fff;border-radius:999px;font-weight:600;font-size:13px;text-decoration:none">Consultoría 1:1 — $230.000 CLP</a>';
+          wrap.appendChild(cta);
+          successPanel.appendChild(wrap);
+        }
+
+        function showMatchFallback() {
+          if (loadingInterval) clearInterval(loadingInterval);
+          var lb = document.getElementById('start-match-loading');
+          if (lb) lb.innerHTML = '<strong>✉️ Match enviado</strong><br>Revisa tu correo — el informe llega en unos minutos. Si no aparece, revisa Spam o Promociones.';
+        }
+
+        function pollOnce() {
+          if (Date.now() - startTime > MAX_MS) {
+            if (pollTimer) clearInterval(pollTimer);
+            showMatchFallback();
+            return;
+          }
+          fetch(STATUS_URL + '?id=' + encodeURIComponent(sessionId), { cache: 'no-store' })
+            .then(function(res) { return res.ok ? res.json() : null; })
+            .then(function(data) {
+              if (data && data.status === 'done' && data.preview_url) {
+                if (pollTimer) clearInterval(pollTimer);
+                renderMatchInline(data.preview_url);
+              }
+            })
+            .catch(function(){});
+        }
+        pollOnce();
+        pollTimer = setInterval(pollOnce, INTERVAL_MS);
+      }
+
+      function genSessionId() {
+        return 'match-' + Date.now().toString(36) + '-' + Math.random().toString(36).slice(2, 10);
+      }
+
       btn.addEventListener('click', async function () {
         showStartError('');
         const idea = document.getElementById('start-idea').value.trim();
@@ -2561,17 +2656,21 @@
         btn.disabled = true;
         btn.textContent = 'Enviando...';
 
+        const sessionId = genSessionId();
         const fd = new FormData();
         fd.append('field-0', idea);
         fd.append('field-1', sector);
         fd.append('field-2', etapa);
         fd.append('field-3', equipo);
         fd.append('field-4', email);
+        fd.append('session_id', sessionId);
 
         try {
           fetch(START_FORM_URL, { method: 'POST', body: fd }).catch(function(){});
           formBody.classList.add('hidden');
           successPanel.classList.remove('hidden');
+          // B-37 · arranca polling para visor inline
+          startMatchPolling(sessionId);
         } catch (e) {
           showStartError('No se pudo enviar. Verifica tu conexión e intenta nuevamente.');
           btn.disabled = false;
@@ -2590,6 +2689,20 @@
         btn.disabled = false;
         btn.textContent = 'Encontrar mi fondo';
         showStartError('');
+        // B-37 · limpiar visor inline si existe
+        var inj = successPanel.querySelectorAll('#start-match-loading, iframe, [data-match-visor]');
+        // Remover cualquier nodo agregado dinámicamente (mantener solo children originales)
+        var origChildren = successPanel.querySelectorAll('.start-success-icon, h3, p, a, br, button');
+        // Simplificación: re-clonar nodos originales es complejo; basta con remover
+        // los bloques dinámicos conocidos
+        var dynBlocks = successPanel.querySelectorAll('#start-match-loading');
+        dynBlocks.forEach(function(n){ n.parentNode && n.parentNode.removeChild(n); });
+        // remove cualquier wrap de iframe insertado
+        Array.from(successPanel.children).forEach(function(ch) {
+          if (ch.querySelector && ch.querySelector('iframe')) {
+            ch.parentNode.removeChild(ch);
+          }
+        });
       });
     })();
 
