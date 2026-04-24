@@ -2663,7 +2663,8 @@
         fd.append('field-2', etapa);
         fd.append('field-3', equipo);
         fd.append('field-4', email);
-        fd.append('session_id', sessionId);
+        // n8n Form Trigger v1 espera field-N por orden · session_id es el 6to field
+        fd.append('field-5', sessionId);
 
         try {
           fetch(START_FORM_URL, { method: 'POST', body: fd }).catch(function(){});
