@@ -1813,8 +1813,9 @@
       if (!dsn || typeof Sentry === 'undefined') return;
       Sentry.init({
         dsn: dsn,
+        environment: location.hostname === 'zentigrants.com' ? 'production' : 'dev',
         tracesSampleRate: 0.1,
-        environment: 'production',
+        ignoreErrors: ['ResizeObserver loop limit exceeded'],
       });
     })();
   </script>
