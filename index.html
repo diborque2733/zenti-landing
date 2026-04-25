@@ -2309,6 +2309,18 @@
             <input type="email" id="start-email" placeholder="tu@email.com" required />
           </div>
           <p class="error hidden" id="start-err"></p>
+          <!-- B-42.5 · Consent block (Ley 21.719) -->
+          <fieldset class="zenti-consent" style="margin-top:18px;padding:12px;border:1px solid #E5E7EB;border-radius:10px;background:#F9FAFB">
+            <label style="display:flex;gap:8px;font-size:13px;color:#334155;cursor:pointer">
+              <input type="checkbox" id="consent-privacy-match" required>
+              <span>Acepto la <a href="/privacidad.html" target="_blank" style="color:#F26C22">Política de Privacidad</a> y los <a href="/terminos.html" target="_blank" style="color:#F26C22">Términos de Servicio</a> · ZENTI tratará mis datos para evaluar mi proyecto. <span style="color:#ef4444">*</span></span>
+            </label>
+            <label style="display:flex;gap:8px;font-size:13px;color:#334155;margin-top:8px;cursor:pointer">
+              <input type="checkbox" id="consent-marketing-match">
+              <span>(Opcional) Acepto recibir comunicaciones sobre nuevas convocatorias y mejoras del servicio.</span>
+            </label>
+            <p style="font-size:11px;color:#94A3B8;margin:8px 0 0">Confirmo que tengo 18 años o más. Menores 14-17 requieren autorización del tutor (ver Política sec. 13).</p>
+          </fieldset>
           <div class="start-submit-wrap">
             <button type="button" class="primary" id="btn-start-submit">Encontrar mi fondo</button>
           </div>
@@ -2495,6 +2507,19 @@
             <input type="email" id="asesor-email" placeholder="correo@empresa.com" required style="width:100%;padding:13px 16px;border-radius:8px;border:1px solid rgba(255,255,255,.15);background:rgba(255,255,255,.06);color:#fff;font-size:15px;box-sizing:border-box" />
           </div>
 
+          <!-- B-42.5 · Consent block (Ley 21.719) -- versión dark theme -->
+          <fieldset class="zenti-consent" style="margin:0 0 18px;padding:12px;border:1px solid rgba(255,255,255,.12);border-radius:10px;background:rgba(255,255,255,.03)">
+            <label style="display:flex;gap:8px;font-size:13px;color:rgba(255,255,255,.85);cursor:pointer">
+              <input type="checkbox" id="consent-privacy-waitlist" required>
+              <span>Acepto la <a href="/privacidad.html" target="_blank" style="color:var(--z-orange)">Política de Privacidad</a> y los <a href="/terminos.html" target="_blank" style="color:var(--z-orange)">Términos de Servicio</a> · ZENTI tratará mis datos para evaluar mi proyecto. <span style="color:#ef4444">*</span></span>
+            </label>
+            <label style="display:flex;gap:8px;font-size:13px;color:rgba(255,255,255,.85);margin-top:8px;cursor:pointer">
+              <input type="checkbox" id="consent-marketing-waitlist">
+              <span>(Opcional) Acepto recibir comunicaciones sobre nuevas convocatorias y mejoras del servicio.</span>
+            </label>
+            <p style="font-size:11px;color:rgba(255,255,255,.45);margin:8px 0 0">Confirmo que tengo 18 años o más. Menores 14-17 requieren autorización del tutor (ver Política sec. 13).</p>
+          </fieldset>
+
           <button type="submit" style="width:100%;padding:15px;background:var(--z-orange);color:#fff;border:none;border-radius:8px;font-size:15px;font-weight:700;cursor:pointer">Reservar mi lugar →</button>
           <p style="margin:14px 0 0;font-size:12px;color:rgba(255,255,255,.5);text-align:center;line-height:1.5">Los primeros registrados acceden antes que el resto.</p>
           <p id="asesor-ok" style="display:none;margin:16px 0 0;font-size:14px;color:var(--z-orange);font-weight:600;text-align:center">¡Listo! Te sumamos a la lista. Nos vamos a contactar.</p>
@@ -2654,6 +2679,16 @@
         if (!idea) { showStartError('Describe tu idea para continuar.'); return; }
         if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { showStartError('Ingresa un correo válido.'); return; }
 
+        // B-42.5 · validar consent obligatorio (Ley 21.719)
+        const cpMatch = document.getElementById('consent-privacy-match');
+        if (!cpMatch || !cpMatch.checked) {
+          showStartError('Para continuar debes aceptar la Política de Privacidad y los Términos.');
+          try { cpMatch.scrollIntoView({ behavior: 'smooth', block: 'center' }); } catch(_) {}
+          return;
+        }
+        const cmMatch = document.getElementById('consent-marketing-match');
+        try { localStorage.setItem('zenti-consent-match-ts', new Date().toISOString()); } catch(_) {}
+
         btn.disabled = true;
         btn.textContent = 'Enviando...';
 
@@ -2666,6 +2701,10 @@
         fd.append('field-4', email);
         // n8n Form Trigger v1 espera field-N por orden · session_id es el 6to field
         fd.append('field-5', sessionId);
+        // TODO B-42.5: enviar consent_privacy + consent_marketing + UA al webhook · workflow capturará en consent_log via Supabase REST insert
+        fd.append('consent_privacy', 'true');
+        fd.append('consent_marketing', cmMatch && cmMatch.checked ? 'true' : 'false');
+        fd.append('user_agent', navigator.userAgent);
 
         try {
           fetch(START_FORM_URL, { method: 'POST', body: fd }).catch(function(){});
@@ -3109,6 +3148,21 @@
         hint.className = 'review-submit-hint';
         hint.textContent = 'El envío tarda unos minutos en procesarse. Revisá también spam.';
         fieldsetContent.appendChild(hint);
+        // B-42.5 · Consent block (Ley 21.719)
+        const consentBox = document.createElement('fieldset');
+        consentBox.className = 'zenti-consent';
+        consentBox.setAttribute('style', 'margin-top:18px;padding:12px;border:1px solid #E5E7EB;border-radius:10px;background:#F9FAFB');
+        consentBox.innerHTML =
+          '<label style="display:flex;gap:8px;font-size:13px;color:#334155;cursor:pointer">' +
+            '<input type="checkbox" id="consent-privacy-premium" required>' +
+            '<span>Acepto la <a href="/privacidad.html" target="_blank" style="color:#F26C22">Política de Privacidad</a> y los <a href="/terminos.html" target="_blank" style="color:#F26C22">Términos de Servicio</a> · ZENTI tratará mis datos para evaluar mi proyecto. <span style="color:#ef4444">*</span></span>' +
+          '</label>' +
+          '<label style="display:flex;gap:8px;font-size:13px;color:#334155;margin-top:8px;cursor:pointer">' +
+            '<input type="checkbox" id="consent-marketing-premium">' +
+            '<span>(Opcional) Acepto recibir comunicaciones sobre nuevas convocatorias y mejoras del servicio.</span>' +
+          '</label>' +
+          '<p style="font-size:11px;color:#94A3B8;margin:8px 0 0">Confirmo que tengo 18 años o más. Menores 14-17 requieren autorización del tutor (ver Política sec. 13).</p>';
+        fieldsetContent.appendChild(consentBox);
         const wrap = document.createElement('div');
         wrap.className = 'actions';
         wrap.innerHTML = '<button type="button" class="ghost" id="btn-back">Atrás</button><button type="button" class="primary" id="btn-send">Solicitar evaluación</button>';
@@ -3502,6 +3556,16 @@
 
     async function submitForm() {
       const btn = document.getElementById('btn-send');
+      // B-42.5 · validar consent obligatorio (Ley 21.719)
+      const cpPrem = document.getElementById('consent-privacy-premium');
+      if (!cpPrem || !cpPrem.checked) {
+        showError('Para continuar debes aceptar la Política de Privacidad y los Términos.');
+        try { cpPrem.scrollIntoView({ behavior: 'smooth', block: 'center' }); } catch(_) {}
+        return;
+      }
+      const cmPrem = document.getElementById('consent-marketing-premium');
+      try { localStorage.setItem('zenti-consent-premium-ts', new Date().toISOString()); } catch(_) {}
+
       btn.disabled = true;
       showError('');
 
@@ -3521,6 +3585,10 @@
       fd.append('field-11', (values['field-11'] || '').trim());
       const f = values.files['field-10'];
       if (f && f.size > 0) fd.append('field-10', f, f.name);
+      // TODO B-42.5: enviar consent_privacy + consent_marketing + UA al webhook · workflow capturará en consent_log via Supabase REST insert
+      fd.append('consent_privacy', 'true');
+      fd.append('consent_marketing', cmPrem && cmPrem.checked ? 'true' : 'false');
+      fd.append('user_agent', navigator.userAgent);
 
       composer.classList.add('hidden');
       chatEl.innerHTML = '';
@@ -3650,8 +3718,19 @@
           if (err) { err.textContent = 'Marcá al menos una opción de versión o precio.'; err.style.display = 'block'; }
           return;
         }
+        // B-42.5 · validar consent obligatorio (Ley 21.719)
+        var cpWait = document.getElementById('consent-privacy-waitlist');
+        if (!cpWait || !cpWait.checked) {
+          if (err) { err.textContent = 'Para continuar debes aceptar la Política de Privacidad y los Términos.'; err.style.display = 'block'; }
+          try { cpWait.scrollIntoView({ behavior: 'smooth', block: 'center' }); } catch(_) {}
+          return;
+        }
+        var cmWait = document.getElementById('consent-marketing-waitlist');
+        try { localStorage.setItem('zenti-consent-waitlist-ts', new Date().toISOString()); } catch(_) {}
+
         if (btn) { btn.disabled = true; btn.textContent = 'Enviando…'; }
         if (err) err.style.display = 'none';
+        // TODO B-42.5: enviar consent_privacy + consent_marketing + UA al webhook · workflow capturará en consent_log via Supabase REST insert
         var body = JSON.stringify({
           email: email,
           version: version,
@@ -3662,6 +3741,9 @@
           ts: new Date().toISOString(),
           referer: document.referrer || '',
           ua: navigator.userAgent || '',
+          consent_privacy: true,
+          consent_marketing: !!(cmWait && cmWait.checked),
+          user_agent: navigator.userAgent || '',
         });
         fetch('https://zenti.app.n8n.cloud/webhook/zenti-waitlist-asesor', {
           method: 'POST', headers: { 'Content-Type': 'application/json' }, body: body
