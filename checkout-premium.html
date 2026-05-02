@@ -261,6 +261,18 @@
 
           <label>Giro <span class="req">*</span></label>
           <input type="text" id="company_giro" name="company_giro" />
+
+          <label>Dirección comercial <span class="req">*</span></label>
+          <input type="text" id="address" name="address" autocomplete="street-address" />
+
+          <label>Comuna <span class="req">*</span></label>
+          <input type="text" id="comuna" name="comuna" autocomplete="address-level2" />
+
+          <label>Ciudad <span class="req">*</span></label>
+          <input type="text" id="city" name="city" value="Santiago" autocomplete="address-level2" />
+
+          <label>Región (opcional)</label>
+          <input type="text" id="region" name="region" autocomplete="address-level1" />
         </div>
 
         <p class="err" id="form-err" aria-live="polite"></p>
@@ -470,6 +482,10 @@
       var coupon_code = document.getElementById('coupon_code').value.trim().toUpperCase();
       var company_name = document.getElementById('company_name').value.trim();
       var company_giro = document.getElementById('company_giro').value.trim();
+      var address = document.getElementById('address').value.trim();
+      var comuna = document.getElementById('comuna').value.trim();
+      var city = document.getElementById('city').value.trim();
+      var region = document.getElementById('region').value.trim();
       var session_id_el = document.getElementById('session_id');
       var session_id = session_id_el ? session_id_el.value : '';
 
@@ -479,6 +495,7 @@
       if (buyerType === 'empresa') {
         if (company_name.length < 2) { errEl.textContent = 'Indicá la razón social.'; return; }
         if (company_giro.length < 2) { errEl.textContent = 'Indicá el giro.'; return; }
+        if (!address || !comuna || !city) { errEl.textContent = 'Completá los datos de facturación'; return; }
       }
       if (coupon_code && !ZENTI_COUPON_RULES[coupon_code]) {
         errEl.textContent = 'Cupón no reconocido. Revisá el código o dejá el campo vacío.';
@@ -494,6 +511,10 @@
         coupon_code: coupon_code || undefined,
         company_name: buyerType === 'empresa' ? company_name : '',
         company_giro: buyerType === 'empresa' ? company_giro : '',
+        address: buyerType === 'empresa' ? address : '',
+        comuna: buyerType === 'empresa' ? comuna : '',
+        city: buyerType === 'empresa' ? city : '',
+        region: buyerType === 'empresa' ? region : '',
         session_id: session_id || undefined,
       };
 
