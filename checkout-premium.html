@@ -320,7 +320,7 @@
     const ZENTI_WEBHOOK_SECRET = '__WEBHOOK_SECRET__';
     window._lastSubmitTs = window._lastSubmitTs || 0;
     // <sync-coupon-rules-checkout-premium>
-    const ZENTI_COUPON_RULES = {"ZENTIMVP":{"percentOff":10},"SAVE30":{"percentOff":30},"ZENTIQA":{"fixedClp":1000}};
+    const ZENTI_COUPON_RULES = {"ZENTIMVP":{"percentOff":10},"SAVE30":{"percentOff":30},"ZENTIQA":{"fixedClp":1000},"ZENTI50":{"percentOff":50},"ZENTIGRATIS":{"percentOff":100},"BETA30":{"percentOff":30},"FRIEND":{"percentOff":100}};
     const BASE_CLP = 80000;
     function computeDisplayClp() {
       var coupon = (document.getElementById('coupon_code').value || '').trim().toUpperCase();
