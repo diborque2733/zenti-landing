@@ -3915,9 +3915,9 @@
       minZoom: 1, maxZoom: 6
     });
 
-    // CartoDB Dark tiles — no API key needed
-    L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}{r}.png', {
-      attribution: '© <a href="https://carto.com/">CARTO</a>',
+    // CartoDB Voyager tiles — azulado con buen contraste sobre fondo oscuro
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager_nolabels/{z}/{x}/{y}{r}.png', {
+      attribution: '© <a href="https://carto.com/">CARTO</a> | © <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
       subdomains: 'abcd',
       maxZoom: 19
     }).addTo(map);
