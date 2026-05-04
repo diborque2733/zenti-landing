@@ -834,7 +834,7 @@
     #zenti-map {
       width: 100%; height: 320px; z-index: 0;
     }
-    .leaflet-container { background: #000 !important; }
+    .leaflet-container { background: #1a2540 !important; }
     .leaflet-control-zoom a {
       background: #242424 !important; color: #E5E2E1 !important;
       border-color: rgba(229,226,225,0.12) !important;
@@ -3915,11 +3915,10 @@
       minZoom: 1, maxZoom: 6
     });
 
-    // CartoDB Dark tiles — no API key needed
-    L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}{r}.png', {
-      attribution: '© <a href="https://carto.com/">CARTO</a>',
-      subdomains: 'abcd',
-      maxZoom: 19
+    // Esri Dark Gray Canvas — continentes visibles tono azul-gris (sin API key)
+    L.tileLayer('https://services.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}', {
+      attribution: '© <a href="https://www.esri.com/">Esri</a>',
+      maxZoom: 16
     }).addTo(map);
 
     // Region pins
