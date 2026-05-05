@@ -3870,10 +3870,26 @@
         cobRender(region);
       };
 
+      // R-DATA-01: si deadline pasó, forzar status=closed (auto-expire override manual)
+      function applyDeadlineExpiry(data) {
+        const today = new Date().toISOString().slice(0, 10); // YYYY-MM-DD
+        for (const region of ['chile','usa','eu','latam']) {
+          if (Array.isArray(data[region])) {
+            data[region] = data[region].map(f => {
+              if (f.deadline && f.status === 'open' && f.deadline < today) {
+                return { ...f, status: 'closed', _autoExpired: true };
+              }
+              return f;
+            });
+          }
+        }
+        return data;
+      }
+
       // Load from funds.json
       fetch('/funds.json')
         .then(r => r.json())
-        .then(data => { FUNDS_DATA = data; cobSelect('all'); })
+        .then(data => { FUNDS_DATA = applyDeadlineExpiry(data); cobSelect('all'); })
         .catch(() => {
           // Fallback si fetch falla (file:// o sin funds.json): mismos status conservadores que funds.json público
           FUNDS_DATA = {
