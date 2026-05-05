@@ -1,11 +1,11 @@
 {
   "_meta": {
     "version": "2.0",
-    "lastUpdated": "2026-04-10T21:54:01.477Z",
-    "updatedBy": "sync-funds-landing-from-registry",
+    "lastUpdated": "2026-05-05T18:00:00Z",
+    "updatedBy": "manual-override-startup-chile-12",
     "nextCheck": "2026-04-11T02:43:53.889Z",
     "changesInLastRun": 4,
-    "sourceNote": "Lista derivada del registry (R2/sync). Montos y plazos son orientativos; valida siempre en la URL oficial del instrumento. Si needsReview es true, el scrape no pudo contrastar bases automáticamente."
+    "sourceNote": "Lista derivada del registry (R2/sync). Montos y plazos son orientativos; valida siempre en la URL oficial del instrumento. Si needsReview es true, el scrape no pudo contrastar bases automáticamente. · 2026-05-05: Startup Chile Build/Ignite/Growth 12 verificados open en corfo.cl/oferta_corfo (cierre 25/05/2026)."
   },
   "chile": [
     {
@@ -81,9 +81,9 @@
       "name": "Startup Chile Build",
       "icon": "SC",
       "color": "#F26C22",
-      "amount": "Equity-free ~$15M CLP (Build — ver bases)",
-      "status": "closed",
-      "deadline": null,
+      "amount": "Hasta CLP 15M + mentoría",
+      "status": "open",
+      "deadline": "2026-05-25",
       "url": "https://www.startupchile.org/programs/build",
       "source": "https://www.startupchile.org/programs/build",
       "region": "chile",
@@ -99,9 +99,9 @@
       "name": "Startup Chile Ignite",
       "icon": "SC",
       "color": "#F26C22",
-      "amount": "Equity-free CLP 25M + extensión (Ignite — ver convocatoria)",
-      "status": "closed",
-      "deadline": null,
+      "amount": "Hasta CLP 25M + 6 meses",
+      "status": "open",
+      "deadline": "2026-05-25",
       "url": "https://www.startupchile.org/programs/ignite",
       "source": "https://www.startupchile.org/programs/ignite",
       "region": "chile",
@@ -117,9 +117,9 @@
       "name": "Startup Chile Growth",
       "icon": "SC",
       "color": "#F26C22",
-      "amount": "Hasta ~$75M CLP equity-free (Growth — ver bases)",
-      "status": "closed",
-      "deadline": null,
+      "amount": "Hasta CLP 75M equity-free",
+      "status": "open",
+      "deadline": "2026-05-25",
       "url": "https://www.startupchile.org/programs/growth",
       "source": "https://www.startupchile.org/programs/growth",
       "region": "chile",
