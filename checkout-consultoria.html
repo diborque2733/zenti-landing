@@ -357,7 +357,8 @@
       if (Array.isArray(value)) {
         return '[' + value.map(function(entry) { return stableStringify(entry); }).join(',') + ']';
       }
-      var keys = Object.keys(value).sort();
+      // FIX 2026-05-09: filtrar keys con undefined (causaba "Failed to parse request body")
+      var keys = Object.keys(value).sort().filter(function(k) { return value[k] !== undefined; });
       return '{' + keys.map(function(key) {
         return JSON.stringify(key) + ':' + stableStringify(value[key]);
       }).join(',') + '}';
