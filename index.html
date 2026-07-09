@@ -80,7 +80,7 @@
     }
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { font-size: 16px; scroll-behavior: smooth; overflow-x: hidden; scrollbar-gutter: stable; }
-    #how, #evaluator, #start, #pricing, #faq, #consultoria, #market-demo, #research-demo {
+    #how, #evaluator, #start, #pricing, #faq, #consultoria {
       scroll-margin-top: 72px;
     }
     body {
@@ -979,14 +979,6 @@
     .cob-fst-coming { color: #d97706; }
     .cob-fst-closed { color: #9CA3AF; }
     .cob-fi-cta  { font-size: 10px; font-weight: 700; color: var(--z-orange); white-space: nowrap; align-self: center; flex-shrink: 0; }
-    .cob-fi-ext  {
-      font-size: 9px; font-weight: 700; color: var(--z-text-muted);
-      text-decoration: none; white-space: nowrap;
-      border: 1px solid var(--z-ghost-border);
-      border-radius: 4px; padding: 1px 5px;
-      transition: color .12s, border-color .12s;
-    }
-    .cob-fi-ext:hover { color: var(--z-orange); border-color: rgba(242,108,34,.4); }
 
     /* ── COBERTURA THEME PILLS (duplicate block) ── */
     /* handled above — keeping selector for specificity */
@@ -1610,43 +1602,6 @@
       line-height: 1.7; margin-bottom: 24px;
     }
 
-    /* ── DEMO SECTIONS (market / research) ── */
-    .section-desc {
-      text-align: center;
-      max-width: 580px;
-      margin: 0 auto 28px;
-      font-size: 15px;
-      color: var(--z-gray-500);
-      line-height: 1.65;
-    }
-    .demo-report-out {
-      padding: 20px 28px 24px;
-      max-height: 500px;
-      overflow-y: auto;
-      font-size: 13.5px;
-      line-height: 1.8;
-      color: var(--z-text);
-      scrollbar-width: thin;
-      scrollbar-color: var(--z-surface-5) transparent;
-    }
-    .demo-report-out h2 {
-      font-size: 15px; font-weight: 800;
-      color: var(--z-orange);
-      margin: 20px 0 8px;
-      padding-bottom: 5px;
-      border-bottom: 1px solid rgba(242,108,34,.15);
-    }
-    .demo-report-out h3 {
-      font-size: 13.5px; font-weight: 700;
-      color: var(--z-gray-700);
-      margin: 14px 0 5px;
-    }
-    .demo-report-out p { margin: 0 0 8px; }
-    .demo-report-out ul, .demo-report-out ol { margin: 0 0 10px; padding-left: 18px; }
-    .demo-report-out li { margin-bottom: 3px; }
-    .demo-report-out strong { color: var(--z-text); }
-    .demo-report-out em { color: var(--z-gray-500); }
-
     /* ── HOW-IT-WORKS PATH TABS ── */
     .path-tabs {
       display: flex; justify-content: center;
@@ -1877,8 +1832,6 @@
       <div class="nav-links" aria-label="Secciones">
         <a href="#how">Cómo funciona</a>
         <a href="#cobertura">Cobertura</a>
-        <a href="#market-demo">Mercado IA</a>
-        <a href="#research-demo">Research IA</a>
         <a href="#pricing">Precios</a>
         <a href="#faq">FAQ</a>
         <a href="#start">Match idea</a>
@@ -2390,184 +2343,6 @@
     </div>
   </section>
 
-  <!-- MARKET DEMO — free inline market analysis -->
-  <section class="start-section" id="market-demo" style="background:var(--z-surface-2)">
-    <div class="start-inner">
-      <div class="section-label">Demo gratis · Análisis de mercado</div>
-      <h2 class="section-title">Análisis de mercado nivel consultoría — en 70 seg</h2>
-      <p class="section-desc">Sin registro. Sin tarjeta. Ingresa tu proyecto y obtén un análisis de mercado generado por IA directamente en pantalla.</p>
-      <div class="start-card" style="max-width:680px">
-        <div class="start-card-header">
-          <div class="chat-mark">Z</div>
-          <div>
-            <strong>ZENTI Market</strong>
-            <span>Análisis de mercado · demo gratis</span>
-          </div>
-        </div>
-        <!-- FORM -->
-        <div class="start-card-body" id="market-form-body">
-          <div class="form-group">
-            <label>Nombre del proyecto <span class="req">*</span></label>
-            <input type="text" id="market-nombre" placeholder="Ej: PlataformaX, SolúciónY…" />
-          </div>
-          <div class="form-group">
-            <label>Empresa / Organización</label>
-            <input type="text" id="market-empresa" placeholder="Nombre de tu empresa o startup" />
-          </div>
-          <div class="form-group">
-            <label>Sector <span class="req">*</span></label>
-            <select id="market-sector">
-              <option value="">Selecciona un sector…</option>
-              <option>Tecnología</option>
-              <option>Salud</option>
-              <option>Energía</option>
-              <option>Agro</option>
-              <option>Minería</option>
-              <option>Manufactura</option>
-              <option>Servicios</option>
-              <option>Educación</option>
-              <option>Fintech</option>
-              <option>Otro</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label>Fondo al que postulas</label>
-            <input type="text" id="market-fondo" placeholder="Ej: CORFO Innova, NSF SBIR, Startup Chile…" />
-          </div>
-          <div class="form-group">
-            <label>Email <span class="req">*</span></label>
-            <input type="email" id="market-email" placeholder="tu@email.com" />
-          </div>
-          <p class="error hidden" id="market-err"></p>
-          <div class="start-submit-wrap">
-            <button type="button" class="primary" id="btn-market-submit">Generar análisis de mercado →</button>
-          </div>
-          <p style="font-size:11px;color:var(--z-gray-400);text-align:center;margin-top:-4px">Gratis · sin tarjeta · resultado en ~70 segundos</p>
-        </div>
-        <!-- LOADING -->
-        <div class="loading-panel hidden" id="market-loading">
-          <div class="z-logo-pulse">Z</div>
-          <p class="loading-title">Analizando mercado…</p>
-          <p class="loading-sub">Procesando datos de mercado, benchmarks competitivos y tendencias del sector.</p>
-          <div class="loading-timer" id="market-timer">01:10</div>
-          <div class="loading-bar-wrap"><div class="loading-bar" id="market-bar"></div></div>
-          <p class="loading-hint">Resultado completo en pantalla en menos de 90 segundos</p>
-        </div>
-        <!-- RESULTS -->
-        <div class="hidden" id="market-results">
-          <div style="padding:20px 28px 14px;border-bottom:1px solid var(--z-ghost-border);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px">
-            <div>
-              <div style="font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--z-orange);margin-bottom:4px">Análisis completado</div>
-              <strong id="market-result-title" style="font-size:14px;color:var(--z-text)"></strong>
-            </div>
-            <a href="#evaluator" class="nav-cta" style="font-size:12px;padding:8px 18px" data-scroll-eval>Evaluar propuesta completa →</a>
-          </div>
-          <div id="market-report-out" class="demo-report-out"></div>
-          <div style="padding:16px 28px 24px;border-top:1px solid var(--z-ghost-border);text-align:center">
-            <p style="font-size:12px;color:var(--z-gray-500);margin-bottom:12px">El informe también fue enviado a tu correo.</p>
-            <button type="button" class="ghost" id="btn-market-reset" style="font-size:12px;padding:8px 18px">Nuevo análisis</button>
-          </div>
-        </div>
-        <!-- ERROR -->
-        <div class="hidden" id="market-error-state">
-          <div style="padding:40px 28px;text-align:center">
-            <p style="font-size:14px;color:var(--z-gray-500);margin-bottom:20px" id="market-error-msg">No se pudo completar el análisis. Verifica tu conexión.</p>
-            <button type="button" class="ghost" id="btn-market-retry">Intentar de nuevo</button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- RESEARCH DEMO — free inline state-of-the-art -->
-  <section class="start-section" id="research-demo">
-    <div class="start-inner">
-      <div class="section-label">Demo gratis · Estado del arte</div>
-      <h2 class="section-title">Estado del arte PhD-level — en 90 seg</h2>
-      <p class="section-desc">Literatura científica, patentes y benchmarks de tu campo. 9 dimensiones de análisis. Gratis y directamente en pantalla.</p>
-      <div class="start-card" style="max-width:680px">
-        <div class="start-card-header">
-          <div class="chat-mark">Z</div>
-          <div>
-            <strong>ZENTI Research</strong>
-            <span>Estado del arte · demo gratis</span>
-          </div>
-        </div>
-        <!-- FORM -->
-        <div class="start-card-body" id="research-form-body">
-          <div class="form-group">
-            <label>Nombre del proyecto <span class="req">*</span></label>
-            <input type="text" id="research-nombre" placeholder="Ej: Plataforma de detección temprana de X" />
-          </div>
-          <div class="form-group">
-            <label>Área / Sector <span class="req">*</span></label>
-            <select id="research-sector">
-              <option value="">Selecciona un sector…</option>
-              <option>Tecnología</option>
-              <option>Salud</option>
-              <option>Energía</option>
-              <option>Agro</option>
-              <option>Minería</option>
-              <option>Manufactura</option>
-              <option>Servicios</option>
-              <option>Educación</option>
-              <option>Fintech</option>
-              <option>Otro</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label>Fondo objetivo</label>
-            <input type="text" id="research-fondo" placeholder="Ej: FONDEF, NSF, Horizon Europe…" />
-          </div>
-          <div class="form-group">
-            <label>Descripción breve del proyecto <span class="req">*</span></label>
-            <textarea id="research-propuesta" placeholder="¿Qué problema técnico o científico resuelve tu proyecto? (2–4 líneas)" style="min-height:80px"></textarea>
-          </div>
-          <div class="form-group">
-            <label>Email <span class="req">*</span></label>
-            <input type="email" id="research-email" placeholder="tu@email.com" />
-          </div>
-          <p class="error hidden" id="research-err"></p>
-          <div class="start-submit-wrap">
-            <button type="button" class="primary" id="btn-research-submit">Generar estado del arte →</button>
-          </div>
-          <p style="font-size:11px;color:var(--z-gray-400);text-align:center;margin-top:-4px">Gratis · sin tarjeta · resultado en ~90 segundos</p>
-        </div>
-        <!-- LOADING -->
-        <div class="loading-panel hidden" id="research-loading">
-          <div class="z-logo-pulse">Z</div>
-          <p class="loading-title">Investigando estado del arte…</p>
-          <p class="loading-sub">Analizando literatura científica, patentes y benchmarks del campo de investigación.</p>
-          <div class="loading-timer" id="research-timer">01:30</div>
-          <div class="loading-bar-wrap"><div class="loading-bar" id="research-bar"></div></div>
-          <p class="loading-hint">9 dimensiones de análisis · resultado completo en pantalla</p>
-        </div>
-        <!-- RESULTS -->
-        <div class="hidden" id="research-results">
-          <div style="padding:20px 28px 14px;border-bottom:1px solid var(--z-ghost-border);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px">
-            <div>
-              <div style="font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--z-orange);margin-bottom:4px">Investigación completada</div>
-              <strong id="research-result-title" style="font-size:14px;color:var(--z-text)"></strong>
-            </div>
-            <a href="#evaluator" class="nav-cta" style="font-size:12px;padding:8px 18px" data-scroll-eval>Evaluar propuesta completa →</a>
-          </div>
-          <div id="research-report-out" class="demo-report-out"></div>
-          <div style="padding:16px 28px 24px;border-top:1px solid var(--z-ghost-border);text-align:center">
-            <p style="font-size:12px;color:var(--z-gray-500);margin-bottom:12px">El informe también fue enviado a tu correo.</p>
-            <button type="button" class="ghost" id="btn-research-reset" style="font-size:12px;padding:8px 18px">Nueva investigación</button>
-          </div>
-        </div>
-        <!-- ERROR -->
-        <div class="hidden" id="research-error-state">
-          <div style="padding:40px 28px;text-align:center">
-            <p style="font-size:14px;color:var(--z-gray-500);margin-bottom:20px" id="research-error-msg">No se pudo completar la investigación. Verifica tu conexión.</p>
-            <button type="button" class="ghost" id="btn-research-retry">Intentar de nuevo</button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
   <!-- EVALUATOR (CHAT FORM) -->
   <section class="evaluator" id="evaluator">
     <div class="evaluator-inner">
@@ -2777,211 +2552,9 @@
   </footer>
 
   <script>
-    const FORM_POST_URL    = 'https://zenti.app.n8n.cloud/form/7c2e685a-2439-4afa-889d-35168e65d856';
-    const START_FORM_URL   = 'https://zenti.app.n8n.cloud/form/cff65159-a00b-423f-a02d-3ebac9ce30bd';
-    const STATUS_URL       = 'https://zenti.app.n8n.cloud/webhook/zenti-status';
-    const MARKET_WEBHOOK   = 'https://zenti.app.n8n.cloud/webhook/zenti-market';
-    const RESEARCH_WEBHOOK = 'https://zenti.app.n8n.cloud/webhook/zenti-research';
-
-    /* ── Markdown → HTML (minimal, safe) ── */
-    function mdToHtml(text) {
-      if (!text) return '<p>Sin contenido disponible.</p>';
-      var html = '';
-      var inList = false;
-      var lines = text.split('\n');
-      for (var i = 0; i < lines.length; i++) {
-        var line = lines[i]
-          .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
-          .replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>')
-          .replace(/\*(.*?)\*/g,'<em>$1</em>');
-        if (/^###\s/.test(line)) {
-          if (inList) { html += '</ul>'; inList = false; }
-          html += '<h3>' + line.replace(/^###\s/,'') + '</h3>';
-        } else if (/^##\s/.test(line)) {
-          if (inList) { html += '</ul>'; inList = false; }
-          html += '<h2>' + line.replace(/^##\s/,'') + '</h2>';
-        } else if (/^#\s/.test(line)) {
-          if (inList) { html += '</ul>'; inList = false; }
-          html += '<h2>' + line.replace(/^#\s/,'') + '</h2>';
-        } else if (/^[-*]\s/.test(line)) {
-          if (!inList) { html += '<ul>'; inList = true; }
-          html += '<li>' + line.replace(/^[-*]\s/,'') + '</li>';
-        } else if (line.trim() === '') {
-          if (inList) { html += '</ul>'; inList = false; }
-        } else {
-          if (inList) { html += '</ul>'; inList = false; }
-          html += '<p>' + line + '</p>';
-        }
-      }
-      if (inList) html += '</ul>';
-      return html;
-    }
-
-    /* ── Demo timer helper ── */
-    function startDemoTimer(timerId, barId, totalSec) {
-      var remaining = totalSec;
-      var timerEl = document.getElementById(timerId);
-      var barEl   = document.getElementById(barId);
-      var iv = setInterval(function() {
-        remaining--;
-        if (remaining <= 0) { clearInterval(iv); remaining = 0; }
-        var m = Math.floor(remaining / 60), s = remaining % 60;
-        if (timerEl) timerEl.textContent = String(m).padStart(2,'0') + ':' + String(s).padStart(2,'0');
-        if (barEl) barEl.style.width = (((totalSec - remaining) / totalSec) * 100) + '%';
-      }, 1000);
-      return iv;
-    }
-
-    /* ── ZENTI.market demo ── */
-    (function initMarketDemo() {
-      var btn = document.getElementById('btn-market-submit');
-      if (!btn) return;
-
-      function showPanel(id) {
-        ['market-form-body','market-loading','market-results','market-error-state'].forEach(function(p) {
-          var el = document.getElementById(p);
-          if (el) el.classList.toggle('hidden', p !== id);
-        });
-      }
-
-      btn.addEventListener('click', async function() {
-        var errEl = document.getElementById('market-err');
-        errEl.textContent = ''; errEl.classList.add('hidden');
-
-        var nombre  = (document.getElementById('market-nombre').value  || '').trim();
-        var empresa = (document.getElementById('market-empresa').value || '').trim();
-        var sector  = (document.getElementById('market-sector').value  || '').trim();
-        var fondo   = (document.getElementById('market-fondo').value   || '').trim();
-        var email   = (document.getElementById('market-email').value   || '').trim();
-
-        if (!nombre) { errEl.textContent = 'Ingresa el nombre del proyecto.'; errEl.classList.remove('hidden'); return; }
-        if (!sector) { errEl.textContent = 'Selecciona un sector.'; errEl.classList.remove('hidden'); return; }
-        if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { errEl.textContent = 'Ingresa un correo válido.'; errEl.classList.remove('hidden'); return; }
-
-        btn.disabled = true;
-        showPanel('market-loading');
-        if (typeof gtag !== 'undefined') gtag('event', 'demo_market_submit', { sector: sector });
-
-        var timerIv = startDemoTimer('market-timer', 'market-bar', 90);
-
-        try {
-          var res = await fetch(MARKET_WEBHOOK, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ nombre_proyecto: nombre, empresa: empresa, sector: sector, fondo: fondo, email: email })
-          });
-          clearInterval(timerIv);
-          if (!res.ok) throw new Error('HTTP ' + res.status);
-          var data = await res.json();
-
-          if (data && data.raw_text) {
-            var titleEl = document.getElementById('market-result-title');
-            if (titleEl) titleEl.textContent = nombre + (fondo ? ' · ' + fondo : '');
-            var outEl = document.getElementById('market-report-out');
-            if (outEl) outEl.innerHTML = mdToHtml(data.raw_text);
-            showPanel('market-results');
-            if (typeof gtag !== 'undefined') gtag('event', 'demo_market_complete', { sector: sector });
-          } else {
-            throw new Error('empty');
-          }
-        } catch(e) {
-          clearInterval(timerIv);
-          var em = document.getElementById('market-error-msg');
-          if (em) em.textContent = 'No se pudo completar el análisis. Verifica tu conexión e inténtalo de nuevo.';
-          showPanel('market-error-state');
-          btn.disabled = false;
-        }
-      });
-
-      document.getElementById('btn-market-reset').addEventListener('click', function() {
-        ['market-nombre','market-empresa','market-fondo','market-email'].forEach(function(id) { document.getElementById(id).value = ''; });
-        document.getElementById('market-sector').value = '';
-        var barEl = document.getElementById('market-bar'); if (barEl) barEl.style.width = '0%';
-        var timerEl = document.getElementById('market-timer'); if (timerEl) timerEl.textContent = '01:10';
-        btn.disabled = false;
-        showPanel('market-form-body');
-      });
-      document.getElementById('btn-market-retry').addEventListener('click', function() {
-        btn.disabled = false;
-        showPanel('market-form-body');
-      });
-    })();
-
-    /* ── ZENTI.research demo ── */
-    (function initResearchDemo() {
-      var btn = document.getElementById('btn-research-submit');
-      if (!btn) return;
-
-      function showPanel(id) {
-        ['research-form-body','research-loading','research-results','research-error-state'].forEach(function(p) {
-          var el = document.getElementById(p);
-          if (el) el.classList.toggle('hidden', p !== id);
-        });
-      }
-
-      btn.addEventListener('click', async function() {
-        var errEl = document.getElementById('research-err');
-        errEl.textContent = ''; errEl.classList.add('hidden');
-
-        var nombre    = (document.getElementById('research-nombre').value    || '').trim();
-        var sector    = (document.getElementById('research-sector').value    || '').trim();
-        var fondo     = (document.getElementById('research-fondo').value     || '').trim();
-        var propuesta = (document.getElementById('research-propuesta').value || '').trim();
-        var email     = (document.getElementById('research-email').value     || '').trim();
-
-        if (!nombre)    { errEl.textContent = 'Ingresa el nombre del proyecto.'; errEl.classList.remove('hidden'); return; }
-        if (!sector)    { errEl.textContent = 'Selecciona un sector.'; errEl.classList.remove('hidden'); return; }
-        if (!propuesta || propuesta.length < 20) { errEl.textContent = 'Describe brevemente tu proyecto (mín. 20 caracteres).'; errEl.classList.remove('hidden'); return; }
-        if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { errEl.textContent = 'Ingresa un correo válido.'; errEl.classList.remove('hidden'); return; }
-
-        btn.disabled = true;
-        showPanel('research-loading');
-        if (typeof gtag !== 'undefined') gtag('event', 'demo_research_submit', { sector: sector });
-
-        var timerIv = startDemoTimer('research-timer', 'research-bar', 120);
-
-        try {
-          var res = await fetch(RESEARCH_WEBHOOK, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ nombre_proyecto: nombre, sector: sector, fondo: fondo, propuesta: propuesta, email: email })
-          });
-          clearInterval(timerIv);
-          if (!res.ok) throw new Error('HTTP ' + res.status);
-          var data = await res.json();
-
-          if (data && data.raw_text) {
-            var titleEl = document.getElementById('research-result-title');
-            if (titleEl) titleEl.textContent = nombre + (fondo ? ' · ' + fondo : '');
-            var outEl = document.getElementById('research-report-out');
-            if (outEl) outEl.innerHTML = mdToHtml(data.raw_text);
-            showPanel('research-results');
-            if (typeof gtag !== 'undefined') gtag('event', 'demo_research_complete', { sector: sector });
-          } else {
-            throw new Error('empty');
-          }
-        } catch(e) {
-          clearInterval(timerIv);
-          var em = document.getElementById('research-error-msg');
-          if (em) em.textContent = 'No se pudo completar la investigación. Verifica tu conexión e inténtalo de nuevo.';
-          showPanel('research-error-state');
-          btn.disabled = false;
-        }
-      });
-
-      document.getElementById('btn-research-reset').addEventListener('click', function() {
-        ['research-nombre','research-fondo','research-email','research-propuesta'].forEach(function(id) { document.getElementById(id).value = ''; });
-        document.getElementById('research-sector').value = '';
-        var barEl = document.getElementById('research-bar'); if (barEl) barEl.style.width = '0%';
-        var timerEl = document.getElementById('research-timer'); if (timerEl) timerEl.textContent = '01:30';
-        btn.disabled = false;
-        showPanel('research-form-body');
-      });
-      document.getElementById('btn-research-retry').addEventListener('click', function() {
-        btn.disabled = false;
-        showPanel('research-form-body');
-      });
-    })();
+    const FORM_POST_URL = 'https://zenti.app.n8n.cloud/form/7c2e685a-2439-4afa-889d-35168e65d856';
+    const START_FORM_URL = 'https://zenti.app.n8n.cloud/form/cff65159-a00b-423f-a02d-3ebac9ce30bd';
+    const STATUS_URL = 'https://zenti.app.n8n.cloud/webhook/zenti-status';
 
     /* ── Path switcher (How it works) ── */
     function switchPath(path) {
@@ -4086,20 +3659,6 @@
         if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
       });
     });
-    document.querySelectorAll('a[href="#market-demo"]').forEach(function (a) {
-      a.addEventListener('click', function (e) {
-        e.preventDefault();
-        var el = document.getElementById('market-demo');
-        if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      });
-    });
-    document.querySelectorAll('a[href="#research-demo"]').forEach(function (a) {
-      a.addEventListener('click', function (e) {
-        e.preventDefault();
-        var el = document.getElementById('research-demo');
-        if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      });
-    });
 
     (function bootDraftOrEval() {
       var banner = document.getElementById('draft-banner');
@@ -4276,12 +3835,8 @@
         list.innerHTML = funds.map(f => {
           const theme = f.theme || getFundTheme(f.name);
           const hidden = COB_CURRENT_THEME !== 'todos' && theme !== COB_CURRENT_THEME ? ' style="display:none"' : '';
-          const href   = f.url ? f.url : '#evaluator';
-          const target = f.url ? ' target="_blank" rel="noopener"' : '';
-          const cta    = f.url ? 'Ver bases ↗' : 'Evaluar →';
-          const gaEvt  = f.url ? `if(typeof gtag!=='undefined')gtag('event','fund_bases_click',{fund:'${f.name.replace(/'/g,"\\'")}'});` : '';
           return `
-          <a class="cob-fund-item" href="${href}"${target} data-theme="${theme}" data-status="${f.status}"${hidden} onclick="${gaEvt}">
+          <a class="cob-fund-item" href="#evaluator" data-scroll-eval data-theme="${theme}" data-status="${f.status}"${hidden}>
             <div class="cob-fi-ico" style="background:${f.color}">${f.icon}</div>
             <div class="cob-fi-body">
               <div class="cob-fi-name">${f.name}</div>
@@ -4291,7 +3846,7 @@
                 <span class="cob-fst cob-fst-${f.status}">${SL[f.status]}</span>
               </div>
             </div>
-            <span class="cob-fi-cta">${cta}</span>
+            <span class="cob-fi-cta">Evaluar →</span>
           </a>`;
         }).join('');
       }
@@ -4331,31 +3886,30 @@
         return data;
       }
 
-      // Load from funds.json (no-store: evita cache de versiones viejas)
-      fetch('funds.json?v=20260612', { cache: 'no-store' })
+      // Load from funds.json
+      fetch('/funds.json')
         .then(r => r.json())
         .then(data => { FUNDS_DATA = applyDeadlineExpiry(data); cobSelect('all'); })
         .catch(() => {
-          // Fallback si fetch falla — con URLs oficiales
+          // Fallback si fetch falla (file:// o sin funds.json): mismos status conservadores que funds.json público
           FUNDS_DATA = {
             chile: [
-              { name:'CORFO Crea y Valida', icon:'CO', color:'#003087', amount:'Hasta $180–220M CLP', status:'open', url:'https://www.corfo.cl/sites/cpp/convocatorias' },
-              { name:'CORFO Semilla Inicia', icon:'CO', color:'#003087', amount:'Hasta $15M CLP', status:'open', url:'https://www.corfo.cl/sites/cpp/convocatorias' },
-              { name:'ANID — FONDEF Idea I+D', icon:'AN', color:'#C8102E', amount:'Hasta $400M CLP', status:'open', url:'https://www.anid.cl/concursos/' },
-              { name:'Startup Chile IGNITE', icon:'SC', color:'#F26C22', amount:'USD 40.000', status:'closed', url:'https://www.startupchile.gob.cl' },
-              { name:'Fondo Recuperando Chile', icon:'FS', color:'#0984E3', amount:'Hasta $15M CLP', status:'open', url:'https://fondos.gob.cl/ficha/subevaso/fondo-recuperando-chile/' },
+              { name:'CORFO Crea y Valida', icon:'CO', color:'#003087', amount:'Hasta ~$180M / $220M (bases CORFO)', status:'coming' },
+              { name:'CORFO Semilla Inicia', icon:'CO', color:'#003087', amount:'Hasta ~$15M CLP', status:'coming' },
+              { name:'ANID — línea FONDEF (varias convocatorias)', icon:'AN', color:'#C8102E', amount:'Ver convocatoria en anid.cl', status:'coming' },
+              { name:'Startup Chile Ignite', icon:'SC', color:'#F26C22', amount:'Convocatoria cerrada — próxima TBD', status:'closed' },
             ],
             usa: [
-              { name:'Y Combinator', icon:'YC', color:'#FF6600', amount:'USD 500K + red', status:'open', url:'https://www.ycombinator.com/apply' },
-              { name:'NSF SBIR Phase I', icon:'NSF', color:'#003366', amount:'Hasta USD 275K', status:'open', url:'https://sbir.nsf.gov' },
+              { name:'Y Combinator', icon:'YC', color:'#FF6600', amount:'USD 500K + red', status:'open' },
+              { name:'NSF SBIR Phase I', icon:'NSF', color:'#003366', amount:'hasta USD 275K', status:'coming' },
             ],
             eu: [
-              { name:'EIC Accelerator (Horizon Europe)', icon:'★', color:'#003399', amount:'Hasta EUR 2.5M', status:'open', url:'https://eic.ec.europa.eu/eic-funding-opportunities/eic-accelerator_en' },
-              { name:'Eurostars', icon:'ES', color:'#0066CC', amount:'Hasta EUR 500K', status:'open', url:'https://www.eurostars-eureka.eu/calls' },
+              { name:'Horizon Europe EIC', icon:'★', color:'#003399', amount:'hasta EUR 2.5M', status:'open' },
+              { name:'EIC Accelerator', icon:'EIC', color:'#003399', amount:'hasta EUR 2.5M', status:'open' },
             ],
             latam: [
-              { name:'iNNpulsa ALDEA+ (Colombia)', icon:'iN', color:'#D4222A', amount:'Hasta COP 1.000M', status:'open', url:'https://www.innpulsacolombia.com/convocatorias' },
-              { name:'FINEP Brasil', icon:'FN', color:'#009C3B', amount:'Hasta BRL 2M', status:'open', url:'https://www.finep.gov.br/chamadas-publicas' },
+              { name:'iNNpulsa ALDEA+ (CO)', icon:'iN', color:'#D4222A', amount:'hasta COP 1.000M', status:'open' },
+              { name:'FINEP Brasil', icon:'FN', color:'#009C3B', amount:'hasta BRL 2M', status:'open' },
             ],
           };
           cobSelect('all');
