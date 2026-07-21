@@ -155,6 +155,16 @@
       "url": "https://fondos.gob.cl/ficha/enami/rr/",
       "icon": "EN",
       "color": "#636e72"
+    },
+    {
+      "id": "fia-proyectos-innovacion",
+      "name": "FIA — Proyectos de Innovación (Interés Privado)",
+      "amount": "Cofinanciamiento FIA (Min. Agricultura)",
+      "status": "open",
+      "deadline": "2026-07-23",
+      "url": "https://www.fia.cl/pilares-de-accion/impulso-para-innovar/convocatorias-y-licitaciones/",
+      "icon": "FI",
+      "color": "#3C8C40"
     }
   ],
   "usa": [
