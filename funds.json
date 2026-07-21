@@ -1,304 +1,366 @@
 {
   "_meta": {
-    "version": "2.1",
-    "lastUpdated": "2026-06-09T23:07:52Z",
-    "updatedBy": "cto-loop-reconcile",
-    "note": "ids restaurados (Discovery matchea por id); corfo-escalamiento eliminado (fix A.2); contenido = catalogo 2026-05-29"
+    "version": "2.2",
+    "generatedBy": "scripts/generate-funds-json.mjs (PROP-3 — NO editar a mano)",
+    "source": "workflows/zenti-landing/funds-registry.json",
+    "lastUpdated": "2026-06-10"
   },
   "chile": [
     {
+      "id": "corfo-crea-valida",
       "name": "CORFO Crea y Valida",
-      "icon": "CO",
-      "color": "#003087",
       "amount": "Hasta $180–220M CLP",
-      "status": "open",
-      "url": "https://www.corfo.gob.cl/sites/cpp/convocatorias/crea_y_valida",
-      "id": "corfo-crea-valida"
-    },
-    {
-      "name": "CORFO Innova I+D Alta Tecnología",
-      "icon": "CO",
-      "color": "#003087",
-      "amount": "Hasta $1.000M CLP",
       "status": "coming",
-      "url": "https://www.corfo.gob.cl/sites/cpp/programa/innova-alta-tecnologia/",
-      "id": "corfo-innova-i-d-alta-tecnologia"
+      "deadline": null,
+      "url": "https://www.corfo.gob.cl/sites/cpp/convocatorias/crea_y_valida",
+      "icon": "CO",
+      "color": "#003087"
     },
     {
+      "id": "corfo-semilla-inicia",
       "name": "CORFO Semilla Inicia",
-      "icon": "CO",
-      "color": "#003087",
       "amount": "Hasta $15M CLP",
-      "status": "open",
+      "status": "coming",
+      "deadline": null,
       "url": "https://www.corfo.gob.cl/sites/cpp/inf/semilla-inicia",
-      "id": "corfo-semilla-inicia"
+      "icon": "CO",
+      "color": "#003087"
     },
     {
+      "id": "corfo-semilla-expande",
       "name": "CORFO Semilla Expande",
-      "icon": "CO",
-      "color": "#003087",
       "amount": "Hasta $60M CLP",
       "status": "coming",
+      "deadline": null,
       "url": "https://www.corfo.gob.cl/sites/cpp/inf/semilla-expande",
-      "id": "corfo-semilla-expande"
+      "icon": "CO",
+      "color": "#003087"
     },
     {
-      "name": "ANID — FONDEF Idea I+D",
-      "icon": "AN",
-      "color": "#C8102E",
-      "amount": "Hasta $400M CLP",
-      "status": "open",
-      "url": "https://anid.cl/concursos/concurso-idea-id-2026/",
-      "id": "anid-fondef"
-    },
-    {
-      "name": "Startup Chile IGNITE",
-      "icon": "SC",
-      "color": "#F26C22",
-      "amount": "USD 40.000",
-      "status": "closed",
-      "url": "https://startupchile.org/en/apply/ignite/",
-      "id": "startup-chile-ignite"
-    },
-    {
+      "id": "startup-chile-build",
       "name": "Startup Chile BUILD",
-      "icon": "SC",
-      "color": "#F26C22",
       "amount": "USD 80.000 + oficina",
-      "status": "closed",
+      "status": "coming",
+      "deadline": null,
       "url": "https://startupchile.org/en/apply/build/",
-      "id": "startup-chile-build"
+      "icon": "SC",
+      "color": "#F26C22"
     },
     {
+      "id": "startup-chile-ignite",
+      "name": "Startup Chile IGNITE",
+      "amount": "USD 40.000",
+      "status": "coming",
+      "deadline": null,
+      "url": "https://startupchile.org/en/apply/ignite/",
+      "icon": "SC",
+      "color": "#F26C22"
+    },
+    {
+      "id": "startup-chile-growth",
+      "name": "Startup Chile Growth",
+      "amount": "Hasta ~$75M CLP equity-free (Growth — ver bases)",
+      "status": "coming",
+      "deadline": null,
+      "url": "https://www.startupchile.org/programs/growth",
+      "icon": "SC",
+      "color": "#F26C22"
+    },
+    {
+      "id": "anid-fondef",
+      "name": "ANID — FONDEF Idea I+D",
+      "amount": "Hasta $400M CLP",
+      "status": "coming",
+      "deadline": null,
+      "url": "https://anid.cl/concursos/concurso-idea-id-2026/",
+      "icon": "AN",
+      "color": "#C8102E"
+    },
+    {
+      "id": "anid-startup-ciencia",
+      "name": "ANID Startup Ciencia",
+      "amount": "Sin monto único: depende de la convocatoria (anid.cl)",
+      "status": "coming",
+      "deadline": null,
+      "url": "https://anid.cl/concursos/startup-ciencia/",
+      "icon": "AN",
+      "color": "#C8102E"
+    },
+    {
+      "id": "innova-region",
       "name": "Innova Región FNDR 2026 — Minería",
-      "icon": "MN",
-      "color": "#6C5CE7",
       "amount": "Hasta $6M CLP",
-      "status": "open",
+      "status": "coming",
+      "deadline": null,
       "url": "https://fondos.gob.cl/ficha/minmineria/fc-fndr-pe/",
-      "id": "innova-region"
+      "icon": "MN",
+      "color": "#6C5CE7"
     },
     {
+      "id": "corfo-innova-i-d-alta-tecnologia",
+      "name": "CORFO Innova I+D Alta Tecnología",
+      "amount": "Hasta $1.000M CLP",
+      "status": "coming",
+      "deadline": null,
+      "url": "https://www.corfo.gob.cl/sites/cpp/programa/innova-alta-tecnologia/",
+      "icon": "CO",
+      "color": "#003087"
+    },
+    {
+      "id": "fondo-recuperando-chile",
       "name": "Fondo Recuperando Chile",
-      "icon": "FS",
-      "color": "#0984E3",
       "amount": "Hasta $15M CLP",
-      "status": "open",
+      "status": "closed",
+      "deadline": "2026-05-29",
       "url": "https://fondos.gob.cl/ficha/subevaso/fondo-recuperando-chile/",
-      "id": "fondo-recuperando-chile"
-    },
-    {
-      "name": "Fondo Social Presidente República",
       "icon": "FS",
-      "color": "#2D3436",
+      "color": "#0984E3"
+    },
+    {
+      "id": "fondo-social-presidente-republica",
+      "name": "Fondo Social Presidente República",
       "amount": "Hasta $15M CLP",
-      "status": "open",
+      "status": "closed",
+      "deadline": "2026-05-29",
       "url": "https://fondos.gob.cl/ficha/subint/presidente-de-la-republica/",
-      "id": "fondo-social-presidente-republica"
+      "icon": "FS",
+      "color": "#2D3436"
     },
     {
+      "id": "fondo-del-libro-y-la-lectura-2026",
       "name": "Fondo del Libro y la Lectura 2026",
-      "icon": "MC",
-      "color": "#A29BFE",
       "amount": "Hasta $5M CLP",
-      "status": "open",
+      "status": "closed",
+      "deadline": "2026-06-02",
       "url": "https://fondos.gob.cl/ficha/mincap/feriadellibro-2026-2/",
-      "id": "fondo-del-libro-y-la-lectura-2026"
-    },
-    {
-      "name": "Fondo Artes Escénicas — Circulación Intl.",
       "icon": "MC",
-      "color": "#A29BFE",
-      "amount": "Hasta $22M CLP",
-      "status": "open",
-      "url": "https://fondos.gob.cl/ficha/mincap/artesescenicas-2026-2/",
-      "id": "fondo-artes-escenicas-circulacion-intl"
+      "color": "#A29BFE"
     },
     {
+      "id": "fondo-artes-escenicas-circulacion-intl",
+      "name": "Fondo Artes Escénicas — Circulación Intl.",
+      "amount": "Hasta $22M CLP",
+      "status": "closed",
+      "deadline": "2026-06-02",
+      "url": "https://fondos.gob.cl/ficha/mincap/artesescenicas-2026-2/",
+      "icon": "MC",
+      "color": "#A29BFE"
+    },
+    {
+      "id": "enami-reconocimiento-recursos-mineros",
       "name": "ENAMI — Reconocimiento Recursos Mineros",
-      "icon": "EN",
-      "color": "#636e72",
       "amount": "Hasta USD 250.000",
-      "status": "open",
+      "status": "closed",
+      "deadline": "2026-05-29",
       "url": "https://fondos.gob.cl/ficha/enami/rr/",
-      "id": "enami-reconocimiento-recursos-mineros"
+      "icon": "EN",
+      "color": "#636e72"
     }
   ],
   "usa": [
     {
-      "name": "Y Combinator",
-      "icon": "YC",
-      "color": "#FF6600",
-      "amount": "USD 500K + red",
-      "status": "open",
-      "url": "https://www.ycombinator.com/apply",
-      "id": "y-combinator"
-    },
-    {
+      "id": "nsf-sbir-phase1",
       "name": "NSF SBIR Phase I",
-      "icon": "NSF",
-      "color": "#003366",
       "amount": "Hasta USD 275K",
       "status": "open",
+      "deadline": "2026-07-27",
       "url": "https://seedfund.nsf.gov",
-      "id": "nsf-sbir-phase1"
+      "icon": "NSF",
+      "color": "#003366"
     },
     {
+      "id": "nsf-sbir-phase2",
       "name": "NSF SBIR Phase II",
-      "icon": "NSF",
-      "color": "#003366",
       "amount": "Hasta USD 2M",
       "status": "open",
+      "deadline": null,
       "url": "https://seedfund.nsf.gov",
-      "id": "nsf-sbir-phase2"
+      "icon": "NSF",
+      "color": "#003366"
     },
     {
+      "id": "nih-sbir",
       "name": "NIH SBIR/STTR",
-      "icon": "NIH",
-      "color": "#1a3a6b",
       "amount": "Hasta USD 1.5M",
-      "status": "open",
+      "status": "coming",
+      "deadline": null,
       "url": "https://seed.nih.gov/small-business-funding/find-funding/sbir-sttr-funding-opportunities",
-      "id": "nih-sbir"
+      "icon": "NIH",
+      "color": "#1a3a6b"
     },
     {
-      "name": "DOE SBIR Phase I",
-      "icon": "DOE",
-      "color": "#005A9C",
-      "amount": "Hasta USD 200K",
+      "id": "y-combinator",
+      "name": "Y Combinator",
+      "amount": "USD 500K + red",
       "status": "open",
-      "url": "https://science.osti.gov/sbir/Funding-Opportunities/FY-2026",
-      "id": "doe-sbir-phase-i"
+      "deadline": "2026-07-27",
+      "url": "https://www.ycombinator.com/apply",
+      "icon": "YC",
+      "color": "#FF6600"
     },
     {
+      "id": "techstars",
       "name": "Techstars",
-      "icon": "TS",
-      "color": "#00838F",
       "amount": "USD 120K + 3 meses",
       "status": "open",
+      "deadline": null,
       "url": "https://www.techstars.com/accelerators",
-      "id": "techstars"
+      "icon": "TS",
+      "color": "#00838F"
+    },
+    {
+      "id": "doe-sbir-phase-i",
+      "name": "DOE SBIR Phase I",
+      "amount": "Hasta USD 200K",
+      "status": "coming",
+      "deadline": null,
+      "url": "https://science.osti.gov/sbir/Funding-Opportunities/FY-2026",
+      "icon": "DOE",
+      "color": "#005A9C"
     }
   ],
   "eu": [
     {
+      "id": "eic-accelerator-horizon-europe",
       "name": "EIC Accelerator (Horizon Europe)",
-      "icon": "★",
-      "color": "#003399",
       "amount": "Hasta EUR 2.5M",
       "status": "open",
+      "deadline": "2026-09-02",
       "url": "https://eic.ec.europa.eu/eic-funding-opportunities/eic-accelerator_en",
-      "id": "eic-accelerator-horizon-europe"
+      "icon": "★",
+      "color": "#003399"
     },
     {
-      "name": "EIC Pathfinder (Horizon Europe)",
-      "icon": "EIC",
-      "color": "#003399",
-      "amount": "Hasta EUR 4M",
-      "status": "open",
-      "url": "https://eic.ec.europa.eu/eic-funding-opportunities/eic-pathfinder_en",
-      "id": "eic-pathfinder-horizon-europe"
-    },
-    {
+      "id": "eurostars-i-d-colaborativo",
       "name": "Eurostars — I+D colaborativo",
-      "icon": "ES",
-      "color": "#0066CC",
       "amount": "Hasta EUR 500K",
       "status": "open",
+      "deadline": "2026-09-10",
       "url": "https://www.eurekanetwork.org/programmes-and-calls/eurostars/",
-      "id": "eurostars-i-d-colaborativo"
+      "icon": "ES",
+      "color": "#0066CC"
     },
     {
+      "id": "innovate-uk",
       "name": "Innovate UK",
-      "icon": "UK",
-      "color": "#DA291C",
       "amount": "Hasta GBP 500K",
       "status": "open",
+      "deadline": null,
       "url": "https://www.ukri.org/opportunity/",
-      "id": "innovate-uk"
+      "icon": "UK",
+      "color": "#DA291C"
     },
     {
+      "id": "lanzadera-spain",
       "name": "Lanzadera (Spain)",
-      "icon": "LZ",
-      "color": "#E84B4B",
       "amount": "EUR 100K + aceleración",
       "status": "open",
+      "deadline": null,
       "url": "https://lanzadera.es",
-      "id": "lanzadera-spain"
+      "icon": "LZ",
+      "color": "#E84B4B"
+    },
+    {
+      "id": "eic-pathfinder-horizon-europe",
+      "name": "EIC Pathfinder (Horizon Europe)",
+      "amount": "Hasta EUR 4M",
+      "status": "coming",
+      "deadline": null,
+      "url": "https://eic.ec.europa.eu/eic-funding-opportunities/eic-pathfinder_en",
+      "icon": "EIC",
+      "color": "#003399"
     }
   ],
   "latam": [
     {
+      "id": "innpulsa-aldea-colombia",
       "name": "iNNpulsa ALDEA+ (Colombia)",
-      "icon": "iN",
-      "color": "#D4222A",
       "amount": "Hasta COP 1.000M",
-      "status": "open",
+      "status": "coming",
+      "deadline": null,
       "url": "https://www.innpulsacolombia.com/nuestros-programas/aldea/",
-      "id": "innpulsa-aldea-colombia"
+      "icon": "iN",
+      "color": "#D4222A"
     },
     {
+      "id": "ruta-n-medellin-colombia",
       "name": "Ruta N Medellín (Colombia)",
-      "icon": "RN",
-      "color": "#E91E8C",
       "amount": "COP 500M–2.000M",
-      "status": "open",
+      "status": "coming",
+      "deadline": null,
       "url": "https://www.rutanmedellin.org",
-      "id": "ruta-n-medellin-colombia"
+      "icon": "RN",
+      "color": "#E91E8C"
     },
     {
-      "name": "FINEP Brasil — Subvenção Econômica",
-      "icon": "FN",
-      "color": "#009C3B",
-      "amount": "Hasta BRL 2M",
-      "status": "open",
-      "url": "https://www.finep.gov.br/chamadas-publicas/chamadaspublicas",
-      "id": "finep-brasil-subvencao-economica"
-    },
-    {
-      "name": "FONTAR Argentina (ANPCyT)",
-      "icon": "FA",
-      "color": "#74ACDF",
-      "amount": "Hasta ARS 20M",
-      "status": "open",
-      "url": "https://www.argentina.gob.ar/ciencia/agencia/fontar",
-      "id": "fontar-argentina-anpcyt"
-    },
-    {
-      "name": "PROINNOVATE Perú",
-      "icon": "PI",
-      "color": "#D4372E",
-      "amount": "Hasta PEN 3M",
-      "status": "open",
-      "url": "https://www.gob.pe/proinnovate",
-      "id": "proinnovate-peru"
-    },
-    {
+      "id": "startup-peru-istart",
       "name": "Startup Perú (iStart)",
-      "icon": "SP",
-      "color": "#D4372E",
       "amount": "Hasta USD 50K",
       "status": "coming",
+      "deadline": null,
       "url": "https://startup.proinnovate.gob.pe/concursos/",
-      "id": "startup-peru-istart"
+      "icon": "SP",
+      "color": "#D4372E"
     },
     {
+      "id": "proinnovate-peru",
+      "name": "PROINNOVATE Perú",
+      "amount": "Hasta PEN 3M",
+      "status": "coming",
+      "deadline": null,
+      "url": "https://www.gob.pe/proinnovate",
+      "icon": "PI",
+      "color": "#D4372E"
+    },
+    {
+      "id": "finep-startup",
+      "name": "FINEP Startup (BR)",
+      "amount": "hasta BRL 1M",
+      "status": "coming",
+      "deadline": null,
+      "url": "https://www.finep.gov.br/",
+      "icon": "FN",
+      "color": "#009C3B"
+    },
+    {
+      "id": "finep-brasil-subvencao-economica",
+      "name": "FINEP Brasil — Subvenção Econômica",
+      "amount": "Hasta BRL 2M",
+      "status": "open",
+      "deadline": "2026-08-31",
+      "url": "https://www.finep.gov.br/chamadas-publicas/chamadaspublicas",
+      "icon": "FN",
+      "color": "#009C3B"
+    },
+    {
+      "id": "fontar-argentina-anpcyt",
+      "name": "FONTAR Argentina (ANPCyT)",
+      "amount": "Hasta ARS 20M",
+      "status": "open",
+      "deadline": null,
+      "url": "https://www.argentina.gob.ar/ciencia/agencia/fontar",
+      "icon": "FA",
+      "color": "#74ACDF"
+    },
+    {
+      "id": "bancoldex-colombia",
       "name": "Bancóldex Colombia",
-      "icon": "BC",
-      "color": "#0066CC",
       "amount": "Líneas de crédito",
       "status": "open",
+      "deadline": null,
       "url": "https://www.bancoldex.com/productos-y-servicios-bancoldex",
-      "id": "bancoldex-colombia"
+      "icon": "BC",
+      "color": "#0066CC"
     },
     {
+      "id": "sercotec-chile-capital-semilla",
       "name": "SERCOTEC Chile — Capital Semilla",
-      "icon": "SE",
-      "color": "#003087",
       "amount": "Hasta $3M CLP",
       "status": "coming",
+      "deadline": null,
       "url": "https://www.sercotec.cl",
-      "id": "sercotec-chile-capital-semilla"
+      "icon": "SE",
+      "color": "#003087"
     }
   ]
 }
