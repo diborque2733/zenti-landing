@@ -2552,6 +2552,7 @@
   </footer>
 
   <script>
+    const BACKEND_URL = 'https://zenti-backend.fly.dev';
     const FORM_POST_URL = 'https://zenti.app.n8n.cloud/form/7c2e685a-2439-4afa-889d-35168e65d856';
     const START_FORM_URL = 'https://zenti.app.n8n.cloud/form/cff65159-a00b-423f-a02d-3ebac9ce30bd';
     const STATUS_URL = 'https://zenti.app.n8n.cloud/webhook/zenti-status';
@@ -3746,11 +3747,12 @@
           consent_privacy: true,
           consent_marketing: !!(cmWait && cmWait.checked),
           user_agent: navigator.userAgent || '',
+          fuente: 'landing-waitlist',
         });
-        fetch('https://zenti.app.n8n.cloud/webhook/zenti-waitlist-asesor', {
+        fetch(BACKEND_URL + '/lead', {
           method: 'POST', headers: { 'Content-Type': 'application/json' }, body: body
         }).catch(function() {
-          // Fallback local si el webhook falla (no perder leads)
+          // Fallback local si el backend falla (no perder leads)
           try { localStorage.setItem('zenti_waitlist_asesor_' + Date.now(), body); } catch(_) {}
         }).finally(function() {
           if (ok) ok.style.display = 'block';
