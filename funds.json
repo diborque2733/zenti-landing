@@ -20,7 +20,7 @@
       "id": "corfo-semilla-inicia",
       "name": "CORFO Semilla Inicia",
       "amount": "Hasta $15M CLP",
-      "status": "coming",
+      "status": "closed",
       "deadline": null,
       "url": "https://www.corfo.gob.cl/sites/cpp/inf/semilla-inicia",
       "icon": "CO",
@@ -30,7 +30,7 @@
       "id": "corfo-semilla-expande",
       "name": "CORFO Semilla Expande",
       "amount": "Hasta $60M CLP",
-      "status": "coming",
+      "status": "closed",
       "deadline": null,
       "url": "https://www.corfo.gob.cl/sites/cpp/inf/semilla-expande",
       "icon": "CO",
@@ -371,6 +371,16 @@
       "url": "https://www.sercotec.cl",
       "icon": "SE",
       "color": "#003087"
+    },
+    {
+      "id": "fid-fund-innovation-development",
+      "name": "FID — Fund for Innovation in Development (AFD)",
+      "amount": "Stage 1 hasta €200K · Stage 2 hasta €1,5M · Innovation & Public Policies hasta €500K",
+      "status": "coming",
+      "deadline": null,
+      "url": "https://fundinnovation.dev/en/launch-project",
+      "icon": "FID",
+      "color": "#1a3c8f"
     }
   ]
 }
