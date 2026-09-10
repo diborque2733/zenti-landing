@@ -79,10 +79,10 @@
     {
       "id": "anid-startup-ciencia",
       "name": "ANID Startup Ciencia",
-      "amount": "Sin monto único: depende de la convocatoria (anid.cl)",
+      "amount": "Hasta $134.550.000 por proyecto (cifra de la convocatoria 2026; la 2027 publica bases al abrir)",
       "status": "coming",
-      "deadline": null,
-      "url": "https://anid.cl/concursos/startup-ciencia/",
+      "deadline": "2026-10",
+      "url": "https://anid.cl/concursos/startup-ciencia-2027/",
       "icon": "AN",
       "color": "#C8102E"
     },
