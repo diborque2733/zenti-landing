@@ -371,6 +371,22 @@
       "url": "https://www.sercotec.cl",
       "icon": "SE",
       "color": "#003087"
+    },
+    {
+      "id": "eureka-network-biotech-call-2026",
+      "name": "Eureka Network Projects — Biotech Call 2026 (etapa internacional) + CORFO Crea y Valida Eureka (etapa nacional)",
+      "amount": "Hasta $220.000.000 CLP por proyecto (etapa nacional CORFO)",
+      "status": "open",
+      "deadline": "2026-09-25",
+      "url": "https://www.eurekanetwork.org/opencalls"
+    },
+    {
+      "id": "tecprize-ife-tec-monterrey",
+      "name": "TecPrize 2026 — Reto: fuerza laboral adaptable frente a la IA",
+      "amount": "USD 10.000 equity-free por cada una de las 3 soluciones ganadoras",
+      "status": "open",
+      "deadline": "2026-09-30",
+      "url": "https://tecprize.tec.mx/"
     }
   ]
 }
