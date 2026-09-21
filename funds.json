@@ -165,6 +165,62 @@
       "url": "https://www.fia.cl/pilares-de-accion/impulso-para-innovar/convocatorias-y-licitaciones/",
       "icon": "FI",
       "color": "#3C8C40"
+    },
+    {
+      "id": "corfo-crea-valida-zim-chile-alemania",
+      "name": "CORFO — Crea y Valida ZIM (bilateral Chile–Alemania)",
+      "amount": "Hasta $220.000.000 CLP (80% micro/pequeña · 60% mediana · 40% grande · +10% si la lidera una mujer)",
+      "status": "closed",
+      "deadline": null,
+      "url": "https://www.corfo.gob.cl/sites/cpp/convocatorias/movil/crea_valida_zim"
+    },
+    {
+      "id": "corfo-sumate-a-innovar",
+      "name": "CORFO — Súmate a Innovar",
+      "amount": "Subsidio máximo $10.000.000 CLP (80% micro y pequeña · 70% mediana · 40% grande)",
+      "status": "coming",
+      "deadline": null,
+      "url": "https://www.fondos.gob.cl/ficha/corfo/sumate_a_innovar/"
+    },
+    {
+      "id": "fia-interes-privado-linea-1-trl3-trl5",
+      "name": "FIA — Proyectos de Innovación de Interés Privado, Línea 1 (TRL3 a TRL5)",
+      "amount": "NO VERIFICADO — fia.cl bloqueado por anti-bot",
+      "status": "closed",
+      "deadline": null,
+      "url": "https://www.fia.cl/convocatorias/convocatoria-nacional-de-proyectos-de-innovacion-de-interes-privado-2026-linea-1trl3-a-trl5/"
+    },
+    {
+      "id": "anid-startup-ciencia-2027",
+      "name": "Startup Ciencia 2027",
+      "amount": "",
+      "status": "coming",
+      "deadline": null,
+      "url": "https://anid.cl/concursos/startup-ciencia-2027/"
+    },
+    {
+      "id": "anid-idea-id-2027",
+      "name": "Concurso IDeA I+D 2027",
+      "amount": "",
+      "status": "coming",
+      "deadline": null,
+      "url": "https://anid.cl/concursos/concurso-idea-id-2027/"
+    },
+    {
+      "id": "anid-idea-id-tecnologias-avanzadas-2027",
+      "name": "Concurso IDeA I+D Tecnologías Avanzadas 2027",
+      "amount": "",
+      "status": "coming",
+      "deadline": null,
+      "url": "https://anid.cl/concursos/concurso-idea-id-tecnologias-avanzadas-2027/"
+    },
+    {
+      "id": "anid-otl-2027",
+      "name": "Concurso Oficinas de Transferencia y Licenciamiento (OTL) 2027",
+      "amount": "no publicado (bases no disponibles hasta la apertura)",
+      "status": "coming",
+      "deadline": null,
+      "url": "https://anid.cl/concursos/concurso-oficinas-de-transferencia-y-licenciamiento-otl-2027/"
     }
   ],
   "usa": [
@@ -387,6 +443,14 @@
       "status": "open",
       "deadline": "2026-09-30",
       "url": "https://tecprize.tec.mx/"
+    },
+    {
+      "id": "cyted-iberoeka",
+      "name": "IBEROEKA — certificación de proyectos de innovación empresarial iberoamericanos",
+      "amount": "Sin monto propio: la certificación da acceso prioritario a la financiación de la agencia nacional de cada socio (en Chile, vía el Organismo Gestor Iberoeka)",
+      "status": "open",
+      "deadline": null,
+      "url": "https://www.cyted.org/conteudo.php?idm=220"
     }
   ]
 }
